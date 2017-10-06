@@ -1,7 +1,9 @@
-package ch.epfl.sweng.melody;
+package ch.epfl.sweng.melody.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import ch.epfl.sweng.melody.R;
 
 public class MainActivity extends AppCompatActivity {
     @Override
