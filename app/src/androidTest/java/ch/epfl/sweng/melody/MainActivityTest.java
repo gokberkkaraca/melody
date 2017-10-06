@@ -1,4 +1,4 @@
-package ch.epfl.sweng.bootcamp;
+package ch.epfl.sweng.melody;
 
 import android.support.test.runner.AndroidJUnit4;
 

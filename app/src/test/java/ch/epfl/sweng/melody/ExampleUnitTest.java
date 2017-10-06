@@ -1,4 +1,4 @@
-package ch.epfl.sweng.bootcamp;
+package ch.epfl.sweng.melody;
 
 import org.junit.Test;
 
