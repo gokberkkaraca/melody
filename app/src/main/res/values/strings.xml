@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">melody</string>
+    <color name="white">#FFFFFF</color>
 </resources>
