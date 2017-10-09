@@ -43,7 +43,6 @@
         android:layout_marginRight="16dp" />
 
     <ImageButton
-        android:onClick="accessCamera"
         android:id="@+id/take_photos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +54,8 @@
         app:layout_constraintTop_toBottomOf="@+id/memory_description"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/display_chosen_photo"
-        android:layout_marginLeft="45dp" />
+        android:layout_marginLeft="45dp"
+        android:onClick="accessCamera" />
 
     <ImageButton
         android:id="@+id/choose_from_gallery"
@@ -69,7 +69,8 @@
         android:layout_marginEnd="63dp"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
         android:layout_marginBottom="15dp"
-        android:layout_marginRight="63dp" />
+        android:layout_marginRight="63dp"
+        android:onClick="accessGallery"/>
 
     <ImageView
         android:id="@+id/display_chosen_photo"
