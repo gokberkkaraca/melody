@@ -1,4 +1,4 @@
-package ch.epfl.sweng.melody.Activities;
+package ch.epfl.sweng.melody;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
