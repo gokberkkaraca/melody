@@ -2,6 +2,6 @@
     <string name="app_name">melody</string>
     <string name="email_prompt">Enter your email address</string>
     <string name="password_prompt">Enter your password</string>
-    <string name="create_new_account">Create new account</string>
+    <string name="create_new_account">Create account</string>
     <color name="white">#ffffff</color>
 </resources>
