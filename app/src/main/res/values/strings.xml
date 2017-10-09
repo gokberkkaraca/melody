@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">melody</string>
+    <string name="hitforMemoryDescription">Say something about your memory!</string>
 </resources>
