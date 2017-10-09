@@ -1,14 +1,12 @@
 package ch.epfl.sweng.melody;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -17,8 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
@@ -26,8 +22,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView;
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +95,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            ((EditText) findViewById(R.id.email)).setText(acct.getEmail());
-            ((EditText) findViewById(R.id.password)).setText(acct.getFamilyName());
+            GoogleSignInAccount googleSignInAccount = result.getSignInAccount();
+            assert googleSignInAccount != null;
+            ((EditText) findViewById(R.id.email)).setText(googleSignInAccount.getEmail());
+            ((EditText) findViewById(R.id.password)).setText(googleSignInAccount.getFamilyName());
+        }
+        // Logout
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         }
     }
 }
