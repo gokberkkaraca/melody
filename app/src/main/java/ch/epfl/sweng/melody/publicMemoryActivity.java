@@ -1,22 +1,13 @@
 package ch.epfl.sweng.melody;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import android.widget.LinearLayout;
-
-import ch.epfl.sweng.melody.memory.Memory;
 
 public class publicMemoryActivity extends Activity {
 
@@ -29,32 +20,13 @@ public class publicMemoryActivity extends Activity {
 
         //setSupportActionBar(toolbar);
 
-
-        /*final LinearLayout memoryContainer = (LinearLayout) findViewById(R.id.memoryContainer);
-
-        ArrayList<Memory> memories = new ArrayList<Memory>();
-        Memory mem1 = new Memory("hello,");
-        Memory mem2 = new Memory("world!");
-        memories.add(mem1);
-        memories.add(mem2);
-
-        for(int i=0; i<memories.size(); i++){
-            //Create TextView for text
-            TextView text = new TextView(this);
-            text.setText(memories.get(i).getText());
-            memoryContainer.addView(text);
-
-            //Create ImageView for photos
-            ImageView photos = new ImageView(this);
-            memoryContainer.addView(photos);
-
-        }*/
         LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
 
 
         LinearLayout mem = new LinearLayout(this);
         TextView txt = new TextView(this);
         txt.setText("Cet endroit est génial");
+        txt.setTextSize(16);
         mem.addView(txt);
         addMemoryContainer(memoriesParent,mem);
 
@@ -67,7 +39,7 @@ public class publicMemoryActivity extends Activity {
 
         LinearLayout mem2 = new LinearLayout(this);
         TextView txt2 = new TextView(this);
-        txt2.setText("Cet endroit est génial");
+        txt2.setText("Cet endroit est vraiment génial");
         mem2.addView(txt2);
         addMemoryContainer(memoriesParent,mem2);
 
@@ -108,6 +80,8 @@ public class publicMemoryActivity extends Activity {
 
         TextView usrTxt = new TextView(this);
         usrTxt.setText("anonymous");
+        usrTxt.setTextSize(16);
+        usrTxt.setTypeface(null, Typeface.BOLD);
         layProfile.addView(usrTxt);
         layParent.addView(layProfile);
         layProfile.setPadding(0,0,0,40);
@@ -118,10 +92,12 @@ public class publicMemoryActivity extends Activity {
 
         //City + date + like
         LinearLayout layInfo = new LinearLayout(this);
+        layInfo.setPadding(0,0,40,0);
         layInfo.setOrientation(LinearLayout.HORIZONTAL);
 
         TextView cityTxt = new TextView(this);
         cityTxt.setText("Geneva");
+        cityTxt.setTextSize(14);
         cityTxt.setPadding(0,0,40,20);
         layInfo.addView(cityTxt);
 
@@ -141,6 +117,22 @@ public class publicMemoryActivity extends Activity {
     public void addNewMemory (View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void goToPublicMemory (View view){
+
+    }
+
+    public void goToMap (View view){
+
+    }
+
+    public void goToNotification (View view){
+
+    }
+
+    public void goToUser (View view){
+
     }
 
 
