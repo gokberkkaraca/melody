@@ -110,9 +110,10 @@ public class publicMemoryActivity extends Activity {
 
     }
 
+
     public void addNewMemory (View view){
-        //Intent intent = new Intent(this, addNewMemory.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 
