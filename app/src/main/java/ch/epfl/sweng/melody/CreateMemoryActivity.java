@@ -9,15 +9,18 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class CreateMemoryActivity extends AppCompatActivity {
     private ImageView imageView;
-    public final int SELECT_FILE = 1;
-    public final int REQUEST_CAMERA =2;
+    private Bitmap picture;
+    private static final int REQUEST_GALLERY = 1;
+    private static final int REQUEST_CAMERA = 2;
+    public static final String SEND_TEXT_MESSAGE = "ch.epfl.sweng.melody.TEXT";
+    public static final String SEND_PHOTO_MESSAGE = "ch.epfl.sweng.melody.PHOTO";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +48,24 @@ public class CreateMemoryActivity extends AppCompatActivity {
         builder.show();
     }
 
+    public void sendMemory(View view) {
+        Intent intent = new Intent(this, FakeMemoryActivity.class);
+        EditText editText = (EditText) findViewById(R.id.memory_description);
+        String message = editText.getText().toString();
+        intent.putExtra(SEND_TEXT_MESSAGE, message);
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//        byte[] byteArray = stream.toByteArray();
+        intent.putExtra(SEND_PHOTO_MESSAGE, picture);
+        startActivity(intent);
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
+            if (requestCode == REQUEST_GALLERY)
                 onGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCameraResult(data);
@@ -58,30 +74,29 @@ public class CreateMemoryActivity extends AppCompatActivity {
 
     private void accessCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,REQUEST_CAMERA);
+        startActivityForResult(intent, REQUEST_CAMERA);
     }
 
     private void accessGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), REQUEST_GALLERY);
     }
 
     private void onGalleryResult(Intent data) {
-        Bitmap bm=null;
         if (data != null) {
             try {
-                bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace();// this one is not good and need to be discussed
             }
         }
-        imageView.setImageBitmap(bm);
+        imageView.setImageBitmap(picture);
     }
 
     private void onCameraResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        imageView.setImageBitmap(thumbnail);
+        picture = (Bitmap) data.getExtras().get("data");
+        imageView.setImageBitmap(picture);
     }
 }
