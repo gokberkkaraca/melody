@@ -3,19 +3,21 @@
     android:id="@+id/menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="bottom"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
         android:src="@drawable/home_unfilled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/planet"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/planet"
+        app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        android:layout_marginRight="60dp"/>
+        android:layout_marginLeft="11dp"/>
 
     <ImageView
         android:id="@+id/planet"
@@ -26,7 +28,8 @@
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="@+id/plus"
         app:layout_constraintLeft_toLeftOf="@+id/home"
-        app:layout_constraintVertical_bias="1.0"/>
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginRight="22dp"/>
 
     <ImageView
         android:id="@+id/plus"
@@ -38,7 +41,8 @@
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="1.0"/>
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginRight="22dp"/>
 
     <ImageView
         android:id="@+id/bell"
@@ -61,5 +65,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/bell"
         app:layout_constraintVertical_bias="1.0"
-        android:layout_marginLeft="60dp"/>
+        android:layout_marginLeft="33dp"/>
 </LinearLayout>
