@@ -12,4 +12,6 @@
         android:text="See Memories"
         android:onClick="switchToMemories" />
 
+    <include layout="@layout/menu_layout"/>
+
 </RelativeLayout>

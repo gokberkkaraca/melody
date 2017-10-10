@@ -1,27 +1,31 @@
 package ch.epfl.sweng.melody;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import ch.epfl.sweng.melody.memory.Memory;
 
-public class publicMemoryActivity extends Activity {
+public class publicMemoryActivity extends AppCompatActivity {
 
+    RelativeLayout menuLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_memory);
-        toolbar = (android.support.v7.widget.LinearLayout) findViewById(R.id.menu);
-        setSupportActionBar(toolbar);
 
+        menuLayout = (RelativeLayout)findViewById(R.id.menu);
+       // toolbar = (android.support.v7.widget.LinearLayout) findViewById(R.id.menu);
+        //setSupportActionBar(toolbar);
 
         final LinearLayout memoryContainer = (LinearLayout) findViewById(R.id.memoryContainer);
 
@@ -47,8 +51,24 @@ public class publicMemoryActivity extends Activity {
     }
 
     public void addNewMemory (View view){
-        //Intent intent = new Intent(this, addNewMemory.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToPublicMemory (View view){
+
+    }
+
+    public void goToMap (View view){
+
+    }
+
+    public void goToNotification (View view){
+
+    }
+
+    public void goToUser (View view){
+
     }
 
 

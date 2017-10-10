@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="bottom"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="goToPublicMemory"
         android:src="@drawable/home_unfilled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="@+id/planet"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginRight="60dp"/>
+        android:layout_alignParentBottom = "true"
+        android:layout_alignParentStart= "true"
+        android:layout_alignParentLeft="true"/>
 
     <ImageView
         android:id="@+id/planet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/planet_unfilled"
+        android:onClick="goToMap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="@+id/plus"
         app:layout_constraintLeft_toLeftOf="@+id/home"
-        app:layout_constraintVertical_bias="1.0"/>
+        android:layout_alignParentBottom = "true"
+        android:layout_toRightOf="@+id/home"
+        android:layout_toLeftOf="@+id/plus"
+        android:layout_toEndOf="@+id/home"
+        android:layout_toStartOf="@+id/plus"/>
 
     <ImageView
         android:id="@+id/plus"
@@ -38,28 +45,36 @@
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="1.0"/>
+        android:layout_alignParentBottom = "true"
+        android:layout_centerHorizontal="true"/>
 
     <ImageView
         android:id="@+id/bell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/bell_unfilled"
+        android:onClick="goToNotification"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="@+id/person"
         app:layout_constraintLeft_toLeftOf="@+id/plus"
-        app:layout_constraintVertical_bias="1.0"/>
+        android:layout_alignParentBottom = "true"
+        android:layout_toRightOf="@+id/plus"
+        android:layout_toLeftOf="@+id/person"
+        android:layout_toStartOf="@+id/person"
+        android:layout_toEndOf="@+id/plus"/>
 
     <ImageView
         android:id="@+id/person"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/person_unfilled"
+        android:onClick="goToUser"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/bell"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginLeft="60dp"/>
-</LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd= "true"
+        android:layout_alignParentBottom = "true"/>
+</RelativeLayout>

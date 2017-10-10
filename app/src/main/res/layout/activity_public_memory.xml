@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="ch.epfl.sweng.melody.publicMemoryActivity">
 
-    <include layout="@layout/menu_layout"/>
+
 
     <ImageView
         android:layout_height="wrap_content"
@@ -25,7 +25,6 @@
         tools:layout_editor_absoluteX="0dp">
     </LinearLayout>
 
-
-
+    <include layout="@layout/menu_layout"/>
 
 </android.support.constraint.ConstraintLayout>
