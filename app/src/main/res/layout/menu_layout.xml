@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/home_unfilled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/planet"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginRight="60dp"/>
+
+    <ImageView
+        android:id="@+id/planet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/planet_unfilled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/plus"
+        app:layout_constraintLeft_toLeftOf="@+id/home"
+        app:layout_constraintVertical_bias="1.0"/>
+
+    <ImageView
+        android:id="@+id/plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addNewMemory"
+        android:src="@drawable/plus_unfilled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintVertical_bias="1.0"/>
+
+    <ImageView
+        android:id="@+id/bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bell_unfilled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/person"
+        app:layout_constraintLeft_toLeftOf="@+id/plus"
+        app:layout_constraintVertical_bias="1.0"/>
+
+    <ImageView
+        android:id="@+id/person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/person_unfilled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/bell"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginLeft="60dp"/>
+</LinearLayout>

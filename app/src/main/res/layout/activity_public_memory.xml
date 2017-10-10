@@ -6,12 +6,15 @@
     android:layout_height="match_parent"
     tools:context="ch.epfl.sweng.melody.publicMemoryActivity">
 
+    <include layout="@layout/menu_layout"/>
+
     <ImageView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:src="@drawable/head"
         tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"
+        android:id="@+id/imageView7" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
@@ -20,66 +23,6 @@
         android:orientation="vertical"
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="0dp">
-    </LinearLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/base"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp">
-
-        <ImageView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/base"
-            tools:layout_editor_absoluteY="457dp"
-            tools:layout_editor_absoluteX="0dp"
-            android:id="@+id/imageView4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.967"/>
-
-        <ImageView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/home_unfilled"
-            android:id="@+id/imageView"
-            tools:layout_editor_absoluteY="457dp"
-            tools:layout_editor_absoluteX="16dp" />
-
-        <ImageView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/planet_unfilled"
-            tools:layout_editor_absoluteY="457dp"
-            tools:layout_editor_absoluteX="93dp"
-            android:id="@+id/imageView3" />
-
-        <ImageView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/plus_unfilled"
-            tools:layout_editor_absoluteX="167dp"
-            android:id="@+id/imageView2"
-            tools:layout_editor_absoluteY="457dp" />
-
-        <ImageView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/bell_unfilled"
-            tools:layout_editor_absoluteY="457dp"
-            tools:layout_editor_absoluteX="244dp" />
-
-        <ImageView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/person_unfilled"
-            tools:layout_editor_absoluteY="457dp"
-            tools:layout_editor_absoluteX="318dp" />
     </LinearLayout>
 
 

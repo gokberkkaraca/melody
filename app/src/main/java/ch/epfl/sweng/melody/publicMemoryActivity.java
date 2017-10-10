@@ -1,7 +1,9 @@
 package ch.epfl.sweng.melody;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +19,9 @@ public class publicMemoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_memory);
+        toolbar = (android.support.v7.widget.LinearLayout) findViewById(R.id.menu);
+        setSupportActionBar(toolbar);
+
 
         final LinearLayout memoryContainer = (LinearLayout) findViewById(R.id.memoryContainer);
 
@@ -39,6 +44,11 @@ public class publicMemoryActivity extends Activity {
         }
 
 
+    }
+
+    public void addNewMemory (View view){
+        //Intent intent = new Intent(this, addNewMemory.class);
+        //startActivity(intent);
     }
 
 
