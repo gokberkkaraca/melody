@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,25 +49,50 @@ public class publicMemoryActivity extends Activity {
             memoryContainer.addView(photos);
 
         }*/
+        LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
+
 
         LinearLayout mem = new LinearLayout(this);
         TextView txt = new TextView(this);
         txt.setText("Cet endroit est génial");
         mem.addView(txt);
-        addMemoryContainer(mem);
+        addMemoryContainer(memoriesParent,mem);
 
         LinearLayout memPhoto = new LinearLayout(this);
         ImageView photo = new ImageView(this);
         photo.setImageDrawable(getResources().getDrawable(R.drawable.home_unfilled));
         photo.setPadding(0,0,50,0);
         memPhoto.addView(photo);
-        addMemoryContainer(memPhoto);
+        addMemoryContainer(memoriesParent,memPhoto);
+
+        LinearLayout mem2 = new LinearLayout(this);
+        TextView txt2 = new TextView(this);
+        txt2.setText("Cet endroit est génial");
+        mem2.addView(txt2);
+        addMemoryContainer(memoriesParent,mem2);
+
+        LinearLayout mem3 = new LinearLayout(this);
+        TextView txt3 = new TextView(this);
+        txt3.setText("Cet endroit est génial");
+        mem3.addView(txt3);
+        addMemoryContainer(memoriesParent,mem3);
+
+        LinearLayout mem4 = new LinearLayout(this);
+        TextView txt4 = new TextView(this);
+        txt4.setText("Cet endroit est génial");
+        mem4.addView(txt4);
+        addMemoryContainer(memoriesParent,mem4);
+
+        LinearLayout mem5 = new LinearLayout(this);
+        TextView txt5 = new TextView(this);
+        txt5.setText("Cet endroit est génial");
+        mem5.addView(txt5);
+        addMemoryContainer(memoriesParent,mem5);
 
 
     }
 
-    public void addMemoryContainer(LinearLayout memory){
-        LinearLayout memories = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
+    public void addMemoryContainer(LinearLayout parent, LinearLayout memory){
 
         LinearLayout layParent = new LinearLayout(this);
         layParent.setOrientation(LinearLayout.VERTICAL);
@@ -106,7 +133,7 @@ public class publicMemoryActivity extends Activity {
         //Comments
 
 
-        memories.addView(layParent);
+        parent.addView(layParent);
 
     }
 
