@@ -1,10 +1,15 @@
 package ch.epfl.sweng.melody;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,9 +42,9 @@ public class CreateMemoryActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int option) {
                 if (options[option].equals("Take Photo")) {
-                    accessCamera();
+                    accessWithPermission(CreateMemoryActivity.this, REQUEST_CAMERA);
                 } else if (options[option].equals("Choose from Library")) {
-                    accessGallery();
+                    accessWithPermission(CreateMemoryActivity.this, REQUEST_GALLERY);
                 } else if (options[option].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -72,16 +77,56 @@ public class CreateMemoryActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CAMERA: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    accessCamera();
+                }
+                break;
+            }
+            case REQUEST_GALLERY: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    accessGallery();
+                }
+            }
+        }
+    }
+
+    private void accessWithPermission(Context context, int resquestCode) {
+        switch (resquestCode) {
+            case REQUEST_CAMERA: {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) context,
+                            new String[]{Manifest.permission.CAMERA},
+                            REQUEST_CAMERA);
+                } else {
+                    accessCamera();
+                }
+                break;
+            }
+            case REQUEST_GALLERY: {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) context,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_GALLERY);
+                } else {
+                    accessGallery();
+                }
+            }
+
+        }
+    }
+
     private void accessCamera() {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
     private void accessGallery() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select File"), REQUEST_GALLERY);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_GALLERY);
     }
 
     private void onGalleryResult(Intent data) {
@@ -99,4 +144,5 @@ public class CreateMemoryActivity extends AppCompatActivity {
         picture = (Bitmap) data.getExtras().get("data");
         imageView.setImageBitmap(picture);
     }
+
 }
