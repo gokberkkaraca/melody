@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="ch.epfl.sweng.melody.CreateMemoryActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
+
+    <EditText
+        android:id="@+id/memory_description"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:hint="@string/hitforMemoryDescription"
+        android:inputType="textMultiLine"
+        android:maxLines="4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <ImageButton
+        android:id="@+id/memory_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="29dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@null"
+        android:onClick="sendMemory"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@mipmap/send_memory"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <ImageButton
+        android:id="@+id/take_photos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="107dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="45dp"
+        android:background="@null"
+        android:onClick="pickPhotoDialog"
+        app:layout_constraintLeft_toLeftOf="@+id/display_chosen_photo"
+        app:layout_constraintTop_toBottomOf="@+id/memory_description"
+        app:srcCompat="@mipmap/camera"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <ImageView
+        android:id="@+id/display_chosen_photo"
+        android:layout_width="267dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/memory_send"
+        app:layout_constraintRight_toLeftOf="@+id/memory_send"
+        app:layout_constraintTop_toBottomOf="@+id/take_photos"
+        app:srcCompat="@null"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+</android.support.constraint.ConstraintLayout>
