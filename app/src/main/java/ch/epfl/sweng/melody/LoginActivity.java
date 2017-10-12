@@ -20,9 +20,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     public static String SEND_GOOGLE_ACCOUNT = "google_account";
-    private GoogleApiClient mGoogleApiClient;
-
     public static GoogleSignInAccount GOOGLE_ACCOUNT;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 break;
             case R.id.sign_up_button:
                 signUp();
-
         }
     }
 

@@ -36,7 +36,7 @@ public class PublicMemoryActivity extends Activity {
 
         //setSupportActionBar(toolbar);
 
-        
+
         ImageView photo = new ImageView(this);
         photo.setImageBitmap(picture);
         addPhotoMemory(photo);
@@ -48,14 +48,14 @@ public class PublicMemoryActivity extends Activity {
 
     }
 
-    public void addPhotoMemory(ImageView photo){
+    public void addPhotoMemory(ImageView photo) {
         LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
         LinearLayout memPhoto = new LinearLayout(this);
         memPhoto.addView(photo);
         addMemoryContainer(memoriesParent, memPhoto);
     }
 
-    public void addTextMemory(String txt){
+    public void addTextMemory(String txt) {
         LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
         LinearLayout mem = new LinearLayout(this);
         TextView txtMem = new TextView(this);
@@ -110,7 +110,6 @@ public class PublicMemoryActivity extends Activity {
         layParent.addView(layInfo);
         //Comments
 
-
         parent.addView(layParent);
 
     }
@@ -134,7 +133,8 @@ public class PublicMemoryActivity extends Activity {
     }
 
     public void goToUser(View view) {
-
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
     }
 
 

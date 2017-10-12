@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ch.epfl.sweng.melody.UserProfileActivity">
+
+    <RelativeLayout
+        android:id="@+id/profileInfosLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/profilePicView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profilePicView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:text="Username"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/followingsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/followersText"
+            android:layout_alignBottom="@+id/followersText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:text="Followings"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/followersText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="Followers"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/friendsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/followersText"
+            android:layout_alignBottom="@+id/followersText"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="37dp"
+            android:layout_marginRight="37dp"
+            android:text="Friends"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/followings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/followers"
+            android:layout_alignBottom="@+id/followers"
+            android:layout_alignEnd="@+id/followingsText"
+            android:layout_alignRight="@+id/followingsText"
+            android:layout_marginEnd="18dp"
+            android:layout_marginRight="18dp"
+            android:inputType="number"
+            android:text="500" />
+
+        <TextView
+            android:id="@+id/followers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/followingsText"
+            android:layout_centerHorizontal="true"
+            android:inputType="number"
+            android:text="380" />
+
+
+        <TextView
+            android:id="@+id/friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/followers"
+            android:layout_alignBottom="@+id/followers"
+            android:layout_alignEnd="@+id/friendsText"
+            android:layout_alignRight="@+id/friendsText"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:inputType="number"
+            android:text="220" />
+
+        <TextView
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/friendsText"
+            android:layout_alignRight="@+id/friendsText"
+            android:layout_alignTop="@+id/profilePicView"
+            android:onClick="goToEdit"
+            android:text="Edit"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+
+        <LinearLayout
+            android:id="@+id/showMemoriesLayout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/followings"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
