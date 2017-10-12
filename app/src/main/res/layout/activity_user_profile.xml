@@ -123,7 +123,6 @@
             android:layout_alignEnd="@+id/friendsText"
             android:layout_alignRight="@+id/friendsText"
             android:layout_alignTop="@+id/profilePicView"
-            android:onClick="goToEdit"
             android:text="Edit"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
