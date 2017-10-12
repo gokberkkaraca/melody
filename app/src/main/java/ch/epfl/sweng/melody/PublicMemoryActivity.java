@@ -9,7 +9,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class publicMemoryActivity extends Activity {
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+public class PublicMemoryActivity extends Activity {
+
+    GoogleSignInAccount googleSignInAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +22,9 @@ public class publicMemoryActivity extends Activity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_memory);
 
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+        googleSignInAccount = intent.getParcelableExtra(LoginActivity.SEND_GOOGLE_ACCOUNT);
 
         //setSupportActionBar(toolbar);
 
@@ -79,7 +87,7 @@ public class publicMemoryActivity extends Activity {
         layProfile.addView(profileImage);
 
         TextView usrTxt = new TextView(this);
-        usrTxt.setText("anonymous");
+        usrTxt.setText(googleSignInAccount.getDisplayName());
         usrTxt.setTextSize(16);
         usrTxt.setTypeface(null, Typeface.BOLD);
         layProfile.addView(usrTxt);

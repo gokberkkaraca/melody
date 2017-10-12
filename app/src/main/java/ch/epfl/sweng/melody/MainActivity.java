@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
     private Handler mHandler = new Handler();
-    private int timer = 2000; // milliseconds
+    private final int timer = 2000; // milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +23,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }, timer);
     }
-
-    public void switchToMemories(View view) {
-        Intent intent = new Intent(this, publicMemoryActivity.class);
-        startActivity(intent);
-    }
-
-
 }

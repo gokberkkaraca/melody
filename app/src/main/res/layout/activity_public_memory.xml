@@ -4,19 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.epfl.sweng.melody.publicMemoryActivity">
-
-
-
-    <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/head"
-        android:id="@+id/imageView7"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/include"
-        app:layout_constraintTop_toTopOf="@+id/include" />
+    android:background="@color/white"
+    tools:context="ch.epfl.sweng.melody.PublicMemoryActivity">
 
 
     <include layout="@layout/menu_layout"
@@ -33,6 +22,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/head"
+        app:layout_constraintLeft_toLeftOf="@+id/include"
+        app:layout_constraintTop_toTopOf="@+id/include"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <ScrollView
         android:id="@+id/publicMemoryActivity_ScrollView_Memories"

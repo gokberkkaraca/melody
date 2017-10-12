@@ -54,7 +54,7 @@ public class CreateMemoryActivity extends AppCompatActivity {
     }
 
     public void sendMemory(View view) {
-        Intent intent = new Intent(this, FakeMemoryActivity.class);
+        Intent intent = new Intent(this, PublicMemoryActivity.class);
         EditText editText = (EditText) findViewById(R.id.memory_description);
         String message = editText.getText().toString();
         intent.putExtra(SEND_TEXT_MESSAGE, message);
