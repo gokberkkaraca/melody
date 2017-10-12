@@ -3,12 +3,22 @@ package ch.epfl.sweng.melody;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import ch.epfl.sweng.melody.memory.GoogleProfilePictureAsync;
 
 public class PublicMemoryActivity extends Activity {
 
@@ -64,7 +74,9 @@ public class PublicMemoryActivity extends Activity {
         LinearLayout layProfile = new LinearLayout(this);
         layProfile.setOrientation(LinearLayout.HORIZONTAL);
         ImageView profileImage = new ImageView(this);
-        profileImage.setImageURI(LoginActivity.GOOGLE_ACCOUNT.getPhotoUrl());
+
+        new GoogleProfilePictureAsync(profileImage,LoginActivity.GOOGLE_ACCOUNT.getPhotoUrl()).execute();
+
         profileImage.setPadding(0, 0, 50, 0);
         layProfile.addView(profileImage);
 
