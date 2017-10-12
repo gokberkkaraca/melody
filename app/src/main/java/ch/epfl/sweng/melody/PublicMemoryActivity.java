@@ -34,48 +34,32 @@ public class PublicMemoryActivity extends Activity {
 
         //setSupportActionBar(toolbar);
 
-        LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
-
-
-        LinearLayout mem = new LinearLayout(this);
-        TextView txt = new TextView(this);
-        txt.setText(text);
-        txt.setTextSize(16);
-        mem.addView(txt);
-        addMemoryContainer(memoriesParent, mem);
-
-        LinearLayout memPhoto = new LinearLayout(this);
+        
         ImageView photo = new ImageView(this);
         photo.setImageBitmap(picture);
-        //photo.setPadding(0, 0, 50, 0);
+        addPhotoMemory(photo);
+        addTextMemory("my memory 1");
+        addTextMemory("my memory 2");
+        addTextMemory("my memory 3");
+        addTextMemory("my memory 4");
+        addTextMemory("my memory 5");
+
+    }
+
+    public void addPhotoMemory(ImageView photo){
+        LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
+        LinearLayout memPhoto = new LinearLayout(this);
         memPhoto.addView(photo);
         addMemoryContainer(memoriesParent, memPhoto);
+    }
 
-        LinearLayout mem2 = new LinearLayout(this);
-        TextView txt2 = new TextView(this);
-        txt2.setText("Cet endroit est vraiment génial");
-        mem2.addView(txt2);
-        addMemoryContainer(memoriesParent, mem2);
-
-        LinearLayout mem3 = new LinearLayout(this);
-        TextView txt3 = new TextView(this);
-        txt3.setText("Cet endroit est génial");
-        mem3.addView(txt3);
-        addMemoryContainer(memoriesParent, mem3);
-
-        LinearLayout mem4 = new LinearLayout(this);
-        TextView txt4 = new TextView(this);
-        txt4.setText("Cet endroit est génial");
-        mem4.addView(txt4);
-        addMemoryContainer(memoriesParent, mem4);
-
-        LinearLayout mem5 = new LinearLayout(this);
-        TextView txt5 = new TextView(this);
-        txt5.setText("Cet endroit est génial");
-        mem5.addView(txt5);
-        addMemoryContainer(memoriesParent, mem5);
-
-
+    public void addTextMemory(String txt){
+        LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
+        LinearLayout mem = new LinearLayout(this);
+        TextView txtMem = new TextView(this);
+        txtMem.setText(txt);
+        mem.addView(txtMem);
+        addMemoryContainer(memoriesParent, mem);
     }
 
     public void addMemoryContainer(LinearLayout parent, LinearLayout memory) {
