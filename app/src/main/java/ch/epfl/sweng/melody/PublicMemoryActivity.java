@@ -98,7 +98,6 @@ public class PublicMemoryActivity extends Activity {
         layParent.addView(layInfo);
         //Comments
 
-tatu
         parent.addView(layParent);
 
     }
