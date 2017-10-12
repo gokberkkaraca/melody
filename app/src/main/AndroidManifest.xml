@@ -26,7 +26,6 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CreateMemoryActivity" />
-        <activity android:name=".FakeMemoryActivity"></activity>
     </application>
 
 </manifest>
