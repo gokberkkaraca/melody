@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 break;
             case R.id.sign_up_button:
                 signUp();
-
         }
     }
 

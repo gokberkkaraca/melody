@@ -139,7 +139,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/followings"
-            android:layout_marginTop="22dp"></LinearLayout>
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal" />
 
     </RelativeLayout>
 
