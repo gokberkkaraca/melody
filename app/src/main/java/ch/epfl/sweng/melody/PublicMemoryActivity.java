@@ -89,12 +89,12 @@ public class PublicMemoryActivity extends Activity {
         layProfile.setPadding(0, 0, 0, 40);
 
         //memory
-        memory.setPadding(0, 0, 0, 40);
+        memory.setPadding(110, 0, 0, 40);
         layParent.addView(memory);
 
         //City + date + like
         LinearLayout layInfo = new LinearLayout(this);
-        layInfo.setPadding(0, 0, 40, 0);
+        layInfo.setPadding(110, 0, 40, 40);
         layInfo.setOrientation(LinearLayout.HORIZONTAL);
 
         TextView cityTxt = new TextView(this);
