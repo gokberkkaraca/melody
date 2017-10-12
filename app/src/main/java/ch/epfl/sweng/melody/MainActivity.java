@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private Handler mHandler = new Handler();
+    private int timer = 2000; // milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
-        }, 2000); // 4 seconds
+        }, timer);
     }
 }
