@@ -78,6 +78,8 @@ public class PublicMemoryActivity extends Activity {
         new GoogleProfilePictureAsync(profileImage,LoginActivity.GOOGLE_ACCOUNT.getPhotoUrl()).execute();
 
         profileImage.setPadding(0, 0, 50, 0);
+        profileImage.setLayoutParams(new LinearLayout.LayoutParams(150, 150));
+        profileImage.requestLayout();
         layProfile.addView(profileImage);
 
         TextView usrTxt = new TextView(this);
