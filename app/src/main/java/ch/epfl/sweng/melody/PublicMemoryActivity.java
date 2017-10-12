@@ -122,7 +122,8 @@ public class PublicMemoryActivity extends Activity {
     }
 
     public void goToUser(View view) {
-
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        startActivity(intent);
     }
 
 
