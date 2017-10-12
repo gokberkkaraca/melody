@@ -7,12 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,12 +20,12 @@ import android.widget.ImageView;
 import java.io.IOException;
 
 public class CreateMemoryActivity extends AppCompatActivity {
-    private ImageView imageView;
-    private Bitmap picture;
-    private static final int REQUEST_GALLERY = 1;
-    private static final int REQUEST_CAMERA = 2;
     public static final String SEND_TEXT_MESSAGE = "ch.epfl.sweng.melody.TEXT";
     public static final String SEND_PHOTO_MESSAGE = "ch.epfl.sweng.melody.PHOTO";
+    private static final int REQUEST_GALLERY = 1;
+    private static final int REQUEST_CAMERA = 2;
+    private ImageView imageView;
+    private Bitmap picture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Handler mHandler = new Handler();
     private final int timer = 2000; // milliseconds
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
