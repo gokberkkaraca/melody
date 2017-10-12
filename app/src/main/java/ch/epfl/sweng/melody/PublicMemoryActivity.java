@@ -10,21 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
 public class PublicMemoryActivity extends Activity {
-
-    GoogleSignInAccount googleSignInAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_memory);
-
-        // Get the Intent that started this activity and extract the string
-        Intent googleSignInIntent = getIntent();
-        googleSignInAccount = googleSignInIntent.getParcelableExtra(LoginActivity.SEND_GOOGLE_ACCOUNT);
 
         Intent memoryIntent = getIntent();
         String text = memoryIntent.getStringExtra(CreateMemoryActivity.SEND_TEXT_MESSAGE);
@@ -72,12 +64,12 @@ public class PublicMemoryActivity extends Activity {
         LinearLayout layProfile = new LinearLayout(this);
         layProfile.setOrientation(LinearLayout.HORIZONTAL);
         ImageView profileImage = new ImageView(this);
-        profileImage.setImageDrawable(getResources().getDrawable(R.drawable.bell_filled));
+        profileImage.setImageURI(LoginActivity.GOOGLE_ACCOUNT.getPhotoUrl());
         profileImage.setPadding(0, 0, 50, 0);
         layProfile.addView(profileImage);
 
         TextView usrTxt = new TextView(this);
-        usrTxt.setText(googleSignInAccount.getDisplayName());
+        usrTxt.setText(LoginActivity.GOOGLE_ACCOUNT.getDisplayName());
         usrTxt.setTextSize(16);
         usrTxt.setTypeface(null, Typeface.BOLD);
         layProfile.addView(usrTxt);
