@@ -2,6 +2,7 @@ package ch.epfl.sweng.melody;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -22,8 +23,14 @@ public class PublicMemoryActivity extends Activity {
         setContentView(R.layout.activity_public_memory);
 
         // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
-        googleSignInAccount = intent.getParcelableExtra(LoginActivity.SEND_GOOGLE_ACCOUNT);
+        Intent googleSignInIntent = getIntent();
+        googleSignInAccount = googleSignInIntent.getParcelableExtra(LoginActivity.SEND_GOOGLE_ACCOUNT);
+
+        Intent memoryIntent = getIntent();
+        String text = memoryIntent.getStringExtra(CreateMemoryActivity.SEND_TEXT_MESSAGE);
+//        byte[] picture_byte = intent.getByteArrayExtra(CreateMemoryActivity.SEND_PHOTO_MESSAGE);
+//        Bitmap picture = BitmapFactory.decodeByteArray(picture_byte,0,picture_byte.length);
+        Bitmap picture = memoryIntent.getParcelableExtra(CreateMemoryActivity.SEND_PHOTO_MESSAGE);
 
         //setSupportActionBar(toolbar);
 
@@ -32,15 +39,15 @@ public class PublicMemoryActivity extends Activity {
 
         LinearLayout mem = new LinearLayout(this);
         TextView txt = new TextView(this);
-        txt.setText("Cet endroit est génial");
+        txt.setText(text);
         txt.setTextSize(16);
         mem.addView(txt);
         addMemoryContainer(memoriesParent, mem);
 
         LinearLayout memPhoto = new LinearLayout(this);
         ImageView photo = new ImageView(this);
-        photo.setImageDrawable(getResources().getDrawable(R.drawable.home_unfilled));
-        photo.setPadding(0, 0, 50, 0);
+        photo.setImageBitmap(picture);
+        //photo.setPadding(0, 0, 50, 0);
         memPhoto.addView(photo);
         addMemoryContainer(memoriesParent, memPhoto);
 
@@ -122,7 +129,7 @@ public class PublicMemoryActivity extends Activity {
 
 
     public void addNewMemory(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, CreateMemoryActivity.class);
         startActivity(intent);
     }
 
