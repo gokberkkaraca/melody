@@ -20,7 +20,7 @@ public class Memory {
     private List<File> videos;
     private List<File> photos;
     private List<File> audios;
-    //public List<Comments> comments;
+    public List<String> comments;
 
     public Memory(String t) {
         this.id = UUID.randomUUID();
