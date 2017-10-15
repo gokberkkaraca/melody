@@ -13,12 +13,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 
+import ch.epfl.sweng.melody.memory.Firebase_Handler;
 import ch.epfl.sweng.melody.memory.GoogleProfilePictureAsync;
+import ch.epfl.sweng.melody.memory.User;
 
 public class PublicMemoryActivity extends Activity {
 
@@ -45,6 +50,10 @@ public class PublicMemoryActivity extends Activity {
         addTextMemory("my memory 3");
         addTextMemory("my memory 4");
         addTextMemory("my memory 5");
+
+        /*Firebase_Handler fh = new Firebase_Handler();
+        fh.AddUserToDatabase(new User(LoginActivity.GOOGLE_ACCOUNT,"m","9191919191",new Date(),"lausanne"));*/
+
 
     }
 
