@@ -13,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,11 +52,6 @@ public class PublicMemoryActivity extends Activity {
         addTextMemory("my memory 2");
         addTextMemory("my memory 3");
         addTextMemory("my memory 4");
-        addTextMemory("my memory 5");
-
-        /*Firebase_Handler fh = new Firebase_Handler();
-        fh.AddUserToDatabase(new User(LoginActivity.GOOGLE_ACCOUNT,"m","9191919191",new Date(),"lausanne"));*/
-
 
     }
 

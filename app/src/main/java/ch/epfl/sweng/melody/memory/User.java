@@ -31,6 +31,9 @@ public class User {
     private List<User> followers;
     private List<User> following;
 
+    public User(){
+
+    }
     public User(GoogleSignInAccount login, String gender, String phone, Date birthday, String home){
 //      Get information from google account
         this.account = login;
