@@ -21,4 +21,11 @@ public class LoginStatusHandler {
     {
         return getSharedPreferences(ctx).getString("userId", "");
     }
+
+    public static void clearUserId(Context ctx)
+    {
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.clear();
+        editor.apply();
+    }
 }
