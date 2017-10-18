@@ -9,11 +9,13 @@ import java.util.UUID;
  */
 
 public class Comment {
+    public final UUID memory;
     public final UUID author;
     public final String content;
     public final Date time;
 
-    public Comment (UUID author, String content){
+    public Comment (UUID memory, UUID author, String content){
+        this.memory = memory;
         this.author = author;
         this.content = content;
         this.time = Calendar.getInstance().getTime();
