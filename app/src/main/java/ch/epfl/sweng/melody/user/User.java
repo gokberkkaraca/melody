@@ -1,7 +1,5 @@
 package ch.epfl.sweng.melody.user;
 
-import android.net.Uri;
-
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.io.Serializable;
@@ -41,8 +39,10 @@ public class User implements Serializable {
             assert email != null;
             this.username = email.substring(0, email.indexOf('@'));
 
-            // TODO App crashes when this line is uncommented
-            this.profilePhotoUrl = googleSignInAccount.getPhotoUrl().toString();
+            if (googleSignInAccount.getPhotoUrl() != null)
+                this.profilePhotoUrl = googleSignInAccount.getPhotoUrl().toString();
+            else
+                this.profilePhotoUrl = "http://www.purdue.edu/gradschool/gspd/images/ppl/empty.png";
         }
 
         memories = new ArrayList<>();
