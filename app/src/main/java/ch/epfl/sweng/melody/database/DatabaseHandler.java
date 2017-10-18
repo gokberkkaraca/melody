@@ -9,6 +9,8 @@ import ch.epfl.sweng.melody.user.User;
 
 public class DatabaseHandler {
 
+    private static String databaseURL = "https://fir-melody.firebaseio.com/";
+
     /*
     * Example how to use this class (in PublicMemoryActivity) :
     * Firebase_Handler fh = new Firebase_Handler();
@@ -31,13 +33,13 @@ public class DatabaseHandler {
     *
     * */
 
-    private DatabaseReference database = FirebaseDatabase.getInstance("https://fir-melody.firebaseio.com/").getReference();
+    private static DatabaseReference database = FirebaseDatabase.getInstance(databaseURL).getReference();
 
-    public void addUser(User user){
+    public static void addUser(User user){
         database.child("users").child(user.getId()).setValue(user);
     }
 
-    public void getUserInfo(String userId, ValueEventListener vel){
+    public static void getUserInfo(String userId, ValueEventListener vel){
         database.child("users").child(userId).addListenerForSingleValueEvent(vel);
     }
 }

@@ -15,6 +15,8 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import ch.epfl.sweng.melody.account.GoogleAuthentication;
+import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.user.User;
 
 import static ch.epfl.sweng.melody.account.GoogleAuthentication.mGoogleApiClient;
 
@@ -88,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
+            DatabaseHandler.addUser(new User(GOOGLE_ACCOUNT));
             Intent intent = new Intent(this, PublicMemoryActivity.class);
             intent.putExtra(SEND_GOOGLE_ACCOUNT, GOOGLE_ACCOUNT);
             startActivity(intent);

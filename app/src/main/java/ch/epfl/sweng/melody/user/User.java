@@ -56,6 +56,17 @@ public class User {
         this.following = null;
     }
 
+    public User(GoogleSignInAccount googleSignInAccount) {
+        this.account = googleSignInAccount;
+        this.id = account.getId();
+        this.firstName = account.getGivenName();
+        this.lastName = account.getFamilyName();
+        this.username = account.getDisplayName();
+//        this.password = password
+        this.email = account.getEmail();
+
+    }
+
     //  Getter & Setters
     public String getId (){
         return id;
