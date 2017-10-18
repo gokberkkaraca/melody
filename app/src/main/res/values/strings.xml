@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">melody</string>
+    <string name="app_name">Melody</string>
     <string name="hitforMemoryDescription">Say something about your memory!</string>
     <string name="email_prompt">Enter your email address</string>
     <string name="password_prompt">Enter your password</string>

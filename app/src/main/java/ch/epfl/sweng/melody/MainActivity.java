@@ -16,7 +16,7 @@ import ch.epfl.sweng.melody.user.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int timer = 2000; // milliseconds
+    private final int timer = 250; // milliseconds
     private Handler mHandler = new Handler();
 
     @Override

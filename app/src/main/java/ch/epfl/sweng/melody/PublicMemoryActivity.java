@@ -3,6 +3,7 @@ package ch.epfl.sweng.melody;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -58,7 +59,7 @@ public class PublicMemoryActivity extends Activity {
         layProfile.setOrientation(LinearLayout.HORIZONTAL);
         ImageView profileImage = new ImageView(this);
 
-        new GoogleProfilePictureAsync(profileImage, user.getProfilePhotoUrl()).execute();
+        new GoogleProfilePictureAsync(profileImage, Uri.parse(user.getProfilePhotoUrl())).execute();
 
         profileImage.setPadding(0, 0, 50, 0);
         profileImage.setLayoutParams(new LinearLayout.LayoutParams(150, 150));

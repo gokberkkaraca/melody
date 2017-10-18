@@ -17,7 +17,7 @@ public class User implements Serializable {
     private String id;
     private String firstName;
     private String lastName;
-    private Uri profilePhotoUrl;
+    private String profilePhotoUrl;
 
     private String displayName;
     private String gender;
@@ -42,7 +42,7 @@ public class User implements Serializable {
             this.username = email.substring(0, email.indexOf('@'));
 
             // TODO App crashes when this line is uncommented
-            //this.profilePhotoUrl = googleSignInAccount.getPhotoUrl();
+            this.profilePhotoUrl = googleSignInAccount.getPhotoUrl().toString();
         }
 
         memories = new ArrayList<>();
@@ -124,7 +124,7 @@ public class User implements Serializable {
         return followings;
     }
 
-    public Uri getProfilePhotoUrl() {
+    public String getProfilePhotoUrl() {
         return profilePhotoUrl;
     }
 }
