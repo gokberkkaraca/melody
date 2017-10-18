@@ -16,6 +16,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.net.URI;
 
+import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
 
@@ -63,7 +64,11 @@ public class DatabaseHandler {
         databaseReference.child("users").child(userId).addListenerForSingleValueEvent(vel);
     }
 
-    public void uploadImage(Uri uri, Context context){
+    public void uploadMemory(Memory memory, Context context){
+        databaseReference.child("memories").setValue(memory);
+    }
+
+    private void uploadImage(Uri uri, Context context){
         storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis()+ "."+getImageExtenson(uri,context)).putFile(uri);
     }
 
@@ -72,7 +77,5 @@ public class DatabaseHandler {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-
-
 
 }
