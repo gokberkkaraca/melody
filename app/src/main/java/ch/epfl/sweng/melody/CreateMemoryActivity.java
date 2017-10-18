@@ -9,22 +9,24 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import java.io.IOException;
 
 public class CreateMemoryActivity extends AppCompatActivity {
-    public static final String SEND_TEXT_MESSAGE = "ch.epfl.sweng.melody.TEXT";
-    public static final String SEND_PHOTO_MESSAGE = "ch.epfl.sweng.melody.PHOTO";
-    private static final int REQUEST_GALLERY = 1;
-    private static final int REQUEST_CAMERA = 2;
+    private static final int REQUEST_PHOTO_GALLERY = 1;
+    private static final int REQUEST_PHOTO_CAMERA = 2;
+    private static final int REQUEST_VIDEO_GALLERY = 3;
+    private static final int REQUEST_VIDEO_CAMERA = 4;
     private ImageView imageView;
+    private VideoView videoView;
     private Bitmap picture;
 
     @Override
@@ -32,19 +34,20 @@ public class CreateMemoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_memory);
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
+        videoView = (VideoView) findViewById(R.id.display_chosen_video);
     }
 
     public void pickPhotoDialog(View view) {
-        final CharSequence[] options = {"Take Photo", "Choose from Library", "Cancel"};
+        final CharSequence[] options = {"Camera", "Choose from Album", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add photo");
+        builder.setTitle("Add photos");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int option) {
-                if (options[option].equals("Take Photo")) {
-                    accessWithPermission(CreateMemoryActivity.this, REQUEST_CAMERA);
-                } else if (options[option].equals("Choose from Library")) {
-                    accessWithPermission(CreateMemoryActivity.this, REQUEST_GALLERY);
+                if (options[option].equals("Camera")) {
+                    accessWithPermission(CreateMemoryActivity.this, REQUEST_PHOTO_CAMERA);
+                } else if (options[option].equals("Choose from Album")) {
+                    accessWithPermission(CreateMemoryActivity.this, REQUEST_PHOTO_GALLERY);
                 } else if (options[option].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -53,42 +56,67 @@ public class CreateMemoryActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void sendMemory(View view) {
-        Intent intent = new Intent(this, PublicMemoryActivity.class);
-        EditText editText = (EditText) findViewById(R.id.memory_description);
-        String message = editText.getText().toString();
-        intent.putExtra(SEND_TEXT_MESSAGE, message);
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        picture.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//        byte[] byteArray = stream.toByteArray();
-        intent.putExtra(SEND_PHOTO_MESSAGE, picture);
-        startActivity(intent);
-
+    public void pickVideoDialog(View view) {
+        final CharSequence[] options = {"Camera", "Choose from Album", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add videos");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int option) {
+                if (options[option].equals("Camera")) {
+                    accessWithPermission(CreateMemoryActivity.this, REQUEST_VIDEO_CAMERA);
+                } else if (options[option].equals("Choose from Album")) {
+                    accessWithPermission(CreateMemoryActivity.this, REQUEST_VIDEO_GALLERY);
+                } else if (options[option].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_GALLERY)
-                onGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCameraResult(data);
+        switch (requestCode) {
+            case REQUEST_PHOTO_CAMERA: {
+                onPhotoFromCameraResult(data);
+                break;
+            }
+            case REQUEST_PHOTO_GALLERY: {
+                onPhotoFromGalleryResult(data);
+                break;
+            }
+            case REQUEST_VIDEO_CAMERA: {
+                onVideoFromCameraResult(data);
+                break;
+            }
+            case REQUEST_VIDEO_GALLERY: {
+                onVideoFromGalleryResult(data);
+                break;
+            }
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CAMERA: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    accessCamera();
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            switch (requestCode) {
+                case REQUEST_PHOTO_CAMERA: {
+                    photoFromCamera();
+                    break;
                 }
-                break;
-            }
-            case REQUEST_GALLERY: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    accessGallery();
+                case REQUEST_PHOTO_GALLERY: {
+                    photoFromGallery();
+                    break;
+                }
+                case REQUEST_VIDEO_CAMERA: {
+                    videoFromCamera();
+                    break;
+                }
+                case REQUEST_VIDEO_GALLERY: {
+                    videoFromGallery();
+                    break;
                 }
             }
         }
@@ -96,40 +124,72 @@ public class CreateMemoryActivity extends AppCompatActivity {
 
     private void accessWithPermission(Context context, int resquestCode) {
         switch (resquestCode) {
-            case REQUEST_CAMERA: {
+            case REQUEST_PHOTO_CAMERA: {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions((Activity) context,
                             new String[]{Manifest.permission.CAMERA},
-                            REQUEST_CAMERA);
+                            REQUEST_PHOTO_CAMERA);
                 } else {
-                    accessCamera();
+                    photoFromCamera();
                 }
                 break;
             }
-            case REQUEST_GALLERY: {
+            case REQUEST_VIDEO_CAMERA: {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) context,
+                            new String[]{Manifest.permission.CAMERA},
+                            REQUEST_VIDEO_CAMERA);
+                } else {
+                    videoFromCamera();
+                }
+                break;
+            }
+            case REQUEST_PHOTO_GALLERY: {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions((Activity) context,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            REQUEST_GALLERY);
+                            REQUEST_PHOTO_GALLERY);
                 } else {
-                    accessGallery();
+                    photoFromGallery();
                 }
+                break;
+            }
+            case REQUEST_VIDEO_GALLERY: {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) context,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_VIDEO_GALLERY);
+                } else {
+                    videoFromGallery();
+                }
+                break;
             }
 
         }
     }
 
-    private void accessCamera() {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
+    private void photoFromCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_PHOTO_CAMERA);
     }
 
-    private void accessGallery() {
+    private void photoFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_GALLERY);
+        startActivityForResult(intent, REQUEST_PHOTO_GALLERY);
     }
 
-    private void onGalleryResult(Intent data) {
+    private void videoFromCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        startActivityForResult(intent, REQUEST_VIDEO_CAMERA);
+    }
+
+    private void videoFromGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("video/*");
+        startActivityForResult(intent, REQUEST_VIDEO_GALLERY);
+    }
+
+    private void onPhotoFromGalleryResult(Intent data) {
         if (data != null) {
             try {
                 picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
@@ -140,9 +200,20 @@ public class CreateMemoryActivity extends AppCompatActivity {
         imageView.setImageBitmap(picture);
     }
 
-    private void onCameraResult(Intent data) {
+    private void onPhotoFromCameraResult(Intent data) {
         picture = (Bitmap) data.getExtras().get("data");
         imageView.setImageBitmap(picture);
     }
+
+    private void onVideoFromGalleryResult(Intent data) {
+        videoView.setVideoURI(data.getData());
+        videoView.start();
+    }
+
+    private void onVideoFromCameraResult(Intent data) {
+        videoView.setVideoURI(data.getData());
+        videoView.start();
+    }
+
 
 }

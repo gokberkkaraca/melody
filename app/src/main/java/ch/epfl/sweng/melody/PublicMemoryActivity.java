@@ -2,7 +2,6 @@ package ch.epfl.sweng.melody;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ch.epfl.sweng.melody.account.GoogleAuthentication;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 
 public class PublicMemoryActivity extends Activity {
@@ -21,18 +19,6 @@ public class PublicMemoryActivity extends Activity {
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_memory);
 
-        Intent memoryIntent = getIntent();
-        String text = memoryIntent.getStringExtra(CreateMemoryActivity.SEND_TEXT_MESSAGE);
-//        byte[] picture_byte = intent.getByteArrayExtra(CreateMemoryActivity.SEND_PHOTO_MESSAGE);
-//        Bitmap picture = BitmapFactory.decodeByteArray(picture_byte,0,picture_byte.length);
-        Bitmap picture = memoryIntent.getParcelableExtra(CreateMemoryActivity.SEND_PHOTO_MESSAGE);
-
-        //setSupportActionBar(toolbar);
-
-
-        ImageView photo = new ImageView(this);
-        photo.setImageBitmap(picture);
-        addPhotoMemory(photo);
         addTextMemory("my memory 1");
         addTextMemory("my memory 2");
         addTextMemory("my memory 3");
