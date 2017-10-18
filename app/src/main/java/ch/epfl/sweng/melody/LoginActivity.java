@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
-    public static String SEND_GOOGLE_ACCOUNT = "google_account";
     public static GoogleSignInAccount GOOGLE_ACCOUNT;
 
 

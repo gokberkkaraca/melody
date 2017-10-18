@@ -1,5 +1,6 @@
 package ch.epfl.sweng.melody;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public void logOut(View view) {
         LoginStatusHandler.clearUserId(this);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }
 
