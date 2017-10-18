@@ -139,8 +139,21 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/followings"
             android:layout_marginTop="22dp"
-            android:orientation="horizontal" />
+            android:orientation="horizontal" >
+        </LinearLayout>
 
+
+        <Button
+            android:id="@+id/log_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/friendsText"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/friendsText"
+            android:layout_toRightOf="@+id/profilePicView"
+            android:layout_weight="1"
+            android:onClick="logOut"
+            android:text="Log out" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
