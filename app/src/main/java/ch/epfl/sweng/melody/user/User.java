@@ -1,27 +1,25 @@
 package ch.epfl.sweng.melody.user;
 
-import java.util.Date;
-import java.util.List;
+import android.net.Uri;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import ch.epfl.sweng.melody.memory.Memory;
 
-/**
- * Created by karunya on 10/13/17.
- */
-
-public class User {
-    public String username;
-    private String id;
-//    private String password;
-
-    //  Google Account
-    private GoogleSignInAccount account;
-
+public class User implements Serializable {
     //  User Info Variables
+    private String username;
+    private String id;
     private String firstName;
     private String lastName;
+    private String profilePhotoUrl;
+
+    private String displayName;
     private String gender;
     private String email;
     private String phone;
@@ -31,77 +29,102 @@ public class User {
     private List<Memory> memories;
     private List<User> friends;
     private List<User> followers;
-    private List<User> following;
+    private List<User> followings;
 
-    public User(){
+    public User(GoogleSignInAccount googleSignInAccount) {
+        if (googleSignInAccount != null) {
+            this.id = googleSignInAccount.getId();
+            this.firstName = googleSignInAccount.getGivenName();
+            this.lastName = googleSignInAccount.getFamilyName();
+            this.displayName = googleSignInAccount.getDisplayName();
+            this.email = googleSignInAccount.getEmail();
+            assert email != null;
+            this.username = email.substring(0, email.indexOf('@'));
 
-    }
-    public User(GoogleSignInAccount login, String gender, String phone, Date birthday, String home){
-//      Get information from google account
-        this.account = login;
-        this.id = account.getId();
-        this.firstName = account.getGivenName();
-        this.lastName = account.getFamilyName();
-        this.username = account.getDisplayName();
-//        this.password = password
-        this.email = account.getEmail();
+            // TODO App crashes when this line is uncommented
+            this.profilePhotoUrl = googleSignInAccount.getPhotoUrl().toString();
+        }
 
-        this.gender = gender;
-        this.phone = phone;
-        this.birthday = birthday;
-        this.home = home;
-        this.memories = null;
-        this.friends = null;
-        this.followers = null;
-        this.following = null;
+        memories = new ArrayList<>();
+        friends = new ArrayList<>();
+        followers = new ArrayList<>();
+        followings = new ArrayList<>();
     }
 
-    //  Getter & Setters
-    public String getId (){
+    // Empty constructor is needed for database connection
+    public User() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public String getFirstName(){
+    public String getFirstName() {
         return firstName;
     }
 
-    public String getLastName(){
+    public String getLastName() {
         return lastName;
     }
 
-    public String getGender(){
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getGender() {
         return gender;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
-//    public void setEmail(String email){
-//        this.email = email;
-//    }
-
-    public String getPhone(){
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone){
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public Date getBirthday(){
+
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday){
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
-    public String getHome(){
+    public String getHome() {
         return home;
     }
 
-    public void setHome(String home){
+    public void setHome(String home) {
         this.home = home;
+    }
+
+    public List<Memory> getMemories() {
+        return memories;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public List<User> getFollowings() {
+        return followings;
+    }
+
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
     }
 }
