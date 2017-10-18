@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -26,6 +28,8 @@ public class CreateMemoryActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 2;
     private ImageView imageView;
     private Bitmap picture;
+
+    private Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

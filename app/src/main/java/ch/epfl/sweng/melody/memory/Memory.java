@@ -26,6 +26,8 @@ public class Memory {
     private Privacy privacy;
     private Boolean reminder;
 
+    Geocoder geocoder;
+
     public Memory(UUID id, UUID author, String text) {
         this.id = UUID.randomUUID();
         this.author = author;
@@ -81,6 +83,16 @@ public class Memory {
 
     public void setReminder (boolean b){
         this.reminder = b;
+    }
+
+    geocoder = new Geocoder (context);
+
+    List<Address> addresses = null;
+            try {
+        addresses = geocoder.getFromLocation(lat, lon, 1);
+    } catch (IOException e) {
+
+        e.printStackTrace();
     }
 
 }
