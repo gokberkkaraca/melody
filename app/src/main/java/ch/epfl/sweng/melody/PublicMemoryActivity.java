@@ -10,7 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ch.epfl.sweng.melody.memory.GoogleProfilePictureAsync;
+import ch.epfl.sweng.melody.account.GoogleAuthentication;
+import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 
 public class PublicMemoryActivity extends Activity {
 
@@ -36,7 +37,6 @@ public class PublicMemoryActivity extends Activity {
         addTextMemory("my memory 2");
         addTextMemory("my memory 3");
         addTextMemory("my memory 4");
-        addTextMemory("my memory 5");
 
     }
 

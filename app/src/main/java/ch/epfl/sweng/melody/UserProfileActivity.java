@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ch.epfl.sweng.melody.memory.GoogleProfilePictureAsync;
-
 public class UserProfileActivity extends AppCompatActivity {
 
     @Override
