@@ -14,11 +14,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import ch.epfl.sweng.melody.account.GoogleAuthentication;
+import ch.epfl.sweng.melody.account.GoogleAccount;
+import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 
-import static ch.epfl.sweng.melody.account.GoogleAuthentication.mGoogleApiClient;
+import static ch.epfl.sweng.melody.account.GoogleAccount.mGoogleApiClient;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
@@ -42,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
 
-        GoogleAuthentication.signIn(this);
+        GoogleAccount.signIn(this);
     }
 
     @Override
@@ -90,9 +91,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
-            DatabaseHandler.addUser(new User(GOOGLE_ACCOUNT));
+            User user = new User(GOOGLE_ACCOUNT);
+            DatabaseHandler.addUser(user);
+            LoginStatusHandler.setUserId(this, user.getId());
+
             Intent intent = new Intent(this, PublicMemoryActivity.class);
-            intent.putExtra(SEND_GOOGLE_ACCOUNT, GOOGLE_ACCOUNT);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("USER", user);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         // Logout

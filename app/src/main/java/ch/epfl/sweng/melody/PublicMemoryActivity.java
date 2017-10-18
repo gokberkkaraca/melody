@@ -10,14 +10,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
+import ch.epfl.sweng.melody.user.User;
 
 public class PublicMemoryActivity extends Activity {
+
+    private static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_memory);
+
+        user = (User) getIntent().getExtras().getSerializable("USER");
 
         addTextMemory("my memory 1");
         addTextMemory("my memory 2");
@@ -53,7 +58,7 @@ public class PublicMemoryActivity extends Activity {
         layProfile.setOrientation(LinearLayout.HORIZONTAL);
         ImageView profileImage = new ImageView(this);
 
-        new GoogleProfilePictureAsync(profileImage, LoginActivity.GOOGLE_ACCOUNT.getPhotoUrl()).execute();
+        new GoogleProfilePictureAsync(profileImage, user.getProfilePhotoUrl()).execute();
 
         profileImage.setPadding(0, 0, 50, 0);
         profileImage.setLayoutParams(new LinearLayout.LayoutParams(150, 150));
@@ -61,7 +66,7 @@ public class PublicMemoryActivity extends Activity {
         layProfile.addView(profileImage);
 
         TextView usrTxt = new TextView(this);
-        usrTxt.setText(LoginActivity.GOOGLE_ACCOUNT.getDisplayName());
+        usrTxt.setText(user.getDisplayName());
         usrTxt.setTextSize(16);
         usrTxt.setTypeface(null, Typeface.BOLD);
         layProfile.addView(usrTxt);
@@ -114,6 +119,9 @@ public class PublicMemoryActivity extends Activity {
 
     public void goToUser(View view) {
         Intent intent = new Intent(this, UserProfileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("USER", user);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

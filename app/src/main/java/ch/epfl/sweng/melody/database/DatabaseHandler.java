@@ -11,9 +11,19 @@ public class DatabaseHandler {
 
     private static String databaseURL = "https://fir-melody.firebaseio.com/";
 
+    private static DatabaseReference database = FirebaseDatabase.getInstance(databaseURL).getReference();
+
+    public static void addUser(User user){
+        database.child("users").child(user.getId()).setValue(user);
+    }
+
+    public static void getUserInfo(String userId, ValueEventListener vel){
+        database.child("users").child(userId).addListenerForSingleValueEvent(vel);
+    }
+
+    // Example code to use getUserInfo method
     /*
-    * Example how to use this class (in PublicMemoryActivity) :
-    * Firebase_Handler fh = new Firebase_Handler();
+    Firebase_Handler fh = new Firebase_Handler();
         fh.addUserToDatabase(new User(LoginActivity.GOOGLE_ACCOUNT,"m","9191919191",new Date(),"lausanne"));
 
         fh.getUserInfo(LoginActivity.GOOGLE_ACCOUNT.getId(),new ValueEventListener() {
@@ -27,19 +37,5 @@ public class DatabaseHandler {
             public void onCancelled(DatabaseError firebaseError) {
             }
       });
-    *
-    *
-    *
-    *
-    * */
-
-    private static DatabaseReference database = FirebaseDatabase.getInstance(databaseURL).getReference();
-
-    public static void addUser(User user){
-        database.child("users").child(user.getId()).setValue(user);
-    }
-
-    public static void getUserInfo(String userId, ValueEventListener vel){
-        database.child("users").child(userId).addListenerForSingleValueEvent(vel);
-    }
+    */
 }

@@ -6,8 +6,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
+import ch.epfl.sweng.melody.user.User;
 
 public class UserProfileActivity extends AppCompatActivity {
+
+    // TODO User object couldn't be created
+    //User user = (User) getIntent().getExtras().getSerializable("USER");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,10 +19,10 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         TextView username = (TextView) findViewById(R.id.username);
-        username.setText(LoginActivity.GOOGLE_ACCOUNT.getDisplayName());
+        //username.setText(user.getDisplayName());
 
         ImageView profilePicView = (ImageView) findViewById(R.id.profilePicView);
-        new GoogleProfilePictureAsync(profilePicView, LoginActivity.GOOGLE_ACCOUNT.getPhotoUrl()).execute();
+        //new GoogleProfilePictureAsync(profilePicView, user.getProfilePhotoUrl()).execute();
     }
 }
 
