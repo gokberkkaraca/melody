@@ -51,7 +51,4 @@ public class Memory {
     }
 
     public enum Privacy {priv, shared, pub}
-
-    ;
-
 }

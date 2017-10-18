@@ -2,13 +2,10 @@ package ch.epfl.sweng.melody;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ch.epfl.sweng.melody.memory.GoogleProfilePictureAsync;
+import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 
 public class UserProfileActivity extends AppCompatActivity {
 
