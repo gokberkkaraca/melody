@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody.memory;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EmptyStackException;
@@ -33,8 +34,8 @@ public class Memory {
         this.id = UUID.randomUUID();
         this.author = author;
         this.time = Calendar.getInstance().getTime();
-        this.location = "Lausanne";
-        this.text = t;
+        this.location = "Lausanne";///////////////////////////////////////////////////////
+        this.text = text;
         this.fileType = findFileType(f);
         this.videos = null;
         this.audios = null;
