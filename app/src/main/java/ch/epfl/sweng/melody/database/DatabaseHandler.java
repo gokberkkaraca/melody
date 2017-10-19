@@ -24,33 +24,33 @@ public class DatabaseHandler {
     private static final String STORAGE_IMAGES_PATH = "images/";
     private static final String DATABASE_MEMORIES_PATH = "memories";
     private static final String DATABASE_USERS_PATH = "users";
-    private static DatabaseReference databaseReference =FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
-    private static StorageReference storageReference= FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
+    private static DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
+    private static StorageReference storageReference = FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
 
-    public static void addUser(User user){
+    public static void addUser(User user) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getId()).setValue(user);
     }
 
-    public static void getUserInfo(String userId, ValueEventListener vel){
+    public static void getUserInfo(String userId, ValueEventListener vel) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(vel);
     }
 
-    public static void uploadMemory(Memory memory){
+    public static void uploadMemory(Memory memory) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getID().toString()).setValue(memory);
     }
 
     public static void uploadImage(Uri uri, Context context,
                                    OnSuccessListener onSuccessListener,
                                    OnFailureListener onFailureListener,
-                                   OnProgressListener onProgressListener){
-        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis()+ "."+getImageExtenson(uri,context))
+                                   OnProgressListener onProgressListener) {
+        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis() + "." + getImageExtenson(uri, context))
                 .putFile(uri)
                 .addOnSuccessListener(onSuccessListener)
                 .addOnFailureListener(onFailureListener)
                 .addOnProgressListener(onProgressListener);
     }
 
-    private static String getImageExtenson(Uri uri, Context context){
+    private static String getImageExtenson(Uri uri, Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));

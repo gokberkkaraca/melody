@@ -15,7 +15,7 @@ public class MemoryVideo extends Memory {
         this.video = video;
     }
 
-    public URL getVideos(){
+    public URL getVideos() {
         return video;
     }
 

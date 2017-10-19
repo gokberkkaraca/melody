@@ -10,20 +10,17 @@ public class LoginStatusHandler {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
-    public static void setUserId(Context ctx, String userId)
-    {
+    public static void setUserId(Context ctx, String userId) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString("userId", userId);
         editor.apply();
     }
 
-    public static String getUserId(Context ctx)
-    {
+    public static String getUserId(Context ctx) {
         return getSharedPreferences(ctx).getString("userId", "");
     }
 
-    public static void clearUserId(Context ctx)
-    {
+    public static void clearUserId(Context ctx) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.clear();
         editor.apply();

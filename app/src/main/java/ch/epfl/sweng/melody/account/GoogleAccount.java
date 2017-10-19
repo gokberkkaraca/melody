@@ -12,7 +12,7 @@ public class GoogleAccount {
 
     public static GoogleApiClient mGoogleApiClient;
 
-    public static void signIn(Context context){
+    public static void signIn(Context context) {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

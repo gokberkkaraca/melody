@@ -15,7 +15,7 @@ public class MemoryAudio extends Memory {
         this.audio = audio;
     }
 
-    public URL getAudio(){
+    public URL getAudio() {
         return audio;
     }
 }

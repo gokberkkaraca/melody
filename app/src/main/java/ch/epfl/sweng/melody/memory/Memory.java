@@ -16,12 +16,11 @@ public class Memory {
     private final UUID author;
     private final Date time;
     private final String location;
+    Geocoder geocoder;
     private String text;
     private List<Comment> comments;
     private Privacy privacy;
     private Boolean reminder;
-
-    Geocoder geocoder;
 
     public Memory(UUID author, String text, String location) {
         this.id = UUID.randomUUID();
@@ -54,8 +53,6 @@ public class Memory {
         return text;
     }
 
-    private enum Privacy {Private, Shared, Public}
-
     public void editText(String s) {
         this.text = s;
     }
@@ -80,6 +77,7 @@ public class Memory {
         this.reminder = b;
     }
 
+    private enum Privacy {Private, Shared, Public}
 
 
 }

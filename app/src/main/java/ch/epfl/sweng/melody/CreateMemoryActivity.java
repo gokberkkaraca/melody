@@ -35,7 +35,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -145,36 +144,37 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     }
 
     public void sendMemory(View view) {
-        if(imageUri!=null){
+        if (imageUri != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading Memory...");
             progressDialog.show();
-                DatabaseHandler.uploadImage(imageUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    List<String> urls = new ArrayList<String>();
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Memory uploaded!",Toast.LENGTH_SHORT).show();
-                        urls.add(taskSnapshot.getDownloadUrl().toString());
-                        memoryPhoto = new MemoryPhoto(UUID.randomUUID(),
-                                editText.getText().toString(),
-                                 addressField.getText().toString(),
-                                urls);
-                        DatabaseHandler.uploadMemory(memoryPhoto);
-                    }
-                }, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100*taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                        progressDialog.setMessage("Uploaded "+ (int) progress +"%");
-                    }
-                });
+            DatabaseHandler.uploadImage(imageUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                List<String> urls = new ArrayList<String>();
+
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
+                    urls.add(taskSnapshot.getDownloadUrl().toString());
+                    memoryPhoto = new MemoryPhoto(UUID.randomUUID(),
+                            editText.getText().toString(),
+                            addressField.getText().toString(),
+                            urls);
+                    DatabaseHandler.uploadMemory(memoryPhoto);
+                }
+            }, new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                }
+            });
         }
     }
 
