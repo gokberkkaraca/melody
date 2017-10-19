@@ -81,8 +81,8 @@
             android:layout_alignRight="@+id/imageView"
             android:layout_below="@+id/play_button"
             android:layout_marginTop="47dp"
-            android:text="SUBMIT"
-            android:onClick="submitAudio"/>
+            android:text="SUBMIT"/>
+            <!--android:onClick="submitAudio"/>-->
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
