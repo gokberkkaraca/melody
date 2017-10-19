@@ -156,7 +156,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                     urls.add(taskSnapshot.getDownloadUrl().toString());
-                    memoryPhoto = new MemoryPhoto(UUID.randomUUID(),
+                    memoryPhoto = new MemoryPhoto(UUID.randomUUID().toString(),
                             editText.getText().toString(),
                             addressField.getText().toString(),
                             urls);
