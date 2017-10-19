@@ -55,27 +55,3 @@ public class MemoriesAdapter extends RecyclerView.Adapter<MemoriesAdapter.Memori
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

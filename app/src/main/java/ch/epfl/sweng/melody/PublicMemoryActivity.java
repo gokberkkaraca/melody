@@ -61,8 +61,6 @@ public class PublicMemoryActivity extends Activity {
 
         createSomeData();
 
-        memoriesAdapter.notifyDataSetChanged();
-
     }
 
     private void createSomeData() {
@@ -84,6 +82,8 @@ public class PublicMemoryActivity extends Activity {
         memoryList.add(memory);
         memory = new Memory("123646", "user3", "A lot more Text blablabla");
         memoryList.add(memory);
+
+        memoriesAdapter.notifyDataSetChanged();
 
         DatabaseHandler.getAllMemories(new ValueEventListener() {
             @Override
