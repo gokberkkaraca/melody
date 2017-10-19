@@ -39,7 +39,10 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getID().toString()).setValue(memory);
     }
 
-    public static void uploadImage(Uri uri, Context context, OnSuccessListener onSuccessListener, OnFailureListener onFailureListener, OnProgressListener onProgressListener){
+    public static void uploadImage(Uri uri, Context context,
+                                   OnSuccessListener onSuccessListener,
+                                   OnFailureListener onFailureListener,
+                                   OnProgressListener onProgressListener){
         storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis()+ "."+getImageExtenson(uri,context))
                 .putFile(uri)
                 .addOnSuccessListener(onSuccessListener)

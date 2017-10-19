@@ -147,14 +147,16 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             progressDialog.setTitle("Uploading Memory...");
             progressDialog.show();
                 DatabaseHandler.uploadImage(imageUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    List<String> urls = new ArrayList<String>();
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Memory uploaded!",Toast.LENGTH_SHORT).show();
+                        urls.add(taskSnapshot.getDownloadUrl().toString());
                         memoryPhoto = new MemoryPhoto(UUID.randomUUID(),
                                 UUID.randomUUID(),
                                 editText.getText().toString(),
-                                taskSnapshot.getDownloadUrl().toString());
+                                urls);
                         DatabaseHandler.uploadMemory(memoryPhoto);
                     }
                 }, new OnFailureListener() {

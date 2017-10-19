@@ -1,8 +1,5 @@
 package ch.epfl.sweng.melody.memory;
 
-import android.net.Uri;
-
-import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,14 +8,14 @@ import java.util.UUID;
  */
 
 public class MemoryPhoto extends Memory {
-    private String photos;
+    private List<String> photosURL;
 
-    public MemoryPhoto(UUID id, UUID author, String text, String photos) {
+    public MemoryPhoto(UUID id, UUID author, String text, List<String> photosURL) {
         super(id, author, text);
-        this.photos = photos;
+        this.photosURL = photosURL;
     }
 
-    public String getPhotos (){
-        return photos;
+    public List<String> getPhotosURL (){
+        return photosURL;
     }
 }
