@@ -43,7 +43,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private Bitmap picture;
 
 //    private TextView latitudeField;
-//    private TextView longitudeField;
+//   private TextView longitudeField;
     private TextView addressField; //Add a new TextView to your activity_main to display the address
     private LocationManager locationManager;
     private String provider;

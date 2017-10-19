@@ -12,8 +12,8 @@ import java.util.UUID;
 public class MemoryPhoto extends Memory {
     private List<URL> photos;
 
-    public MemoryPhoto(UUID id, UUID author, String text, List<URL> photos) {
-        super(id, author, text);
+    public MemoryPhoto(UUID author, String text, String location, List<URL> photos) {
+        super(author, text, location);
         this.photos = photos;
     }
 

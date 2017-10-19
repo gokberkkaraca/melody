@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:text="Country, city"
         app:layout_constraintTop_toBottomOf="@+id/memory_description"
-        app:layout_constraintLeft_toRightOf="@+id/take_photos"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="20dp"/>
+        app:layout_constraintRight_toLeftOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"/>
 </android.support.constraint.ConstraintLayout>

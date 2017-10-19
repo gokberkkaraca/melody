@@ -10,8 +10,8 @@ import java.util.UUID;
 public class MemoryVideo extends Memory {
     private URL video;
 
-    public MemoryVideo(UUID id, UUID author, String text, URL video) {
-        super(id, author, text);
+    public MemoryVideo(UUID author, String text, String location, URL video) {
+        super(author, text, location);
         this.video = video;
     }
 
