@@ -23,11 +23,11 @@ public class Memory {
 
     Geocoder geocoder;
 
-    public Memory(UUID id, UUID author, String text) {
+    public Memory(UUID author, String text, String location) {
         this.id = UUID.randomUUID();
         this.author = author;
         this.time = Calendar.getInstance().getTime();
-        this.location = "Lausanne";///////////////////////////////////////////////////////
+        this.location = location;
         this.text = text;
         this.comments = null;
         this.privacy = Privacy.Public;
