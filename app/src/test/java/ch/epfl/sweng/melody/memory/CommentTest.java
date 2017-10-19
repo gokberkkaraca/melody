@@ -9,10 +9,10 @@ import static org.junit.Assert.*;
 
 public class CommentTest {
 
-    Comment comment;
-    String memory;
-    String author;
-    String content;
+    private Comment comment;
+    private String memory;
+    private String author;
+    private String content;
 
     @Before
     public void createComment(){
