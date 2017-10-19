@@ -4,21 +4,33 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * Created by yusiz on 2017/10/13.
- */
-
 public class Comment {
-    public final UUID memory;
-    public final UUID author;
-    public final String content;
-    public final Date time;
 
-    public Comment(UUID memory, UUID author, String content) {
+    private final String memory;
+    private final String author;
+    private final String content;
+    private final Date time;
+
+    public Comment(String memory, String author, String content) {
         this.memory = memory;
         this.author = author;
         this.content = content;
         this.time = Calendar.getInstance().getTime();
     }
 
+    public String getMemory() {
+        return memory;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Date getTime() {
+        return time;
+    }
 }
