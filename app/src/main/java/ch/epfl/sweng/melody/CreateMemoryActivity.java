@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -26,10 +25,11 @@ public class CreateMemoryActivity extends AppCompatActivity {
     private static final int REQUEST_PHOTO_CAMERA = 2;
     private static final int REQUEST_VIDEO_GALLERY = 3;
     private static final int REQUEST_VIDEO_CAMERA = 4;
-    private static final int REQUEST_AUDIO = 5;
+    private static final int REQUEST_AUDIOFILE = 5;
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
+    private String audioPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,8 @@ public class CreateMemoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_memory);
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
         videoView = (VideoView) findViewById(R.id.display_chosen_video);
+        Bundle bundle = getIntent().getExtras();
+        audioPath = bundle.getString("audioPath");
     }
 
     public void pickPhotoDialog(View view) {
@@ -97,6 +99,10 @@ public class CreateMemoryActivity extends AppCompatActivity {
                 onVideoFromGalleryResult(data);
                 break;
             }
+            case REQUEST_AUDIOFILE: {
+                //   onAudioFileResult(data);
+                break;
+            }
         }
     }
 
@@ -120,9 +126,16 @@ public class CreateMemoryActivity extends AppCompatActivity {
                     videoFromGallery();
                     break;
                 }
+                case REQUEST_AUDIOFILE: {
+                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        accessAudioFiles();
+                        break;
+                    }
+                }
             }
         }
     }
+
 
     private void accessWithPermission(Context context, int resquestCode) {
         switch (resquestCode) {
@@ -166,7 +179,15 @@ public class CreateMemoryActivity extends AppCompatActivity {
                 }
                 break;
             }
-
+            case REQUEST_AUDIOFILE: {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) context,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_AUDIOFILE);
+                } else {
+                    accessAudioFiles();
+                }
+            }
         }
     }
 
@@ -203,8 +224,8 @@ public class CreateMemoryActivity extends AppCompatActivity {
     }
 
     private void accessAudioFiles() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_AUDIO);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_AUDIOFILE);
     }
 
     private void onGalleryResult(Intent data) {
@@ -223,6 +244,17 @@ public class CreateMemoryActivity extends AppCompatActivity {
         imageView.setImageBitmap(picture);
     }
 
+  /*  private void onAudioFileResult(Intent data) {
+        if (data != null) {
+            try {
+                File audio = MediaStore.Audio.Media.getContentUriForPath()
+                // what to  get ??
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    } */
+
 
     public void pickAudioDialog(View view) {
         final CharSequence[] options = {"Record", "Choose from Library", "Cancel"};
@@ -232,9 +264,10 @@ public class CreateMemoryActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int option) {
                 if (options[option].equals("Record")) {
-                   // startActivity(AudioRecordingActivity.class);
+                    Intent intent = new Intent(CreateMemoryActivity.this, AudioRecordingActivity.class);
+                    CreateMemoryActivity.this.startActivity(intent);
                 } else if (options[option].equals("Choose from Library")) {
-                    accessWithPermission(CreateMemoryActivity.this, REQUEST_AUDIO);
+                    accessWithPermission(CreateMemoryActivity.this, REQUEST_AUDIOFILE);
                 } else if (options[option].equals("Cancel")) {
                     dialog.dismiss();
                 }

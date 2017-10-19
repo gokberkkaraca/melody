@@ -1,5 +1,6 @@
 package ch.epfl.sweng.melody;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -50,7 +51,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(checkPermission()) {
                     audioSavingPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                                    CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+                                    CreateFileName(5) + "AudioRecording.3gp";
 
                     prepareRecorder();
 
@@ -135,13 +136,12 @@ public class AudioRecordingActivity extends AppCompatActivity {
         mediaRecorder.setOutputFile(audioSavingPath);
     }
 
-    public String CreateRandomAudioFileName(int string){
+    public String CreateFileName(int string){
         StringBuilder stringBuilder = new StringBuilder( string );
         int i = 0 ;
         while(i < string ) {
             stringBuilder.append(RandomAudioFileName.
                     charAt(random.nextInt(RandomAudioFileName.length())));
-
             i++ ;
         }
         return stringBuilder.toString();
@@ -152,8 +152,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case RequestPermissionCode:
                 if (grantResults.length> 0) {
@@ -175,6 +174,12 @@ public class AudioRecordingActivity extends AppCompatActivity {
         int record = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
 
         return write == PackageManager.PERMISSION_GRANTED && record == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void submitAudio() {
+        Intent intent = new Intent(AudioRecordingActivity.this, CreateMemoryActivity.class);
+        intent.putExtra("audioPath", audioSavingPath);
+        startActivity(intent);
     }
 
 }

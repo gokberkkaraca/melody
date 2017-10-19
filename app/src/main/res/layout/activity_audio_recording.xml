@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
-            android:src="@drawable/melody_logo"
+            android:src="@mipmap/microphone"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp" />
@@ -48,8 +48,10 @@
             android:text="STOP RECORDING"
             android:id="@+id/stop_button"
             android:layout_above="@+id/stop_play_button"
-            android:layout_alignLeft="@+id/stop_play_button"
-            android:layout_alignStart="@+id/stop_play_button" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="28dp"
+            android:layout_marginEnd="28dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -66,10 +68,21 @@
             android:layout_height="wrap_content"
             android:text="STOP"
             android:id="@+id/stop_play_button"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="72dp"
             android:layout_below="@+id/start_button"
+            android:layout_alignLeft="@+id/stop_button"
+            android:layout_alignStart="@+id/stop_button" />
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/imageView"
             android:layout_alignRight="@+id/imageView"
-            android:layout_alignEnd="@+id/imageView" />
+            android:layout_below="@+id/play_button"
+            android:layout_marginTop="47dp"
+            android:text="SUBMIT"
+            android:onClick="submitAudio"/>
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
