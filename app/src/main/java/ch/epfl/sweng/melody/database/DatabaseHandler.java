@@ -5,11 +5,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
 import ch.epfl.sweng.melody.memory.Memory;
@@ -33,17 +35,19 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(vel);
     }
 
-    public void uploadMemory(Memory memory, Context context){
-        databaseReference.child(DATABASE_MEMORIES_PATH).setValue(memory);
+    public static void uploadMemory(Memory memory){
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getID().toString()).setValue(memory);
     }
 
-    private void uploadImage(Uri uri, Context context, OnSuccessListener onSuccessListener){
+    public static void uploadImage(Uri uri, Context context, OnSuccessListener onSuccessListener, OnFailureListener onFailureListener, OnProgressListener onProgressListener){
         storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis()+ "."+getImageExtenson(uri,context))
                 .putFile(uri)
-                .addOnSuccessListener(onSuccessListener);
+                .addOnSuccessListener(onSuccessListener)
+                .addOnFailureListener(onFailureListener)
+                .addOnProgressListener(onProgressListener);
     }
 
-    private String getImageExtenson(Uri uri, Context context){
+    private static String getImageExtenson(Uri uri, Context context){
         ContentResolver contentResolver = context.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));

@@ -2,6 +2,7 @@ package ch.epfl.sweng.melody;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -21,14 +23,26 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
+
+import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.memory.MemoryPhoto;
 
 public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
     private static final int REQUEST_PHOTO_GALLERY = 1;
@@ -38,7 +52,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
-
+    private EditText editText;
     private TextView latitudeField;
     private TextView longitudeField;
     private TextView addressField; //Add a new TextView to your activity_main to display the address
@@ -46,14 +60,17 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private String provider;
     private Location location;
 
+    private Uri imageUri;
+    private String text;
+    private MemoryPhoto memoryPhoto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_memory);
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
         videoView = (VideoView) findViewById(R.id.display_chosen_video);
-       // videoView = (VideoView) findViewById(R.id.display_chosen_video);
-
+        editText = (EditText) findViewById(R.id.memory_description);
         latitudeField = (TextView) findViewById(R.id.latitude);
         longitudeField = (TextView) findViewById(R.id.longitude);
         addressField = (TextView) findViewById(R.id.address);
@@ -68,7 +85,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 == PackageManager.PERMISSION_GRANTED) {
             location = locationManager.getLastKnownLocation(provider);
         } else {
-            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 //        try {
 //            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -124,6 +141,37 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         builder.show();
     }
 
+    public void sendMemory(View view) {
+        if(imageUri!=null){
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading Memory...");
+            progressDialog.show();
+                DatabaseHandler.uploadImage(imageUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Memory uploaded!",Toast.LENGTH_SHORT).show();
+                        memoryPhoto = new MemoryPhoto(UUID.randomUUID(),
+                                UUID.randomUUID(),
+                                editText.getText().toString(),
+                                taskSnapshot.getDownloadUrl().toString());
+                        DatabaseHandler.uploadMemory(memoryPhoto);
+                    }
+                }, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100*taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setMessage("Uploaded "+ (int) progress +"%");
+                    }
+                });
+        }
+    }
 
 
     @Override
@@ -133,7 +181,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 == PackageManager.PERMISSION_GRANTED) {
             location = locationManager.getLastKnownLocation(provider);
         } else {
-            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 //        try {
 //            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -159,7 +207,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         StringBuilder builder = new StringBuilder();
         try {
             List<Address> addresses = geoCoder.getFromLocation(lat, lng, 1);
-            String finalAddress = addresses.get(0).getCountryName() + ", "+ addresses.get(0).getLocality();
+            String finalAddress = addresses.get(0).getCountryName() + ", " + addresses.get(0).getLocality();
 
 
 //            int maxLines = address.get(0).getMaxAddressLineIndex();
@@ -326,6 +374,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             }
         }
         imageView.setImageBitmap(picture);
+        imageUri = data.getData();
     }
 
     private void onPhotoFromCameraResult(Intent data) {
