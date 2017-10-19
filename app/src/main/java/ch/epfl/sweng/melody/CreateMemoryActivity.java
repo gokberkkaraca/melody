@@ -2,11 +2,19 @@ package ch.epfl.sweng.melody;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -15,12 +23,28 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
-import java.io.IOException;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.UploadTask;
 
-public class CreateMemoryActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
+
+import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.memory.MemoryPhoto;
+
+public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
     private static final int REQUEST_PHOTO_GALLERY = 1;
     private static final int REQUEST_PHOTO_CAMERA = 2;
     private static final int REQUEST_VIDEO_GALLERY = 3;
@@ -28,6 +52,17 @@ public class CreateMemoryActivity extends AppCompatActivity {
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
+    private EditText editText;
+    private TextView latitudeField;
+    private TextView longitudeField;
+    private TextView addressField; //Add a new TextView to your activity_main to display the address
+    private LocationManager locationManager;
+    private String provider;
+    private Location location;
+
+    private Uri imageUri;
+    private String text;
+    private MemoryPhoto memoryPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +70,37 @@ public class CreateMemoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_memory);
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
         videoView = (VideoView) findViewById(R.id.display_chosen_video);
+        editText = (EditText) findViewById(R.id.memory_description);
+        latitudeField = (TextView) findViewById(R.id.latitude);
+        longitudeField = (TextView) findViewById(R.id.longitude);
+        addressField = (TextView) findViewById(R.id.address);
+
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+        addressField.setText(provider);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            location = locationManager.getLastKnownLocation(provider);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+//        try {
+//            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        } catch (SecurityException e) {
+//            System.out.print("onCreate"); // lets the user know there is a problem with the gps
+//        }
+        //Location location = locationManager.getLastKnownLocation(provider);
+
+        if (location != null) {
+            System.out.println("Provider " + provider + " has been selected.");
+            onLocationChanged(location);
+        } else {
+            latitudeField.setText("Location not available");
+            longitudeField.setText("Location not available");
+        }
     }
 
     public void pickPhotoDialog(View view) {
@@ -73,6 +139,111 @@ public class CreateMemoryActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    public void sendMemory(View view) {
+        if(imageUri!=null){
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading Memory...");
+            progressDialog.show();
+                DatabaseHandler.uploadImage(imageUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    List<String> urls = new ArrayList<String>();
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Memory uploaded!",Toast.LENGTH_SHORT).show();
+                        urls.add(taskSnapshot.getDownloadUrl().toString());
+                        memoryPhoto = new MemoryPhoto(UUID.randomUUID(),
+                                UUID.randomUUID(),
+                                editText.getText().toString(),
+                                urls);
+                        DatabaseHandler.uploadMemory(memoryPhoto);
+                    }
+                }, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100*taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setMessage("Uploaded "+ (int) progress +"%");
+                    }
+                });
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            location = locationManager.getLastKnownLocation(provider);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+//        try {
+//            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//        } catch (SecurityException e) {
+//           System.out.print("onResume catch exception"); // lets the user know there is a problem with the gps
+//        }
+        //locationManager.requestLocationUpdates(provider, 400, 1, this);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        locationManager.removeUpdates(this);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+
+        Geocoder geoCoder = new Geocoder(this, Locale.getDefault());
+        StringBuilder builder = new StringBuilder();
+        try {
+            List<Address> addresses = geoCoder.getFromLocation(lat, lng, 1);
+            String finalAddress = addresses.get(0).getCountryName() + ", " + addresses.get(0).getLocality();
+
+
+//            int maxLines = address.get(0).getMaxAddressLineIndex();
+//                for (int i=0; i<maxLines; i++) {
+//                    String addressStr = address.get(0).getAddressLine(i);
+//                    builder.append(addressStr);
+//                    builder.append(" ");
+//            }
+
+            //String finalAddress = builder.toString(); //This is the complete address.
+
+            latitudeField.setText(String.valueOf(lat));
+            longitudeField.setText(String.valueOf(lng));
+            addressField.setText(finalAddress); //This will display the final address.
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(this, "Enabled new provider " + provider,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(this, "Disabled provider " + provider,
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -165,6 +336,13 @@ public class CreateMemoryActivity extends AppCompatActivity {
                 break;
             }
 
+//            case REQUEST_LOCATION:{
+//                if ( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+//                    ActivityCompat.requestPermissions( this,
+//                            new String[] {Manifest.permission.ACCESS_FINE_LOCATION },
+//                            REQUEST_LOCATION);
+//                }
+//            }
         }
     }
 
@@ -198,6 +376,7 @@ public class CreateMemoryActivity extends AppCompatActivity {
             }
         }
         imageView.setImageBitmap(picture);
+        imageUri = data.getData();
     }
 
     private void onPhotoFromCameraResult(Intent data) {
@@ -214,6 +393,5 @@ public class CreateMemoryActivity extends AppCompatActivity {
         videoView.setVideoURI(data.getData());
         videoView.start();
     }
-
 
 }
