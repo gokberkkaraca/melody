@@ -10,7 +10,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
+import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.memory.MemoryPhoto;
 import ch.epfl.sweng.melody.user.User;
 
 public class PublicMemoryActivity extends Activity {
@@ -25,30 +36,46 @@ public class PublicMemoryActivity extends Activity {
 
         user = (User) getIntent().getExtras().getSerializable("USER");
 
-        addTextMemory("my memory 1");
-        addTextMemory("my memory 2");
-        addTextMemory("my memory 3");
-        addTextMemory("my memory 4");
+
+        DatabaseHandler.getAllMemories(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                    MemoryPhoto mem = memDataSnapshot.getValue(MemoryPhoto.class);
+                    addPhotoMemory(mem);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+            }
+        });
 
     }
 
-    public void addPhotoMemory(ImageView photo) {
+    public void addPhotoMemory(MemoryPhoto mem) {
         LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
         LinearLayout memPhoto = new LinearLayout(this);
-        memPhoto.addView(photo);
-        addMemoryContainer(memoriesParent, memPhoto);
+
+        //Photos
+        ImageView img = new ImageView(this);
+
+        new GoogleProfilePictureAsync(img,Uri.parse(mem.getPhotos().get(0))).execute();
+        memPhoto.addView(img);
+
+        addMemoryContainer(memoriesParent, memPhoto,mem);
     }
 
-    public void addTextMemory(String txt) {
+    /*public void addTextMemory(String txt) {
         LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
         LinearLayout mem = new LinearLayout(this);
         TextView txtMem = new TextView(this);
         txtMem.setText(txt);
         mem.addView(txtMem);
         addMemoryContainer(memoriesParent, mem);
-    }
+    }*/
 
-    public void addMemoryContainer(LinearLayout parent, LinearLayout memory) {
+    public void addMemoryContainer(LinearLayout parent, LinearLayout memory,Memory mem) {
 
         LinearLayout layParent = new LinearLayout(this);
         layParent.setOrientation(LinearLayout.VERTICAL);
@@ -78,19 +105,25 @@ public class PublicMemoryActivity extends Activity {
         memory.setPadding(110, 0, 0, 40);
         layParent.addView(memory);
 
-        //City + date + like
+        //Text
+        TextView txtMem = new TextView(this);
+        txtMem.setText(mem.getText());
+        txtMem.setPadding(110, 0, 40, 40);
+        layParent.addView(txtMem);
+
+        //Date + City
         LinearLayout layInfo = new LinearLayout(this);
         layInfo.setPadding(110, 0, 40, 40);
         layInfo.setOrientation(LinearLayout.HORIZONTAL);
 
         TextView cityTxt = new TextView(this);
-        cityTxt.setText("Geneva");
+        cityTxt.setText(mem.getLocation());
         cityTxt.setTextSize(14);
         cityTxt.setPadding(0, 0, 40, 20);
         layInfo.addView(cityTxt);
 
         TextView timeTxt = new TextView(this);
-        timeTxt.setText("29.01.1996");
+        timeTxt.setText(mem.getTime().toString());
         layInfo.addView(timeTxt);
 
         layParent.addView(layInfo);

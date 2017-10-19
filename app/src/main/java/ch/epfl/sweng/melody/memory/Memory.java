@@ -12,19 +12,22 @@ import java.util.UUID;
  */
 
 public class Memory {
-    private final UUID id;
-    private final UUID author;
-    private final Date time;
-    private final String location;
+    private  String id;
+    private  String author;
+    private  Date time;
+    private  String location;
     Geocoder geocoder;
     private String text;
     private List<Comment> comments;
     private Privacy privacy;
     private Boolean reminder;
 
+    public Memory(){
+
+    }
     public Memory(UUID author, String text, String location) {
-        this.id = UUID.randomUUID();
-        this.author = author;
+        this.id = UUID.randomUUID().toString();
+        this.author = author.toString();
         this.time = Calendar.getInstance().getTime();
         this.location = location;
         this.text = text;
@@ -33,11 +36,11 @@ public class Memory {
         reminder = true;
     }
 
-    public UUID getID() {
+    public String getID() {
         return id;
     }
 
-    public UUID getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
