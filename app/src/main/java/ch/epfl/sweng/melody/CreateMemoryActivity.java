@@ -23,11 +23,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import android.os.AsyncTask;
+import android.widget.VideoView;
 
 import java.io.IOException;
 import java.util.List;
@@ -173,7 +170,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             addressField.setText(finalAddress);
         } catch (IOException e) {
             e.printStackTrace();
-
         }
     }
 
