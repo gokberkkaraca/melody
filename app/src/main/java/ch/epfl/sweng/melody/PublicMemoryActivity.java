@@ -40,7 +40,7 @@ public class PublicMemoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_memory);
-
+        /*
         recyclerView = (RecyclerView) findViewById(R.id.memories_recyclerview);
 
         memoriesAdapter = new MemoriesAdapter(memoryList);
@@ -49,7 +49,7 @@ public class PublicMemoryActivity extends Activity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(memoriesAdapter);
-
+        */
         /*
         user = (User) getIntent().getExtras().getSerializable("USER");
 
@@ -59,7 +59,7 @@ public class PublicMemoryActivity extends Activity {
         addTextMemory("my memory 4");
         */
 
-        createSomeData();
+      //  createSomeData();
 
     }
 
