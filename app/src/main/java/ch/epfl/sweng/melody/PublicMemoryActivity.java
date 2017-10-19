@@ -40,7 +40,7 @@ public class PublicMemoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_public_memory);
-        /*
+
         recyclerView = (RecyclerView) findViewById(R.id.memories_recyclerview);
 
         memoriesAdapter = new MemoriesAdapter(memoryList);
@@ -49,17 +49,17 @@ public class PublicMemoryActivity extends Activity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(memoriesAdapter);
-        */
-        /*
+
+
         user = (User) getIntent().getExtras().getSerializable("USER");
 
         addTextMemory("my memory 1");
         addTextMemory("my memory 2");
         addTextMemory("my memory 3");
         addTextMemory("my memory 4");
-        */
 
-      //  createSomeData();
+
+        createSomeData();
 
     }
 
@@ -114,14 +114,14 @@ public class PublicMemoryActivity extends Activity {
         addMemoryContainer(memoriesParent, memPhoto,mem);*/
     }
 
-    /*public void addTextMemory(String txt) {
+    public void addTextMemory(String txt) {
         LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
         LinearLayout mem = new LinearLayout(this);
         TextView txtMem = new TextView(this);
         txtMem.setText(txt);
         mem.addView(txtMem);
         addMemoryContainer(memoriesParent, mem);
-    }*/
+    }
 
     public void addMemoryContainer(LinearLayout parent, LinearLayout memory,Memory mem) {
 
@@ -186,6 +186,7 @@ public class PublicMemoryActivity extends Activity {
         Intent intent = new Intent(this, CreateMemoryActivity.class);
         startActivity(intent);
     }
+
 
     public void goToPublicMemory(View view) {
 
