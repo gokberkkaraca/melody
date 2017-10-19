@@ -61,38 +61,30 @@ public class Memory {
 
     private enum Privacy {Private, Shared, Public}
 
-    public void editText (String s){
+    public void editText(String s) {
         this.text = s;
     }
 
-    public void addComment (Comment c){
+    public void addComment(Comment c) {
         this.comments.add(c);
     }
 
-    public void deleteComment (Comment comment){
-        for (int i=0; i<comments.size(); i++){
-            if (comments.get(i).equals(comment) ){
-               comments.remove(i);
+    public void deleteComment(Comment comment) {
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).equals(comment)) {
+                comments.remove(i);
             }
         }
     }
 
-    public void setPrivacy (Privacy p){
+    public void setPrivacy(Privacy p) {
         this.privacy = p;
     }
 
-    public void setReminder (boolean b){
+    public void setReminder(boolean b) {
         this.reminder = b;
     }
 
-    geocoder = new Geocoder (context);
 
-    List<Address> addresses = null;
-            try {
-        addresses = geocoder.getFromLocation(lat, lon, 1);
-    } catch (IOException e) {
-
-        e.printStackTrace();
-    }
 
 }
