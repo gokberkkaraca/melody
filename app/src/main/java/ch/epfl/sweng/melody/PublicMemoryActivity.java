@@ -61,6 +61,20 @@ public class PublicMemoryActivity extends Activity {
 
         createSomeData();
 
+        DatabaseHandler.getAllMemories(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                    MemoryPhoto mem = memDataSnapshot.getValue(MemoryPhoto.class);
+                    addPhotoMemory(mem);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError) {
+            }
+        });
+
     }
 
     private void createSomeData() {
@@ -85,21 +99,9 @@ public class PublicMemoryActivity extends Activity {
 
         memoriesAdapter.notifyDataSetChanged();
 
-        DatabaseHandler.getAllMemories(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                    MemoryPhoto mem = memDataSnapshot.getValue(MemoryPhoto.class);
-                    addPhotoMemory(mem);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-            }
-        });
-
     }
+
+
 
     public void addPhotoMemory(MemoryPhoto mem) {
       /*  LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
@@ -115,12 +117,12 @@ public class PublicMemoryActivity extends Activity {
     }
 
     public void addTextMemory(String txt) {
-        LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
+     /*   LinearLayout memoriesParent = (LinearLayout) findViewById(R.id.publicMemoryActivity_LinearLayout_Memories);
         LinearLayout mem = new LinearLayout(this);
         TextView txtMem = new TextView(this);
         txtMem.setText(txt);
         mem.addView(txtMem);
-        addMemoryContainer(memoriesParent, mem);
+        addMemoryContainer(memoriesParent, mem); */ // <= Some problem here
     }
 
     public void addMemoryContainer(LinearLayout parent, LinearLayout memory,Memory mem) {
