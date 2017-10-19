@@ -33,7 +33,7 @@ public class Memory {
         reminder = true;
     }
 
-    public String getID() {
+    public String getId() {
         return id;
     }
 

@@ -45,7 +45,7 @@ public class DatabaseHandler {
 
 
     public static void uploadMemory(Memory memory) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getID()).setValue(memory);
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getId()).setValue(memory);
     }
 
     public static void uploadImage(Uri uri, Context context,
