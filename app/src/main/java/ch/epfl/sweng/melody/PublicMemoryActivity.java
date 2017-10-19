@@ -22,16 +22,16 @@ public class PublicMemoryActivity extends Activity {
         setContentView(R.layout.activity_public_memory);
 
         Intent memoryIntent = getIntent();
-        String text = memoryIntent.getStringExtra(CreateMemoryActivity.SEND_TEXT_MESSAGE);
+//        String text = memoryIntent.getStringExtra(CreateMemoryActivity.SEND_TEXT_MESSAGE);
 //        byte[] picture_byte = intent.getByteArrayExtra(CreateMemoryActivity.SEND_PHOTO_MESSAGE);
 //        Bitmap picture = BitmapFactory.decodeByteArray(picture_byte,0,picture_byte.length);
-        Bitmap picture = memoryIntent.getParcelableExtra(CreateMemoryActivity.SEND_PHOTO_MESSAGE);
+//        Bitmap picture = memoryIntent.getParcelableExtra(CreateMemoryActivity.SEND_PHOTO_MESSAGE);
 
         //setSupportActionBar(toolbar);
 
 
         ImageView photo = new ImageView(this);
-        photo.setImageBitmap(picture);
+  //      photo.setImageBitmap(picture);
         addPhotoMemory(photo);
         addTextMemory("my memory 1");
         addTextMemory("my memory 2");
