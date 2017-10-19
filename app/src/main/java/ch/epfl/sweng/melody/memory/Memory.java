@@ -8,7 +8,7 @@ import java.util.UUID;
 
 
 public class Memory {
-    private enum Privacy {Private, Shared, Public};
+    public enum Privacy {Private, Shared, Public};
     private  String id;
     private  String author;
     private  Date time;
