@@ -10,6 +10,9 @@ import java.util.List;
 import ch.epfl.sweng.melody.memory.Memory;
 
 public class User implements Serializable {
+
+    private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
+
     //  User Info Variables
     private String username;
     private String id;
@@ -39,10 +42,9 @@ public class User implements Serializable {
             assert email != null;
             this.username = email.substring(0, email.indexOf('@'));
 
+            profilePhotoUrl = defaultProfilePhotoUrl;
             if (googleSignInAccount.getPhotoUrl() != null)
                 this.profilePhotoUrl = googleSignInAccount.getPhotoUrl().toString();
-            else
-                this.profilePhotoUrl = "http://www.purdue.edu/gradschool/gspd/images/ppl/empty.png";
         }
 
         memories = new ArrayList<>();
