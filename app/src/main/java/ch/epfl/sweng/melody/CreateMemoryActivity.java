@@ -22,6 +22,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.VideoView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,8 +42,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private VideoView videoView;
     private Bitmap picture;
 
-    private TextView latitudeField;
-    private TextView longitudeField;
+//    private TextView latitudeField;
+//    private TextView longitudeField;
     private TextView addressField; //Add a new TextView to your activity_main to display the address
     private LocationManager locationManager;
     private String provider;
@@ -55,8 +56,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
         videoView = (VideoView) findViewById(R.id.display_chosen_video);
 
-        latitudeField = (TextView) findViewById(R.id.latitude);
-        longitudeField = (TextView) findViewById(R.id.longitude);
+//        latitudeField = (TextView) findViewById(R.id.latitude);
+//        longitudeField = (TextView) findViewById(R.id.longitude);
         addressField = (TextView) findViewById(R.id.address);
 
 
@@ -71,19 +72,13 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         } else {
             ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-//        try {
-//            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//        } catch (SecurityException e) {
-//            System.out.print("onCreate"); // lets the user know there is a problem with the gps
-//        }
-        //Location location = locationManager.getLastKnownLocation(provider);
 
         if (location != null) {
             System.out.println("Provider " + provider + " has been selected.");
             onLocationChanged(location);
         } else {
-            latitudeField.setText("Location not available");
-            longitudeField.setText("Location not available");
+//            latitudeField.setText("Location not available");
+//            longitudeField.setText("Location not available");
         }
     }
 
@@ -148,7 +143,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -170,18 +164,16 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     public void onLocationChanged(Location location) {
         double lat = location.getLatitude();
         double lng = location.getLongitude();
-
         Geocoder geoCoder = new Geocoder(this, Locale.getDefault());
         try {
             List<Address> addresses = geoCoder.getFromLocation(lat, lng, 1);
             String finalAddress = addresses.get(0).getCountryName() + ", "+ addresses.get(0).getLocality();
-
-            latitudeField.setText(String.valueOf(lat));
-            longitudeField.setText(String.valueOf(lng));
-            addressField.setText(finalAddress); //This will display the final address.
-
+//            latitudeField.setText(String.valueOf(lat));
+//            longitudeField.setText(String.valueOf(lng));
+            addressField.setText(finalAddress);
         } catch (IOException e) {
             e.printStackTrace();
+
         }
     }
 
@@ -267,7 +259,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 }
                 break;
             }
-
         }
     }
 

@@ -1,15 +1,10 @@
 package ch.epfl.sweng.melody.memory;
 
-import android.location.Address;
 import android.location.Geocoder;
 
-import java.io.File;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.EmptyStackException;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -28,11 +23,11 @@ public class Memory {
 
     Geocoder geocoder;
 
-    public Memory(UUID id, UUID author, String text) {
+    public Memory(UUID author, String text, String location) {
         this.id = UUID.randomUUID();
         this.author = author;
         this.time = Calendar.getInstance().getTime();
-        this.location = "Lausanne";///////////////////////////////////////////////////////
+        this.location = location;
         this.text = text;
         this.comments = null;
         this.privacy = Privacy.Public;
