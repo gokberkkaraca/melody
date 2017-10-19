@@ -66,7 +66,7 @@
         android:id="@+id/take_videos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginEnd="13dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="13dp"
@@ -87,14 +87,19 @@
     <ImageView
         android:id="@+id/display_chosen_photo"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:layout_marginTop="104dp"
-        app:layout_constraintLeft_toLeftOf="@+id/longitude"
-        app:layout_constraintRight_toLeftOf="@+id/memory_description"
+        android:layout_height="210dp"
+        android:layout_marginBottom="76dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/display_chosen_video"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/display_chosen_video"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@null"
+        tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
@@ -113,44 +118,6 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
 
-    <TextView
-        android:id="@+id/latitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="9dp"
-        android:text="latitude"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/longitude"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <TextView
-        android:id="@+id/longitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="198dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:text="longitude"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1" />
-
-    <TextView
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:text="address"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/latitude"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
 
     <ImageButton
         android:id="@+id/record_audio"
@@ -167,4 +134,19 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintRight_creator="1" />
 
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="57dp"
+        android:layout_marginTop="59dp"
+        android:text="Country, city"
+        app:layout_constraintBottom_toTopOf="@+id/take_photos"
+        app:layout_constraintLeft_toLeftOf="@+id/take_photos"
+        app:layout_constraintRight_toLeftOf="@+id/take_videos"
+        app:layout_constraintTop_toBottomOf="@+id/display_chosen_photo"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 </android.support.constraint.ConstraintLayout>

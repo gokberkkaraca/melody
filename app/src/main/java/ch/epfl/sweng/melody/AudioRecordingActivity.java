@@ -21,15 +21,14 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class AudioRecordingActivity extends AppCompatActivity {
 
-    private MediaRecorder mediaRecorder;
-    private MediaPlayer mediaPlayer ;
-    private String audioSavingPath;
-    private Button startButton, stopButton, playButton, stopPlayButton ;
-
-    private Random random = new Random(); ;
-    private String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
     public static final int RequestPermissionCode = 1;
-
+    private MediaRecorder mediaRecorder;
+    private MediaPlayer mediaPlayer;
+    private String audioSavingPath;
+    private Button startButton, stopButton, playButton, stopPlayButton;
+    ;
+    private Random random = new Random();
+    private String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
         startButton = (Button) findViewById(R.id.start_button);
         stopButton = ((Button) findViewById(R.id.stop_button));
         playButton = ((Button) findViewById(R.id.play_button));
-        stopPlayButton = ((Button)findViewById(R.id.stop_play_button));
+        stopPlayButton = ((Button) findViewById(R.id.stop_play_button));
 
         stopButton.setEnabled(false);
         playButton.setEnabled(false);
@@ -49,9 +48,9 @@ public class AudioRecordingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkPermission()) {
+                if (checkPermission()) {
                     audioSavingPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                                    CreateFileName(5) + "AudioRecording.3gp";
+                            CreateFileName(5) + "AudioRecording.3gp";
 
                     prepareRecorder();
 
@@ -118,7 +117,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
                 playButton.setEnabled(true);
                 stopPlayButton.setEnabled(false);
 
-                if(mediaPlayer != null){
+                if (mediaPlayer != null) {
                     mediaPlayer.stop();
                     mediaPlayer.release();
                     prepareRecorder();
@@ -128,21 +127,21 @@ public class AudioRecordingActivity extends AppCompatActivity {
 
     }
 
-    public void prepareRecorder(){
-        mediaRecorder=new MediaRecorder();
+    public void prepareRecorder() {
+        mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         mediaRecorder.setOutputFile(audioSavingPath);
     }
 
-    public String CreateFileName(int string){
-        StringBuilder stringBuilder = new StringBuilder( string );
-        int i = 0 ;
-        while(i < string ) {
+    public String CreateFileName(int string) {
+        StringBuilder stringBuilder = new StringBuilder(string);
+        int i = 0;
+        while (i < string) {
             stringBuilder.append(RandomAudioFileName.
                     charAt(random.nextInt(RandomAudioFileName.length())));
-            i++ ;
+            i++;
         }
         return stringBuilder.toString();
     }
@@ -155,14 +154,14 @@ public class AudioRecordingActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case RequestPermissionCode:
-                if (grantResults.length> 0) {
+                if (grantResults.length > 0) {
                     boolean StoragePermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean RecordPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
                     if (StoragePermission && RecordPermission) {
                         Toast.makeText(AudioRecordingActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(AudioRecordingActivity.this,"Permission Denied", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AudioRecordingActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
                     }
                 }
                 break;

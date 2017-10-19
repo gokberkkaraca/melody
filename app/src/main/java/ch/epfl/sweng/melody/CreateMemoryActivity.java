@@ -53,8 +53,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private VideoView videoView;
     private Bitmap picture;
     private EditText editText;
-    private TextView latitudeField;
-    private TextView longitudeField;
     private TextView addressField; //Add a new TextView to your activity_main to display the address
     private LocationManager locationManager;
     private String provider;
@@ -65,6 +63,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private MemoryPhoto memoryPhoto;
     private String audioPath;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +71,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
         videoView = (VideoView) findViewById(R.id.display_chosen_video);
         editText = (EditText) findViewById(R.id.memory_description);
-        latitudeField = (TextView) findViewById(R.id.latitude);
-        longitudeField = (TextView) findViewById(R.id.longitude);
         addressField = (TextView) findViewById(R.id.address);
 
 
@@ -99,11 +96,13 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             System.out.println("Provider " + provider + " has been selected.");
             onLocationChanged(location);
         } else {
-            latitudeField.setText("Location not available");
-            longitudeField.setText("Location not available");
         }
         Bundle bundle = getIntent().getExtras();
         //audioPath = bundle.getString("audioPath");
+
+//        latitudeField = (TextView) findViewById(R.id.latitude);
+//        longitudeField = (TextView) findViewById(R.id.longitude);
+        addressField = (TextView) findViewById(R.id.address);
     }
 
     public void pickPhotoDialog(View view) {
@@ -145,36 +144,37 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     }
 
     public void sendMemory(View view) {
-        if(imageUri!=null){
+        if (imageUri != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading Memory...");
             progressDialog.show();
-                DatabaseHandler.uploadImage(imageUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    List<String> urls = new ArrayList<String>();
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Memory uploaded!",Toast.LENGTH_SHORT).show();
-                        urls.add(taskSnapshot.getDownloadUrl().toString());
-                        memoryPhoto = new MemoryPhoto(UUID.randomUUID(),
-                                UUID.randomUUID(),
-                                editText.getText().toString(),
-                                urls);
-                        DatabaseHandler.uploadMemory(memoryPhoto);
-                    }
-                }, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100*taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                        progressDialog.setMessage("Uploaded "+ (int) progress +"%");
-                    }
-                });
+            DatabaseHandler.uploadImage(imageUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                List<String> urls = new ArrayList<String>();
+
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
+                    urls.add(taskSnapshot.getDownloadUrl().toString());
+                    memoryPhoto = new MemoryPhoto(UUID.randomUUID(),
+                            editText.getText().toString(),
+                            addressField.getText().toString(),
+                            urls);
+                    DatabaseHandler.uploadMemory(memoryPhoto);
+                }
+            }, new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                }
+            });
         }
     }
 
@@ -224,8 +224,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
             //String finalAddress = builder.toString(); //This is the complete address.
 
-            latitudeField.setText(String.valueOf(lat));
-            longitudeField.setText(String.valueOf(lng));
             addressField.setText(finalAddress); //This will display the final address.
 
         } catch (IOException e) {
@@ -275,6 +273,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             }
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

@@ -10,12 +10,12 @@ import java.util.UUID;
 public class MemoryAudio extends Memory {
     private URL audio;
 
-    public MemoryAudio(UUID id, UUID author, String text, URL audio) {
-        super(id, author, text);
+    public MemoryAudio(UUID author, String text, String location, URL audio) {
+        super(author, text, location);
         this.audio = audio;
     }
 
-    public URL getAudio(){
+    public URL getAudio() {
         return audio;
     }
 }
