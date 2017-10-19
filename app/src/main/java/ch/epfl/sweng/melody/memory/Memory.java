@@ -1,5 +1,6 @@
 package ch.epfl.sweng.melody.memory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 public class Memory {
 
-    private enum Privacy {Private, Shared, Public}
+    public enum Privacy {Private, Shared, Public}
 
     private final String id;
     private final String author;
@@ -25,7 +26,7 @@ public class Memory {
         this.time = Calendar.getInstance().getTime();
         this.location = location;
         this.text = text;
-        this.comments = null;
+        this.comments = new ArrayList<Comment>();
         this.privacy = Privacy.Public;
         reminder = true;
     }
