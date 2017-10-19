@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -25,19 +26,21 @@ public class DatabaseHandler {
     private static StorageReference storageReference= FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
 
     public static void addUser(User user){
-        databaseReference.child("users").child(user.getId()).setValue(user);
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getId()).setValue(user);
     }
 
     public static void getUserInfo(String userId, ValueEventListener vel){
-        databaseReference.child("users").child(userId).addListenerForSingleValueEvent(vel);
+        databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(vel);
     }
 
     public void uploadMemory(Memory memory, Context context){
-        databaseReference.child("memories").setValue(memory);
+        databaseReference.child(DATABASE_MEMORIES_PATH).setValue(memory);
     }
 
-    private void uploadImage(Uri uri, Context context){
-        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis()+ "."+getImageExtenson(uri,context)).putFile(uri);
+    private void uploadImage(Uri uri, Context context, OnSuccessListener onSuccessListener){
+        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis()+ "."+getImageExtenson(uri,context))
+                .putFile(uri)
+                .addOnSuccessListener(onSuccessListener);
     }
 
     private String getImageExtenson(Uri uri, Context context){
