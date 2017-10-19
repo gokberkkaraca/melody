@@ -8,17 +8,19 @@ import java.util.UUID;
 
 
 public class Memory {
-
-    public enum Privacy {Private, Shared, Public}
-
-    private final String id;
-    private final String author;
-    private final Date time;
-    private final String location;
+    public enum Privacy {Private, Shared, Public};
+    private  String id;
+    private  String author;
+    private  Date time;
+    private  String location;
     private String text;
     private List<Comment> comments;
     private Privacy privacy;
     private Boolean reminder;
+
+    public Memory() {
+
+    }
 
     public Memory(String author, String text, String location) {
         this.id = UUID.randomUUID().toString();

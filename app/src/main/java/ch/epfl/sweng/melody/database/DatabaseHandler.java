@@ -35,6 +35,15 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(vel);
     }
 
+    public static void getAllMemories(ValueEventListener vel) {
+        databaseReference.child(DATABASE_MEMORIES_PATH).addListenerForSingleValueEvent(vel);
+    }
+
+    public static void getMemory(String id,ValueEventListener vel) {
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addListenerForSingleValueEvent(vel);
+    }
+
+
     public static void uploadMemory(Memory memory) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getId()).setValue(memory);
     }
