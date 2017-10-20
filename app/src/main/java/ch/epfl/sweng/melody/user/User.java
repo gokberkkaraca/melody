@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import ch.epfl.sweng.melody.memory.Memory;
 
@@ -34,7 +35,7 @@ public class User implements Serializable {
 
     public User(GoogleSignInAccount googleSignInAccount) {
         if (googleSignInAccount != null) {
-            this.id = googleSignInAccount.getId();
+            this.id = UUID.randomUUID().toString();
             this.firstName = googleSignInAccount.getGivenName();
             this.lastName = googleSignInAccount.getFamilyName();
             this.displayName = googleSignInAccount.getDisplayName();

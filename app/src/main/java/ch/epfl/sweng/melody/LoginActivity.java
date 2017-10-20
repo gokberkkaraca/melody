@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
             User user = new User(GOOGLE_ACCOUNT);
+
             DatabaseHandler.addUser(user);
             LoginStatusHandler.setUserId(this, user.getId());
 
