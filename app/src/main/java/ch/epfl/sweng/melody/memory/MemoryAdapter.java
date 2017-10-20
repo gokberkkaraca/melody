@@ -33,7 +33,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             time = (TextView) view.findViewById(R.id.time);
             description = (TextView) view.findViewById(R.id.description);
             location = (TextView) view.findViewById(R.id.location);
-            authorPic = (ImageView) view.findViewById(R.id.profilePicView);
+            authorPic = (ImageView) view.findViewById(R.id.authorPic);
         }
     }
 
