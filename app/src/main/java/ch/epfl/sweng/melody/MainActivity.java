@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final int timer = 250; // milliseconds
     private Handler mHandler = new Handler();
+    public static final String USER_INFO = "USER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                             User user = dataSnapshot.getValue(User.class);
                             Intent intent = new Intent(MainActivity.this, PublicMemoryActivity.class);
                             Bundle bundle = new Bundle();
-                            bundle.putSerializable("USER", user);
+                            bundle.putSerializable(USER_INFO, user);
                             intent.putExtras(bundle);
                             startActivity(intent);
                         }

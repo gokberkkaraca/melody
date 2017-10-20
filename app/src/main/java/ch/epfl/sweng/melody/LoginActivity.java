@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             Intent intent = new Intent(this, PublicMemoryActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable("USER", user);
+            bundle.putSerializable(MainActivity.USER_INFO, user);
             intent.putExtras(bundle);
             startActivity(intent);
         }

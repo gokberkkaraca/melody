@@ -44,7 +44,7 @@ public class PublicMemoryActivity extends Activity {
         memoryList = new ArrayList<>();
         fetchMemoriesFromDatabase();
 
-        user = (User) getIntent().getExtras().getSerializable("USER");
+        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
     }
 
     private void fetchMemoriesFromDatabase() {
@@ -76,7 +76,7 @@ public class PublicMemoryActivity extends Activity {
     public void addNewMemory(View view) {
         Intent intent = new Intent(this, CreateMemoryActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("USER", user);
+        bundle.putSerializable(MainActivity.USER_INFO, user);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -97,7 +97,7 @@ public class PublicMemoryActivity extends Activity {
     public void goToUser(View view) {
         Intent intent = new Intent(this, UserProfileActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("USER", user);
+        bundle.putSerializable(MainActivity.USER_INFO, user);
         intent.putExtras(bundle);
         startActivity(intent);
     }

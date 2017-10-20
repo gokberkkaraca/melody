@@ -71,7 +71,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_memory);
 
-        user = (User) getIntent().getExtras().getSerializable("USER");
+        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
         videoView = (VideoView) findViewById(R.id.display_chosen_video);
