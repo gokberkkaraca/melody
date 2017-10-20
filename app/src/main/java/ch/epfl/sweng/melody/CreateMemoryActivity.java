@@ -42,6 +42,7 @@ import java.util.UUID;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.MemoryPhoto;
+import ch.epfl.sweng.melody.user.User;
 
 public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
     private static final int REQUEST_PHOTO_GALLERY = 1;
@@ -63,11 +64,15 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private MemoryPhoto memoryPhoto;
     private String audioPath;
 
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_memory);
+
+        user = (User) getIntent().getExtras().getSerializable("USER");
+
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
         videoView = (VideoView) findViewById(R.id.display_chosen_video);
         editText = (EditText) findViewById(R.id.memory_description);
@@ -156,7 +161,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                     urls.add(taskSnapshot.getDownloadUrl().toString());
-                    memoryPhoto = new MemoryPhoto(UUID.randomUUID().toString(),
+                    memoryPhoto = new MemoryPhoto(user.getId(),
                             editText.getText().toString(),
                             addressField.getText().toString(),
                             urls);

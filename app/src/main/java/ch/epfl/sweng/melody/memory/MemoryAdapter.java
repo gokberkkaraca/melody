@@ -58,7 +58,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.location.setText(memory.getLocation());
 
         String userId = memory.getAuthor();
-/*        DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
+        DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
@@ -71,7 +71,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });*/
+        });
 
     }
 

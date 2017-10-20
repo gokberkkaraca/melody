@@ -75,6 +75,9 @@ public class PublicMemoryActivity extends Activity {
 
     public void addNewMemory(View view) {
         Intent intent = new Intent(this, CreateMemoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("USER", user);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
