@@ -73,8 +73,8 @@ public class MemoryTest {
 
     @Test
     public void setPrivacy() throws Exception {
-        memory.setPrivacy(Memory.Privacy.Private);
-        assertEquals(Memory.Privacy.Private, memory.getPrivacy());
+        memory.setPrivacy(Memory.Privacy.PRIVATE);
+        assertEquals(Memory.Privacy.PRIVATE, memory.getPrivacy());
     }
 
     @Test

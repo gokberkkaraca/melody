@@ -13,6 +13,7 @@ public class MemoryVideo extends Memory {
     public MemoryVideo(String author, String text, String location, URL video) {
         super(author, text, location);
         this.video = video;
+        this.type = Type.VIDEO;
     }
 
     public URL getVideos() {
