@@ -17,6 +17,7 @@ public class MemoryPhoto extends Memory {
     public MemoryPhoto(String author, String text, String location, List<String> photos) {
         super(author, text, location);
         this.photos = photos;
+        this.type = Type.PHOTO;
     }
 
     public List<String> getPhotos() {

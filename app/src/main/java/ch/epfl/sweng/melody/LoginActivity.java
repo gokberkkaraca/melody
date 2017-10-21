@@ -91,12 +91,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
             User user = new User(GOOGLE_ACCOUNT);
+
             DatabaseHandler.addUser(user);
             LoginStatusHandler.setUserId(this, user.getId());
 
             Intent intent = new Intent(this, PublicMemoryActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable("USER", user);
+            bundle.putSerializable(MainActivity.USER_INFO, user);
             intent.putExtras(bundle);
             startActivity(intent);
         }

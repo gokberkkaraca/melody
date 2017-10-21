@@ -13,6 +13,7 @@ public class MemoryAudio extends Memory {
     public MemoryAudio(String author, String text, String location, URL audio) {
         super(author, text, location);
         this.audio = audio;
+        this.type = Type.AUDIO;
     }
 
     public URL getAudio() {

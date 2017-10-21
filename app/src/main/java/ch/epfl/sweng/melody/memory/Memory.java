@@ -8,7 +8,8 @@ import java.util.UUID;
 
 
 public class Memory {
-    public enum Privacy {Private, Shared, Public};
+    public enum Privacy {PRIVATE, SHARED, Public};
+    public enum Type {TEXT, PHOTO, VIDEO, AUDIO};
     private  String id;
     private  String author;
     private  Date time;
@@ -16,6 +17,7 @@ public class Memory {
     private String text;
     private List<Comment> comments;
     private Privacy privacy;
+    protected Type type;
     private Boolean reminder;
 
     public Memory() {
@@ -30,6 +32,7 @@ public class Memory {
         this.text = text;
         this.comments = new ArrayList<Comment>();
         this.privacy = Privacy.Public;
+        this.type = Type.TEXT;
         reminder = true;
     }
 
@@ -77,4 +80,9 @@ public class Memory {
     public void setReminder(Boolean reminder) {
         this.reminder = reminder;
     }
+
+    public Type getType() {
+        return type;
+    }
+
 }

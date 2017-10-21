@@ -39,7 +39,7 @@ public class UserTest {
 
     @Test
     public void getId() throws Exception {
-        assertEquals(user.getId(),"QWERTYU");
+        assertFalse(user.getId().isEmpty());
     }
 
     @Test
