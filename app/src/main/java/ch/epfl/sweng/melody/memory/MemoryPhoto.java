@@ -18,6 +18,10 @@ public class MemoryPhoto extends Memory {
         this.type = Type.PHOTO;
     }
 
+    public MemoryPhoto() {
+        this.type = Type.PHOTO;
+    }
+
     public List<String> getPhotos() {
         return photos;
     }

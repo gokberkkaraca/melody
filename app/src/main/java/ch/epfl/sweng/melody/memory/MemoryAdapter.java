@@ -14,7 +14,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import ch.epfl.sweng.melody.R;
@@ -73,9 +72,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 holder.author.setText(user.getDisplayName());
                 new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
                 //-------------------------------This method should fetch the photo but android won't cast it to MemoryPhoto-----------------
-                //if(memory.getType().equals(Memory.Type.PHOTO)) {
-                   //Picasso.with(holder.itemView.getContext()).load(((MemoryPhoto) memory).getPhotos().get(0)).into(holder.memoryPic);
-                //}
+                if (memory.getType().equals(Memory.Type.PHOTO)) {
+                    Picasso.with(holder.itemView.getContext()).load(((MemoryPhoto) memory).getPhotos().get(0)).into(holder.memoryPic);
+                }
             }
 
             @Override
