@@ -10,9 +10,7 @@ import java.util.UUID;
 public class MemoryPhoto extends Memory {
     private List<String> photos;
 
-    public MemoryPhoto(){
-
-    }
+    // public MemoryPhoto(){}
 
     public MemoryPhoto(String author, String text, String location, List<String> photos) {
         super(author, text, location);
@@ -23,4 +21,5 @@ public class MemoryPhoto extends Memory {
     public List<String> getPhotos() {
         return photos;
     }
+
 }
