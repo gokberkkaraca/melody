@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +35,18 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             description = (TextView) view.findViewById(R.id.description);
             location = (TextView) view.findViewById(R.id.location);
             authorPic = (ImageView) view.findViewById(R.id.authorPic);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+
+                    if(pos != RecyclerView.NO_POSITION){
+                        Memory clickedMemory = memoryList.get(pos);
+                        Toast.makeText(v.getContext(), "You clicked " + clickedMemory.getId(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 
