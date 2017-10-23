@@ -24,7 +24,9 @@ import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.memory.MemoryAudio;
 import ch.epfl.sweng.melody.memory.MemoryPhoto;
+import ch.epfl.sweng.melody.memory.MemoryVideo;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.ui.DividerItemDecoration;
 
@@ -53,8 +55,17 @@ public class PublicMemoryActivity extends Activity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot: dataSnapshot.getChildren()){
                     Memory memory = memDataSnapshot.getValue(Memory.class);
-                    memoryList.add(memory);
+                    assert memory != null;
+                    if (memory.getType().equals(Memory.Type.PHOTO))
+                        memoryList.add(memDataSnapshot.getValue(MemoryPhoto.class));
+                    else if(memory.getType().equals(Memory.Type.AUDIO))
+                        memoryList.add(memDataSnapshot.getValue(MemoryAudio.class));
+                    else if(memory.getType().equals(Memory.Type.VIDEO))
+                        memoryList.add(memDataSnapshot.getValue(MemoryVideo.class));
+                    else
+                        memoryList.add(memory);
                 }
+
                 memoryAdapter = new MemoryAdapter(memoryList);
                 memoryAdapter.notifyDataSetChanged();
 

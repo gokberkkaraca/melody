@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody.memory;
 
 import java.net.URL;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -19,4 +20,5 @@ public class MemoryAudio extends Memory {
     public URL getAudio() {
         return audio;
     }
+
 }

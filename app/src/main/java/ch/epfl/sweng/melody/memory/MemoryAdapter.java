@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import ch.epfl.sweng.melody.R;
@@ -22,10 +24,12 @@ import ch.epfl.sweng.melody.user.User;
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
 
     private List<Memory> memoryList;
+    private SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a");
+
 
     class MemoriesViewHolder extends RecyclerView.ViewHolder {
         TextView author, time, description, location;
-        ImageView authorPic;
+        ImageView authorPic, memoryPic;
 
         MemoriesViewHolder(View view) {
             super(view);
@@ -34,6 +38,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             description = (TextView) view.findViewById(R.id.description);
             location = (TextView) view.findViewById(R.id.location);
             authorPic = (ImageView) view.findViewById(R.id.authorPic);
+            memoryPic = (ImageView) view.findViewById(R.id.memoryPic);
         }
     }
 
@@ -52,8 +57,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
     @Override
     public void onBindViewHolder(final MemoriesViewHolder holder, int position) {
 
-        Memory memory = memoryList.get(position);
-        holder.time.setText(memory.getTime().toString());
+        final Memory memory = memoryList.get(position);
+
+        holder.time.setText(format.format(memory.getTime()));
         holder.description.setText(memory.getText());
         holder.location.setText(memory.getLocation());
 
@@ -65,6 +71,10 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 assert user != null;
                 holder.author.setText(user.getDisplayName());
                 new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
+                //-------------------------------This method should fetch the photo but android won't cast it to MemoryPhoto-----------------
+                if (memory.getType().equals(Memory.Type.PHOTO)) {
+                    Picasso.with(holder.itemView.getContext()).load(((MemoryPhoto) memory).getPhotos().get(0)).into(holder.memoryPic);
+                }
             }
 
             @Override
