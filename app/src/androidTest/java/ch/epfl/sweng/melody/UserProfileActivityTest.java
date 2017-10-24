@@ -25,8 +25,6 @@ import static org.mockito.Mockito.when;
 @RunWith(AndroidJUnit4.class)
 public class UserProfileActivityTest {
 
-    private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
-
     @Rule
     public final ActivityTestRule<UserProfileActivity> userProfileActivityActivityTestRule =
             new ActivityTestRule<UserProfileActivity>(UserProfileActivity.class) {
@@ -40,6 +38,7 @@ public class UserProfileActivityTest {
                     when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
                     when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
                     when(googleSignInAccount.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
+                    String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
                     when(googleSignInAccount.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
                     user = new User(googleSignInAccount);
 
