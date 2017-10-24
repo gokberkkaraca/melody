@@ -19,8 +19,8 @@ import ch.epfl.sweng.melody.user.User;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -56,8 +56,8 @@ public class LoginActivityTest {
 
     @Test
     public void testCanLogIn() {
-        //onView(withId(R.id.email)).perform(typeText("itcompiles-melody@gmail.com")).perform(closeSoftKeyboard());
-        //onView(withId(R.id.password)).perform(typeText("sweng2017")).perform(closeSoftKeyboard());
+        onView(withHint("Enter your email address")).perform(typeText("itcompiles-melody@gmail.com")).perform(closeSoftKeyboard());
+        onView(withHint("Enter your password")).perform(typeText("sweng2017")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
     }
 
