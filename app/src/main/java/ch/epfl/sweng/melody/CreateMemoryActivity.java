@@ -164,6 +164,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                             .photos(urls)
                             .build();
                     DatabaseHandler.uploadMemory(memory);
+                    Intent intent = new Intent(CreateMemoryActivity.this,PublicMemoryActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(MainActivity.USER_INFO, user);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             }, new OnFailureListener() {
                 @Override
