@@ -4,5 +4,24 @@
     <string name="email_prompt">Enter your email address</string>
     <string name="password_prompt">Enter your password</string>
     <string name="create_new_account">Create account</string>
+    <string name="start_recording">START RECORDING</string>
+    <string name="stop_recording">STOP RECORDING</string>
+    <string name="play">PLAY</string>
+    <string name="stop">STOP</string>
+    <string name="submit">SUBMIT</string>
+    <string name="country_city">Country, city</string>
+    <string name="username">Username</string>
+    <string name="followings">Followings</string>
+    <string name="followers">Followers</string>
+    <string name="friends">Friends</string>
+    <string name="_500">500</string>
+    <string name="_380">380</string>
+    <string name="_220">220</string>
+    <string name="edit">Edit</string>
+    <string name="log_out">Log out</string>
+    <string name="author">Author</string>
+    <string name="location">Location</string>
+    <string name="time">Time</string>
+    <string name="description">Description</string>
     <color name="white">#ffffff</color>
 </resources>
