@@ -56,8 +56,8 @@ public class LoginActivityTest {
 
     @Test
     public void testCanLogIn() {
-        onView(withId(R.id.email)).perform(typeText("itcompiles-melody@gmail.com")).perform(closeSoftKeyboard());
-        onView(withId(R.id.password)).perform(typeText("sweng2017")).perform(closeSoftKeyboard());
+        //onView(withId(R.id.email)).perform(typeText("itcompiles-melody@gmail.com")).perform(closeSoftKeyboard());
+        //onView(withId(R.id.password)).perform(typeText("sweng2017")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
     }
 
