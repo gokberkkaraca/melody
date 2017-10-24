@@ -15,6 +15,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
 import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.memory.MemoryUploader;
 import ch.epfl.sweng.melody.user.User;
 
 
@@ -45,7 +46,7 @@ public class DatabaseHandler {
 
 
     public static void uploadMemory(Memory memory) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getId()).setValue(memory);
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getId()).setValue(memory.upload());
     }
 
     public static void uploadImage(Uri uri, Context context,

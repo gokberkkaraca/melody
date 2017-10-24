@@ -15,8 +15,7 @@ public class Memory {
     private List<Comment> comments;
     private MemoryBuilder.Privacy privacy;
     private Boolean reminder;
-
-    private List<String> photoUrl;
+    private List<String> photos;
     private String videoUrl;
     private String audioUrl;
 
@@ -30,10 +29,12 @@ public class Memory {
         this.reminder = memoryBuilder.reminder;
 
         this.comments = memoryBuilder.comments;
-        this.photoUrl = memoryBuilder.photoUrl;
+        this.photos = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
+
         this.audioUrl = memoryBuilder.audioUrl;
     }
+
     public Memory(){
     }
 
@@ -70,8 +71,8 @@ public class Memory {
         return reminder;
     }
 
-    public List<String> getPhotoUrl(){
-        return photoUrl;
+    public List<String> getPhotos(){
+        return photos;
     }
 
     public String getVideoUrl(){
@@ -82,6 +83,10 @@ public class Memory {
     }
     public Memory getMemory(){
         return this;
+    }
+
+    public MemoryUploader upload(){
+        return new MemoryUploader(this);
     }
 
     public static class MemoryBuilder{
