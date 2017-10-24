@@ -38,10 +38,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.memory.MemoryPhoto;
+import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
 public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
@@ -61,7 +60,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
     private Uri imageUri;
     private String text;
-    private MemoryPhoto memoryPhoto;
+    private Memory memory;
     private String audioPath;
 
     User user;
@@ -161,11 +160,10 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                     urls.add(taskSnapshot.getDownloadUrl().toString());
-                    memoryPhoto = new MemoryPhoto(user.getId(),
-                            editText.getText().toString(),
-                            addressField.getText().toString(),
-                            urls);
-                    DatabaseHandler.uploadMemory(memoryPhoto);
+                    memory = new Memory.MemoryBuilder(user.getId(),editText.getText().toString(),addressField.getText().toString())
+                            .photos(urls)
+                            .build();
+                    DatabaseHandler.uploadMemory(memory);
                 }
             }, new OnFailureListener() {
                 @Override

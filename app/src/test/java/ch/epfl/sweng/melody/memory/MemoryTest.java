@@ -3,6 +3,8 @@ package ch.epfl.sweng.melody.memory;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -16,13 +18,16 @@ public class MemoryTest {
     String text;
     String location;
     Memory memory;
+    List<Comment> comments = new ArrayList<>();
 
     @Before
     public void createMemory(){
         authorId = UUID.randomUUID().toString();
         text = "Hello, world!";
         location = "USA, NY";
-        memory = new Memory(authorId, text, location);
+        comments.add(new Comment("test",authorId,"this is a comment test"));
+        memory = new Memory.MemoryBuilder(authorId,text,location).comments(comments).build();
+
     }
 
     @Test
@@ -51,41 +56,17 @@ public class MemoryTest {
     }
 
     @Test
-    public void setText() throws Exception {
-        String textEdited = "Bye!";
-        memory.setText(textEdited);
-        assertEquals(textEdited, memory.getText());
-    }
-
-    @Test
-    public void commentListShouldBeEmpty() throws Exception{
-        assertTrue(memory.getComments().isEmpty());
-    }
-    @Test
     public void getComments() throws Exception {
         assertTrue(memory.getComments()!= null);
     }
 
     @Test
     public void getPrivacy() throws Exception {
-        assertEquals(Memory.Privacy.Public, memory.getPrivacy());
-    }
-
-    @Test
-    public void setPrivacy() throws Exception {
-        memory.setPrivacy(Memory.Privacy.PRIVATE);
-        assertEquals(Memory.Privacy.PRIVATE, memory.getPrivacy());
+        assertEquals(Memory.MemoryBuilder.Privacy.Public, memory.getPrivacy());
     }
 
     @Test
     public void getReminder() throws Exception {
         assertEquals(true, memory.getReminder());
     }
-
-    @Test
-    public void setReminder() throws Exception {
-        memory.setReminder(false);
-        assertEquals(false, memory.getReminder());
-    }
-
 }

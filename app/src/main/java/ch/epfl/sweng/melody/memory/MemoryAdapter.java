@@ -72,8 +72,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 holder.author.setText(user.getDisplayName());
                 new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
                 //-------------------------------This method should fetch the photo but android won't cast it to MemoryPhoto-----------------
-                if (memory.getType().equals(Memory.Type.PHOTO)) {
-                    Picasso.with(holder.itemView.getContext()).load(((MemoryPhoto) memory).getPhotos().get(0)).into(holder.memoryPic);
+                if (memory.getPhotoUrl()!=null) {
+                    Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl().get(0)).into(holder.memoryPic);
                 }
             }
 

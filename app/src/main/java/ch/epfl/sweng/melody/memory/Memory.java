@@ -1,6 +1,5 @@
 package ch.epfl.sweng.melody.memory;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -8,32 +7,34 @@ import java.util.UUID;
 
 
 public class Memory {
-    public enum Privacy {PRIVATE, SHARED, Public};
-    public enum Type {TEXT, PHOTO, VIDEO, AUDIO};
     private  String id;
     private  String author;
     private  Date time;
     private  String location;
     private String text;
     private List<Comment> comments;
-    private Privacy privacy;
-    protected Type type;
+    private MemoryBuilder.Privacy privacy;
     private Boolean reminder;
 
-    public Memory() {
+    private List<String> photoUrl;
+    private String videoUrl;
+    private String audioUrl;
 
+    private Memory(MemoryBuilder memoryBuilder) {
+        this.id = memoryBuilder.id;
+        this.time = memoryBuilder.time;
+        this.author = memoryBuilder.author;
+        this.text = memoryBuilder.text;
+        this.location = memoryBuilder.location;
+        this.privacy = memoryBuilder.privacy;
+        this.reminder = memoryBuilder.reminder;
+
+        this.comments = memoryBuilder.comments;
+        this.photoUrl = memoryBuilder.photoUrl;
+        this.videoUrl = memoryBuilder.videoUrl;
+        this.audioUrl = memoryBuilder.audioUrl;
     }
-
-    public Memory(String author, String text, String location) {
-        this.id = UUID.randomUUID().toString();
-        this.author = author;
-        this.time = Calendar.getInstance().getTime();
-        this.location = location;
-        this.text = text;
-        this.comments = new ArrayList<Comment>();
-        this.privacy = Privacy.Public;
-        this.type = Type.TEXT;
-        reminder = true;
+    public Memory(){
     }
 
     public String getId() {
@@ -56,33 +57,77 @@ public class Memory {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }
 
 
-    public Privacy getPrivacy() {
+    public MemoryBuilder.Privacy getPrivacy() {
         return privacy;
-    }
-
-    public void setPrivacy(Privacy privacy) {
-        this.privacy = privacy;
     }
 
     public Boolean getReminder() {
         return reminder;
     }
 
-    public void setReminder(Boolean reminder) {
-        this.reminder = reminder;
+    public List<String> getPhotoUrl(){
+        return photoUrl;
     }
 
-    public Type getType() {
-        return type;
+    public String getVideoUrl(){
+        return videoUrl;
+    }
+    public String getAudioUrl(){
+        return audioUrl;
+    }
+    public Memory getMemory(){
+        return this;
     }
 
+    public static class MemoryBuilder{
+        public enum Privacy {PRIVATE, SHARED, Public};
+        private  String id;
+        private  String author;
+        private  Date time;
+        private  String location;
+        private String text;
+        private List<Comment> comments;
+        private Privacy privacy;
+        private Boolean reminder;
+
+        private List<String> photoUrl;
+        private String videoUrl;
+        private String audioUrl;
+
+        public MemoryBuilder(String author, String text, String location){
+            this.id = UUID.randomUUID().toString();
+            this.time = Calendar.getInstance().getTime();
+            this.author = author;
+            this.text = text;
+            this.location = location;
+            this.privacy = Privacy.Public;
+            this.reminder = true;
+        }
+         public MemoryBuilder photos(List<String> photoUrl){
+             this.photoUrl = photoUrl;
+             return this;
+         }
+
+         public MemoryBuilder video(String videoUrl){
+             this.videoUrl = videoUrl;
+             return this;
+         }
+         public MemoryBuilder audio(String audioUrl){
+             this.audioUrl = audioUrl;
+             return this;
+         }
+         public MemoryBuilder comments(List<Comment> comments){
+             this.comments = comments;
+             return this;
+         }
+
+         public Memory build(){
+             return new Memory(this);
+         }
+    }
 }
