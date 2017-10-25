@@ -23,7 +23,7 @@
         android:layout_marginLeft="14dp"
         android:layout_marginStart="14dp"
         android:layout_marginTop="11dp"
-        android:text="Author"
+        android:text="@string/author"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/authorPic"
         android:layout_toRightOf="@+id/authorPic"
-        android:text="Location"
+        android:text="@string/location"
         android:textSize="12sp"
         android:textStyle="italic" />
 
@@ -50,7 +50,7 @@
         android:layout_marginStart="24dp"
         android:layout_toEndOf="@+id/location"
         android:layout_toRightOf="@+id/location"
-        android:text="Time"
+        android:text="@string/time"
         android:textSize="12sp" />
 
     <TextView
@@ -59,7 +59,8 @@
         android:layout_height="70dp"
         android:layout_alignBottom="@+id/author"
         android:layout_toRightOf="@+id/location"
-        android:text="Description"
+        android:layout_toEndOf="@+id/location"
+        android:text="@string/description"
         android:textSize="12sp" />
 
     <ImageView
