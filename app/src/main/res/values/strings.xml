@@ -23,5 +23,6 @@
     <string name="location">Location</string>
     <string name="time">Time</string>
     <string name="description">Description</string>
+    <string name="content_description">content_description</string>
     <color name="white">#ffffff</color>
 </resources>
