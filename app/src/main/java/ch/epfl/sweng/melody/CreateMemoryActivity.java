@@ -48,6 +48,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private static final int REQUEST_VIDEO_GALLERY = 3;
     private static final int REQUEST_VIDEO_CAMERA = 4;
     private static final int REQUEST_AUDIOFILE = 5;
+    User user;
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
@@ -56,14 +57,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private LocationManager locationManager;
     private String provider;
     private Location location;
-
     private Uri resourceUri;
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
     private String audioPath;
-
-    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,11 +147,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
     public void sendMemory(View view) {
         memoryDescription = editText.getText().toString();
-        if(memoryDescription.isEmpty()){
+        if (memoryDescription.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Say something!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(resourceUri==null){
+        if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
             memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
                     .build();
@@ -179,7 +177,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
                             .photo(url)
                             .build();
-                } else if (memoryType == Memory.MemoryType.VIEDO) {
+                } else if (memoryType == Memory.MemoryType.VIDEO) {
                     memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
                             .build();
                 }
@@ -472,7 +470,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
     private void onVideoFromGalleryResult(Intent data) {
         resourceUri = data.getData();
-        memoryType = Memory.MemoryType.VIEDO;
+        memoryType = Memory.MemoryType.VIDEO;
         videoView.setVideoURI(data.getData());
         videoView.start();
     }

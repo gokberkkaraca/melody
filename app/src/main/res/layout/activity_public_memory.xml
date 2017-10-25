@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,27 +7,26 @@
     tools:context="ch.epfl.sweng.melody.PublicMemoryActivity">
 
 
-
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/head"/>
+        android:src="@drawable/head" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/memories_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/imageView7" />
+        android:layout_below="@+id/imageView7"
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="6dp"
-        android:id="@+id/linearLayout">
+        android:layout_marginBottom="6dp">
 
         <include
             layout="@layout/menu_layout"

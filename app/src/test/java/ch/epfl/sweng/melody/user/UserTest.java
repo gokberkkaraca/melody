@@ -8,10 +8,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Date;
 
-import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.memory.Memory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,8 +19,9 @@ import static org.mockito.Mockito.when;
  * Created by maxwell on 19/10/2017.
  */
 public class UserTest {
-    private User user;
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
+    private User user;
+
     @Before
     public void setUp() throws Exception {
         final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
@@ -34,7 +35,7 @@ public class UserTest {
 
     @Test
     public void getUsername() throws Exception {
-        assertEquals(user.getUsername(),"jiacheng.xu");
+        assertEquals(user.getUsername(), "jiacheng.xu");
     }
 
     @Test
@@ -44,65 +45,65 @@ public class UserTest {
 
     @Test
     public void getFirstName() throws Exception {
-        assertEquals(user.getFirstName(),"Jiacheng");
+        assertEquals(user.getFirstName(), "Jiacheng");
     }
 
     @Test
     public void getLastName() throws Exception {
-        assertEquals(user.getLastName(),"Xu");
+        assertEquals(user.getLastName(), "Xu");
     }
 
     @Test
     public void getDisplayName() throws Exception {
-        assertEquals(user.getDisplayName(),"Jiacheng Xu");
+        assertEquals(user.getDisplayName(), "Jiacheng Xu");
     }
 
     @Test
     public void getGender() throws Exception {
-        assertEquals(user.getGender(),null);
+        assertEquals(user.getGender(), null);
     }
 
     @Test
     public void getEmail() throws Exception {
-        assertEquals(user.getEmail(),"jiacheng.xu@epfl.ch");
+        assertEquals(user.getEmail(), "jiacheng.xu@epfl.ch");
     }
 
     @Test
     public void getPhone() throws Exception {
-        assertEquals(user.getPhone(),null);
+        assertEquals(user.getPhone(), null);
     }
 
     @Test
     public void setPhone() throws Exception {
         user.setPhone("123456789");
-        assertEquals(user.getPhone(),"123456789");
+        assertEquals(user.getPhone(), "123456789");
     }
 
     @Test
     public void getBirthday() throws Exception {
-        assertEquals(user.getBirthday(),null);
+        assertEquals(user.getBirthday(), null);
     }
 
     @Test
     public void setBirthday() throws Exception {
         user.setBirthday(new Date(123));
-        assertEquals(user.getBirthday(),new Date(123));
+        assertEquals(user.getBirthday(), new Date(123));
     }
 
     @Test
     public void getHome() throws Exception {
-        assertEquals(user.getHome(),null);
+        assertEquals(user.getHome(), null);
     }
 
     @Test
     public void setHome() throws Exception {
         user.setHome("Lausanne");
-        assertEquals(user.getHome(),"Lausanne");
+        assertEquals(user.getHome(), "Lausanne");
     }
 
     @Test
     public void getMemories() throws Exception {
-        assertEquals(user.getMemories(),new ArrayList<Memory>());
+        assertEquals(user.getMemories(), new ArrayList<Memory>());
     }
 
     @Test
@@ -112,17 +113,17 @@ public class UserTest {
 
     @Test
     public void getFollowers() throws Exception {
-        assertEquals(user.getFollowers(),new ArrayList<User>());
+        assertEquals(user.getFollowers(), new ArrayList<User>());
     }
 
     @Test
     public void getFollowings() throws Exception {
-        assertEquals(user.getFollowings(),new ArrayList<User>());
+        assertEquals(user.getFollowings(), new ArrayList<User>());
     }
 
     @Test
     public void getProfilePhotoUrl() throws Exception {
-        assertEquals(user.getProfilePhotoUrl(),defaultProfilePhotoUrl);
+        assertEquals(user.getProfilePhotoUrl(), defaultProfilePhotoUrl);
     }
 
 }

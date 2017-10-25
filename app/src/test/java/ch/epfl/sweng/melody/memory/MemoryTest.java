@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by yusiz on 2017/10/19.
@@ -21,12 +23,12 @@ public class MemoryTest {
     List<Comment> comments = new ArrayList<>();
 
     @Before
-    public void createMemory(){
+    public void createMemory() {
         authorId = UUID.randomUUID().toString();
         text = "Hello, world!";
         location = "USA, NY";
-        comments.add(new Comment("test",authorId,"this is a comment test"));
-        memory = new Memory.MemoryBuilder(authorId,text,location).comments(comments).build();
+        comments.add(new Comment("test", authorId, "this is a comment test"));
+        memory = new Memory.MemoryBuilder(authorId, text, location).comments(comments).build();
 
     }
 
@@ -37,7 +39,7 @@ public class MemoryTest {
 
     @Test
     public void getAuthor() throws Exception {
-        assertEquals(authorId, memory.getAuthor());
+        assertEquals(authorId, memory.getAuthorId());
     }
 
     @Test
@@ -57,7 +59,7 @@ public class MemoryTest {
 
     @Test
     public void getComments() throws Exception {
-        assertTrue(memory.getComments()!= null);
+        assertTrue(memory.getComments() != null);
     }
 
     @Test

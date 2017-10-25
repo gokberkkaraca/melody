@@ -7,12 +7,12 @@ import java.util.UUID;
 
 
 public class Memory {
-    public enum Privacy {PRIVATE, SHARED, PUBLIC};
-    public  enum MemoryType {TEXT ,PHOTO, VIEDO, AUDIO}
-    private  String id;
-    private  String author;
-    private  Date time;
-    private  String location;
+    private String id;
+
+    ;
+    private String authorId;
+    private Date time;
+    private String location;
     private String text;
     private List<Comment> comments;
     private Privacy privacy;
@@ -21,11 +21,10 @@ public class Memory {
     private String photo;
     private String videoUrl;
     private String audioUrl;
-
     private Memory(MemoryBuilder memoryBuilder) {
         this.id = memoryBuilder.id;
         this.time = memoryBuilder.time;
-        this.author = memoryBuilder.author;
+        this.authorId = memoryBuilder.authorId;
         this.text = memoryBuilder.text;
         this.location = memoryBuilder.location;
         this.privacy = memoryBuilder.privacy;
@@ -38,16 +37,15 @@ public class Memory {
         this.audioUrl = memoryBuilder.audioUrl;
         this.memoryType = memoryBuilder.memoryType;
     }
-
-    public Memory(){
+    public Memory() {
     }
 
     public String getId() {
         return id;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public Date getTime() {
@@ -66,7 +64,6 @@ public class Memory {
         return comments;
     }
 
-
     public Privacy getPrivacy() {
         return privacy;
     }
@@ -75,33 +72,39 @@ public class Memory {
         return reminder;
     }
 
-    public String getPhoto(){
+    public String getPhoto() {
         return photo;
     }
 
-    public String getVideoUrl(){
+    public String getVideoUrl() {
         return videoUrl;
     }
-    public String getAudioUrl(){
+
+    public String getAudioUrl() {
         return audioUrl;
     }
 
-    public MemoryType getMemoryType(){
+    public MemoryType getMemoryType() {
         return memoryType;
     }
-    public Memory getMemory(){
+
+    public Memory getMemory() {
         return this;
     }
 
-    public MemoryUploader upload(){
+    public MemoryUploader upload() {
         return new MemoryUploader(this);
     }
 
-    public static class MemoryBuilder{
-        private  String id;
-        private  String author;
-        private  Date time;
-        private  String location;
+    public enum Privacy {PRIVATE, SHARED, PUBLIC}
+
+    public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
+
+    public static class MemoryBuilder {
+        private String id;
+        private String authorId;
+        private Date time;
+        private String location;
         private String text;
         private List<Comment> comments;
         private Privacy privacy;
@@ -111,39 +114,42 @@ public class Memory {
         private String videoUrl;
         private String audioUrl;
 
-        public MemoryBuilder(String author, String text, String location){
+        public MemoryBuilder(String authorId, String text, String location) {
             this.id = UUID.randomUUID().toString();
             this.time = Calendar.getInstance().getTime();
-            this.author = author;
+            this.authorId = authorId;
             this.text = text;
             this.location = location;
             this.privacy = Privacy.PUBLIC;
             this.reminder = true;
             this.memoryType = MemoryType.TEXT;
         }
-         public MemoryBuilder photo(String photoUrl){
-             this.photoUrl = photoUrl;
-             this.memoryType = MemoryType.PHOTO;
-             return this;
-         }
 
-         public MemoryBuilder video(String videoUrl){
-             this.videoUrl = videoUrl;
-             this.memoryType = MemoryType.VIEDO;
-             return this;
-         }
-         public MemoryBuilder audio(String audioUrl){
-             this.audioUrl = audioUrl;
-             this.memoryType = MemoryType.AUDIO;
-             return this;
-         }
-         public MemoryBuilder comments(List<Comment> comments){
-             this.comments = comments;
-             return this;
-         }
+        public MemoryBuilder photo(String photoUrl) {
+            this.photoUrl = photoUrl;
+            this.memoryType = MemoryType.PHOTO;
+            return this;
+        }
 
-         public Memory build(){
-             return new Memory(this);
-         }
+        public MemoryBuilder video(String videoUrl) {
+            this.videoUrl = videoUrl;
+            this.memoryType = MemoryType.VIDEO;
+            return this;
+        }
+
+        public MemoryBuilder audio(String audioUrl) {
+            this.audioUrl = audioUrl;
+            this.memoryType = MemoryType.AUDIO;
+            return this;
+        }
+
+        public MemoryBuilder comments(List<Comment> comments) {
+            this.comments = comments;
+            return this;
+        }
+
+        public Memory build() {
+            return new Memory(this);
+        }
     }
 }

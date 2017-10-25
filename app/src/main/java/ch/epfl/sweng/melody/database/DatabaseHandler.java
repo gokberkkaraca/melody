@@ -14,11 +14,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import ch.epfl.sweng.melody.memory.Memory;
-import ch.epfl.sweng.melody.memory.MemoryUploader;
 import ch.epfl.sweng.melody.user.User;
 
 
@@ -43,7 +39,7 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).addListenerForSingleValueEvent(vel);
     }
 
-    public static void getMemory(String id,ValueEventListener vel) {
+    public static void getMemory(String id, ValueEventListener vel) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addListenerForSingleValueEvent(vel);
     }
 

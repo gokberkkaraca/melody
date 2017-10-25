@@ -7,11 +7,11 @@ import java.util.List;
  * Created by maxwell on 24/10/2017.
  */
 
-public class MemoryUploader {
-    private  String id;
-    private  String author;
+class MemoryUploader {
+    private String id;
+    private String authorId;
     private Date time;
-    private  String location;
+    private String location;q
     private String text;
     private List<Comment> comments;
     private Memory.Privacy privacy;
@@ -21,9 +21,9 @@ public class MemoryUploader {
     private String videoUrl;
     private String audioUrl;
 
-    protected MemoryUploader(Memory memory){
+    protected MemoryUploader(Memory memory) {
         id = memory.getId();
-        author = memory.getAuthor();
+        authorId = memory.getAuthorId();
         time = memory.getTime();
         location = memory.getLocation();
         text = memory.getText();
@@ -35,8 +35,8 @@ public class MemoryUploader {
         audioUrl = memory.getAudioUrl();
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public Date getTime() {

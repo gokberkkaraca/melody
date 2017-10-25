@@ -16,18 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.memory.Memory;
-import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.ui.DividerItemDecoration;
+import ch.epfl.sweng.melody.user.User;
 
 public class PublicMemoryActivity extends Activity {
 
+    private static User user;
     private List<Memory> memoryList;
     private RecyclerView recyclerView;
     private MemoryAdapter memoryAdapter;
-
-    private static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class PublicMemoryActivity extends Activity {
         DatabaseHandler.getAllMemories(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot memDataSnapshot: dataSnapshot.getChildren()){
+                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
                     memoryList.add(memory);
