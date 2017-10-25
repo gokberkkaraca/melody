@@ -1,68 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="8dp"
     android:background="@color/white"
-    tools:context="ch.epfl.sweng.melody.LoginActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="87dp"
-        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/melody_logo" />
-
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="271dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="3dp"
-        android:ems="10"
-        android:hint="@string/email_prompt"
-        android:inputType="textEmailAddress"
-        android:textAlignment="center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="273dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="3dp"
-        android:ems="10"
-        android:hint="@string/password_prompt"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
-
-    <ImageButton
-        android:id="@+id/login_button"
-        android:layout_width="121dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="9dp"
-        android:background="@color/white"
-        android:contentDescription="@null"
-        app:layout_constraintHorizontal_bias="0.82"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:srcCompat="@drawable/login_button" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/sign_up_button"
         android:layout_width="178dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="59dp"
+        android:layout_above="@+id/sign_in_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
         android:text="@string/create_new_account"
         app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
         app:layout_constraintHorizontal_bias="0.493"
@@ -71,13 +34,53 @@
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintVertical_bias="0.951" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="271dp"
+        android:layout_height="43dp"
+        android:layout_above="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="@string/email_prompt"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="29dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_alignEnd="@+id/email"
+        android:layout_alignLeft="@+id/email"
+        android:layout_alignRight="@+id/email"
+        android:layout_alignStart="@+id/email"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:hint="@string/password_prompt"
+        android:inputType="textPassword"
+        android:textAlignment="center" />
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/melody_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/melody_logo"
+        android:layout_above="@+id/email"
+        android:layout_alignRight="@+id/sign_up_button"
+        android:layout_alignEnd="@+id/sign_up_button"
+        android:layout_marginBottom="19dp"
+        android:contentDescription="@string/content_description" />
+
+    <ImageButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:srcCompat="@drawable/login_button"
+        android:layout_below="@+id/password"
+        android:layout_alignRight="@+id/password"
+        android:layout_alignEnd="@+id/password"
+        android:layout_marginTop="14dp"
+        android:contentDescription="@string/content_description" />
+
+</RelativeLayout>
+
