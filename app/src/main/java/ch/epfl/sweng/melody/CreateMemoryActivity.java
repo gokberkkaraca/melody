@@ -35,7 +35,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,8 +57,9 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private String provider;
     private Location location;
 
-    private Uri imageUri;
-    private String text;
+    private Uri resourceUri;
+    private Memory.MemoryType memoryType;
+    private String memoryDescription;
     private Memory memory;
     private String audioPath;
 
@@ -148,42 +148,61 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     }
 
     public void sendMemory(View view) {
-        if (imageUri != null) {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading Memory...");
-            progressDialog.show();
-            DatabaseHandler.uploadImage(imageUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                List<String> urls = new ArrayList<String>();
-
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
-                    urls.add(taskSnapshot.getDownloadUrl().toString());
-                    memory = new Memory.MemoryBuilder(user.getId(),editText.getText().toString(),addressField.getText().toString())
-                            .photos(urls)
-                            .build();
-                    DatabaseHandler.uploadMemory(memory);
-                    Intent intent = new Intent(CreateMemoryActivity.this,PublicMemoryActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(MainActivity.USER_INFO, user);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            }, new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                }
-            });
+        memoryDescription = editText.getText().toString();
+        if(memoryDescription.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Say something!", Toast.LENGTH_SHORT).show();
+            return;
         }
+        if(resourceUri==null){
+            memoryType = Memory.MemoryType.TEXT;
+            memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
+                    .build();
+            DatabaseHandler.uploadMemory(memory);
+            Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(MainActivity.USER_INFO, user);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            return;
+        }
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading Memory...");
+        progressDialog.show();
+        DatabaseHandler.uploadResource(resourceUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
+                String url = taskSnapshot.getDownloadUrl().toString();
+                if (memoryType == Memory.MemoryType.PHOTO) {
+                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
+                            .photo(url)
+                            .build();
+                } else if (memoryType == Memory.MemoryType.VIEDO) {
+                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
+                            .build();
+                }
+                DatabaseHandler.uploadMemory(memory);
+                Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(MainActivity.USER_INFO, user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                progressDialog.setMessage("Uploaded " + (int) progress + "%");
+            }
+        });
     }
 
 
@@ -406,23 +425,13 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             }
         }
         imageView.setImageBitmap(picture);
-        imageUri = data.getData();
+        resourceUri = data.getData();
+        memoryType = Memory.MemoryType.PHOTO;
     }
 
     private void accessAudioFiles() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_AUDIOFILE);
-    }
-
-    private void onGalleryResult(Intent data) {
-        if (data != null) {
-            try {
-                picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();// this one is not good and need to be discussed
-            }
-        }
-        imageView.setImageBitmap(picture);
     }
 
     private void onPhotoFromCameraResult(Intent data) {
@@ -440,7 +449,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             }
         }
     } */
-
 
     public void pickAudioDialog(View view) {
         final CharSequence[] options = {"Record", "Choose from Library", "Cancel"};
@@ -463,6 +471,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     }
 
     private void onVideoFromGalleryResult(Intent data) {
+        resourceUri = data.getData();
+        memoryType = Memory.MemoryType.VIEDO;
         videoView.setVideoURI(data.getData());
         videoView.start();
     }
@@ -471,6 +481,4 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         videoView.setVideoURI(data.getData());
         videoView.start();
     }
-
-
 }

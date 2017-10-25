@@ -7,15 +7,18 @@ import java.util.UUID;
 
 
 public class Memory {
+    public enum Privacy {PRIVATE, SHARED, PUBLIC};
+    public  enum MemoryType {TEXT ,PHOTO, VIEDO, AUDIO}
     private  String id;
     private  String author;
     private  Date time;
     private  String location;
     private String text;
     private List<Comment> comments;
-    private MemoryBuilder.Privacy privacy;
+    private Privacy privacy;
+    private MemoryType memoryType;
     private Boolean reminder;
-    private List<String> photos;
+    private String photo;
     private String videoUrl;
     private String audioUrl;
 
@@ -29,10 +32,11 @@ public class Memory {
         this.reminder = memoryBuilder.reminder;
 
         this.comments = memoryBuilder.comments;
-        this.photos = memoryBuilder.photoUrl;
+        this.photo = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
         this.audioUrl = memoryBuilder.audioUrl;
+        this.memoryType = memoryBuilder.memoryType;
     }
 
     public Memory(){
@@ -63,7 +67,7 @@ public class Memory {
     }
 
 
-    public MemoryBuilder.Privacy getPrivacy() {
+    public Privacy getPrivacy() {
         return privacy;
     }
 
@@ -71,8 +75,8 @@ public class Memory {
         return reminder;
     }
 
-    public List<String> getPhotos(){
-        return photos;
+    public String getPhoto(){
+        return photo;
     }
 
     public String getVideoUrl(){
@@ -80,6 +84,10 @@ public class Memory {
     }
     public String getAudioUrl(){
         return audioUrl;
+    }
+
+    public MemoryType getMemoryType(){
+        return memoryType;
     }
     public Memory getMemory(){
         return this;
@@ -90,7 +98,6 @@ public class Memory {
     }
 
     public static class MemoryBuilder{
-        public enum Privacy {PRIVATE, SHARED, Public};
         private  String id;
         private  String author;
         private  Date time;
@@ -99,8 +106,8 @@ public class Memory {
         private List<Comment> comments;
         private Privacy privacy;
         private Boolean reminder;
-
-        private List<String> photoUrl;
+        private MemoryType memoryType;
+        private String photoUrl;
         private String videoUrl;
         private String audioUrl;
 
@@ -110,20 +117,24 @@ public class Memory {
             this.author = author;
             this.text = text;
             this.location = location;
-            this.privacy = Privacy.Public;
+            this.privacy = Privacy.PUBLIC;
             this.reminder = true;
+            this.memoryType = MemoryType.TEXT;
         }
-         public MemoryBuilder photos(List<String> photoUrl){
+         public MemoryBuilder photo(String photoUrl){
              this.photoUrl = photoUrl;
+             this.memoryType = MemoryType.PHOTO;
              return this;
          }
 
          public MemoryBuilder video(String videoUrl){
              this.videoUrl = videoUrl;
+             this.memoryType = MemoryType.VIEDO;
              return this;
          }
          public MemoryBuilder audio(String audioUrl){
              this.audioUrl = audioUrl;
+             this.memoryType = MemoryType.AUDIO;
              return this;
          }
          public MemoryBuilder comments(List<Comment> comments){

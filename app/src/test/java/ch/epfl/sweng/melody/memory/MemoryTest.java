@@ -62,7 +62,7 @@ public class MemoryTest {
 
     @Test
     public void getPrivacy() throws Exception {
-        assertEquals(Memory.MemoryBuilder.Privacy.Public, memory.getPrivacy());
+        assertEquals(Memory.Privacy.PUBLIC, memory.getPrivacy());
     }
 
     @Test
