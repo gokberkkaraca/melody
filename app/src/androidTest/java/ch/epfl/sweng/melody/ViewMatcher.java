@@ -10,9 +10,8 @@ import org.hamcrest.Description;
  * Created by maxwell on 25/10/2017.
  */
 
-public class ImageViewMatcher {
-
-    public static BoundedMatcher<View, ImageView> hasDrawable() {
+class ViewMatcher {
+    static BoundedMatcher<View, ImageView> hasDrawable() {
         return new BoundedMatcher<View, ImageView>(ImageView.class) {
             @Override
             public void describeTo(Description description) {
