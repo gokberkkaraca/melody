@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 import java.text.SimpleDateFormat;
@@ -40,6 +41,12 @@ public class MemoryDetailActivity extends AppCompatActivity {
 
                 TextView location = (TextView) findViewById(R.id.memoryLocation);
                 location.setText(memory.getLocation());
+
+                ImageView imageView = (ImageView) findViewById(R.id.memoryPicture);
+
+                if (memory.getPhoto() != null) {
+                    Picasso.with(getApplicationContext()).load(memory.getPhoto()).into(imageView);
+                }
 
                 fetchUserInfo(memory.getAuthorId());
             }
