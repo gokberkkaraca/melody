@@ -27,21 +27,6 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
     private SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a");
 
 
-    class MemoriesViewHolder extends RecyclerView.ViewHolder {
-        TextView author, time, description, location;
-        ImageView authorPic, memoryPic;
-
-        MemoriesViewHolder(View view) {
-            super(view);
-            author = (TextView) view.findViewById(R.id.author);
-            time = (TextView) view.findViewById(R.id.time);
-            description = (TextView) view.findViewById(R.id.description);
-            location = (TextView) view.findViewById(R.id.location);
-            authorPic = (ImageView) view.findViewById(R.id.authorPic);
-            memoryPic = (ImageView) view.findViewById(R.id.memoryPic);
-        }
-    }
-
     public MemoryAdapter(List<Memory> memoryList) {
         this.memoryList = memoryList;
     }
@@ -63,7 +48,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.description.setText(memory.getText());
         holder.location.setText(memory.getLocation());
 
-        String userId = memory.getAuthor();
+        String userId = memory.getAuthorId();
         DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -72,8 +57,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 holder.author.setText(user.getDisplayName());
                 new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
                 //-------------------------------This method should fetch the photo but android won't cast it to MemoryPhoto-----------------
-                if (memory.getType().equals(Memory.Type.PHOTO)) {
-                    Picasso.with(holder.itemView.getContext()).load(((MemoryPhoto) memory).getPhotos().get(0)).into(holder.memoryPic);
+                if (memory.getPhoto() != null) {
+                    Picasso.with(holder.itemView.getContext()).load(memory.getPhoto()).into(holder.memoryPic);
                 }
             }
 
@@ -88,6 +73,21 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
     @Override
     public int getItemCount() {
         return memoryList.size();
+    }
+
+    class MemoriesViewHolder extends RecyclerView.ViewHolder {
+        TextView author, time, description, location;
+        ImageView authorPic, memoryPic;
+
+        MemoriesViewHolder(View view) {
+            super(view);
+            author = (TextView) view.findViewById(R.id.author);
+            time = (TextView) view.findViewById(R.id.time);
+            description = (TextView) view.findViewById(R.id.description);
+            location = (TextView) view.findViewById(R.id.location);
+            authorPic = (ImageView) view.findViewById(R.id.authorPic);
+            memoryPic = (ImageView) view.findViewById(R.id.memoryPic);
+        }
     }
 
 }

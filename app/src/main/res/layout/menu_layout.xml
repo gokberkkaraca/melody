@@ -1,56 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/menu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToPublicMemory"
-            android:src="@drawable/home_unfilled"
-            android:layout_weight="1"
-            android:gravity="center"/>
+    <ImageView
+        android:id="@+id/home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:onClick="goToPublicMemory"
+        android:src="@drawable/home_unfilled" />
 
-        <ImageView
-            android:id="@+id/planet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToMap"
-            android:src="@drawable/planet_unfilled"
-            android:layout_weight="1"
-            android:gravity="center"/>
+    <ImageView
+        android:id="@+id/planet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:onClick="goToMap"
+        android:src="@drawable/planet_unfilled" />
 
-        <ImageView
-            android:id="@+id/plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="addNewMemory"
-            android:src="@drawable/plus_unfilled"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="1"
-            android:gravity="center"/>
+    <ImageView
+        android:id="@+id/plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:onClick="addNewMemory"
+        android:src="@drawable/plus_unfilled" />
 
-        <ImageView
-            android:id="@+id/bell"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToNotification"
-            android:src="@drawable/bell_unfilled"
-            android:layout_weight="1"
-            android:gravity="center"/>
+    <ImageView
+        android:id="@+id/bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:onClick="goToNotification"
+        android:src="@drawable/bell_unfilled" />
 
-        <ImageView
-            android:id="@+id/person"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToUser"
-            android:src="@drawable/person_unfilled"
-            android:layout_weight="1"
-            android:gravity="center"/>
+    <ImageView
+        android:id="@+id/person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:onClick="goToUser"
+        android:src="@drawable/person_unfilled" />
 
 </LinearLayout>

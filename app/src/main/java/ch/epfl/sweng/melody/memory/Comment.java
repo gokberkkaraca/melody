@@ -2,7 +2,6 @@ package ch.epfl.sweng.melody.memory;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 public class Comment {
 

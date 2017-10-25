@@ -21,7 +21,7 @@ import ch.epfl.sweng.melody.user.User;
 public class DatabaseHandler {
     private static final String FIREBASE_DATABASE_URL = "https://fir-melody.firebaseio.com/";
     private static final String FIREBASE_STORAGE_URL = "gs://firebase-melody.appspot.com";
-    private static final String STORAGE_IMAGES_PATH = "images/";
+    private static final String STORAGE_IMAGES_PATH = "resources/";
     private static final String DATABASE_MEMORIES_PATH = "memories";
     private static final String DATABASE_USERS_PATH = "users";
     private static DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
@@ -39,27 +39,27 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).addListenerForSingleValueEvent(vel);
     }
 
-    public static void getMemory(String id,ValueEventListener vel) {
+    public static void getMemory(String id, ValueEventListener vel) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addListenerForSingleValueEvent(vel);
     }
 
 
     public static void uploadMemory(Memory memory) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getId()).setValue(memory);
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getId()).setValue(memory.upload());
     }
 
-    public static void uploadImage(Uri uri, Context context,
-                                   OnSuccessListener onSuccessListener,
-                                   OnFailureListener onFailureListener,
-                                   OnProgressListener onProgressListener) {
-        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis() + "." + getImageExtenson(uri, context))
+    public static void uploadResource(Uri uri, Context context,
+                                      OnSuccessListener onSuccessListener,
+                                      OnFailureListener onFailureListener,
+                                      OnProgressListener onProgressListener) {
+        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis() + "." + getResourceExtenson(uri, context))
                 .putFile(uri)
                 .addOnSuccessListener(onSuccessListener)
                 .addOnFailureListener(onFailureListener)
                 .addOnProgressListener(onProgressListener);
     }
 
-    private static String getImageExtenson(Uri uri, Context context) {
+    private static String getResourceExtenson(Uri uri, Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
