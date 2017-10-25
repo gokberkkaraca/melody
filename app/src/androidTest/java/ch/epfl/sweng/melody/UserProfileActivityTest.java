@@ -14,6 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.UUID;
+
 import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -33,7 +35,7 @@ public class UserProfileActivityTest {
 
                     User user;
                     final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-                    when(googleSignInAccount.getId()).thenReturn("QWERTYU");
+                    when(googleSignInAccount.getId()).thenReturn(UUID.randomUUID().toString());
                     when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
                     when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
                     when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");

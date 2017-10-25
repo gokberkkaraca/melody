@@ -11,10 +11,11 @@ import org.junit.runner.RunWith;
 public class MainActivityTest {
     @Rule
     public final ActivityTestRule<MainActivity> mainActivityActivityTestRule =
-            new ActivityTestRule<MainActivity>(MainActivity.class);
+            new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void testCanRun(){}
+    public void testCanRun() {
+    }
 
 
 }

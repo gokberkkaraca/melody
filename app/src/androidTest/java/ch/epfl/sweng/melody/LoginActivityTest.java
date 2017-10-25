@@ -13,15 +13,15 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-/*
+
 @RunWith(AndroidJUnit4.class)
 public class LoginActivityTest {
 
     @Rule
     public final ActivityTestRule<LoginActivity> loginActivityActivityTestRule =
-            new ActivityTestRule<LoginActivity>(LoginActivity.class);
+            new ActivityTestRule<>(LoginActivity.class);
 
-    @Ignore    @Test
+    @Ignore @Test
     //TODO: Reactive this test after dealing with JENKINS
     public void testCanLogIn() {
         onView(withId(R.id.email)).perform(typeText("itcompiles-melody@gmail.com")).perform(closeSoftKeyboard());
@@ -31,4 +31,3 @@ public class LoginActivityTest {
 
 
 }
-*/
