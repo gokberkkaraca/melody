@@ -17,7 +17,7 @@ public class MemoryUploader {
     private Memory.Privacy privacy;
     private Memory.MemoryType memoryType;
     private Boolean reminder;
-    private String photos;
+    private String photo;
     private String videoUrl;
     private String audioUrl;
 
@@ -30,7 +30,7 @@ public class MemoryUploader {
         comments = memory.getComments();
         privacy = memory.getPrivacy();
         reminder = memory.getReminder();
-        photos = memory.getPhoto();
+        photo = memory.getPhoto();
         videoUrl = memory.getVideoUrl();
         audioUrl = memory.getAudioUrl();
     }
@@ -63,8 +63,8 @@ public class MemoryUploader {
         return reminder;
     }
 
-    public String getPhotos() {
-        return photos;
+    public String getPhoto() {
+        return photo;
     }
 
     public String getVideoUrl() {
