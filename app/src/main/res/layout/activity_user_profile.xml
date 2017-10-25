@@ -38,7 +38,7 @@
             android:layout_below="@+id/profilePicView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp"
-            android:text="Username"
+            android:text="@string/username"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -53,7 +53,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="32dp"
             android:layout_marginStart="32dp"
-            android:text="Followings"
+            android:text="@string/followings"
             android:textAllCaps="false"
             android:textStyle="bold" />
 
@@ -64,7 +64,7 @@
             android:layout_below="@+id/username"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:text="Followers"
+            android:text="@string/followers"
             android:textStyle="bold" />
 
         <TextView
@@ -77,7 +77,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="37dp"
             android:layout_marginRight="37dp"
-            android:text="Friends"
+            android:text="@string/friends"
             android:textStyle="bold" />
 
         <TextView
@@ -91,7 +91,7 @@
             android:layout_marginEnd="18dp"
             android:layout_marginRight="18dp"
             android:inputType="number"
-            android:text="500" />
+            android:text="@string/_500" />
 
         <TextView
             android:id="@+id/followers"
@@ -100,7 +100,7 @@
             android:layout_below="@+id/followingsText"
             android:layout_centerHorizontal="true"
             android:inputType="number"
-            android:text="380" />
+            android:text="@string/_380" />
 
 
         <TextView
@@ -114,7 +114,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:inputType="number"
-            android:text="220" />
+            android:text="@string/_220" />
 
         <TextView
             android:id="@+id/edit"
@@ -123,7 +123,7 @@
             android:layout_alignEnd="@+id/friendsText"
             android:layout_alignRight="@+id/friendsText"
             android:layout_alignTop="@+id/profilePicView"
-            android:text="Edit"
+            android:text="@string/edit"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
 
@@ -150,9 +150,9 @@
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/friendsText"
             android:layout_toRightOf="@+id/profilePicView"
-            android:layout_weight="1"
+            android:layout_toEndOf="@+id/profilePicView"
             android:onClick="logOut"
-            android:text="Log out" />
+            android:text="@string/log_out" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
