@@ -21,16 +21,13 @@ public class LoginActivityTest {
     public final ActivityTestRule<LoginActivity> loginActivityActivityTestRule =
             new ActivityTestRule<LoginActivity>(LoginActivity.class);
 
-    @Ignore
+    @Ignore    @Test
     //TODO: Reactive this test after dealing with JENKINS
     public void testCanLogIn() {
         onView(withId(R.id.email)).perform(typeText("itcompiles-melody@gmail.com")).perform(closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("sweng2017")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
     }
-
-
-
 
 
 }
