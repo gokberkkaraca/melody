@@ -34,6 +34,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".CreateMemoryActivity" />
         <activity android:name=".AudioRecordingActivity"></activity>
+        <activity android:name=".MemoryDetailActivity"></activity>
     </application>
 
 </manifest>

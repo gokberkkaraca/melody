@@ -1,6 +1,9 @@
 package ch.epfl.sweng.melody.memory;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import ch.epfl.sweng.melody.MemoryDetailActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
@@ -43,7 +47,10 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
                     if(pos != RecyclerView.NO_POSITION){
                         Memory clickedMemory = memoryList.get(pos);
-                        Toast.makeText(v.getContext(), "You clicked " + clickedMemory.getId(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(v.getContext(), MemoryDetailActivity.class);
+                        intent.putExtra("memoryId", clickedMemory.getId());
+                        v.getContext().startActivity(intent);
+//                        Toast.makeText(v.getContext(), "You clicked " + clickedMemory.getId(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
