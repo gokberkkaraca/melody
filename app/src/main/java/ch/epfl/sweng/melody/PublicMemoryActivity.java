@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,7 +29,6 @@ import ch.epfl.sweng.melody.memory.MemoryAudio;
 import ch.epfl.sweng.melody.memory.MemoryPhoto;
 import ch.epfl.sweng.melody.memory.MemoryVideo;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.ui.DividerItemDecoration;
 
 public class PublicMemoryActivity extends Activity {
 
