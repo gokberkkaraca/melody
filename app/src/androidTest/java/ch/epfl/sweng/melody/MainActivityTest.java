@@ -56,9 +56,6 @@ public class MainActivityTest {
     @Test
     public void testCanRun(){}
 
-    @Test
-    public void testUser()
-
 
 
 }
