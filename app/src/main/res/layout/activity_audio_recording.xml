@@ -40,7 +40,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="72dp"
-            android:text="START RECORDING" />
+            android:text="@string/start_recording" />
 
         <Button
             android:id="@+id/stop_button"
@@ -51,7 +51,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="28dp"
             android:layout_marginRight="28dp"
-            android:text="STOP RECORDING" />
+            android:text="@string/stop_recording" />
 
         <Button
             android:id="@+id/play_button"
@@ -61,7 +61,7 @@
             android:layout_alignBottom="@+id/stop_play_button"
             android:layout_alignEnd="@+id/start_button"
             android:layout_alignRight="@+id/start_button"
-            android:text="PLAY" />
+            android:text="@string/play" />
 
         <Button
             android:id="@+id/stop_play_button"
@@ -71,7 +71,7 @@
             android:layout_alignStart="@+id/stop_button"
             android:layout_below="@+id/start_button"
             android:layout_marginTop="72dp"
-            android:text="STOP" />
+            android:text="@string/stop" />
 
         <Button
             android:id="@+id/submit_button"
@@ -81,7 +81,7 @@
             android:layout_alignRight="@+id/imageView"
             android:layout_below="@+id/play_button"
             android:layout_marginTop="47dp"
-            android:text="SUBMIT" />
+            android:text="@string/submit" />
         <!--android:onClick="submitAudio"/>-->
 
     </RelativeLayout>

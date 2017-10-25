@@ -15,9 +15,9 @@ import ch.epfl.sweng.melody.user.User;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String USER_INFO = "USER";
     private final int timer = 250; // milliseconds
     private Handler mHandler = new Handler();
-    public static final String USER_INFO = "USER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

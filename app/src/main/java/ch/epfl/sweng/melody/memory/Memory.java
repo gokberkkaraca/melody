@@ -1,6 +1,5 @@
 package ch.epfl.sweng.melody.memory;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -8,40 +7,45 @@ import java.util.UUID;
 
 
 public class Memory {
-    public enum Privacy {PRIVATE, SHARED, Public};
-    public enum Type {TEXT, PHOTO, VIDEO, AUDIO};
-    private  String id;
-    private  String author;
-    private  Date time;
-    private  String location;
+    private String id;
+
+    ;
+    private String authorId;
+    private Date time;
+    private String location;
     private String text;
     private List<Comment> comments;
     private Privacy privacy;
-    protected Type type;
+    private MemoryType memoryType;
     private Boolean reminder;
+    private String photo;
+    private String videoUrl;
+    private String audioUrl;
+    private Memory(MemoryBuilder memoryBuilder) {
+        this.id = memoryBuilder.id;
+        this.time = memoryBuilder.time;
+        this.authorId = memoryBuilder.authorId;
+        this.text = memoryBuilder.text;
+        this.location = memoryBuilder.location;
+        this.privacy = memoryBuilder.privacy;
+        this.reminder = memoryBuilder.reminder;
 
-    public Memory() {
+        this.comments = memoryBuilder.comments;
+        this.photo = memoryBuilder.photoUrl;
+        this.videoUrl = memoryBuilder.videoUrl;
 
+        this.audioUrl = memoryBuilder.audioUrl;
+        this.memoryType = memoryBuilder.memoryType;
     }
-
-    public Memory(String author, String text, String location) {
-        this.id = UUID.randomUUID().toString();
-        this.author = author;
-        this.time = Calendar.getInstance().getTime();
-        this.location = location;
-        this.text = text;
-        this.comments = new ArrayList<Comment>();
-        this.privacy = Privacy.Public;
-        this.type = Type.TEXT;
-        reminder = true;
+    public Memory() {
     }
 
     public String getId() {
         return id;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public Date getTime() {
@@ -56,33 +60,96 @@ public class Memory {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }
 
-
     public Privacy getPrivacy() {
         return privacy;
-    }
-
-    public void setPrivacy(Privacy privacy) {
-        this.privacy = privacy;
     }
 
     public Boolean getReminder() {
         return reminder;
     }
 
-    public void setReminder(Boolean reminder) {
-        this.reminder = reminder;
+    public String getPhoto() {
+        return photo;
     }
 
-    public Type getType() {
-        return type;
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
+    public String getAudioUrl() {
+        return audioUrl;
+    }
+
+    public MemoryType getMemoryType() {
+        return memoryType;
+    }
+
+    public Memory getMemory() {
+        return this;
+    }
+
+    public MemoryUploader upload() {
+        return new MemoryUploader(this);
+    }
+
+    public enum Privacy {PRIVATE, SHARED, PUBLIC}
+
+    public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
+
+    public static class MemoryBuilder {
+        private String id;
+        private String authorId;
+        private Date time;
+        private String location;
+        private String text;
+        private List<Comment> comments;
+        private Privacy privacy;
+        private Boolean reminder;
+        private MemoryType memoryType;
+        private String photoUrl;
+        private String videoUrl;
+        private String audioUrl;
+
+        public MemoryBuilder(String authorId, String text, String location) {
+            this.id = UUID.randomUUID().toString();
+            this.time = Calendar.getInstance().getTime();
+            this.authorId = authorId;
+            this.text = text;
+            this.location = location;
+            this.privacy = Privacy.PUBLIC;
+            this.reminder = true;
+            this.memoryType = MemoryType.TEXT;
+        }
+
+        public MemoryBuilder photo(String photoUrl) {
+            this.photoUrl = photoUrl;
+            this.memoryType = MemoryType.PHOTO;
+            return this;
+        }
+
+        public MemoryBuilder video(String videoUrl) {
+            this.videoUrl = videoUrl;
+            this.memoryType = MemoryType.VIDEO;
+            return this;
+        }
+
+        public MemoryBuilder audio(String audioUrl) {
+            this.audioUrl = audioUrl;
+            this.memoryType = MemoryType.AUDIO;
+            return this;
+        }
+
+        public MemoryBuilder comments(List<Comment> comments) {
+            this.comments = comments;
+            return this;
+        }
+
+        public Memory build() {
+            return new Memory(this);
+        }
+    }
 }

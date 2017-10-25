@@ -2,16 +2,11 @@ package ch.epfl.sweng.melody;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,21 +15,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.memory.Memory;
-import ch.epfl.sweng.melody.memory.MemoryPhoto;
-import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.ui.DividerItemDecoration;
+import ch.epfl.sweng.melody.user.User;
 
 public class PublicMemoryActivity extends Activity {
 
+    private static User user;
     private List<Memory> memoryList;
     private RecyclerView recyclerView;
     private MemoryAdapter memoryAdapter;
-
-    private static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +43,12 @@ public class PublicMemoryActivity extends Activity {
         DatabaseHandler.getAllMemories(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot memDataSnapshot: dataSnapshot.getChildren()){
+                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
+                    assert memory != null;
                     memoryList.add(memory);
                 }
+
                 memoryAdapter = new MemoryAdapter(memoryList);
                 memoryAdapter.notifyDataSetChanged();
 
