@@ -11,7 +11,7 @@ class MemoryUploader {
     private String id;
     private String authorId;
     private Date time;
-    private String location;q
+    private String location;
     private String text;
     private List<Comment> comments;
     private Memory.Privacy privacy;
