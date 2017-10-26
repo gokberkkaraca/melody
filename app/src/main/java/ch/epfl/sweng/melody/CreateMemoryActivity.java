@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -52,7 +51,6 @@ public class CreateMemoryActivity extends AppCompatActivity{
     private String memoryDescription;
     private Memory memory;
     private String audioPath;
-    private TextView address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +59,10 @@ public class CreateMemoryActivity extends AppCompatActivity{
 
         user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
-        imageView = (ImageView) findViewById(R.id.display_chosen_photo);
-        videoView = (VideoView) findViewById(R.id.display_chosen_video);
-        editText = (EditText) findViewById(R.id.memory_description);
-        address = (TextView) findViewById(R.id.address);
+        imageView = findViewById(R.id.display_chosen_photo);
+        videoView = findViewById(R.id.display_chosen_video);
+        editText = findViewById(R.id.memory_description);
+        TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS);
 
     }

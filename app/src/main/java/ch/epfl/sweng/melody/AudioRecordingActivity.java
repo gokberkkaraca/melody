@@ -34,10 +34,10 @@ public class AudioRecordingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_recording);
 
-        startButton = (Button) findViewById(R.id.start_button);
-        stopButton = ((Button) findViewById(R.id.stop_button));
-        playButton = ((Button) findViewById(R.id.play_button));
-        stopPlayButton = ((Button) findViewById(R.id.stop_play_button));
+        startButton = findViewById(R.id.start_button);
+        stopButton = findViewById(R.id.stop_button);
+        playButton = findViewById(R.id.play_button);
+        stopPlayButton = findViewById(R.id.stop_play_button);
 
         stopButton.setEnabled(false);
         playButton.setEnabled(false);

@@ -82,12 +82,12 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         MemoriesViewHolder(View view) {
             super(view);
-            author = (TextView) view.findViewById(R.id.author);
-            time = (TextView) view.findViewById(R.id.time);
-            description = (TextView) view.findViewById(R.id.description);
-            location = (TextView) view.findViewById(R.id.location);
-            authorPic = (ImageView) view.findViewById(R.id.authorPic);
-            memoryPic = (ImageView) view.findViewById(R.id.memoryPic);
+            author = view.findViewById(R.id.author);
+            time = view.findViewById(R.id.time);
+            description = view.findViewById(R.id.description);
+            location = view.findViewById(R.id.location);
+            authorPic = view.findViewById(R.id.authorPic);
+            memoryPic = view.findViewById(R.id.memoryPic);
         }
     }
 

@@ -1,8 +1,8 @@
 package ch.epfl.sweng.melody.memory;
 
 
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Collections;
 import java.util.Date;
@@ -11,8 +11,6 @@ import java.util.UUID;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import org.junit.Assert.*;
 
 public class MemoryUploaderTest {
 

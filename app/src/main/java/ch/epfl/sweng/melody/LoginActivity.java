@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
-    private static GoogleSignInAccount GOOGLE_ACCOUNT;
 
 
     @Override
@@ -39,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         findViewById(R.id.login_button).setOnClickListener(this);
 
         // Set the dimensions of the sign-in button.
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
 
         GoogleAccount.signIn(this);
@@ -88,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GOOGLE_ACCOUNT = result.getSignInAccount();
+            GoogleSignInAccount GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
             User user = new User(GOOGLE_ACCOUNT);
 

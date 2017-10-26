@@ -5,8 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
-import net.bytebuddy.asm.Advice;
-
 import org.hamcrest.Description;
 
 /**
