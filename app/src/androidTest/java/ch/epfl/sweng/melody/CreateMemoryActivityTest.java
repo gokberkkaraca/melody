@@ -49,6 +49,7 @@ public class CreateMemoryActivityTest {
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
     private final String CAMERA = "Camera";
     private final String CANCEL = "Cancel";
+    private final String ALBUM = "Choose from Album";
     @Rule
     public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
             new IntentsTestRule<CreateMemoryActivity>(CreateMemoryActivity.class) {
@@ -104,7 +105,6 @@ public class CreateMemoryActivityTest {
     public void displayPhotoFromGalleryTest() throws Exception{
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
-        String ALBUM = "Choose from Album";
         onView(withText(ALBUM)).perform(click());
         intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
         Thread.sleep(3000);
