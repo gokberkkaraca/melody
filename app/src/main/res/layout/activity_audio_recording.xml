@@ -28,7 +28,8 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14dp"
-            android:src="@mipmap/microphone" />
+            android:src="@mipmap/microphone"
+            tools:ignore="ContentDescription" />
 
         <Button
             android:id="@+id/start_button"

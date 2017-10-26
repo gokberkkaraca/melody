@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,7 +19,6 @@ import java.util.List;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
-import ch.epfl.sweng.melody.ui.DividerItemDecoration;
 import ch.epfl.sweng.melody.user.User;
 
 public class PublicMemoryActivity extends Activity {

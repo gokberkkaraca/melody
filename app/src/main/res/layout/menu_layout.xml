@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/menu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="horizontal">
 
     <ImageView
@@ -13,7 +13,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:onClick="goToPublicMemory"
-        android:src="@drawable/home_unfilled" />
+        android:src="@mipmap/home_unfilled"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/planet"
@@ -22,17 +23,18 @@
         android:layout_weight="1"
         android:gravity="center"
         android:onClick="goToMap"
-        android:src="@drawable/planet_unfilled" />
+        android:src="@mipmap/planet_unfilled"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_weight="1"
         android:gravity="center"
         android:onClick="addNewMemory"
-        android:src="@drawable/plus_unfilled" />
+        android:src="@mipmap/plus_unfilled"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/bell"
@@ -41,7 +43,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:onClick="goToNotification"
-        android:src="@drawable/bell_unfilled" />
+        android:src="@mipmap/bell_unfilled"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/person"
@@ -50,6 +53,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:onClick="goToUser"
-        android:src="@drawable/person_unfilled" />
+        android:src="@mipmap/person_unfilled"
+        tools:ignore="ContentDescription" />
 
 </LinearLayout>
