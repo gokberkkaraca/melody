@@ -47,10 +47,14 @@ public class MemoryTest {
         when(memory.getId()).thenReturn(memoryId);
         when(memory.getAuthorId()).thenReturn(memoryAuthorId);
         when(memory.getTime()).thenReturn(time);
-        when(memory.getComments()).thenReturn(Collections.singletonList(comment));
         when(memory.getPrivacy()).thenReturn(Memory.Privacy.PUBLIC);
         when(memory.getReminder()).thenReturn(true);
-        memoryFromBuilder = new Memory.MemoryBuilder(memoryAuthorId,text,location).photo(testPhotoUrl).video(testVideoUrl).audio(testAudioUrl).build();
+        memoryFromBuilder = new Memory.MemoryBuilder(memoryAuthorId,text,location)
+                .photo(testPhotoUrl)
+                .video(testVideoUrl)
+                .audio(testAudioUrl)
+                .comments(Collections.singletonList(comment))
+                .build();
     }
 
     @Test
@@ -80,7 +84,7 @@ public class MemoryTest {
 
     @Test
     public void getComments() throws Exception {
-        assertTrue(memory.getComments() != null);
+        assertTrue(memoryFromBuilder.getComments() != null);
     }
 
     @Test

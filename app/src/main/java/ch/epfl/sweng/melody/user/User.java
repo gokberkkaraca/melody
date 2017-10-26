@@ -33,7 +33,7 @@ public class User implements Serializable {
     private List<User> followers;
     private List<User> followings;
 
-    public User(GoogleSignInAccount googleSignInAccount) {
+    public User(GoogleSignInAccount googleSignInAccount)  {
         if (googleSignInAccount != null) {
             this.id = UUID.randomUUID().toString();
             this.firstName = googleSignInAccount.getGivenName();
