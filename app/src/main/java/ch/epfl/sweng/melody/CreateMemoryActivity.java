@@ -8,12 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,33 +30,29 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
-public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
+public class CreateMemoryActivity extends AppCompatActivity{
     private static final int REQUEST_PHOTO_GALLERY = 1;
     private static final int REQUEST_PHOTO_CAMERA = 2;
     private static final int REQUEST_VIDEO_GALLERY = 3;
     private static final int REQUEST_VIDEO_CAMERA = 4;
     private static final int REQUEST_AUDIOFILE = 5;
+    private static final String FAKE_ADDRESS = "Lausanne,Switzerland";
     User user;
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
     private EditText editText;
-    private TextView addressField; //Add a new TextView to your activity_main to display the address
-    private LocationManager locationManager;
-    private String provider;
-    private Location location;
     private Uri resourceUri;
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
     private String audioPath;
+    private TextView address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,38 +64,9 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         imageView = (ImageView) findViewById(R.id.display_chosen_photo);
         videoView = (VideoView) findViewById(R.id.display_chosen_video);
         editText = (EditText) findViewById(R.id.memory_description);
-        addressField = (TextView) findViewById(R.id.address);
+        address = (TextView) findViewById(R.id.address);
+        address.setText(FAKE_ADDRESS);
 
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        addressField.setText(provider);
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            location = locationManager.getLastKnownLocation(provider);
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-//        try {
-//            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//        } catch (SecurityException e) {
-//            System.out.print("onCreate"); // lets the user know there is a problem with the gps
-//        }
-        //Location location = locationManager.getLastKnownLocation(provider);
-
-        if (location != null) {
-            System.out.println("Provider " + provider + " has been selected.");
-            onLocationChanged(location);
-        } else {
-        }
-        Bundle bundle = getIntent().getExtras();
-        //audioPath = bundle.getString("audioPath");
-
-//        latitudeField = (TextView) findViewById(R.id.latitude);
-//        longitudeField = (TextView) findViewById(R.id.longitude);
-        addressField = (TextView) findViewById(R.id.address);
     }
 
     public void pickPhotoDialog(View view) {
@@ -153,7 +115,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
+            memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
@@ -174,11 +136,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
+                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
                             .photo(url)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, addressField.getText().toString())
+                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
                             .build();
                 }
                 DatabaseHandler.uploadMemory(memory);
@@ -201,75 +163,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 progressDialog.setMessage("Uploaded " + (int) progress + "%");
             }
         });
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            location = locationManager.getLastKnownLocation(provider);
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-//        try {
-//            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//        } catch (SecurityException e) {
-//           System.out.print("onResume catch exception"); // lets the user know there is a problem with the gps
-//        }
-        //locationManager.requestLocationUpdates(provider, 400, 1, this);
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        locationManager.removeUpdates(this);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        double lat = location.getLatitude();
-        double lng = location.getLongitude();
-
-        Geocoder geoCoder = new Geocoder(this, Locale.getDefault());
-        StringBuilder builder = new StringBuilder();
-        try {
-            List<Address> addresses = geoCoder.getFromLocation(lat, lng, 1);
-            String finalAddress = addresses.get(0).getCountryName() + ", " + addresses.get(0).getLocality();
-
-
-//            int maxLines = address.get(0).getMaxAddressLineIndex();
-//                for (int i=0; i<maxLines; i++) {
-//                    String addressStr = address.get(0).getAddressLine(i);
-//                    builder.append(addressStr);
-//                    builder.append(" ");
-//            }
-
-            //String finalAddress = builder.toString(); //This is the complete address.
-
-            addressField.setText(finalAddress); //This will display the final address.
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Enabled new provider " + provider,
-                Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Toast.makeText(this, "Disabled provider " + provider,
-                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -382,14 +275,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     accessAudioFiles();
                 }
             }
-
-//            case REQUEST_LOCATION:{
-//                if ( ContextCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-//                    ActivityCompat.requestPermissions( this,
-//                            new String[] {Manifest.permission.ACCESS_FINE_LOCATION },
-//                            REQUEST_LOCATION);
-//                }
-//            }
         }
     }
 
@@ -409,8 +294,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     }
 
     private void videoFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("video/*");
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_VIDEO_GALLERY);
     }
 
