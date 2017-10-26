@@ -160,7 +160,7 @@ public class CreateMemoryActivityTest {
     private Instrumentation.ActivityResult photoFromCameraSub() {
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", BitmapFactory.decodeResource(
-                createMemoryActivityIntentsTestRule.getActivity().getResources(), R.drawable.login_button));
+                createMemoryActivityIntentsTestRule.getActivity().getResources(), R.mipmap.login_button));
         Intent resultData = new Intent();
         resultData.putExtras(bundle);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
