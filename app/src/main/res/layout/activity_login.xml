@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:layout_editor_absoluteX="8dp"
     tools:layout_editor_absoluteY="8dp"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -63,7 +62,7 @@
         android:id="@+id/melody_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/melody_logo"
+        app:srcCompat="@mipmap/melody_logo"
         android:layout_above="@+id/email"
         android:layout_alignRight="@+id/sign_up_button"
         android:layout_alignEnd="@+id/sign_up_button"
@@ -75,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:srcCompat="@drawable/login_button"
+        app:srcCompat="@mipmap/login_button"
         android:layout_below="@+id/password"
         android:layout_alignRight="@+id/password"
         android:layout_alignEnd="@+id/password"
