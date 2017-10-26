@@ -12,18 +12,17 @@ import ch.epfl.sweng.melody.memory.Memory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by maxwell on 19/10/2017.
- */
 public class UserTest {
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
     private User user;
 
     @Before
     public void setUp() throws Exception {
+
         final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
         when(googleSignInAccount.getId()).thenReturn("QWERTYU");
         when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
@@ -124,6 +123,15 @@ public class UserTest {
     @Test
     public void getProfilePhotoUrl() throws Exception {
         assertEquals(user.getProfilePhotoUrl(), defaultProfilePhotoUrl);
+    }
+
+    @Test
+    public void getDefaultProfilePhotoURL() throws Exception{
+        assertEquals(user.getDefaultProfilePhotoUrl(), defaultProfilePhotoUrl);
+    }
+    @Test
+    public void emptyConstructor() throws Exception {
+        assertNotNull(new User());
     }
 
 }

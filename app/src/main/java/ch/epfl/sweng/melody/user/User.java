@@ -130,4 +130,8 @@ public class User implements Serializable {
     public String getProfilePhotoUrl() {
         return profilePhotoUrl;
     }
+
+    public String getDefaultProfilePhotoUrl() {
+        return defaultProfilePhotoUrl;
+    }
 }
