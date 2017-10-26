@@ -15,13 +15,10 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by yusiz on 2017/10/19.
- */
 public class MemoryTest {
 
-    Memory memory;
-    Memory memoryFromBuilder;
+    private Memory memory;
+    private Memory memoryFromBuilder;
 
     private final String memoryId = UUID.randomUUID().toString();
     private final String memoryAuthorId = UUID.randomUUID().toString();

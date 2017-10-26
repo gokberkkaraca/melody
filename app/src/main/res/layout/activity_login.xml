@@ -49,8 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/email"
-        android:layout_alignLeft="@+id/email"
-        android:layout_alignRight="@+id/email"
         android:layout_alignStart="@+id/email"
         android:layout_centerVertical="true"
         android:ems="10"
@@ -64,7 +62,6 @@
         android:layout_height="wrap_content"
         app:srcCompat="@mipmap/melody_logo"
         android:layout_above="@+id/email"
-        android:layout_alignRight="@+id/sign_up_button"
         android:layout_alignEnd="@+id/sign_up_button"
         android:layout_marginBottom="19dp"
         android:contentDescription="@string/content_description" />
@@ -76,7 +73,6 @@
         android:background="@color/white"
         app:srcCompat="@mipmap/login_button"
         android:layout_below="@+id/password"
-        android:layout_alignRight="@+id/password"
         android:layout_alignEnd="@+id/password"
         android:layout_marginTop="14dp"
         android:contentDescription="@string/content_description" />

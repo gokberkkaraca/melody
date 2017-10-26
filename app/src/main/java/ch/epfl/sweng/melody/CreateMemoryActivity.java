@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -42,7 +41,7 @@ public class CreateMemoryActivity extends AppCompatActivity{
     private static final int REQUEST_VIDEO_CAMERA = 4;
     private static final int REQUEST_AUDIOFILE = 5;
     private static final String FAKE_ADDRESS = "Lausanne,Switzerland";
-    User user;
+    private User user;
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
@@ -51,8 +50,7 @@ public class CreateMemoryActivity extends AppCompatActivity{
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
-    private String audioPath;
-    private TextView address;
+//    private String audioPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +59,10 @@ public class CreateMemoryActivity extends AppCompatActivity{
 
         user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
-        imageView = (ImageView) findViewById(R.id.display_chosen_photo);
-        videoView = (VideoView) findViewById(R.id.display_chosen_video);
-        editText = (EditText) findViewById(R.id.memory_description);
-        address = (TextView) findViewById(R.id.address);
+        imageView = findViewById(R.id.display_chosen_photo);
+        videoView = findViewById(R.id.display_chosen_video);
+        editText = findViewById(R.id.memory_description);
+        TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS);
 
     }

@@ -23,13 +23,6 @@ public class AudioRecordingActivityTest {
     public final ActivityTestRule<AudioRecordingActivity> audioRecordingActivityTestRule =
             new ActivityTestRule<>(AudioRecordingActivity.class);
 
-    private AudioRecordingActivity audioRecordingActivity;
-
-    @Before
-    public void setActivity() {
-        audioRecordingActivity = audioRecordingActivityTestRule.getActivity();
-    }
-
     @Before
     public void grantAudioPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

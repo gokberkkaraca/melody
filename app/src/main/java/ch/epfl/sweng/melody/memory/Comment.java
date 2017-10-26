@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
-public class Comment {
+class Comment {
 
     private final String memoryId;
     private final String authorId;
@@ -12,7 +12,7 @@ public class Comment {
     private final Date time;
     private final String id;
 
-    public Comment(String memoryId, String authorId, String content) {
+    Comment(String memoryId, String authorId, String content) {
         this.id = UUID.randomUUID().toString();
         this.memoryId = memoryId;
         this.authorId = authorId;
