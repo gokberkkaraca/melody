@@ -16,7 +16,7 @@ import ch.epfl.sweng.melody.user.User;
 public class MainActivity extends AppCompatActivity {
 
     public static final String USER_INFO = "USER";
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

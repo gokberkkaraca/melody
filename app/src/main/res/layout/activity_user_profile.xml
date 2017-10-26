@@ -50,7 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/followersText"
             android:layout_alignBottom="@+id/followersText"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_marginLeft="32dp"
             android:layout_marginStart="32dp"
             android:text="@string/followings"
             android:textAllCaps="false"
@@ -73,7 +75,9 @@
             android:layout_alignBaseline="@+id/followersText"
             android:layout_alignBottom="@+id/followersText"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_marginEnd="37dp"
+            android:layout_marginRight="37dp"
             android:text="@string/friends"
             android:textStyle="bold" />
 
@@ -84,7 +88,9 @@
             android:layout_alignBaseline="@+id/followers"
             android:layout_alignBottom="@+id/followers"
             android:layout_alignEnd="@+id/followingsText"
+            android:layout_alignRight="@+id/followingsText"
             android:layout_marginEnd="18dp"
+            android:layout_marginRight="18dp"
             android:text="@string/_500" />
 
         <TextView
@@ -103,6 +109,7 @@
             android:layout_alignBaseline="@+id/followers"
             android:layout_alignBottom="@+id/followers"
             android:layout_alignEnd="@+id/friendsText"
+            android:layout_marginRight="10dp"
             android:layout_marginEnd="10dp"
             android:text="@string/_220" />
 
@@ -111,6 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/friendsText"
+            android:layout_alignRight="@+id/friendsText"
             android:layout_alignTop="@+id/profilePicView"
             android:text="@string/edit"
             android:textColor="@color/colorPrimary"
@@ -123,6 +131,8 @@
             android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/followings"
             android:layout_marginTop="22dp"
@@ -134,9 +144,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/friendsText"
+            android:layout_alignRight="@+id/friendsText"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/profilePicView"
+            android:layout_toRightOf="@+id/profilePicView"
             android:onClick="logOut"
+            android:layout_marginBottom="10dp"
             android:text="@string/log_out" />
     </RelativeLayout>
 

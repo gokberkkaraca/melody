@@ -50,7 +50,7 @@ public class CreateMemoryActivity extends AppCompatActivity{
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
-    private String audioPath;
+//    private String audioPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

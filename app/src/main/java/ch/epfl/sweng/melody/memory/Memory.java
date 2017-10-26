@@ -99,14 +99,14 @@ public class Memory {
     public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
 
     public static class MemoryBuilder {
-        private String id;
-        private String authorId;
-        private Date time;
-        private String location;
-        private String text;
+        private final String id;
+        private final String authorId;
+        private final Date time;
+        private final String location;
+        private final String text;
         private List<Comment> comments;
-        private Privacy privacy;
-        private Boolean reminder;
+        private final Privacy privacy;
+        private final Boolean reminder;
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;

@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.Random;
 import java.util.UUID;
 
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -27,7 +26,6 @@ public class AudioRecordingActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private String audioSavingPath;
     private Button startButton, stopButton, playButton, stopPlayButton;
-    private Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -39,9 +39,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static org.hamcrest.Matchers.equalTo;
-/**
- * Created by maxwell on 25/10/2017.
- */
 
 @RunWith(AndroidJUnit4.class)
 public class CreateMemoryActivityTest {

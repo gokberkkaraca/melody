@@ -7,10 +7,6 @@ import android.widget.VideoView;
 
 import org.hamcrest.Description;
 
-/**
- * Created by maxwell on 25/10/2017.
- */
-
 class ViewMatcher {
     static BoundedMatcher<View, ImageView> hasDrawable() {
         return new BoundedMatcher<View, ImageView>(ImageView.class) {

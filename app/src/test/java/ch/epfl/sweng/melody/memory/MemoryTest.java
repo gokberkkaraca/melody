@@ -15,9 +15,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by yusiz on 2017/10/19.
- */
 public class MemoryTest {
 
     private Memory memory;
