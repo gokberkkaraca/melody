@@ -3,10 +3,8 @@ package ch.epfl.sweng.melody;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +22,7 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.melody.user.User;
 
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
@@ -149,6 +148,15 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
     }
 
+    @Test
+    public void pickAudioDialogTest() throws Exception{
+        onView(withId(R.id.record_audio)).perform(click());
+        onView(withText("Record")).perform(click());
+        pressBack();
+        onView(withId(R.id.record_audio)).perform(click());
+        onView(withText(CANCEL)).perform(click());
+    }
+
     private Instrumentation.ActivityResult photoFromCameraSub() {
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", BitmapFactory.decodeResource(
@@ -159,13 +167,9 @@ public class CreateMemoryActivityTest {
     }
 
     private Instrumentation.ActivityResult photoFromGallerySub(){
-        Resources resources = InstrumentationRegistry.getTargetContext().getResources();
-        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
-                resources.getResourcePackageName(R.mipmap.ic_launcher) + '/' +
-                resources.getResourceTypeName(R.mipmap.ic_launcher) + '/' +
-                resources.getResourceEntryName(R.mipmap.ic_launcher));
+        Uri uri = Uri.parse(defaultProfilePhotoUrl);
         Intent intent = new Intent();
-        intent.setData(imageUri);
+        intent.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK,intent);
     }
 
@@ -182,4 +186,5 @@ public class CreateMemoryActivityTest {
         intent.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK,intent);
     }
+
 }
