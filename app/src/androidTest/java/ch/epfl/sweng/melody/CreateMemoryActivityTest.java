@@ -22,10 +22,13 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.melody.user.User;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.melody.ViewMatcher.hasDrawable;
 import static ch.epfl.sweng.melody.ViewMatcher.hasVideo;
@@ -129,15 +132,13 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.display_chosen_video)).check(matches(hasVideo()));
     }
 
-//    @Test
-//    public void displayVideoFromGalleryTest() throws Exception{
-//        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
-//        onView(withId(R.id.take_videos)).perform(click());
-//        onView(withText(ALBUM)).perform(click());
-//        intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI)));
-//        Thread.sleep(3000);
-//        onView(withId(R.id.display_chosen_video)).check(matches(hasVideo()));
-//    }
+    @Test
+    public void displayVideoFromGalleryTest() throws Exception{
+        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
+        onView(withId(R.id.take_videos)).perform(click());
+        onView(withText(ALBUM)).perform(click());
+        //intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI)));
+    }
 
     @Test
     public void cancelDisplayVideoTest() throws Exception{
@@ -155,6 +156,33 @@ public class CreateMemoryActivityTest {
         pressBack();
         onView(withId(R.id.record_audio)).perform(click());
         onView(withText(CANCEL)).perform(click());
+    }
+
+    @Test
+    public void sendEmptyMemoryTest() throws Exception{
+        onView(withId(R.id.memory_send)).perform(click());
+        onView(withText("Say something!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void sendTextMemoryTest() {
+        onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
+        closeSoftKeyboard();
+        onView(withId(R.id.memory_send)).perform(click());
+        onView(withText("Memory uploaded!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void sendPhotoMemoryTest(){
+        onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
+        onView(withId(R.id.take_photos)).perform(click());
+        onView(withText(ALBUM)).perform(click());
+        intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
+        onView(withId(R.id.memory_send)).perform(click());
+        onView(withText("Say something!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+        onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
+        closeSoftKeyboard();
+        onView(withId(R.id.memory_send)).perform(click());
     }
 
     private Instrumentation.ActivityResult photoFromCameraSub() {
