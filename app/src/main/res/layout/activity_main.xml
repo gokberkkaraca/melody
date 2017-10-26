@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context="ch.epfl.sweng.melody.MainActivity">
 
     <ImageView
@@ -18,5 +17,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.36"
-        app:srcCompat="@drawable/melody_logo" />
+        app:srcCompat="@mipmap/melody_logo"
+        tools:ignore="ContentDescription" />
 </android.support.constraint.ConstraintLayout>
