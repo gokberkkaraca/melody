@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
@@ -24,7 +25,7 @@ import ch.epfl.sweng.melody.user.User;
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
 
     private List<Memory> memoryList;
-    private SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a");
+    private SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
 
 
     public MemoryAdapter(List<Memory> memoryList) {
