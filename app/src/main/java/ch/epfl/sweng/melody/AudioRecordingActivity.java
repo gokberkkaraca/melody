@@ -28,7 +28,6 @@ public class AudioRecordingActivity extends AppCompatActivity {
     private Button startButton, stopButton, playButton, stopPlayButton;
     ;
     private Random random = new Random();
-    private String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +138,9 @@ public class AudioRecordingActivity extends AppCompatActivity {
         StringBuilder stringBuilder = new StringBuilder(string);
         int i = 0;
         while (i < string) {
-            stringBuilder.append(RandomAudioFileName.
-                    charAt(random.nextInt(RandomAudioFileName.length())));
+            String randomAudioFileName = "ABCDEFGHIJKLMNOP";
+            stringBuilder.append(randomAudioFileName.
+                    charAt(random.nextInt(randomAudioFileName.length())));
             i++;
         }
         return stringBuilder.toString();
