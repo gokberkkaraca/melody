@@ -64,7 +64,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
                     startButton.setEnabled(false);
                     stopButton.setEnabled(true);
 
-                    Toast.makeText(AudioRecordingActivity.this, "Recording started", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AudioRecordingActivity.this, "Recording started", Toast.LENGTH_SHORT).show();
                 } else {
                     requestPermission();
                 }
@@ -83,7 +83,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
                 stopPlayButton.setEnabled(false);
 
                 Toast.makeText(AudioRecordingActivity.this, "Recording Completed",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -105,7 +105,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
                 } //How to handle it ?
 
                 mediaPlayer.start();
-                Toast.makeText(AudioRecordingActivity.this, "Recording Playing", Toast.LENGTH_LONG).show();
+                Toast.makeText(AudioRecordingActivity.this, "Recording Playing", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -159,9 +159,9 @@ public class AudioRecordingActivity extends AppCompatActivity {
                     boolean RecordPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
                     if (StoragePermission && RecordPermission) {
-                        Toast.makeText(AudioRecordingActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AudioRecordingActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(AudioRecordingActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AudioRecordingActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
