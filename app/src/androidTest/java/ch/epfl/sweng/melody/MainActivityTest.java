@@ -14,7 +14,6 @@ public class MainActivityTest {
     public final ActivityTestRule<MainActivity> mainActivityActivityTestRule =
             new ActivityTestRule<>(MainActivity.class);
 
-    @Ignore
     @Test
     public void testCanRun() {
     }
