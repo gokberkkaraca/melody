@@ -5,31 +5,37 @@ import org.junit.Test;
 
 import java.util.UUID;
 
+import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CommentTest {
 
     private Comment comment;
-    private String memory;
-    private String author;
+    private String memoryId;
+    private String authorId;
     private String content;
 
     @Before
     public void createComment() {
-        memory = UUID.randomUUID().toString();
-        author = UUID.randomUUID().toString();
+        memoryId = UUID.randomUUID().toString();
+        authorId = UUID.randomUUID().toString();
         content = "Test comment";
-        comment = new Comment(memory, author, content);
+        comment = new Comment(memoryId, authorId, content);
+    }
+
+    @Test
+    public void getId() throws Exception {
+        assertFalse(comment.getId().isEmpty());
     }
 
     @Test
     public void getMemory() throws Exception {
-        assertTrue(comment.getMemory().equals(memory));
+        assertTrue(comment.getMemoryId().equals(memoryId));
     }
 
     @Test
     public void getAuthor() throws Exception {
-        assertTrue(comment.getAuthor().equals(author));
+        assertTrue(comment.getAuthorId().equals(authorId));
     }
 
     @Test

@@ -2,27 +2,34 @@ package ch.epfl.sweng.melody.memory;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 public class Comment {
 
-    private final String memory;
-    private final String author;
+    private final String memoryId;
+    private final String authorId;
     private final String content;
     private final Date time;
+    private final String id;
 
-    public Comment(String memory, String author, String content) {
-        this.memory = memory;
-        this.author = author;
+    public Comment(String memoryId, String authorId, String content) {
+        this.id = UUID.randomUUID().toString();
+        this.memoryId = memoryId;
+        this.authorId = authorId;
         this.content = content;
         this.time = Calendar.getInstance().getTime();
     }
 
-    public String getMemory() {
-        return memory;
+    public String getId() {
+        return id;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getMemoryId() {
+        return memoryId;
+    }
+
+    public String getAuthorId() {
+        return authorId;
     }
 
     public String getContent() {
