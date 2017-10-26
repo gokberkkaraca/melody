@@ -64,10 +64,9 @@ public class CreateMemoryActivityTest {
                     when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
                     when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
                     when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
-                    when(googleSignInAccount.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
+                    when(googleSignInAccount.getEmail()).thenReturn("xjcmaxwell@163.com");
                     when(googleSignInAccount.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
                     user = new User(googleSignInAccount);
-
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
                     Intent intent = new Intent(targetContext,CreateMemoryActivity.class);
@@ -90,6 +89,8 @@ public class CreateMemoryActivityTest {
 
         Instrumentation.ActivityResult videoGalleryResult = videoFromGallerySub();
         intending(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI))).respondWith(videoGalleryResult);
+
+
     }
 
 
@@ -136,7 +137,7 @@ public class CreateMemoryActivityTest {
     public void displayVideoFromGalleryTest() throws Exception{
         onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
-        onView(withText(ALBUM)).perform(click());
+        //onView(withText(ALBUM)).perform(click());
         //intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI)));
     }
 
@@ -165,14 +166,6 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void sendTextMemoryTest() {
-        onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
-        closeSoftKeyboard();
-        onView(withId(R.id.memory_send)).perform(click());
-        onView(withText("Memory uploaded!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
-    }
-
-    @Test
     public void sendPhotoMemoryTest(){
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
@@ -184,6 +177,19 @@ public class CreateMemoryActivityTest {
         closeSoftKeyboard();
         onView(withId(R.id.memory_send)).perform(click());
     }
+
+//    @Test
+//    public void sendVideoMemoryTest(){
+//        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
+//        onView(withId(R.id.take_videos)).perform(click());
+//        onView(withText(CAMERA)).perform(click());
+//        intended(hasAction(equalTo(MediaStore.ACTION_VIDEO_CAPTURE)));
+//        onView(withId(R.id.memory_send)).perform(click());
+//        onView(withText("Say something!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+//        onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
+//        closeSoftKeyboard();
+//        onView(withId(R.id.memory_send)).perform(click());
+//    }
 
     private Instrumentation.ActivityResult photoFromCameraSub() {
         Bundle bundle = new Bundle();
