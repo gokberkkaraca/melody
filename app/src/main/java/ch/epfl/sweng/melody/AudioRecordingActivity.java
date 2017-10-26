@@ -83,7 +83,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
                 stopPlayButton.setEnabled(false);
 
                 Toast.makeText(AudioRecordingActivity.this, "Recording Completed",
-                        Toast.LENGTH_LONG).show();
+                        Toast.LENGTH_SHORT).show();
             }
         });
 
