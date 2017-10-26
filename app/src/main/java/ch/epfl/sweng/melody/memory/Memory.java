@@ -8,8 +8,6 @@ import java.util.UUID;
 
 public class Memory {
     private String id;
-
-    ;
     private String authorId;
     private Date time;
     private String location;
