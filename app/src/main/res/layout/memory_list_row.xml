@@ -7,11 +7,11 @@
         android:id="@+id/authorPic"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/person_filled"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/author"
-        android:layout_alignStart="@+id/author" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/author"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/person_filled" />
 
     <TextView
         android:id="@+id/author"
@@ -58,8 +58,8 @@
         android:layout_width="130dp"
         android:layout_height="70dp"
         android:layout_alignBottom="@+id/author"
-        android:layout_toRightOf="@+id/location"
         android:layout_toEndOf="@+id/location"
+        android:layout_toRightOf="@+id/location"
         android:text="@string/description"
         android:textSize="12sp" />
 
@@ -67,12 +67,11 @@
         android:id="@+id/memoryPic"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_below="@+id/time"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="100dp"
-        android:layout_marginEnd="27dp" />
-
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/time"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="100dp" />
 
 
 </RelativeLayout>

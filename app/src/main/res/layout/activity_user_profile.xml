@@ -149,8 +149,8 @@
             android:layout_alignEnd="@+id/friendsText"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/friendsText"
-            android:layout_toRightOf="@+id/profilePicView"
             android:layout_toEndOf="@+id/profilePicView"
+            android:layout_toRightOf="@+id/profilePicView"
             android:onClick="logOut"
             android:text="@string/log_out" />
     </RelativeLayout>

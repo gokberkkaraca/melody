@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class CommentTest {
 
@@ -15,7 +15,7 @@ public class CommentTest {
     private String content;
 
     @Before
-    public void createComment(){
+    public void createComment() {
         memory = UUID.randomUUID().toString();
         author = UUID.randomUUID().toString();
         content = "Test comment";
