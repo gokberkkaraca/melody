@@ -24,8 +24,8 @@ import ch.epfl.sweng.melody.user.User;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
 
-    private List<Memory> memoryList;
-    private SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
+    private final List<Memory> memoryList;
+    private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
 
 
     public MemoryAdapter(List<Memory> memoryList) {
@@ -77,17 +77,17 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
     }
 
     class MemoriesViewHolder extends RecyclerView.ViewHolder {
-        TextView author, time, description, location;
-        ImageView authorPic, memoryPic;
+        final TextView author, time, description, location;
+        final ImageView authorPic, memoryPic;
 
         MemoriesViewHolder(View view) {
             super(view);
-            author = (TextView) view.findViewById(R.id.author);
-            time = (TextView) view.findViewById(R.id.time);
-            description = (TextView) view.findViewById(R.id.description);
-            location = (TextView) view.findViewById(R.id.location);
-            authorPic = (ImageView) view.findViewById(R.id.authorPic);
-            memoryPic = (ImageView) view.findViewById(R.id.memoryPic);
+            author = view.findViewById(R.id.author);
+            time = view.findViewById(R.id.time);
+            description = view.findViewById(R.id.description);
+            location = view.findViewById(R.id.location);
+            authorPic = view.findViewById(R.id.authorPic);
+            memoryPic = view.findViewById(R.id.memoryPic);
         }
     }
 

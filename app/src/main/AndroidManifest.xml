@@ -28,12 +28,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserProfileActivity"></activity>
-        <activity android:name=".PublicMemoryActivity"></activity>
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".PublicMemoryActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CreateMemoryActivity" />
-        <activity android:name=".AudioRecordingActivity"></activity>
+        <activity android:name=".AudioRecordingActivity" />
     </application>
 
 </manifest>
