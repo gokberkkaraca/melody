@@ -21,7 +21,7 @@ class MemoryUploader {
     private String videoUrl;
     private String audioUrl;
 
-    protected MemoryUploader(Memory memory) {
+    MemoryUploader(Memory memory) {
         id = memory.getId();
         authorId = memory.getAuthorId();
         time = memory.getTime();

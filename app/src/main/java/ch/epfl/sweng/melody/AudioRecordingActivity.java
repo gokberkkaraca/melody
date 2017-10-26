@@ -15,18 +15,18 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.UUID;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class AudioRecordingActivity extends AppCompatActivity {
 
-    public static final int RequestPermissionCode = 1;
+    private static final int RequestPermissionCode = 1;
     private MediaRecorder mediaRecorder;
     private MediaPlayer mediaPlayer;
     private String audioSavingPath;
     private Button startButton, stopButton, playButton, stopPlayButton;
-    ;
     private Random random = new Random();
 
     @Override
@@ -47,9 +47,10 @@ public class AudioRecordingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String randomFileName = UUID.randomUUID().toString().substring(0,10);
                 if (checkPermission()) {
                     audioSavingPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                            CreateFileName(5) + "AudioRecording.3gp";
+                            randomFileName + "AudioRecording.3gp";
 
                     prepareRecorder();
 
@@ -126,24 +127,12 @@ public class AudioRecordingActivity extends AppCompatActivity {
 
     }
 
-    public void prepareRecorder() {
+    private void prepareRecorder() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         mediaRecorder.setOutputFile(audioSavingPath);
-    }
-
-    public String CreateFileName(int string) {
-        StringBuilder stringBuilder = new StringBuilder(string);
-        int i = 0;
-        while (i < string) {
-            String randomAudioFileName = "ABCDEFGHIJKLMNOP";
-            stringBuilder.append(randomAudioFileName.
-                    charAt(random.nextInt(randomAudioFileName.length())));
-            i++;
-        }
-        return stringBuilder.toString();
     }
 
     private void requestPermission() {
@@ -168,7 +157,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
         }
     }
 
-    public boolean checkPermission() {
+    private boolean checkPermission() {
         int write = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
         int record = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
 

@@ -42,7 +42,7 @@ public class CreateMemoryActivity extends AppCompatActivity{
     private static final int REQUEST_VIDEO_CAMERA = 4;
     private static final int REQUEST_AUDIOFILE = 5;
     private static final String FAKE_ADDRESS = "Lausanne,Switzerland";
-    User user;
+    private User user;
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;

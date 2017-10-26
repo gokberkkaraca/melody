@@ -20,8 +20,8 @@ import static org.mockito.Mockito.when;
  */
 public class MemoryTest {
 
-    Memory memory;
-    Memory memoryFromBuilder;
+    private Memory memory;
+    private Memory memoryFromBuilder;
 
     private final String memoryId = UUID.randomUUID().toString();
     private final String memoryAuthorId = UUID.randomUUID().toString();
