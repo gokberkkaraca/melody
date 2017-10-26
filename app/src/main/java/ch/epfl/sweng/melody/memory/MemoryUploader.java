@@ -3,25 +3,21 @@ package ch.epfl.sweng.melody.memory;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by maxwell on 24/10/2017.
- */
-
 class MemoryUploader {
-    private String id;
-    private String authorId;
-    private Date time;
-    private String location;
-    private String text;
-    private List<Comment> comments;
-    private Memory.Privacy privacy;
+    final private String id;
+    final private String authorId;
+    final private Date time;
+    final private String location;
+    final private String text;
+    final private List<Comment> comments;
+    final private Memory.Privacy privacy;
     private Memory.MemoryType memoryType;
-    private Boolean reminder;
-    private String photo;
-    private String videoUrl;
-    private String audioUrl;
+    final private Boolean reminder;
+    final private String photo;
+    final private String videoUrl;
+    final private String audioUrl;
 
-    protected MemoryUploader(Memory memory) {
+    MemoryUploader(Memory memory) {
         id = memory.getId();
         authorId = memory.getAuthorId();
         time = memory.getTime();

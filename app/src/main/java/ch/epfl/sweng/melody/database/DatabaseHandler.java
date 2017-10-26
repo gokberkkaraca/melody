@@ -24,8 +24,8 @@ public class DatabaseHandler {
     private static final String STORAGE_IMAGES_PATH = "resources/";
     private static final String DATABASE_MEMORIES_PATH = "memories";
     private static final String DATABASE_USERS_PATH = "users";
-    private static DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
-    private static StorageReference storageReference = FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
+    private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
+    private static final StorageReference storageReference = FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
 
     public static void addUser(User user) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getId()).setValue(user);

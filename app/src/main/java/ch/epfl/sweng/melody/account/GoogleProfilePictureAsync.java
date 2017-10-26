@@ -11,8 +11,8 @@ import java.net.URL;
 
 public class GoogleProfilePictureAsync extends AsyncTask<Void, Void, Bitmap> {
 
-    private ImageView img;
-    private Uri uri;
+    private final ImageView img;
+    private final Uri uri;
 
     public GoogleProfilePictureAsync(ImageView img, Uri uri) {
         this.img = img;
