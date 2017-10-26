@@ -29,7 +29,8 @@
             android:layout_height="100dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp" />
+            android:layout_marginTop="28dp"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/username"
@@ -90,7 +91,6 @@
             android:layout_alignRight="@+id/followingsText"
             android:layout_marginEnd="18dp"
             android:layout_marginRight="18dp"
-            android:inputType="number"
             android:text="@string/_500" />
 
         <TextView
@@ -99,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/followingsText"
             android:layout_centerHorizontal="true"
-            android:inputType="number"
             android:text="@string/_380" />
 
 
@@ -113,7 +112,6 @@
             android:layout_alignRight="@+id/friendsText"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="number"
             android:text="@string/_220" />
 
         <TextView
