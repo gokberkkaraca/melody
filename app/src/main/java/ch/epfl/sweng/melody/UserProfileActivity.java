@@ -14,7 +14,7 @@ import ch.epfl.sweng.melody.user.User;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    User user;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

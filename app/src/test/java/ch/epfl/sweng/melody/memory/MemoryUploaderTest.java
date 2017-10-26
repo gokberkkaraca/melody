@@ -16,8 +16,8 @@ import org.junit.Assert.*;
 
 public class MemoryUploaderTest {
 
-    MemoryUploader memoryUploader;
-    Memory memory;
+    private MemoryUploader memoryUploader;
+    private Memory memory;
 
     private final String memoryId = UUID.randomUUID().toString();
     private final String memoryAuthorId = UUID.randomUUID().toString();
