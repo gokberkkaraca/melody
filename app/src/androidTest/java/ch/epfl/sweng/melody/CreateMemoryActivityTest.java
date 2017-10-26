@@ -3,8 +3,10 @@ package ch.epfl.sweng.melody;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.melody.ViewMatcher.hasDrawable;
+import static ch.epfl.sweng.melody.ViewMatcher.hasVideo;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
@@ -43,6 +46,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 public class CreateMemoryActivityTest {
+    private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1508935737477.mp4?alt=media&token=5a33aae6-a8c6-46c1-9add-181b0ef258c3";
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
     private final String CAMERA = "Camera";
     private final String ALBUM = "Choose from Album";
@@ -72,41 +76,77 @@ public class CreateMemoryActivityTest {
                 }
             };
     @Before
-    public void photoCameraIntent() {
+    public void prepareIntent() {
         Instrumentation.ActivityResult photoCameraResult = photoFromCameraSub();
         intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(photoCameraResult);
+
+        Instrumentation.ActivityResult photoGalleryResult = photoFromGallerySub();
+        intending(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI))).respondWith(photoGalleryResult);
+
+        Instrumentation.ActivityResult videoCameraResult = videoFromCameraSub();
+        intending(hasAction(MediaStore.ACTION_VIDEO_CAPTURE)).respondWith(videoCameraResult);
+
+        Instrumentation.ActivityResult videoGalleryResult = videoFromGallerySub();
+        intending(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI))).respondWith(videoGalleryResult);
     }
 
-    @Before
-    public void photoGalleryIntent(){
-        Instrumentation.ActivityResult photoGalleryResult = photoFromGallerySub();
-        intending(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI))).respondWith(photoGalleryResult);
-    }
 
     @Test
-    public void displayPhotoFromCameraTest(){
+    public void displayPhotoFromCameraTest() throws Exception{
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(CAMERA)).perform(click());
         intended(hasAction(equalTo(MediaStore.ACTION_IMAGE_CAPTURE)));
+        Thread.sleep(3000);
         onView(withId(R.id.display_chosen_photo)).check(matches(hasDrawable()));
     }
 
     @Test
-    public void displayPhotoFromGalleryTest(){
+    public void displayPhotoFromGalleryTest() throws Exception{
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(ALBUM)).perform(click());
         intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
+        Thread.sleep(3000);
         onView(withId(R.id.display_chosen_photo)).check(matches(hasDrawable()));
     }
 
     @Test
-    public void cancelDisplayPhotoTest(){
+    public void cancelDisplayPhotoTest() throws Exception{
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(CANCEL)).perform(click());
+        Thread.sleep(3000);
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
+    }
+
+    @Test
+    public void displayVideoFromCameraTest() throws Exception{
+        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
+        onView(withId(R.id.take_videos)).perform(click());
+        onView(withText(CAMERA)).perform(click());
+        intended(hasAction(equalTo(MediaStore.ACTION_VIDEO_CAPTURE)));
+        Thread.sleep(3000);
+        onView(withId(R.id.display_chosen_video)).check(matches(hasVideo()));
+    }
+
+//    @Test
+//    public void displayVideoFromGalleryTest() throws Exception{
+//        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
+//        onView(withId(R.id.take_videos)).perform(click());
+//        onView(withText(ALBUM)).perform(click());
+//        intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI)));
+//        Thread.sleep(3000);
+//        onView(withId(R.id.display_chosen_video)).check(matches(hasVideo()));
+//    }
+
+    @Test
+    public void cancelDisplayVideoTest() throws Exception{
+        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
+        onView(withId(R.id.take_videos)).perform(click());
+        onView(withText(CANCEL)).perform(click());
+        Thread.sleep(3000);
+        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
     }
 
     private Instrumentation.ActivityResult photoFromCameraSub() {
@@ -119,10 +159,27 @@ public class CreateMemoryActivityTest {
     }
 
     private Instrumentation.ActivityResult photoFromGallerySub(){
-        Uri uri = Uri.parse(defaultProfilePhotoUrl);
+        Resources resources = InstrumentationRegistry.getTargetContext().getResources();
+        Uri imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                resources.getResourcePackageName(R.mipmap.ic_launcher) + '/' +
+                resources.getResourceTypeName(R.mipmap.ic_launcher) + '/' +
+                resources.getResourceEntryName(R.mipmap.ic_launcher));
+        Intent intent = new Intent();
+        intent.setData(imageUri);
+        return new Instrumentation.ActivityResult(Activity.RESULT_OK,intent);
+    }
+
+    private Instrumentation.ActivityResult videoFromCameraSub(){
+        Uri uri = Uri.parse(testVideoUrl);
         Intent intent = new Intent();
         intent.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK,intent);
     }
 
+    private Instrumentation.ActivityResult videoFromGallerySub(){
+        Uri uri = Uri.parse(testVideoUrl);
+        Intent intent = new Intent();
+        intent.setData(uri);
+        return new Instrumentation.ActivityResult(Activity.RESULT_OK,intent);
+    }
 }

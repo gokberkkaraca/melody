@@ -409,8 +409,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     }
 
     private void videoFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("video/*");
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_VIDEO_GALLERY);
     }
 
