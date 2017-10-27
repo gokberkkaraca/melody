@@ -20,7 +20,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="@xml/backup_rules">
         <activity android:name="ch.epfl.sweng.melody.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
