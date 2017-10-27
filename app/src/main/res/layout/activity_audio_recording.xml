@@ -35,54 +35,48 @@
             android:id="@+id/start_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/imageView"
-            android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="72dp"
-            android:text="@string/start_recording" />
+            android:text="@string/start_recording"
+            android:layout_toStartOf="@+id/submit_button" />
 
         <Button
             android:id="@+id/stop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/stop_play_button"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="28dp"
-            android:layout_marginRight="28dp"
-            android:text="@string/stop_recording" />
+            android:text="@string/stop_recording"
+            android:layout_alignTop="@+id/start_button"
+            android:layout_toEndOf="@+id/start_button" />
 
         <Button
             android:id="@+id/play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/stop_play_button"
-            android:layout_alignBottom="@+id/stop_play_button"
+            android:text="@string/play"
+            android:layout_below="@+id/start_button"
             android:layout_alignEnd="@+id/start_button"
-            android:layout_alignRight="@+id/start_button"
-            android:text="@string/play" />
+            android:layout_marginTop="18dp" />
 
         <Button
             android:id="@+id/stop_play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/stop_button"
-            android:layout_alignStart="@+id/stop_button"
+            android:layout_marginTop="38dp"
+            android:text="@string/stop"
             android:layout_below="@+id/start_button"
-            android:layout_marginTop="72dp"
-            android:text="@string/stop" />
+            android:layout_alignEnd="@+id/imageView" />
 
         <Button
             android:id="@+id/submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/imageView"
-            android:layout_alignRight="@+id/imageView"
+            android:layout_marginTop="15dp"
+            android:text="@string/submit"
             android:layout_below="@+id/play_button"
-            android:layout_marginTop="47dp"
-            android:text="@string/submit" />
+            android:layout_alignEnd="@+id/imageView"
+            android:layout_marginEnd="27dp" />
         <!--android:onClick="submitAudio"/>-->
 
     </RelativeLayout>

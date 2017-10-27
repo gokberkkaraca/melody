@@ -5,13 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
-import net.bytebuddy.asm.Advice;
-
 import org.hamcrest.Description;
-
-/**
- * Created by maxwell on 25/10/2017.
- */
 
 class ViewMatcher {
     static BoundedMatcher<View, ImageView> hasDrawable() {
