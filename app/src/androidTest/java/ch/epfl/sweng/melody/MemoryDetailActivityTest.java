@@ -57,6 +57,6 @@ public class MemoryDetailActivityTest {
         Thread.sleep(5000);
         onView(withId(R.id.memoryAuthor)).check(matches(withText("Yusi Zou")));
         onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
-        onView(withId(R.id.memoryPicture)).check(matches(not(hasDrawable())));
     }
+
 }
