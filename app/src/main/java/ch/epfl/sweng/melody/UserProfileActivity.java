@@ -14,11 +14,13 @@ import ch.epfl.sweng.melody.user.User;
 
 public class UserProfileActivity extends AppCompatActivity {
 
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        User user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
+        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
         TextView username = (TextView) findViewById(R.id.username);
         username.setText(user.getDisplayName());
@@ -30,6 +32,14 @@ public class UserProfileActivity extends AppCompatActivity {
     public void logOut(View view) {
         LoginStatusHandler.clearUserId(this);
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToPublicMemory(View view) {
+        Intent intent = new Intent(this, PublicMemoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }
