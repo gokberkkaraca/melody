@@ -2,21 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:layout_editor_absoluteX="8dp"
-    tools:layout_editor_absoluteY="8dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="8dp">
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/sign_up_button"
@@ -60,22 +60,22 @@
         android:id="@+id/melody_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/melody_logo"
         android:layout_above="@+id/email"
         android:layout_alignEnd="@+id/sign_up_button"
         android:layout_marginBottom="19dp"
-        android:contentDescription="@string/content_description" />
+        android:contentDescription="@string/content_description"
+        app:srcCompat="@mipmap/melody_logo" />
 
     <ImageButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:srcCompat="@mipmap/login_button"
-        android:layout_below="@+id/password"
         android:layout_alignEnd="@+id/password"
+        android:layout_below="@+id/password"
         android:layout_marginTop="14dp"
-        android:contentDescription="@string/content_description" />
+        android:background="@color/white"
+        android:contentDescription="@string/content_description"
+        app:srcCompat="@mipmap/login_button" />
 
 </RelativeLayout>
 

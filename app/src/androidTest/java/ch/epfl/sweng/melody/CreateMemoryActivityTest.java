@@ -23,33 +23,30 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.melody.ViewMatcher.hasDrawable;
 import static ch.epfl.sweng.melody.ViewMatcher.hasVideo;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(AndroidJUnit4.class)
 public class CreateMemoryActivityTest {
     private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1508935737477.mp4?alt=media&token=5a33aae6-a8c6-46c1-9add-181b0ef258c3";
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
-    private final String CAMERA = "Camera";
-    private final String CANCEL = "Cancel";
-    private final String ALBUM = "Choose from Album";
     @Rule
     public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
             new IntentsTestRule<CreateMemoryActivity>(CreateMemoryActivity.class) {
@@ -66,13 +63,17 @@ public class CreateMemoryActivityTest {
                     user = new User(googleSignInAccount);
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
-                    Intent intent = new Intent(targetContext,CreateMemoryActivity.class);
+                    Intent intent = new Intent(targetContext, CreateMemoryActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("USER", user);
                     intent.putExtras(bundle);
                     return intent;
                 }
             };
+    private final String CAMERA = "Camera";
+    private final String CANCEL = "Cancel";
+    private final String ALBUM = "Choose from Album";
+
     @Before
     public void prepareIntent() {
         Instrumentation.ActivityResult photoCameraResult = photoFromCameraSub();
@@ -92,7 +93,7 @@ public class CreateMemoryActivityTest {
 
 
     @Test
-    public void displayPhotoFromCameraTest() throws Exception{
+    public void displayPhotoFromCameraTest() throws Exception {
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(CAMERA)).perform(click());
@@ -102,17 +103,17 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void displayPhotoFromGalleryTest() throws Exception{
+    public void displayPhotoFromGalleryTest() throws Exception {
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(ALBUM)).perform(click());
-        intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
+        intended(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
         Thread.sleep(3000);
         onView(withId(R.id.display_chosen_photo)).check(matches(hasDrawable()));
     }
 
     @Test
-    public void cancelDisplayPhotoTest() throws Exception{
+    public void cancelDisplayPhotoTest() throws Exception {
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(CANCEL)).perform(click());
@@ -121,7 +122,7 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void displayVideoFromCameraTest() throws Exception{
+    public void displayVideoFromCameraTest() throws Exception {
         onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         onView(withText(CAMERA)).perform(click());
@@ -131,7 +132,7 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void displayVideoFromGalleryTest() throws Exception{
+    public void displayVideoFromGalleryTest() throws Exception {
         onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         //onView(withText(ALBUM)).perform(click());
@@ -139,7 +140,7 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void cancelDisplayVideoTest() throws Exception{
+    public void cancelDisplayVideoTest() throws Exception {
         onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         onView(withText(CANCEL)).perform(click());
@@ -148,7 +149,7 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void pickAudioDialogTest() throws Exception{
+    public void pickAudioDialogTest() throws Exception {
         onView(withId(R.id.record_audio)).perform(click());
         onView(withText("Record")).perform(click());
         pressBack();
@@ -157,17 +158,17 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void sendEmptyMemoryTest() throws Exception{
+    public void sendEmptyMemoryTest() throws Exception {
         onView(withId(R.id.memory_send)).perform(click());
         onView(withText("Say something!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
     }
 
     @Test
-    public void sendPhotoMemoryTest(){
+    public void sendPhotoMemoryTest() {
         onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(ALBUM)).perform(click());
-        intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
+        intended(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
         onView(withId(R.id.memory_send)).perform(click());
         onView(withText("Say something!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
         onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
@@ -197,25 +198,25 @@ public class CreateMemoryActivityTest {
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
-    private Instrumentation.ActivityResult photoFromGallerySub(){
+    private Instrumentation.ActivityResult photoFromGallerySub() {
         Uri uri = Uri.parse(defaultProfilePhotoUrl);
         Intent intent = new Intent();
         intent.setData(uri);
-        return new Instrumentation.ActivityResult(Activity.RESULT_OK,intent);
+        return new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
     }
 
-    private Instrumentation.ActivityResult videoFromCameraSub(){
+    private Instrumentation.ActivityResult videoFromCameraSub() {
         Uri uri = Uri.parse(testVideoUrl);
         Intent intent = new Intent();
         intent.setData(uri);
-        return new Instrumentation.ActivityResult(Activity.RESULT_OK,intent);
+        return new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
     }
 
-    private Instrumentation.ActivityResult videoFromGallerySub(){
+    private Instrumentation.ActivityResult videoFromGallerySub() {
         Uri uri = Uri.parse(testVideoUrl);
         Intent intent = new Intent();
         intent.setData(uri);
-        return new Instrumentation.ActivityResult(Activity.RESULT_OK,intent);
+        return new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
     }
 
 }

@@ -12,11 +12,13 @@ import org.hamcrest.TypeSafeMatcher;
  */
 
 public class ToastMatcher extends TypeSafeMatcher<Root> {
-    @Override public void describeTo(Description description) {
+    @Override
+    public void describeTo(Description description) {
         description.appendText("is toast");
     }
 
-    @Override public boolean matchesSafely(Root root) {
+    @Override
+    public boolean matchesSafely(Root root) {
         int type = root.getWindowLayoutParams().get().type;
         if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
             IBinder windowToken = root.getDecorView().getWindowToken();

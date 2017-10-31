@@ -3,24 +3,29 @@ package ch.epfl.sweng.melody.memory;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.UUID;
 
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CommentTest {
 
+    private final String memoryId = Long.toString(System.currentTimeMillis());
+    private final String commentId = Long.toString(System.currentTimeMillis());
     private Comment comment;
-    private String memoryId;
-    private String authorId;
-    private String content;
+    private String authorId = UUID.randomUUID().toString();
 
     @Before
     public void createComment() {
-        memoryId = UUID.randomUUID().toString();
-        authorId = UUID.randomUUID().toString();
-        content = "Test comment";
-        comment = new Comment(memoryId, authorId, content);
+        comment = mock(Comment.class);
+        when(comment.getAuthorId()).thenReturn(authorId);
+        when(comment.getContent()).thenReturn("Test comment");
+        when(comment.getMemoryId()).thenReturn(memoryId);
+        when(comment.getTime()).thenReturn(new Date());
+        when(comment.getId()).thenReturn(commentId);
     }
 
     @Test
@@ -40,7 +45,7 @@ public class CommentTest {
 
     @Test
     public void getContent() throws Exception {
-        assertTrue(comment.getContent().equals(content));
+        assertTrue(comment.getContent().equals("Test comment"));
     }
 
     @Test

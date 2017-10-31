@@ -39,44 +39,44 @@
             android:layout_below="@+id/imageView"
             android:layout_marginStart="12dp"
             android:layout_marginTop="72dp"
-            android:text="@string/start_recording"
-            android:layout_toStartOf="@+id/submit_button" />
+            android:layout_toStartOf="@+id/submit_button"
+            android:text="@string/start_recording" />
 
         <Button
             android:id="@+id/stop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stop_recording"
             android:layout_alignTop="@+id/start_button"
-            android:layout_toEndOf="@+id/start_button" />
+            android:layout_toEndOf="@+id/start_button"
+            android:text="@string/stop_recording" />
 
         <Button
             android:id="@+id/play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/play"
-            android:layout_below="@+id/start_button"
             android:layout_alignEnd="@+id/start_button"
-            android:layout_marginTop="18dp" />
+            android:layout_below="@+id/start_button"
+            android:layout_marginTop="18dp"
+            android:text="@string/play" />
 
         <Button
             android:id="@+id/stop_play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="38dp"
-            android:text="@string/stop"
+            android:layout_alignEnd="@+id/imageView"
             android:layout_below="@+id/start_button"
-            android:layout_alignEnd="@+id/imageView" />
+            android:layout_marginTop="38dp"
+            android:text="@string/stop" />
 
         <Button
             android:id="@+id/submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/submit"
-            android:layout_below="@+id/play_button"
             android:layout_alignEnd="@+id/imageView"
-            android:layout_marginEnd="27dp" />
+            android:layout_below="@+id/play_button"
+            android:layout_marginEnd="27dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/submit" />
         <!--android:onClick="submitAudio"/>-->
 
     </RelativeLayout>
