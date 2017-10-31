@@ -77,7 +77,11 @@ public class PublicMemoryActivity extends Activity {
 
 
     public void goToPublicMemory(View view) {
-
+        Intent intent = new Intent(this, PublicMemoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public void goToMap(View view) {

@@ -7,12 +7,9 @@
     tools:context="ch.epfl.sweng.melody.AudioRecordingActivity">
 
     <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="501dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -35,48 +32,59 @@
             android:id="@+id/start_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/start_recording"
             android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/imageView"
             android:layout_below="@+id/imageView"
-            android:layout_marginStart="12dp"
             android:layout_marginTop="72dp"
-            android:layout_toStartOf="@+id/submit_button"
-            android:text="@string/start_recording" />
+            android:layout_marginRight="-20dp"
+            android:layout_marginLeft="10dp"/>
 
         <Button
             android:id="@+id/stop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/stop_recording"
+            android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/start_button"
-            android:layout_toEndOf="@+id/start_button"
-            android:text="@string/stop_recording" />
+            android:layout_alignBottom="@+id/start_button"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="-20dp"/>
 
         <Button
             android:id="@+id/play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/start_button"
+            android:text="@string/play"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/imageView"
             android:layout_below="@+id/start_button"
-            android:layout_marginTop="18dp"
-            android:text="@string/play" />
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="-20dp"
+            android:layout_marginLeft="10dp"/>
 
         <Button
             android:id="@+id/stop_play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/imageView"
-            android:layout_below="@+id/start_button"
-            android:layout_marginTop="38dp"
-            android:text="@string/stop" />
+            android:text="@string/stop"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/play_button"
+            android:layout_alignBottom="@+id/play_button"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="-20dp" />
 
         <Button
             android:id="@+id/submit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/imageView"
+            android:layout_marginTop="30dp"
+            android:text="@string/submit"
             android:layout_below="@+id/play_button"
-            android:layout_marginEnd="27dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/submit" />
+            android:layout_alignEnd="@+id/imageView"
+            android:layout_alignStart="@+id/imageView"/>
         <!--android:onClick="submitAudio"/>-->
 
     </RelativeLayout>
