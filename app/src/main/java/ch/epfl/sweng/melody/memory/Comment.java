@@ -13,7 +13,7 @@ class Comment {
     private final String id;
 
     Comment(String memoryId, String authorId, String content) {
-        this.id = UUID.randomUUID().toString();
+        this.id = Long.toString(System.currentTimeMillis());
         this.memoryId = memoryId;
         this.authorId = authorId;
         this.content = content;
