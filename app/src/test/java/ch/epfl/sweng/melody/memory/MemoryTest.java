@@ -20,7 +20,7 @@ public class MemoryTest {
     private Memory memory;
     private Memory memoryFromBuilder;
 
-    private final String memoryId = UUID.randomUUID().toString();
+    private final String memoryId = Long.toString(System.currentTimeMillis());
     private final String memoryAuthorId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
     private final String commentAuthorId = UUID.randomUUID().toString();
