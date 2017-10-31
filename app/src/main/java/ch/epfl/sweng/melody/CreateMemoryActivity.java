@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,16 +32,16 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.location.LocationHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
-public class CreateMemoryActivity extends AppCompatActivity {
-    private static final int REQUEST_PHOTO_GALLERY = 1;
-    private static final int REQUEST_PHOTO_CAMERA = 2;
-    private static final int REQUEST_VIDEO_GALLERY = 3;
-    private static final int REQUEST_VIDEO_CAMERA = 4;
-    private static final int REQUEST_AUDIOFILE = 5;
+import static ch.epfl.sweng.melody.util.RequestCodes.*;
+
+public class CreateMemoryActivity extends AppCompatActivity{
+
     private static final String FAKE_ADDRESS = "Lausanne,Switzerland";
+
     private User user;
     private ImageView imageView;
     private VideoView videoView;
@@ -50,6 +51,9 @@ public class CreateMemoryActivity extends AppCompatActivity {
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
+
+    private LocationManager mLocationManager;
+    private LocationHandler locationHandler;
 //    private String audioPath;
 
     @Override
@@ -65,6 +69,13 @@ public class CreateMemoryActivity extends AppCompatActivity {
         TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS);
 
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+
+        locationHandler = new LocationHandler(this);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationHandler);
     }
 
     public void pickPhotoDialog(View view) {
@@ -188,9 +199,17 @@ public class CreateMemoryActivity extends AppCompatActivity {
                 //   onAudioFileResult(data);
                 break;
             }
+            case REQUEST_GPS: {
+                if (mLocationManager == null) {
+                    mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                }
+
+                assert mLocationManager != null;
+                if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                    locationHandler.showGPSDisabledDialog();
+            }
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -213,10 +232,8 @@ public class CreateMemoryActivity extends AppCompatActivity {
                     break;
                 }
                 case REQUEST_AUDIOFILE: {
-                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        accessAudioFiles();
-                        break;
-                    }
+                    accessAudioFiles();
+                    break;
                 }
             }
         }
