@@ -15,7 +15,7 @@ public class Memory {
     private Privacy privacy;
     private MemoryType memoryType;
     private Boolean reminder;
-    private String photo;
+    private String photoUrl;
     private String videoUrl;
     private String audioUrl;
 
@@ -29,7 +29,7 @@ public class Memory {
         this.reminder = memoryBuilder.reminder;
 
         this.comments = memoryBuilder.comments;
-        this.photo = memoryBuilder.photoUrl;
+        this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
         this.audioUrl = memoryBuilder.audioUrl;
@@ -71,8 +71,8 @@ public class Memory {
         return reminder;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
     public String getVideoUrl() {
