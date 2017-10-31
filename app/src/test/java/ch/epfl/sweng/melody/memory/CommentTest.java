@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.UUID;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -14,18 +15,12 @@ import static org.mockito.Mockito.when;
 public class CommentTest {
 
     private final String memoryId = Long.toString(System.currentTimeMillis());
-    private final String commentId = Long.toString(System.currentTimeMillis());
     private Comment comment;
     private String authorId = UUID.randomUUID().toString();
 
     @Before
     public void createComment() {
-        comment = mock(Comment.class);
-        when(comment.getAuthorId()).thenReturn(authorId);
-        when(comment.getContent()).thenReturn("Test comment");
-        when(comment.getMemoryId()).thenReturn(memoryId);
-        when(comment.getTime()).thenReturn(new Date());
-        when(comment.getId()).thenReturn(commentId);
+        comment = new Comment(memoryId,authorId,"Test comment");
     }
 
     @Test
@@ -35,7 +30,7 @@ public class CommentTest {
 
     @Test
     public void getMemory() throws Exception {
-        assertTrue(comment.getMemoryId().equals(memoryId));
+        assertEquals(comment.getMemoryId(),memoryId);
     }
 
     @Test
