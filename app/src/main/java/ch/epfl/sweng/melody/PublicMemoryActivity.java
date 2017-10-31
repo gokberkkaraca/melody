@@ -1,6 +1,8 @@
 package ch.epfl.sweng.melody;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -100,5 +102,18 @@ public class PublicMemoryActivity extends Activity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        PublicMemoryActivity.this.finishAffinity();
+                    }
+                }).create().show();
+    }
 
 }
