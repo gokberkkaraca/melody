@@ -111,9 +111,10 @@ public class Memory {
         private String photoUrl;
         private String videoUrl;
         private String audioUrl;
+        private final Long MAX_ID = Long.MAX_VALUE;
 
         public MemoryBuilder(String authorId, String text, String location) {
-            this.id = UUID.randomUUID().toString();
+            this.id = Long.toString(MAX_ID-System.currentTimeMillis());
             this.time = Calendar.getInstance().getTime();
             this.authorId = authorId;
             this.text = text;
