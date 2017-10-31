@@ -11,11 +11,11 @@ class MemoryUploader {
     final private String text;
     final private List<Comment> comments;
     final private Memory.Privacy privacy;
-    private Memory.MemoryType memoryType;
     final private Boolean reminder;
     final private String photo;
     final private String videoUrl;
     final private String audioUrl;
+    private Memory.MemoryType memoryType;
 
     MemoryUploader(Memory memory) {
         id = memory.getId();

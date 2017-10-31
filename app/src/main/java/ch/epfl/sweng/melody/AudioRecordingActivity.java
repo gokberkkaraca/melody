@@ -45,7 +45,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String randomFileName = UUID.randomUUID().toString().substring(0,10);
+                String randomFileName = UUID.randomUUID().toString().substring(0, 10);
                 if (checkPermission()) {
                     audioSavingPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
                             randomFileName + "AudioRecording.3gp";

@@ -14,16 +14,15 @@ import static org.mockito.Mockito.when;
 
 public class MemoryUploaderTest {
 
-    private MemoryUploader memoryUploader;
-    private Memory memory;
-
     private final String memoryId = UUID.randomUUID().toString();
     private final String memoryAuthorId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
     private final String commentAuthorId = UUID.randomUUID().toString();
+    private MemoryUploader memoryUploader;
+    private Memory memory;
 
     @Before
-    public void setUp(){
+    public void setUp() {
 
         final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1508935737477.mp4?alt=media&token=5a33aae6-a8c6-46c1-9add-181b0ef258c3";
         final String testPhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";

@@ -135,10 +135,10 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/friendsText"
             android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/profilePicView"
-            android:onClick="logOut"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/profilePicView"
+            android:onClick="logOut"
             android:text="@string/log_out" />
     </RelativeLayout>
 

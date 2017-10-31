@@ -13,10 +13,10 @@ import static org.mockito.Mockito.when;
 
 public class CommentTest {
 
-    private Comment comment;
-    private String authorId = UUID.randomUUID().toString();
     private final String memoryId = Long.toString(System.currentTimeMillis());
     private final String commentId = Long.toString(System.currentTimeMillis());
+    private Comment comment;
+    private String authorId = UUID.randomUUID().toString();
 
     @Before
     public void createComment() {

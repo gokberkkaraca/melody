@@ -29,7 +29,7 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void CanGoToSignUp(){
+    public void CanGoToSignUp() {
         onView(withId(R.id.sign_up_button)).perform(click());
         pressBack();
     }
