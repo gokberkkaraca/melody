@@ -77,7 +77,7 @@ class MemoryUploader {
         return id;
     }
 
-    public Memory.MemoryType getMemoryType(){
+    public Memory.MemoryType getMemoryType() {
         return memoryType;
     }
 

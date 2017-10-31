@@ -108,7 +108,7 @@ public class MemoryUploaderTest {
     }
 
     @Test
-    public void getMemoryType() throws Exception{
-        assertEquals(memoryUploader.getMemoryType(),memory.getMemoryType());
+    public void getMemoryType() throws Exception {
+        assertEquals(memoryUploader.getMemoryType(), memory.getMemoryType());
     }
 }
