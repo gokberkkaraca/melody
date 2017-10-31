@@ -29,6 +29,7 @@ class MemoryUploader {
         photoUrl = memory.getPhotoUrl();
         videoUrl = memory.getVideoUrl();
         audioUrl = memory.getAudioUrl();
+        memoryType = memory.getMemoryType();
     }
 
     public String getAuthorId() {
@@ -75,4 +76,9 @@ class MemoryUploader {
 
         return id;
     }
+
+    public Memory.MemoryType getMemoryType(){
+        return memoryType;
+    }
+
 }

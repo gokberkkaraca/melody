@@ -139,6 +139,7 @@ public class CreateMemoryActivity extends AppCompatActivity {
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
                     memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
+                            .video(url)
                             .build();
                 }
                 DatabaseHandler.uploadMemory(memory);

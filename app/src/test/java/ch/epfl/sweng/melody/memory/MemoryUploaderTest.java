@@ -47,6 +47,7 @@ public class MemoryUploaderTest {
         when(memory.getVideoUrl()).thenReturn(testVideoUrl);
         when(memory.getAudioUrl()).thenReturn(testAudioUrl);
         when(memory.getLocation()).thenReturn("Lausanne");
+        when(memory.getMemoryType()).thenReturn(Memory.MemoryType.AUDIO);
 
         memoryUploader = new MemoryUploader(memory);
     }
@@ -104,5 +105,10 @@ public class MemoryUploaderTest {
     @Test
     public void getId() throws Exception {
         assertEquals(memoryUploader.getId(), memory.getId());
+    }
+
+    @Test
+    public void getMemoryType() throws Exception{
+        assertEquals(memoryUploader.getMemoryType(),memory.getMemoryType());
     }
 }
