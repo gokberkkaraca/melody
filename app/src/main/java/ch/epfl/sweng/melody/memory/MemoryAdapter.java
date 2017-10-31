@@ -1,6 +1,9 @@
 package ch.epfl.sweng.melody.memory;
 
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,10 +60,23 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 assert user != null;
                 holder.author.setText(user.getDisplayName());
                 new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
+
                 //-------------------------------This method should fetch the photo but android won't cast it to MemoryPhoto-----------------
                 if (memory.getPhotoUrl() != null) {
                     Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
                 }
+
+                //--------------------------------------This will work but we need to fix the getMemoryType() method first------------------------
+                /*if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
+                    Picasso.with(holder.itemView.getContext()).load(memory.getPhoto()).into(holder.memoryPic);
+                    holder.description.setText("THIS IS A PHOTO"); //don't fordet to delete this
+                }
+                else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
+                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
+                    holder.memoryPic.setImageBitmap(thumbnail);
+                    holder.description.setText("THIS IS A VIDEO"); //don't fordet to delete this
+                }*/
+                //---------------------------------------------------------------------------------------------------------------------------------
             }
 
             @Override
