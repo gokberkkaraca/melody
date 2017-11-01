@@ -36,7 +36,7 @@ public class PublicMemoryActivityTest {
 
     @Rule
     public final IntentsTestRule<PublicMemoryActivity> publicMemoryActivityIntentsTestRule =
-            new IntentsTestRule<PublicMemoryActivity>(PublicMemoryActivity.class, true, true) {
+            new IntentsTestRule<PublicMemoryActivity>(PublicMemoryActivity.class, false, true) {
                 @Override
                 protected Intent getActivityIntent() {
                     User user;
