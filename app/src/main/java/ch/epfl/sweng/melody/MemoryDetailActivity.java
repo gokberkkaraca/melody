@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,8 +52,18 @@ public class MemoryDetailActivity extends AppCompatActivity {
 
                 ImageView imageView = (ImageView) findViewById(R.id.memoryPicture);
 
-                if (memory.getPhotoUrl() != null) {
+                VideoView videoView = (VideoView) findViewById(R.id.memoryVideo);
+
+
+                if(memory.getPhotoUrl() != null) {
+                    imageView.setVisibility(View.VISIBLE);
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(imageView);
+                }
+
+                if(memory.getVideoUrl() != null) {
+                    videoView.setVisibility(View.VISIBLE);
+                    videoView.setVideoPath(memory.getVideoUrl());
+                    videoView.start();
                 }
 
                 fetchUserInfo(memory.getAuthorId());
