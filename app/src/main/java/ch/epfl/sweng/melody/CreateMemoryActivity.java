@@ -63,6 +63,7 @@ public class CreateMemoryActivity extends AppCompatActivity {
         editText = findViewById(R.id.memory_description);
         TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS);
+        UserInfoHandler.checkUserExist(this);
 
     }
 

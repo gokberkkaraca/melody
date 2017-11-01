@@ -21,7 +21,7 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         TextView username = (TextView) findViewById(R.id.username);
-        assert UserInfoHandler.USER_INFO!=null;
+        UserInfoHandler.checkUserExist(this);
         username.setText(UserInfoHandler.USER_INFO.getDisplayName());
 
         ImageView profilePicView = (ImageView) findViewById(R.id.profilePicView);

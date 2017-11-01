@@ -21,6 +21,7 @@ import java.util.List;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
+import ch.epfl.sweng.melody.user.UserInfoHandler;
 
 public class PublicMemoryActivity extends Activity {
 
@@ -32,9 +33,10 @@ public class PublicMemoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
-
         memoryList = new ArrayList<>();
         fetchMemoriesFromDatabase();
+
+        UserInfoHandler.checkUserExist(this);
 
     }
 
