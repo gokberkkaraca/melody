@@ -21,10 +21,11 @@ import java.util.List;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
-import ch.epfl.sweng.melody.user.UserInfoHandler;
+import ch.epfl.sweng.melody.user.User;
 
 public class PublicMemoryActivity extends Activity {
 
+    private static User user;
     private List<Memory> memoryList;
     private RecyclerView recyclerView;
     private MemoryAdapter memoryAdapter;
@@ -33,11 +34,11 @@ public class PublicMemoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
+
         memoryList = new ArrayList<>();
         fetchMemoriesFromDatabase();
 
-        //UserInfoHandler.checkUserExist(this);
-
+        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
     }
 
     private void fetchMemoriesFromDatabase() {
@@ -70,12 +71,18 @@ public class PublicMemoryActivity extends Activity {
 
     public void addNewMemory(View view) {
         Intent intent = new Intent(this, CreateMemoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
 
     public void goToPublicMemory(View view) {
         Intent intent = new Intent(this, PublicMemoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
@@ -89,6 +96,9 @@ public class PublicMemoryActivity extends Activity {
 
     public void goToUser(View view) {
         Intent intent = new Intent(this, UserProfileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

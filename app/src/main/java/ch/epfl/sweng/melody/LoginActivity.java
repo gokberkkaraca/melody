@@ -18,7 +18,6 @@ import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.user.UserInfoHandler;
 
 import static ch.epfl.sweng.melody.account.GoogleAccount.mGoogleApiClient;
 
@@ -91,11 +90,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInAccount GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
             User user = new User(GOOGLE_ACCOUNT);
-            UserInfoHandler.USER_INFO = user;
+
             DatabaseHandler.addUser(user);
             LoginStatusHandler.setUserId(this, user.getId());
 
             Intent intent = new Intent(this, PublicMemoryActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(MainActivity.USER_INFO, user);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         // Logout

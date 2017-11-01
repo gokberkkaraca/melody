@@ -12,10 +12,10 @@ import com.google.firebase.database.ValueEventListener;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.user.UserInfoHandler;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String USER_INFO = "USER";
     private final Handler mHandler = new Handler();
 
     @Override
@@ -37,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
                     DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            UserInfoHandler.USER_INFO = dataSnapshot.getValue(User.class);
+                            User user = dataSnapshot.getValue(User.class);
                             Intent intent = new Intent(MainActivity.this, PublicMemoryActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(USER_INFO, user);
+                            intent.putExtras(bundle);
                             startActivity(intent);
                         }
 
