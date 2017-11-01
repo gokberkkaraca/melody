@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
@@ -21,7 +22,7 @@ import ch.epfl.sweng.melody.user.User;
 
 public class MemoryDetailActivity extends AppCompatActivity {
     private Memory memory;
-    private SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a");
+    private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
