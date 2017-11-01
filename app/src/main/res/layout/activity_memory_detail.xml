@@ -94,23 +94,6 @@
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:baselineAligned="false"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/memoryDetailLayout"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/memoryDetailLayout"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </LinearLayout>
-
     <include
         layout="@layout/menu_layout"
         android:layout_width="380dp"

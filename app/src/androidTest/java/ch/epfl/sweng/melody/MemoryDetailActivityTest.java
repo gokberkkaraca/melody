@@ -45,7 +45,7 @@ public class MemoryDetailActivityTest {
                     Intent intent = new Intent(targetContext,MemoryDetailActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("USER", user);
-                    intent.putExtra("memoryId", "0465873b-d4e2-452e-b205-047c70114c3c");
+                    intent.putExtra("memoryId", "9223370527362443707");
                     intent.putExtras(bundle);
                     return intent;
                 }
@@ -55,8 +55,9 @@ public class MemoryDetailActivityTest {
     @Test
     public void getMemoryTest() throws Exception{
         Thread.sleep(5000);
-        onView(withId(R.id.memoryAuthor)).check(matches(withText("Yusi Zou")));
+        onView(withId(R.id.memoryAuthor)).check(matches(withText("Jiacheng Xu")));
         onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
+        onView(withId(R.id.memoryDate)).check(matches(withText("01 Dec 2017  11:25 PM")));
     }
 
 }
