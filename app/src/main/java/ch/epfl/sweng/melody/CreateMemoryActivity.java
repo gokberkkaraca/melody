@@ -33,6 +33,7 @@ import java.io.IOException;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.user.UserInfoHandler;
 
 public class CreateMemoryActivity extends AppCompatActivity {
     private static final int REQUEST_PHOTO_GALLERY = 1;
@@ -41,7 +42,6 @@ public class CreateMemoryActivity extends AppCompatActivity {
     private static final int REQUEST_VIDEO_CAMERA = 4;
     private static final int REQUEST_AUDIOFILE = 5;
     private static final String FAKE_ADDRESS = "Lausanne,Switzerland";
-    private User user;
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
@@ -57,7 +57,6 @@ public class CreateMemoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_memory);
 
-        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
@@ -113,14 +112,11 @@ public class CreateMemoryActivity extends AppCompatActivity {
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
+            memory = new Memory.MemoryBuilder(UserInfoHandler.USER_INFO.getId(), memoryDescription, FAKE_ADDRESS)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(MainActivity.USER_INFO, user);
-            intent.putExtras(bundle);
             startActivity(intent);
             return;
         }
@@ -134,19 +130,16 @@ public class CreateMemoryActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(UserInfoHandler.USER_INFO.getId(), memoryDescription, FAKE_ADDRESS)
                             .photo(url)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(UserInfoHandler.USER_INFO.getId(), memoryDescription, FAKE_ADDRESS)
                             .video(url)
                             .build();
                 }
                 DatabaseHandler.uploadMemory(memory);
                 Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(MainActivity.USER_INFO, user);
-                intent.putExtras(bundle);
                 startActivity(intent);
             }
         }, new OnFailureListener() {

@@ -11,22 +11,21 @@ import android.widget.TextView;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.user.UserInfoHandler;
 
 public class UserProfileActivity extends AppCompatActivity {
-
-    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
         TextView username = (TextView) findViewById(R.id.username);
-        username.setText(user.getDisplayName());
+        assert UserInfoHandler.USER_INFO!=null;
+        username.setText(UserInfoHandler.USER_INFO.getDisplayName());
 
         ImageView profilePicView = (ImageView) findViewById(R.id.profilePicView);
-        new GoogleProfilePictureAsync(profilePicView, Uri.parse(user.getProfilePhotoUrl())).execute();
+        new GoogleProfilePictureAsync(profilePicView, Uri.parse(UserInfoHandler.USER_INFO.getProfilePhotoUrl())).execute();
     }
 
     public void logOut(View view) {
@@ -37,9 +36,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public void goToPublicMemory(View view) {
         Intent intent = new Intent(this, PublicMemoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MainActivity.USER_INFO, user);
-        intent.putExtras(bundle);
         startActivity(intent);
     }
 }
