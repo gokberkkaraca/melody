@@ -15,7 +15,10 @@ import org.junit.Test;
 import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sweng.melody.ViewMatcher.hasDrawable;
@@ -59,4 +62,21 @@ public class MemoryDetailActivityTest {
         onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
     }
 
+    @Test
+    public void goToProfileTest() throws Exception{
+        onView(withId(R.id.home)).perform(click());
+        intended(hasComponent(PublicMemoryActivity.class.getName()));
+    }
+
+    @Test
+    public void goToCreateNewMemoryTest() throws Exception{
+        onView(withId(R.id.plus)).perform(click());
+        intended(hasComponent(CreateMemoryActivity.class.getName()));
+    }
+
+    @Test
+    public void goToUserProfileTest() throws Exception{
+        onView(withId(R.id.person)).perform(click());
+        intended(hasComponent(UserProfileActivity.class.getName()));
+    }
 }
