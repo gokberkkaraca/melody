@@ -33,8 +33,9 @@
         <activity android:name=".PublicMemoryActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".CreateMemoryActivity"/>
-        <activity android:name=".AudioRecordingActivity"/>
+        <activity android:name=".CreateMemoryActivity" />
+        <activity android:name=".AudioRecordingActivity"></activity>
+        <activity android:name=".MemoryDetailActivity"></activity>
     </application>
 
 </manifest>
