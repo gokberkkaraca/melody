@@ -103,8 +103,8 @@ public class MemoryTest {
     }
 
     @Test
-    public void getPhoto() throws Exception {
-        assertEquals(testPhotoUrl, memoryFromBuilder.getPhoto());
+    public void getPhotoUrl() throws Exception {
+        assertEquals(testPhotoUrl, memoryFromBuilder.getPhotoUrl());
     }
 
     @Test

@@ -10,9 +10,9 @@
         android:id="@+id/head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/head"
         android:layout_centerHorizontal="true"
-        tools:ignore="ContentDescription"/>
+        android:src="@mipmap/head"
+        tools:ignore="ContentDescription" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/memories_recyclerview"

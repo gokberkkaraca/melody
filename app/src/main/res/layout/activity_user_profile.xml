@@ -133,12 +133,12 @@
             android:id="@+id/log_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/profilePicView"
-            android:onClick="logOut"
+            android:layout_alignParentEnd="true"
             android:layout_marginBottom="70dp"
             android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/profilePicView"
+            android:onClick="logOut"
             android:text="@string/log_out" />
 
         <LinearLayout

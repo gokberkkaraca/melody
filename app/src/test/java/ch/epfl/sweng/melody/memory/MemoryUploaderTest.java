@@ -43,10 +43,11 @@ public class MemoryUploaderTest {
         when(memory.getComments()).thenReturn(Collections.singletonList(comment));
         when(memory.getPrivacy()).thenReturn(Memory.Privacy.PUBLIC);
         when(memory.getReminder()).thenReturn(true);
-        when(memory.getPhoto()).thenReturn(testPhotoUrl);
+        when(memory.getPhotoUrl()).thenReturn(testPhotoUrl);
         when(memory.getVideoUrl()).thenReturn(testVideoUrl);
         when(memory.getAudioUrl()).thenReturn(testAudioUrl);
         when(memory.getLocation()).thenReturn("Lausanne");
+        when(memory.getMemoryType()).thenReturn(Memory.MemoryType.AUDIO);
 
         memoryUploader = new MemoryUploader(memory);
     }
@@ -88,7 +89,7 @@ public class MemoryUploaderTest {
 
     @Test
     public void getPhoto() throws Exception {
-        assertEquals(memoryUploader.getPhoto(), memory.getPhoto());
+        assertEquals(memoryUploader.getPhotoUrl(), memory.getPhotoUrl());
     }
 
     @Test
@@ -104,5 +105,10 @@ public class MemoryUploaderTest {
     @Test
     public void getId() throws Exception {
         assertEquals(memoryUploader.getId(), memory.getId());
+    }
+
+    @Test
+    public void getMemoryType() throws Exception {
+        assertEquals(memoryUploader.getMemoryType(), memory.getMemoryType());
     }
 }
