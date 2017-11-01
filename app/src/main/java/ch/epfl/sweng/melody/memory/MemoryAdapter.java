@@ -64,23 +64,14 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 holder.author.setText(user.getDisplayName());
                 new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
 
-                /*
-                if (memory.getPhotoUrl() != null) {
-                    Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
-                }*/
-
-                //--------------------------------------This will work but we need to fix the getMemoryType() method first------------------------
                 if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
                     Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
-                    //holder.description.setText("THIS IS A PHOTO");
                 }
                 else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
                     //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
                     Bitmap thumbnail =retrieveVideoFrameFromVideo(memory.getVideoUrl());
                     holder.memoryPic.setImageBitmap(thumbnail);
-                    //holder.description.setText("THIS IS A VIDEO");
                 }
-                //---------------------------------------------------------------------------------------------------------------------------------
             }
 
             @Override
@@ -111,9 +102,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         }
     }
 
-    //------------------------
-
-    //catch and send exceptions ??
+    //Catch and send exceptions ??
     public static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
         Bitmap bitmap = null;
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
@@ -126,6 +115,5 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         return bitmap;
     }
-    //--------------------------
 
 }
