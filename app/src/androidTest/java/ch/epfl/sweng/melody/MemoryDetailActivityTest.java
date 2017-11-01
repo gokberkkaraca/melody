@@ -39,7 +39,7 @@ public class MemoryDetailActivityTest {
 
     @Rule
     public final IntentsTestRule<MemoryDetailActivity> memoryDetailActivityIntentsTestRule =
-            new IntentsTestRule<MemoryDetailActivity>(MemoryDetailActivity.class) {
+            new IntentsTestRule<MemoryDetailActivity>(MemoryDetailActivity.class, true, true) {
                 @Override
                 protected Intent getActivityIntent() {
                     User user;
@@ -90,12 +90,14 @@ public class MemoryDetailActivityTest {
                     }
                 }
         );
+        Thread.sleep(100);
         intended(hasComponent(PublicMemoryActivity.class.getName()));
     }
 
     @Test
     public void goToCreateNewMemoryTest() throws Exception{
         onView(withId(R.id.plus)).perform(click());
+        Thread.sleep(100);
         intended(hasComponent(CreateMemoryActivity.class.getName()));
     }
 
@@ -119,6 +121,7 @@ public class MemoryDetailActivityTest {
                     }
                 }
         );
+        Thread.sleep(100);
         intended(hasComponent(UserProfileActivity.class.getName()));
     }
 
