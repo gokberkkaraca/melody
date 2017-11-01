@@ -24,7 +24,7 @@ public class UserTest {
     public void setUp() throws Exception {
 
         final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-        when(googleSignInAccount.getId()).thenReturn("QWERTYU");
+        when(googleSignInAccount.getId()).thenReturn("jiacheng.xu@epfl.ch");
         when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
         when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
         when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
@@ -39,7 +39,7 @@ public class UserTest {
 
     @Test
     public void getId() throws Exception {
-        assertFalse(user.getId().isEmpty());
+        assertEquals(user.getId(),"jiacheng,xu@epfl,ch");
     }
 
     @Test
