@@ -1,8 +1,10 @@
 package ch.epfl.sweng.melody;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,13 +24,17 @@ import ch.epfl.sweng.melody.user.User;
 
 public class MemoryDetailActivity extends AppCompatActivity {
     private Memory memory;
+    User user;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_memory_detail);
         fetchMemoryFromDatabase(getIntent().getStringExtra("memoryId"));
+
+        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
     }
 
     private void fetchMemoryFromDatabase(final String memoryId) {
@@ -77,5 +83,29 @@ public class MemoryDetailActivity extends AppCompatActivity {
                 System.out.println("The read failed!");
             }
         });
+    }
+
+    public void goToPublicMemory(View view) {
+        Intent intent = new Intent(this, PublicMemoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    public void addNewMemory(View view) {
+        Intent intent = new Intent(this, CreateMemoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    public void goToUser(View view) {
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
