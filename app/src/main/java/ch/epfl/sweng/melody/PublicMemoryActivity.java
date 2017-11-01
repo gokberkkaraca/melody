@@ -36,7 +36,7 @@ public class PublicMemoryActivity extends Activity {
         memoryList = new ArrayList<>();
         fetchMemoriesFromDatabase();
 
-        UserInfoHandler.checkUserExist(this);
+        //UserInfoHandler.checkUserExist(this);
 
     }
 
