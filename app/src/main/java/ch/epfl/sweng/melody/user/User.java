@@ -35,7 +35,7 @@ public class User implements Serializable {
 
     public User(GoogleSignInAccount googleSignInAccount) {
         if (googleSignInAccount != null) {
-            this.id = UUID.randomUUID().toString();
+            this.id = encodeEmailForId(googleSignInAccount.getEmail());
             this.firstName = googleSignInAccount.getGivenName();
             this.lastName = googleSignInAccount.getFamilyName();
             this.displayName = googleSignInAccount.getDisplayName();
@@ -133,5 +133,9 @@ public class User implements Serializable {
 
     public String getDefaultProfilePhotoUrl() {
         return defaultProfilePhotoUrl;
+    }
+
+    private String encodeEmailForId(String email){
+        return email.replace('.',',');
     }
 }
