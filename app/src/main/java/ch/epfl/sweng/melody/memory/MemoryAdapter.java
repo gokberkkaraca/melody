@@ -113,8 +113,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
     //------------------------
 
-    public static Bitmap retrieveVideoFrameFromVideo(String videoPath)
-    {
+    //catch and send exceptions ??
+    public static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
         Bitmap bitmap = null;
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
         mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
