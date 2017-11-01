@@ -1,6 +1,11 @@
 package ch.epfl.sweng.melody.memory;
 
+import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,9 +63,14 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 assert user != null;
                 holder.author.setText(user.getDisplayName());
                 new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
-                //-------------------------------This method should fetch the photo but android won't cast it to MemoryPhoto-----------------
-                if (memory.getPhotoUrl() != null) {
+
+                if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
                     Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
+                }
+                else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
+                    //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
+                    Bitmap thumbnail =retrieveVideoFrameFromVideo(memory.getVideoUrl());
+                    holder.memoryPic.setImageBitmap(thumbnail);
                 }
             }
 
@@ -89,6 +100,20 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             authorPic = view.findViewById(R.id.authorPic);
             memoryPic = view.findViewById(R.id.memoryPic);
         }
+    }
+
+    //Catch and send exceptions ??
+    public static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+        bitmap = mediaMetadataRetriever.getFrameAtTime();
+
+        if (mediaMetadataRetriever != null) {
+            mediaMetadataRetriever.release();
+        }
+
+        return bitmap;
     }
 
 }
