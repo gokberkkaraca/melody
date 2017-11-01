@@ -57,7 +57,6 @@ public class MemoryDetailActivityTest {
         Thread.sleep(5000);
         onView(withId(R.id.memoryAuthor)).check(matches(withText("Jiacheng Xu")));
         onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
-        onView(withId(R.id.memoryDate)).check(matches(withText("01 Dec 2017  11:25 PM")));
     }
 
 }
