@@ -1,12 +1,14 @@
 package ch.epfl.sweng.melody;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
@@ -77,7 +79,11 @@ public class PublicMemoryActivity extends Activity {
 
 
     public void goToPublicMemory(View view) {
-
+        Intent intent = new Intent(this, PublicMemoryActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(MainActivity.USER_INFO, user);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public void goToMap(View view) {
@@ -96,5 +102,18 @@ public class PublicMemoryActivity extends Activity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        PublicMemoryActivity.this.finishAffinity();
+                    }
+                }).create().show();
+    }
 
 }

@@ -21,7 +21,8 @@ class ViewMatcher {
             }
         };
     }
-    static BoundedMatcher<View, VideoView> hasVideo(){
+
+    static BoundedMatcher<View, VideoView> hasVideo() {
         return new BoundedMatcher<View, VideoView>(VideoView.class) {
             @Override
             protected boolean matchesSafely(VideoView item) {

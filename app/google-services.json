@@ -1,33 +1,71 @@
 {
   "project_info": {
-    "project_number": "476284248440",
-    "project_id": "melody-967a4"
+    "project_number": "90372047742",
+    "firebase_url": "https://fir-melody.firebaseio.com",
+    "project_id": "firebase-melody",
+    "storage_bucket": "firebase-melody.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:476284248440:android:461c64c7b49cf534",
+        "mobilesdk_app_id": "1:90372047742:android:461c64c7b49cf534",
         "android_client_info": {
           "package_name": "ch.epfl.sweng.melody"
         }
       },
       "oauth_client": [
         {
-          "client_id": "476284248440-aodldmj36ku9qq0ole9rvp71mo2bpmnc.apps.googleusercontent.com",
+          "client_id": "90372047742-3u4a8m6ki77vu1gnhh83i7beg5is54ml.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ch.epfl.sweng.melody",
-            "certificate_hash": "9ff3ff97f465d44d99873e96e66e5123dfd87edd"
+            "certificate_hash": "3c12afea7ea60edea553972df14b1cf4d74818b2"
           }
         },
         {
-          "client_id": "476284248440-6b4l7if9mhmf96e6itgdoaivd250b8un.apps.googleusercontent.com",
+          "client_id": "90372047742-cggklibpc6u202rdcr72duk1fs5g0q4h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sweng.melody",
+            "certificate_hash": "a4283c9a7ed691fe4b9dfda74bbb9c99109f4063"
+          }
+        },
+        {
+          "client_id": "90372047742-1k4e9mlejctks1i4csgsk4p7e2d60taq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sweng.melody",
+            "certificate_hash": "4a11f824ae36cbf6e2bf304bce3aa9bd190e2340"
+          }
+        },
+        {
+          "client_id": "90372047742-b2h4ogfrauddbed7iocd9duu1dor2smn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sweng.melody",
+            "certificate_hash": "9bd4180951eaa11a705115e53e30a0909a89442f"
+          }
+        },
+        {
+          "client_id": "90372047742-14u4ent93khg3ip2qhgjoh6a3sa2t6bl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sweng.melody",
+            "certificate_hash": "1e9e1cce5bac5cc2c56bca659520f95c5fd2c58d"
+          }
+        },
+        {
+          "client_id": "90372047742-46j4klcbiheuec6q73gbicrvubn2oetd.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "90372047742-4pomq2f8b9k8olkm0hk214aj574cjm7h.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA9PCwwuDOReU4v9AzoI16uo95JseZUrug"
+          "current_key": "AIzaSyCEg3oLnKi-SKmfwNvDBXOs4TBaigbOAXk"
         }
       ],
       "services": {
@@ -35,11 +73,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90372047742-46j4klcbiheuec6q73gbicrvubn2oetd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

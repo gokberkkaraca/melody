@@ -44,8 +44,8 @@ public class MemoryDetailActivity extends AppCompatActivity {
 
                 ImageView imageView = (ImageView) findViewById(R.id.memoryPicture);
 
-                if (memory.getPhoto() != null) {
-                    Picasso.with(getApplicationContext()).load(memory.getPhoto()).into(imageView);
+                if (memory.getPhotoUrl() != null) {
+                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(imageView);
                 }
 
                 fetchUserInfo(memory.getAuthorId());

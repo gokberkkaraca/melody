@@ -3,7 +3,6 @@ package ch.epfl.sweng.melody.memory;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 
 public class Memory {
@@ -16,9 +15,10 @@ public class Memory {
     private Privacy privacy;
     private MemoryType memoryType;
     private Boolean reminder;
-    private String photo;
+    private String photoUrl;
     private String videoUrl;
     private String audioUrl;
+
     private Memory(MemoryBuilder memoryBuilder) {
         this.id = memoryBuilder.id;
         this.time = memoryBuilder.time;
@@ -29,12 +29,13 @@ public class Memory {
         this.reminder = memoryBuilder.reminder;
 
         this.comments = memoryBuilder.comments;
-        this.photo = memoryBuilder.photoUrl;
+        this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
         this.audioUrl = memoryBuilder.audioUrl;
         this.memoryType = memoryBuilder.memoryType;
     }
+
     public Memory() {
     }
 
@@ -70,8 +71,8 @@ public class Memory {
         return reminder;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
     public String getVideoUrl() {
@@ -104,16 +105,17 @@ public class Memory {
         private final Date time;
         private final String location;
         private final String text;
-        private List<Comment> comments;
         private final Privacy privacy;
         private final Boolean reminder;
+        private final Long MAX_ID = Long.MAX_VALUE;
+        private List<Comment> comments;
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
         private String audioUrl;
 
         public MemoryBuilder(String authorId, String text, String location) {
-            this.id = UUID.randomUUID().toString();
+            this.id = Long.toString(MAX_ID - System.currentTimeMillis());
             this.time = Calendar.getInstance().getTime();
             this.authorId = authorId;
             this.text = text;

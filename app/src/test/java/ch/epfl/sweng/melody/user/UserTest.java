@@ -126,9 +126,10 @@ public class UserTest {
     }
 
     @Test
-    public void getDefaultProfilePhotoURL() throws Exception{
+    public void getDefaultProfilePhotoURL() throws Exception {
         assertEquals(user.getDefaultProfilePhotoUrl(), defaultProfilePhotoUrl);
     }
+
     @Test
     public void emptyConstructor() throws Exception {
         assertNotNull(new User());

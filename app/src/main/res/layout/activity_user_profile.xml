@@ -133,13 +133,26 @@
             android:id="@+id/log_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/friendsText"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="70dp"
+            android:layout_marginEnd="10dp"
             android:layout_toEndOf="@+id/profilePicView"
             android:onClick="logOut"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
             android:text="@string/log_out" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dp">
+
+            <include
+                layout="@layout/menu_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -42,9 +42,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/record_audio"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@mipmap/send_memory"
+        tools:ignore="ContentDescription"
         tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:ignore="ContentDescription"/>
+        tools:layout_constraintRight_creator="1" />
 
     <ImageButton
         android:id="@+id/take_photos"
@@ -57,9 +57,9 @@
         app:layout_constraintBottom_toBottomOf="@+id/take_videos"
         app:layout_constraintLeft_toLeftOf="parent"
         app:srcCompat="@mipmap/photo"
+        tools:ignore="ContentDescription"
         tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:ignore="ContentDescription"/>
+        tools:layout_constraintLeft_creator="1" />
 
     <ImageButton
         android:id="@+id/take_videos"
@@ -76,11 +76,11 @@
         app:layout_constraintRight_toLeftOf="@+id/record_audio"
         app:layout_constraintTop_toTopOf="@+id/record_audio"
         app:srcCompat="@mipmap/video"
+        tools:ignore="ContentDescription"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:ignore="ContentDescription"/>
+        tools:layout_constraintTop_creator="1" />
 
     <ImageView
         android:id="@+id/display_chosen_photo"
@@ -90,16 +90,17 @@
         android:layout_marginEnd="25dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="80dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/display_chosen_video"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/display_chosen_video"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@null"
+        tools:ignore="ContentDescription"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:ignore="ContentDescription" />
+        tools:layout_constraintTop_creator="1" />
 
     <VideoView
         android:id="@+id/display_chosen_video"
@@ -108,13 +109,14 @@
         android:layout_marginEnd="5dp"
         android:layout_marginTop="80dp"
         android:background="@null"
+        android:scaleType="fitXY"
         app:layout_constraintLeft_toLeftOf="@+id/record_audio"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:ignore="ContentDescription" />
+        tools:layout_constraintTop_creator="1" />
 
 
     <ImageButton
@@ -128,9 +130,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/memory_send"
         app:srcCompat="@mipmap/microphone"
+        tools:ignore="ContentDescription"
         tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:ignore="ContentDescription" />
+        tools:layout_constraintRight_creator="1" />
 
     <TextView
         android:id="@+id/address"
@@ -143,10 +145,10 @@
         app:layout_constraintLeft_toLeftOf="@+id/take_photos"
         app:layout_constraintRight_toLeftOf="@+id/take_videos"
         app:layout_constraintTop_toBottomOf="@+id/display_chosen_photo"
+        tools:ignore="ContentDescription"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:ignore="ContentDescription" />
+        tools:layout_constraintTop_creator="1" />
 
 </android.support.constraint.ConstraintLayout>

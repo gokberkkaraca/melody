@@ -34,7 +34,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
-public class CreateMemoryActivity extends AppCompatActivity{
+public class CreateMemoryActivity extends AppCompatActivity {
     private static final int REQUEST_PHOTO_GALLERY = 1;
     private static final int REQUEST_PHOTO_CAMERA = 2;
     private static final int REQUEST_VIDEO_GALLERY = 3;
@@ -139,6 +139,7 @@ public class CreateMemoryActivity extends AppCompatActivity{
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
                     memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
+                            .video(url)
                             .build();
                 }
                 DatabaseHandler.uploadMemory(memory);

@@ -5,22 +5,19 @@ import org.junit.Test;
 
 import java.util.UUID;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CommentTest {
 
+    private final String memoryId = Long.toString(System.currentTimeMillis());
     private Comment comment;
-    private String memoryId;
-    private String authorId;
-    private String content;
+    private String authorId = UUID.randomUUID().toString();
 
     @Before
     public void createComment() {
-        memoryId = UUID.randomUUID().toString();
-        authorId = UUID.randomUUID().toString();
-        content = "Test comment";
-        comment = new Comment(memoryId, authorId, content);
+        comment = new Comment(memoryId, authorId, "Test comment");
     }
 
     @Test
@@ -30,7 +27,7 @@ public class CommentTest {
 
     @Test
     public void getMemory() throws Exception {
-        assertTrue(comment.getMemoryId().equals(memoryId));
+        assertEquals(comment.getMemoryId(), memoryId);
     }
 
     @Test
@@ -40,7 +37,7 @@ public class CommentTest {
 
     @Test
     public void getContent() throws Exception {
-        assertTrue(comment.getContent().equals(content));
+        assertTrue(comment.getContent().equals("Test comment"));
     }
 
     @Test
