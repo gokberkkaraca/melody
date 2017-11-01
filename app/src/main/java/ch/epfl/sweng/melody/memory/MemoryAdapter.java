@@ -1,8 +1,11 @@
 package ch.epfl.sweng.melody.memory;
 
+
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
+
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -23,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import ch.epfl.sweng.melody.MemoryDetailActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
@@ -32,7 +36,6 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
     private final List<Memory> memoryList;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
-
 
     public MemoryAdapter(List<Memory> memoryList) {
         this.memoryList = memoryList;
@@ -93,6 +96,21 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         MemoriesViewHolder(View view) {
             super(view);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+
+                    if(pos != RecyclerView.NO_POSITION){
+                        Memory clickedMemory = memoryList.get(pos);
+                        Intent intent = new Intent(v.getContext(), MemoryDetailActivity.class);
+                        intent.putExtra("memoryId", clickedMemory.getId());
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            });
+
             author = view.findViewById(R.id.author);
             time = view.findViewById(R.id.time);
             description = view.findViewById(R.id.description);
