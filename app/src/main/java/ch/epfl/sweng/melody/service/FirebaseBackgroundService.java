@@ -9,6 +9,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
 
 /**
@@ -23,10 +24,16 @@ public class FirebaseBackgroundService extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
-        DatabaseHandler.getAllMemories(new ValueEventListener() {
+        DatabaseHandler.getLatestMemory(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                NotificationHandler.sendNotification(FirebaseBackgroundService.this,"There is a new memory!");
+                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                    Memory memory = memDataSnapshot.getValue(Memory.class);
+                    assert memory != null;
+                    String message = memory.getAuthorId()+" upload a memory just now!";
+                    NotificationHandler
+                            .sendNotification(FirebaseBackgroundService.this, message);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
