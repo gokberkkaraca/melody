@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -32,6 +33,10 @@ public class MemoryDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Button playVideo = (Button) findViewById(R.id.playVideo);
+        Button pauseVideo = (Button) findViewById(R.id.pauseVideo);
+        Button stopVideo = (Button) findViewById(R.id.stopVideo);
+
         setContentView(R.layout.activity_memory_detail);
         fetchMemoryFromDatabase(getIntent().getStringExtra("memoryId"));
 
@@ -44,26 +49,64 @@ public class MemoryDetailActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
 
+                if(memory == null)
+                    return;
+
                 TextView date = (TextView) findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));
 
                 TextView location = (TextView) findViewById(R.id.memoryLocation);
                 location.setText(memory.getLocation());
 
-                ImageView imageView = (ImageView) findViewById(R.id.memoryPicture);
+                TextView memoryText = (TextView) findViewById(R.id.memoryText);
 
-                VideoView videoView = (VideoView) findViewById(R.id.memoryVideo);
+                ImageView memoryImage = (ImageView) findViewById(R.id.memoryPicture);
 
+                final VideoView memoryVideo = (VideoView) findViewById(R.id.memoryVideo);
+
+                final Button playVideo = (Button) findViewById(R.id.playVideo);
+                Button pauseVideo = (Button) findViewById(R.id.pauseVideo);
+                Button stopVideo = (Button) findViewById(R.id.stopVideo);
 
                 if(memory.getPhotoUrl() != null) {
-                    imageView.setVisibility(View.VISIBLE);
-                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(imageView);
+                    memoryImage.setVisibility(View.VISIBLE);
+                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
                 }
 
                 if(memory.getVideoUrl() != null) {
-                    videoView.setVisibility(View.VISIBLE);
-                    videoView.setVideoPath(memory.getVideoUrl());
-                    videoView.start();
+                    memoryVideo.setVisibility(View.VISIBLE);
+                    playVideo.setVisibility(View.VISIBLE);
+                    pauseVideo.setVisibility(View.VISIBLE);
+                    stopVideo.setVisibility(View.VISIBLE);
+
+                    memoryVideo.setVideoPath(memory.getVideoUrl());
+
+                    playVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.start();
+                        }
+                    });
+
+                    pauseVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.pause();
+                        }
+                    });
+
+
+                    stopVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.seekTo(0);
+                        }
+                    });
+                }
+
+                if(memory.getText() != null){
+                    memoryText.setVisibility(View.VISIBLE);
+                    memoryText.setText(memory.getText());
                 }
 
                 fetchUserInfo(memory.getAuthorId());
@@ -73,6 +116,7 @@ public class MemoryDetailActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("The read failed!");
             }
+
         });
     }
 

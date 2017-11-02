@@ -25,10 +25,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.melody.ViewMatcher.hasDrawable;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
@@ -56,7 +56,7 @@ public class MemoryDetailActivityTest {
                     Intent intent = new Intent(targetContext,MemoryDetailActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("USER", user);
-                    intent.putExtra("memoryId", "9223370527362443707");
+                    intent.putExtra("memoryId", "fake_id");
                     intent.putExtras(bundle);
                     return intent;
                 }
@@ -66,8 +66,12 @@ public class MemoryDetailActivityTest {
     @Test
     public void getMemoryTest() throws Exception{
         Thread.sleep(5000);
-        onView(withId(R.id.memoryAuthor)).check(matches(withText("Jiacheng Xu")));
-        onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
+        onView(withId(R.id.memoryAuthor)).check(matches(withText("Username")));
+        onView(withId(R.id.memoryLocation)).check(matches(withText("Country, city")));
+        onView(withId(R.id.memoryDate)).check(matches(withText("Time")));
+        onView(withId(R.id.memoryPicture)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.memoryVideo)).check(matches(not(isDisplayed())));
+        onView(withId(R.id.memoryText)).check(matches(not(isDisplayed())));
     }
 
     @Test

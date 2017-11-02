@@ -35,19 +35,19 @@
     <TextView
         android:id="@+id/memoryLocation"
         android:layout_width="0dp"
-        android:layout_height="47dp"
+        android:layout_height="33dp"
         android:layout_marginEnd="52dp"
         android:layout_marginStart="52dp"
         android:text="@string/country_city"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/memoryPicture"
+        app:layout_constraintBottom_toTopOf="@+id/memoryText"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="21dp"
         app:layout_constraintTop_toBottomOf="@+id/memoryAuthorPic"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="22dp"
+        android:layout_marginBottom="13dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
@@ -60,53 +60,110 @@
         app:layout_constraintRight_toRightOf="@+id/memoryDate"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/memoryDate"
-        app:layout_constraintTop_toTopOf="@+id/memoryAuthorPic" />
+        app:layout_constraintTop_toTopOf="@+id/memoryAuthorPic"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <ImageView
         android:id="@+id/memoryPicture"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="49dp"
-        android:layout_marginStart="49dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginStart="52dp"
         android:visibility="invisible"
         tools:ignore="ContentDescription"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/memoryVideo"
+        app:layout_constraintBottom_toBottomOf="@+id/playVideo"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="63dp"
         tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="63dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/memoryVideo" />
+        app:layout_constraintTop_toTopOf="@+id/memoryText" />
 
     <include
         layout="@layout/menu_layout"
         android:layout_width="0dp"
-        android:layout_height="73dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginStart="2dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="3dp"
+        android:id="@+id/include"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@+id/memoryPicture"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/playVideo"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <VideoView
         android:id="@+id/memoryVideo"
         android:layout_width="0dp"
-        android:layout_height="273dp"
-        android:layout_marginBottom="124dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginStart="55dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginStart="52dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/memoryPicture"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/memoryPicture" />
+
+    <TextView
+        android:id="@+id/memoryText"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="129dp"
+        android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/memoryAuthor"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <Button
+        android:id="@+id/playVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:visibility="invisible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pauseVideo"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/memoryPicture" />
+
+    <Button
+        android:id="@+id/pauseVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:text="Pause"
+        android:visibility="invisible"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="85dp"
+        app:layout_constraintLeft_toRightOf="@+id/playVideo" />
+
+    <Button
+        android:id="@+id/stopVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="stop"
+        android:visibility="invisible"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/memoryPicture"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pauseVideo"
+        tools:layout_constraintBaseline_creator="1" />
 
 
 </android.support.constraint.ConstraintLayout>
