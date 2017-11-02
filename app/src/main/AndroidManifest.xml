@@ -36,6 +36,19 @@
         <activity android:name=".CreateMemoryActivity" />
         <activity android:name=".AudioRecordingActivity"></activity>
         <activity android:name=".MemoryDetailActivity"></activity>
+
+        <service
+            android:name=".service.MelodyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.FirebaseBackgroundService">
+        </service>
+
     </application>
 
 </manifest>
