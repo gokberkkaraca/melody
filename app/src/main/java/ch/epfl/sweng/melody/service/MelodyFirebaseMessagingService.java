@@ -3,6 +3,7 @@ package ch.epfl.sweng.melody.service;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
 import ch.epfl.sweng.melody.notification.NotificationHandler;
 
 

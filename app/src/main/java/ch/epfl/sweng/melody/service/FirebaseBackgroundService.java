@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
+import ch.epfl.sweng.melody.user.User;
 
 /**
  * Created by maxwell on 02.11.17.
@@ -30,7 +31,7 @@ public class FirebaseBackgroundService extends Service {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    String message = memory.getAuthorId()+" upload a memory just now!";
+                    String message = User.docodeIdtoEmail(memory.getAuthorId())+" upload a memory just now!";
                     NotificationHandler
                             .sendNotification(FirebaseBackgroundService.this, message);
                 }

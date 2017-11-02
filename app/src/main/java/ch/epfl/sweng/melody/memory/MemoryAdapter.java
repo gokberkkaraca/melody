@@ -4,11 +4,7 @@ package ch.epfl.sweng.melody.memory;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
-
 import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
