@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.service.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.user.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         final int timer = 250;
         super.onCreate(savedInstanceState);
+        startService(new Intent(this,FirebaseBackgroundService.class));
         setContentView(R.layout.activity_main);
         mHandler.postDelayed(new Runnable() {
             @Override

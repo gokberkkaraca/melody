@@ -32,15 +32,15 @@ public class DatabaseHandler {
     }
 
     public static void getUserInfo(String userId, ValueEventListener vel) {
-        databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(vel);
+        databaseReference.child(DATABASE_USERS_PATH).child(userId).addValueEventListener(vel);
     }
 
     public static void getAllMemories(ValueEventListener vel) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).addListenerForSingleValueEvent(vel);
+        databaseReference.child(DATABASE_MEMORIES_PATH).addValueEventListener(vel);
     }
 
     public static void getMemory(String id, ValueEventListener vel) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addListenerForSingleValueEvent(vel);
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addValueEventListener(vel);
     }
 
 
@@ -64,27 +64,4 @@ public class DatabaseHandler {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-
-    /*
-    * Example how to use this class (in PublicMemoryActivity) :
-    * Firebase_Handler fh = new Firebase_Handler();
-        fh.addUserToDatabase(new User(LoginActivity.GOOGLE_ACCOUNT,"m","9191919191",new Date(),"lausanne"));
-
-        fh.getUserInfo(LoginActivity.GOOGLE_ACCOUNT.getId(),new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User tmp = dataSnapshot.getValue(User.class);
-                addTextMemory(tmp.getEmail());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-            }
-      });
-    *
-    *
-    *
-    *
-    * */
-
 }

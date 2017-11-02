@@ -38,10 +38,14 @@
         <activity android:name=".MemoryDetailActivity"></activity>
 
         <service
-            android:name=".notification.MelodyFirebaseMessagingService">
+            android:name=".service.MelodyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.FirebaseBackgroundService">
         </service>
 
     </application>
