@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import ch.epfl.sweng.melody.memory.Memory;
 
@@ -137,5 +136,9 @@ public class User implements Serializable {
 
     private String encodeEmailForId(String email){
         return email.replace('.',',');
+    }
+
+    public static String docodeIdtoEmail(String userId){
+        return userId.replace(",",".");
     }
 }
