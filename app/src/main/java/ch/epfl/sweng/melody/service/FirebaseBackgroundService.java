@@ -3,6 +3,7 @@ package ch.epfl.sweng.melody.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.RestrictTo;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +19,8 @@ import ch.epfl.sweng.melody.user.User;
  */
 
 public class FirebaseBackgroundService extends Service {
+    @RestrictTo (RestrictTo.Scope.TESTS)
+    private static boolean isServiceStarted;
     @Override
     public IBinder onBind(Intent intent){
         return null;
@@ -25,6 +28,7 @@ public class FirebaseBackgroundService extends Service {
     @Override
     public void onCreate(){
         super.onCreate();
+        isServiceStarted=true;
         DatabaseHandler.getLatestMemory(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -40,5 +44,9 @@ public class FirebaseBackgroundService extends Service {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    public static boolean isServiceStarted() {
+        return isServiceStarted;
     }
 }
