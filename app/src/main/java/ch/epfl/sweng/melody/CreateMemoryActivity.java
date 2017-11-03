@@ -3,14 +3,17 @@ package ch.epfl.sweng.melody;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -34,13 +37,18 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
-public class CreateMemoryActivity extends AppCompatActivity {
-    private static final int REQUEST_PHOTO_GALLERY = 1;
-    private static final int REQUEST_PHOTO_CAMERA = 2;
-    private static final int REQUEST_VIDEO_GALLERY = 3;
-    private static final int REQUEST_VIDEO_CAMERA = 4;
-    private static final int REQUEST_AUDIOFILE = 5;
+import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_AUDIOFILE;
+import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_GPS;
+import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_LOCATION;
+import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_PHOTO_CAMERA;
+import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_PHOTO_GALLERY;
+import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_VIDEO_CAMERA;
+import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_VIDEO_GALLERY;
+
+public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
+
     private static final String FAKE_ADDRESS = "Lausanne,Switzerland";
+
     private User user;
     private ImageView imageView;
     private VideoView videoView;
@@ -50,6 +58,10 @@ public class CreateMemoryActivity extends AppCompatActivity {
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
+
+    private LocationManager mLocationManager;
+
+    private AlertDialog.Builder builder;
 //    private String audioPath;
 
     @Override
@@ -65,6 +77,9 @@ public class CreateMemoryActivity extends AppCompatActivity {
         TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS);
 
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        accessWithPermission(REQUEST_LOCATION);
     }
 
     public void pickPhotoDialog(View view) {
@@ -75,9 +90,9 @@ public class CreateMemoryActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int option) {
                 if (options[option].equals("Camera")) {
-                    accessWithPermission(CreateMemoryActivity.this, REQUEST_PHOTO_CAMERA);
+                    accessWithPermission(REQUEST_PHOTO_CAMERA);
                 } else if (options[option].equals("Choose from Album")) {
-                    accessWithPermission(CreateMemoryActivity.this, REQUEST_PHOTO_GALLERY);
+                    accessWithPermission(REQUEST_PHOTO_GALLERY);
                 } else if (options[option].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -94,9 +109,9 @@ public class CreateMemoryActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int option) {
                 if (options[option].equals("Camera")) {
-                    accessWithPermission(CreateMemoryActivity.this, REQUEST_VIDEO_CAMERA);
+                    accessWithPermission(REQUEST_VIDEO_CAMERA);
                 } else if (options[option].equals("Choose from Album")) {
-                    accessWithPermission(CreateMemoryActivity.this, REQUEST_VIDEO_GALLERY);
+                    accessWithPermission(REQUEST_VIDEO_GALLERY);
                 } else if (options[option].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -188,9 +203,17 @@ public class CreateMemoryActivity extends AppCompatActivity {
                 //   onAudioFileResult(data);
                 break;
             }
+            case REQUEST_GPS: {
+                if (mLocationManager == null) {
+                    mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                }
+
+                assert mLocationManager != null;
+                if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                    showGPSDisabledDialog();
+            }
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -213,9 +236,22 @@ public class CreateMemoryActivity extends AppCompatActivity {
                     break;
                 }
                 case REQUEST_AUDIOFILE: {
-                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        accessAudioFiles();
-                        break;
+                    accessAudioFiles();
+                    break;
+                }
+                case REQUEST_LOCATION: {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                    }
+
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                }
+            }
+        } else {
+            switch (requestCode) {
+                case REQUEST_LOCATION: {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        showLocationPermissionRationale();
                     }
                 }
             }
@@ -223,59 +259,55 @@ public class CreateMemoryActivity extends AppCompatActivity {
     }
 
 
-    private void accessWithPermission(Context context, int resquestCode) {
-        switch (resquestCode) {
+    private void accessWithPermission(int requestCode) {
+        switch (requestCode) {
             case REQUEST_PHOTO_CAMERA: {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context,
-                            new String[]{Manifest.permission.CAMERA},
-                            REQUEST_PHOTO_CAMERA);
-                } else {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_PHOTO_CAMERA);
+                else
                     photoFromCamera();
-                }
                 break;
             }
             case REQUEST_VIDEO_CAMERA: {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context,
-                            new String[]{Manifest.permission.CAMERA},
-                            REQUEST_VIDEO_CAMERA);
-                } else {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_VIDEO_CAMERA);
+                else
                     videoFromCamera();
-                }
                 break;
             }
             case REQUEST_PHOTO_GALLERY: {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            REQUEST_PHOTO_GALLERY);
-                } else {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PHOTO_GALLERY);
+                else
                     photoFromGallery();
-                }
                 break;
             }
             case REQUEST_VIDEO_GALLERY: {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context,
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                             REQUEST_VIDEO_GALLERY);
-                } else {
+                else
                     videoFromGallery();
-                }
                 break;
             }
             case REQUEST_AUDIOFILE: {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                            REQUEST_AUDIOFILE);
-                } else {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_AUDIOFILE);
+                else
                     accessAudioFiles();
-                }
+                break;
+            }
+            case REQUEST_LOCATION: {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                else
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                break;
             }
         }
     }
+
 
     private void photoFromCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -342,7 +374,7 @@ public class CreateMemoryActivity extends AppCompatActivity {
                     Intent intent = new Intent(CreateMemoryActivity.this, AudioRecordingActivity.class);
                     CreateMemoryActivity.this.startActivity(intent);
                 } else if (options[option].equals("Choose from Library")) {
-                    accessWithPermission(CreateMemoryActivity.this, REQUEST_AUDIOFILE);
+                    accessWithPermission(REQUEST_AUDIOFILE);
                 } else if (options[option].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -361,5 +393,77 @@ public class CreateMemoryActivity extends AppCompatActivity {
     private void onVideoFromCameraResult(Intent data) {
         videoView.setVideoURI(data.getData());
         videoView.start();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (provider.equals(LocationManager.GPS_PROVIDER)) {
+            showGPSDisabledDialog();
+        }
+    }
+
+    public void showGPSDisabledDialog() {
+        LocationManager service = (LocationManager) getSystemService(LOCATION_SERVICE);
+        assert service != null;
+        boolean isLocationEnabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        if (!isLocationEnabled) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Open GPS")
+                    .setMessage("Creating a new memory requires Melody to access your location. Do you want to activate Location Services?")
+                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finishAffinity();
+                        }
+                    })
+                    .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivityForResult(intent, REQUEST_GPS);
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+        }
+    }
+
+    public void showLocationPermissionRationale() {
+        new AlertDialog.Builder(this)
+                .setTitle("Permission Required")
+                .setMessage("Melody can't continue without location permission. If you want to create memories, please activate permissions")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(MainActivity.USER_INFO, user);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                })
+                .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        accessWithPermission(REQUEST_LOCATION);
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 }
