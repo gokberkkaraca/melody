@@ -113,5 +113,28 @@ public class PublicMemoryActivityTest {
         intended(hasComponent(UserProfileActivity.class.getName()));
     }
 
+    @Test
+    public void filterByLocation () throws Exception{
+        onView(withId(R.id.filterByLocation)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+                new ViewAction() {
+                    @Override
+                    public Matcher<View> getConstraints() {
+                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "click filter by location button";
+                    }
+
+                    @Override
+                    public void perform(UiController uiController, View view) {
+                        view.performClick();
+                    }
+                }
+        );
+
+    }
+
 }
 
