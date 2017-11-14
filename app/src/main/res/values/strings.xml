@@ -24,5 +24,8 @@
     <string name="time">Time</string>
     <string name="description">Description</string>
     <string name="content_description">content_description</string>
+    <string name="filter_by_distance">Filter by distance</string>
+    <string name="ChooseRadius">Please choose a radius</string>
+    <string name="radiusTitle">Choose a radius</string>
     <color name="white">#ffffff</color>
 </resources>

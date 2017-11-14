@@ -35,4 +35,13 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/memories_recyclerview"
+        android:layout_alignParentEnd="true"
+        android:text="@string/filter_by_distance"
+        android:onClick="filterByLocation"/>
+
 </RelativeLayout>
