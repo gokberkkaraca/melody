@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
@@ -39,7 +40,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
     private static MemoryAdapter memoryAdapter;
     private Button dateButton;
     private static long memoryStartTime = 0L;
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
     private static boolean datePicked = false;
     private static Calendar calendar;
 

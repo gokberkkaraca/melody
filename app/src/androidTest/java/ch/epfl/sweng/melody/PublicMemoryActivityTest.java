@@ -14,6 +14,7 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import ch.epfl.sweng.melody.user.User;
 
@@ -59,7 +60,7 @@ public class PublicMemoryActivityTest extends ActivityTest {
     public void datePickerWorks() {
         onView(withId(R.id.dateButton)).perform(click());
         onView(withText("OK")).perform(click());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
         Date currtTime = Calendar.getInstance().getTime();
         onView(withId(R.id.dateButton)).check(matches(withText(dateFormat.format(currtTime))));
 
