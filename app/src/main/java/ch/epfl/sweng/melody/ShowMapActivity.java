@@ -1,7 +1,19 @@
 package ch.epfl.sweng.melody;
 
+import android.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallback {
+    private int filterRadius = 0;
 
     private GoogleMap mMap;
 
@@ -22,6 +35,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        filterByLocation();
     }
 
 
@@ -42,5 +56,43 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         LatLng lausanne = new LatLng(46.5197, 6.6323);
         mMap.addMarker(new MarkerOptions().position(lausanne).title("Marker in Lansanne"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lausanne,15.0f));
+    }
+
+    public void filterByLocation(){
+        TextView title = findViewById(R.id.filter_title);
+        title.setTextColor(Color.BLACK);
+        title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        title.setTypeface(Typeface.DEFAULT_BOLD);
+
+        final TextView radiusValue = findViewById(R.id.filter_message);
+        radiusValue.setText(R.string.ChooseRadius);
+        radiusValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
+        radiusValue.setTextColor(Color.BLACK);
+
+        SeekBar seekBar = findViewById(R.id.seekBar);
+        seekBar.setMax(100);
+        ShapeDrawable thumb = new ShapeDrawable(new OvalShape());
+
+        thumb.setIntrinsicHeight(50);
+        thumb.setIntrinsicWidth(50);
+        seekBar.setThumb(thumb);
+        seekBar.setProgress(1);
+        seekBar.setVisibility(View.VISIBLE);
+        seekBar.setPadding(50,30,50,0);
+        filterRadius = seekBar.getProgress();
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
+                filterRadius = progressValue;
+                radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
     }
 }
