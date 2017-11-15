@@ -94,9 +94,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         sendButton.setText(R.string.submit);
 
         commentsContainer.addView(sendButton);
-
-        TextView likeNumber = findViewById(R.id.likeNumber);
-        likeNumber.setText(memory.getLikeNumber());
     }
 
     private void fetchMemoryFromDatabase(final String memoryId) {
@@ -118,6 +115,9 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 }
 
                 fetchUserInfo(memory.getAuthorId());
+
+                TextView likeNumber = findViewById(R.id.likeNumber);
+                likeNumber.setText(memory.getLikeNumber());
             }
 
             @Override

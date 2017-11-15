@@ -42,6 +42,8 @@ public class Memory {
     }
 
     public Memory() {
+        comments = new ArrayList<>();
+        likes = new ArrayList<>();
     }
 
     public String getId() {
