@@ -28,18 +28,17 @@ import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.melody.ViewMatcher.hasDrawable;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class MemoryDetailActivityTest {
+public class DetailedMemoryActivityTest {
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
 
     @Rule
-    public final IntentsTestRule<MemoryDetailActivity> memoryDetailActivityIntentsTestRule =
-            new IntentsTestRule<MemoryDetailActivity>(MemoryDetailActivity.class, false, true) {
+    public final IntentsTestRule<DetailedMemoryActivity> memoryDetailActivityIntentsTestRule =
+            new IntentsTestRule<DetailedMemoryActivity>(DetailedMemoryActivity.class, false, true) {
                 @Override
                 protected Intent getActivityIntent() {
                     User user;
@@ -53,7 +52,7 @@ public class MemoryDetailActivityTest {
                     user = new User(googleSignInAccount);
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
-                    Intent intent = new Intent(targetContext,MemoryDetailActivity.class);
+                    Intent intent = new Intent(targetContext,DetailedMemoryActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("USER", user);
                     intent.putExtra("memoryId", "9223370527218314362");
