@@ -179,7 +179,7 @@ public class PublicMemoryActivity extends Activity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
-                radiusValue.setText(getString(R.string.showRadiusMessage) + filterRadius + getString(R.string.km));
+                radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
 
             }
 
