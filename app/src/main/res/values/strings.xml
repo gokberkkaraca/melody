@@ -25,4 +25,5 @@
     <string name="description">Description</string>
     <string name="content_description">content_description</string>
     <color name="white">#ffffff</color>
+    <string name="title_activity_show_map">Map</string>
 </resources>

@@ -10,27 +10,28 @@ public class Location implements Serializable {
     private double longitude;
     private double latitude;
     private String locationName;
-    public Location(android.location.Location location){
+
+    public Location(android.location.Location location) {
         this.longitude = location.getLongitude();
         this.latitude = location.getLatitude();
         this.locationName = location.getProvider();
     }
 
-    public Location(Location location){
+    public Location(Location location) {
         this.longitude = location.longitude;
         this.latitude = location.latitude;
         this.locationName = location.locationName;
     }
 
-    public void setLongitude(double longitude){
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public void setLatitude(double latitude){
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLocationName(String locationName){
+    public void setLocationName(String locationName) {
         this.locationName = locationName;
     }
 
@@ -47,13 +48,13 @@ public class Location implements Serializable {
     }
 
 
-    public double distanceTo(Location location){
+    public double distanceTo(Location location) {
         int MAXITERS = 20;
         // Convert lat/long to radians
-        double lat1 =latitude* Math.PI / 180.0;
-        double lat2 = location.latitude*Math.PI / 180.0;
-        double lon1 = longitude*Math.PI / 180.0;
-        double lon2 = location.longitude*Math.PI / 180.0;
+        double lat1 = latitude * Math.PI / 180.0;
+        double lat2 = location.latitude * Math.PI / 180.0;
+        double lon1 = longitude * Math.PI / 180.0;
+        double lon2 = location.longitude * Math.PI / 180.0;
         double a = 6378137.0; // WGS84 major axis
         double b = 6356752.3142; // WGS84 semi-major axis
         double f = (a - b) / a;
