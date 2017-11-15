@@ -95,6 +95,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         commentsContainer.addView(sendButton);
 
+        TextView likeNumber = findViewById(R.id.likeNumber);
+        likeNumber.setText(memory.getLikeNumber());
     }
 
     private void fetchMemoryFromDatabase(final String memoryId) {
