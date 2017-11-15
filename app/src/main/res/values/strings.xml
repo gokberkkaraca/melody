@@ -27,7 +27,7 @@
     <string name="filter_by_distance">Filter by distance</string>
     <string name="ChooseRadius">Please choose a radius</string>
     <string name="radiusTitle">Choose a radius</string>
-    <string name="showRadiusMessage">Show memories posted within</string>
-    <string name="km">km</string>
+    <string name="showRadiusMessage">Show memories posted within </string>
+    <string name="km"> km</string>
     <color name="white">#ffffff</color>
 </resources>
