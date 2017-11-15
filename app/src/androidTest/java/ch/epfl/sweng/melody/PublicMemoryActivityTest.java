@@ -1,27 +1,26 @@
 package ch.epfl.sweng.melody;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.rule.ActivityTestRule;
-import android.widget.DatePicker;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.pressBack;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Mockito.mock;
@@ -56,15 +55,14 @@ public class PublicMemoryActivityTest extends ActivityTest {
                 }
             };
 
-    /*
-    @Rule
-    public final ActivityTestRule<PublicMemoryActivity> publicMemoryActivityTestRule = new ActivityTestRule<>(
-            PublicMemoryActivity.class);*/
-
     @Test
     public void datePickerWorks() {
-        PublicMemoryActivity.DatePickerFragment dialog = new PublicMemoryActivity.DatePickerFragment();
-        //We can't test the data picker beacause it requires libraries that can be in conflict with our currents ones and can cause the app to become untable
+        onView(withId(R.id.dateButton)).perform(click());
+        onView(withText("OK")).perform(click());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        Date currtTime = Calendar.getInstance().getTime();
+        onView(withId(R.id.dateButton)).check(matches(withText(dateFormat.format(currtTime))));
+
     }
 }
 
