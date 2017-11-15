@@ -4,39 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.CoordinatesProvider;
-import android.support.test.espresso.action.GeneralClickAction;
-import android.support.test.espresso.action.Press;
-import android.support.test.espresso.action.Tap;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.view.View;
-import android.widget.SeekBar;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
-import org.hamcrest.Matcher;
 import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.Random;
 
 import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
-import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.allOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PublicMemoryActivityTest extends ActivityTest{
+public class PublicMemoryActivityTest extends ActivityTest {
 
     @Rule
     public final IntentsTestRule<PublicMemoryActivity> publicMemoryActivityIntentsTestRule =
