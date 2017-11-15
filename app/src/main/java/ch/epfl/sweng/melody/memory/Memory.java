@@ -10,12 +10,12 @@ import ch.epfl.sweng.melody.user.User;
 
 public class Memory {
     private String id;
-    private String authorId;
+    private User user;
     private Date time;
     private String location;
     private String text;
     private List<Comment> comments;
-    private List<String> likes;
+    private List<User> likes;
     private Privacy privacy;
     private MemoryType memoryType;
     private Boolean reminder;
@@ -26,7 +26,7 @@ public class Memory {
     private Memory(MemoryBuilder memoryBuilder) {
         this.id = memoryBuilder.id;
         this.time = memoryBuilder.time;
-        this.authorId = memoryBuilder.authorId;
+        this.user = memoryBuilder.user;
         this.text = memoryBuilder.text;
         this.location = memoryBuilder.location;
         this.privacy = memoryBuilder.privacy;
@@ -35,7 +35,7 @@ public class Memory {
         this.comments = memoryBuilder.comments;
         this.likes = memoryBuilder.likes;
         // Firebase doesn't accept empty list
-        likes.add(authorId);
+        likes.add(user);
         this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
@@ -60,8 +60,8 @@ public class Memory {
 
     public String getId() { return id; }
 
-    public String getAuthorId() {
-        return authorId;
+    public User getUser() {
+        return user;
     }
 
     public Date getTime() {
@@ -112,15 +112,15 @@ public class Memory {
         return new MemoryUploader(this);
     }
 
-    public void likeAction(String userId){
-        if (userId.equals(authorId))
+    public void likeAction(User user){
+        if (this.user.getId().equals(user.getId()))
             return;
 
-        if (likes.contains(userId)){
-            likes.remove(userId);
+        if (likes.contains(user)){
+            likes.remove(user);
         }
         else {
-            likes.add(userId);
+            likes.add(user);
         }
     }
 
@@ -129,7 +129,7 @@ public class Memory {
         return likes.size() - 1;
     }
 
-    protected List<String> getLikes() {
+    protected List<User> getLikes() {
         return likes;
     }
 
@@ -139,7 +139,7 @@ public class Memory {
 
     public static class MemoryBuilder {
         private final String id;
-        private final String authorId;
+        private final User user;
         private final Date time;
         private final String location;
         private final String text;
@@ -147,16 +147,16 @@ public class Memory {
         private final Boolean reminder;
         private final Long MAX_ID = Long.MAX_VALUE;
         private List<Comment> comments;
-        private List<String> likes;
+        private List<User> likes;
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
         private String audioUrl;
 
-        public MemoryBuilder(String authorId, String text, String location) {
+        public MemoryBuilder(User user, String text, String location) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());
             this.time = Calendar.getInstance().getTime();
-            this.authorId = authorId;
+            this.user = user;
             this.text = text;
             this.location = location;
             this.privacy = Privacy.PUBLIC;
@@ -189,7 +189,7 @@ public class Memory {
             return this;
         }
 
-        public MemoryBuilder likes(List<String> likes){
+        public MemoryBuilder likes(List<User> likes){
             this.likes = likes;
             return this;
         }

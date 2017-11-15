@@ -128,7 +128,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
+            memory = new Memory.MemoryBuilder(user, memoryDescription, FAKE_ADDRESS)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
@@ -149,11 +149,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(user, memoryDescription, FAKE_ADDRESS)
                             .photo(url)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(user.getId(), memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(user, memoryDescription, FAKE_ADDRESS)
                             .video(url)
                             .build();
                 }

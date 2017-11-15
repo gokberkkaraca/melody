@@ -22,7 +22,6 @@ public class MemoryTest {
 
     private User user;
     private final String memoryId = Long.toString(System.currentTimeMillis());
-    private final String memoryAuthorId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
     private final String commentAuthorId = UUID.randomUUID().toString();
     private final Date time = Calendar.getInstance().getTime();
@@ -53,11 +52,11 @@ public class MemoryTest {
 
         memory = mock(Memory.class);
         when(memory.getId()).thenReturn(memoryId);
-        when(memory.getAuthorId()).thenReturn(memoryAuthorId);
+        when(memory.getUser()).thenReturn(user);
         when(memory.getTime()).thenReturn(time);
         when(memory.getPrivacy()).thenReturn(Memory.Privacy.PUBLIC);
         when(memory.getReminder()).thenReturn(true);
-        memoryFromBuilder = new Memory.MemoryBuilder(memoryAuthorId, text, location)
+        memoryFromBuilder = new Memory.MemoryBuilder(user, text, location)
                 .photo(testPhotoUrl)
                 .video(testVideoUrl)
                 .audio(testAudioUrl)
@@ -76,8 +75,8 @@ public class MemoryTest {
     }
 
     @Test
-    public void getAuthor() throws Exception {
-        assertEquals(memoryAuthorId, memory.getAuthorId());
+    public void getUser() throws Exception {
+        assertEquals(user, memory.getUser());
     }
 
     @Test
@@ -142,9 +141,24 @@ public class MemoryTest {
 
     @Test
     public void likeAction() throws Exception {
-        memoryFromBuilder.likeAction(user.getId());
+        // Action of the author does not affect anything
+        memoryFromBuilder.likeAction(user);
+        assertTrue(memoryFromBuilder.getLikeNumber() == 0);
+
+        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
+        when(googleSignInAccount.getId()).thenReturn("gokberk.karaca@epfl.ch");
+        when(googleSignInAccount.getGivenName()).thenReturn("Gokberk");
+        when(googleSignInAccount.getFamilyName()).thenReturn("Karaca");
+        when(googleSignInAccount.getDisplayName()).thenReturn("Gokberk Karaca");
+        when(googleSignInAccount.getEmail()).thenReturn("gokberk.karaca@epfl.ch");
+        User user2 = new User(googleSignInAccount);
+
+        // Action of another user
+        memoryFromBuilder.likeAction(user2);
         assertTrue(memoryFromBuilder.getLikeNumber() > 0);
-        memoryFromBuilder.likeAction(user.getId());
+
+        // Action of the same user again (Unlike)
+        memoryFromBuilder.likeAction(user2);
         assertTrue(memoryFromBuilder.getLikeNumber() == 0);
     }
 }
