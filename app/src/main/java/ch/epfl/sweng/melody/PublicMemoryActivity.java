@@ -34,7 +34,7 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
 
     private static User user;
-    private static List<Memory> memoryList;
+    private List<Memory> memoryList;
     private RecyclerView recyclerView;
     private static MemoryAdapter memoryAdapter;
     private static Button dateButton;
@@ -170,6 +170,5 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         }
 
     }
-
 
 }
