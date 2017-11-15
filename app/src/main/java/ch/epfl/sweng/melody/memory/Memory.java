@@ -115,6 +115,10 @@ public class Memory {
         return likes.size();
     }
 
+    protected List<User> getLikes() {
+        return likes;
+    }
+
     public enum Privacy {PRIVATE, SHARED, PUBLIC}
 
     public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
