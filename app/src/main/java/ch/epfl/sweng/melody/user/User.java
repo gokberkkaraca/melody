@@ -57,6 +57,10 @@ public class User implements Serializable {
     public User() {
     }
 
+    public static String docodeIdtoEmail(String userId) {
+        return userId.replace(",", ".");
+    }
+
     public String getUsername() {
         return username;
     }
@@ -92,7 +96,6 @@ public class User implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
 
     public Date getBirthday() {
         return birthday;
@@ -134,11 +137,7 @@ public class User implements Serializable {
         return defaultProfilePhotoUrl;
     }
 
-    private String encodeEmailForId(String email){
-        return email.replace('.',',');
-    }
-
-    public static String docodeIdtoEmail(String userId){
-        return userId.replace(",",".");
+    private String encodeEmailForId(String email) {
+        return email.replace('.', ',');
     }
 }

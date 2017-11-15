@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/memories_recyclerview"
         android:layout_alignParentEnd="true"
-        android:text="@string/filter_by_distance"
-        android:onClick="filterByLocation"/>
+        android:onClick="filterByLocation"
+        android:text="@string/filter_by_distance" />
 
 </RelativeLayout>

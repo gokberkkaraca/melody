@@ -14,6 +14,7 @@ import android.view.View;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -29,12 +30,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class DetailedMemoryActivityTest {
-    private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
 
     @Rule
     public final IntentsTestRule<DetailedMemoryActivity> memoryDetailActivityIntentsTestRule =
@@ -48,11 +47,12 @@ public class DetailedMemoryActivityTest {
                     when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
                     when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
                     when(googleSignInAccount.getEmail()).thenReturn("xjcmaxwell@163.com");
+                    String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
                     when(googleSignInAccount.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
                     user = new User(googleSignInAccount);
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
-                    Intent intent = new Intent(targetContext,DetailedMemoryActivity.class);
+                    Intent intent = new Intent(targetContext, DetailedMemoryActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("USER", user);
                     intent.putExtra("memoryId", "9223370527218314362");
@@ -63,65 +63,51 @@ public class DetailedMemoryActivityTest {
 
 
     @Test
-    public void getMemoryTest() throws Exception{
+    public void getMemoryTest() throws Exception {
         Thread.sleep(5000);
         onView(withId(R.id.memoryAuthor)).check(matches(withText("Jiacheng Xu")));
         onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
     }
 
+    /******************************************************
+     ******************* Menu Button Tests ****************
+     *****************************************************/
     @Test
-    public void goToPublicMemoryTest() throws Exception{
-        onView(withId(R.id.home)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "click public memory feed button";
-                    }
-
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
+    public void goToPublicMemoryTest() throws Exception {
+        onView(withId(R.id.home)).check(matches(allOf(isEnabled(), isClickable()))).perform(click());
         Thread.sleep(100);
         intended(hasComponent(PublicMemoryActivity.class.getName()));
     }
 
     @Test
-    public void goToCreateNewMemoryTest() throws Exception{
+    public void goToCreateNewMemoryTest() throws Exception {
         onView(withId(R.id.plus)).perform(click());
         Thread.sleep(100);
         intended(hasComponent(CreateMemoryActivity.class.getName()));
     }
 
-//    @Test
-//    public void goToUserProfileTest() throws Exception{
-//        onView(withId(R.id.person)).check(matches(allOf( isEnabled(), isClickable()))).perform(
-//                new ViewAction() {
-//                    @Override
-//                    public Matcher<View> getConstraints() {
-//                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-//                    }
-//
-//                    @Override
-//                    public String getDescription() {
-//                        return "click user profile button";
-//                    }
-//
-//                    @Override
-//                    public void perform(UiController uiController, View view) {
-//                        view.performClick();
-//                    }
-//                }
-//        );
-//        Thread.sleep(100);
-//        intended(hasComponent(UserProfileActivity.class.getName()));
-//    }
+    @Test
+    public void goToUserProfileTest() throws Exception {
+        onView(withId(R.id.person)).check(matches(allOf(isEnabled(), isClickable()))).perform(click());
+        Thread.sleep(100);
+        intended(hasComponent(UserProfileActivity.class.getName()));
+    }
+
+    // TODO Activate this test when Map Activity is implemented
+    @Ignore
+    @Test
+    public void goToMapTest() throws Exception {
+        onView(withId(R.id.planet)).check(matches(allOf(isEnabled(), isClickable()))).perform(click());
+        Thread.sleep(100);
+        intended(hasComponent(UserProfileActivity.class.getName()));
+    }
+
+    // TODO Activate this test when Map Activity is implemented
+    @Ignore @Test
+    public void goToNotification() throws Exception {
+        onView(withId(R.id.bell)).check(matches(allOf(isEnabled(), isClickable()))).perform(click());
+        Thread.sleep(100);
+        intended(hasComponent(UserProfileActivity.class.getName()));
+    }
 
 }

@@ -20,7 +20,7 @@ public class MelodyFirebaseMessagingService extends FirebaseMessagingService {
      */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        NotificationHandler.sendNotification(this,remoteMessage.getNotification().getBody());
+        NotificationHandler.sendNotification(this, remoteMessage.getNotification().getBody());
     }
 }
 

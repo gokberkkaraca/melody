@@ -43,7 +43,7 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addValueEventListener(vel);
     }
 
-    public static void getLatestMemory(ValueEventListener valueEventListener){
+    public static void getLatestMemory(ValueEventListener valueEventListener) {
         databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).addValueEventListener(valueEventListener);
     }
 
