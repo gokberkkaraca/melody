@@ -12,7 +12,7 @@ class MemoryUploader {
     final private String location;
     final private String text;
     final private List<Comment> comments;
-    final private List<User> likes;
+    final private List<String> likes;
     final private Memory.Privacy privacy;
     final private Boolean reminder;
     final private String photoUrl;
@@ -79,6 +79,10 @@ class MemoryUploader {
     public String getId() {
 
         return id;
+    }
+
+    public List<String> getLikes(){
+        return likes;
     }
 
     public Memory.MemoryType getMemoryType() {
