@@ -1,5 +1,7 @@
 package ch.epfl.sweng.melody.memory;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,6 +9,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
+
+import ch.epfl.sweng.melody.user.User;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -16,6 +20,7 @@ import static org.mockito.Mockito.when;
 
 public class MemoryTest {
 
+    private User user;
     private final String memoryId = Long.toString(System.currentTimeMillis());
     private final String memoryAuthorId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
@@ -31,6 +36,14 @@ public class MemoryTest {
 
     @Before
     public void createMemory() {
+        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
+        when(googleSignInAccount.getId()).thenReturn("jiacheng.xu@epfl.ch");
+        when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
+        when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
+        when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
+        when(googleSignInAccount.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
+        user = new User(googleSignInAccount);
+
         final Comment comment = mock(Comment.class);
         when(comment.getAuthorId()).thenReturn(commentAuthorId);
         when(comment.getContent()).thenReturn("Test comment");
@@ -125,5 +138,13 @@ public class MemoryTest {
     @Test
     public void upload() throws Exception {
         assertEquals(memoryFromBuilder.getId(), memoryFromBuilder.upload().getId());
+    }
+
+    @Test
+    public void likeAction() throws Exception {
+        memoryFromBuilder.likeAction(user);
+        assertTrue(memoryFromBuilder.getLikeNumber() > 0);
+        memoryFromBuilder.likeAction(user);
+        assertTrue(memoryFromBuilder.getLikeNumber() == 0);
     }
 }
