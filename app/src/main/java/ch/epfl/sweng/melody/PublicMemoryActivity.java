@@ -72,7 +72,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
                 memoryAdapter = new MemoryAdapter(memoryList);
                 memoryAdapter.notifyDataSetChanged();
 
-                recyclerView = (RecyclerView) findViewById(R.id.memories_recyclerview);
+                recyclerView = findViewById(R.id.memories_recyclerview);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
