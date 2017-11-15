@@ -35,15 +35,15 @@ public class AudioRecordingActivityTest {
     @Test
     public void canRecord() throws Exception {
         onView(withId(R.id.start_button)).perform(click());
-        Thread.sleep(2500);
+        Thread.sleep(1000);
         onView(withId(R.id.stop_button)).perform(click());
-        Thread.sleep(2500);
+        Thread.sleep(1000);
         onView(withId(R.id.play_button)).perform(click());
-        Thread.sleep(2500);
+        Thread.sleep(1000);
         onView(withId(R.id.stop_play_button)).perform(click());
-        Thread.sleep(2500);
+        Thread.sleep(1000);
         onView(withId(R.id.submit_button)).perform(click());
-        Thread.sleep(2500);
+        Thread.sleep(500);
     }
 
 }
