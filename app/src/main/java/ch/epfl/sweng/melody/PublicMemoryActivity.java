@@ -151,12 +151,14 @@ public class PublicMemoryActivity extends Activity {
         radiusDialog.setCustomTitle(title);
 
         final TextView radiusValue = new TextView(this);
+        radiusValue.setId(R.id.radiusValue);
         radiusValue.setLayoutParams(params);
         radiusValue.setText(R.string.ChooseRadius);
         radiusValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
         radiusValue.setTextColor(Color.BLACK);
 
         SeekBar seekBar = new SeekBar(this);
+        seekBar.setId(R.id.rediusSeekBar);
 
         seekBar.setLayoutParams(params);
         seekBar.setMax(100);
@@ -177,7 +179,7 @@ public class PublicMemoryActivity extends Activity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
-                radiusValue.setText("Show memories posted within " + filterRadius + " km");
+                radiusValue.setText(getString(R.string.showRadiusMessage) + filterRadius + getString(R.string.km));
 
             }
 
