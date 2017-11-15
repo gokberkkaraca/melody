@@ -6,111 +6,127 @@
     android:layout_height="match_parent"
     tools:context="ch.epfl.sweng.melody.DetailedMemoryActivity">
 
+    <RelativeLayout
 
-    <ImageView
-        android:id="@+id/memoryAuthorPic"
-        android:layout_width="105dp"
-        android:layout_height="93dp"
-        android:layout_marginStart="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/memoryDate"
-        app:layout_constraintLeft_toLeftOf="@+id/memoryLocation"
-        app:layout_constraintTop_toTopOf="@+id/memoryDate"
-        tools:ignore="ContentDescription"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <TextView
-        android:id="@+id/memoryDate"
-        android:layout_width="194dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/time"
-        app:layout_constraintLeft_toRightOf="@+id/memoryAuthorPic"
-        app:layout_constraintTop_toBottomOf="@+id/memoryAuthor"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <TextView
-        android:id="@+id/memoryLocation"
+        android:id="@+id/profileInfosLayout"
         android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginLeft="46dp"
-        android:layout_marginRight="46dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="116dp"
-        android:text="@string/country_city"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/memoryAuthorPic"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <TextView
-        android:id="@+id/memoryAuthor"
-        android:layout_width="0dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="80dp"
-        android:text="@string/username"
-        app:layout_constraintLeft_toLeftOf="@+id/memoryDate"
-        app:layout_constraintRight_toRightOf="@+id/memoryDate"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <ImageView
-        android:id="@+id/memoryPicture"
-        android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:layout_marginEnd="43dp"
-        android:layout_marginLeft="43dp"
-        android:layout_marginRight="43dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="103dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/memoryDate"
-        app:srcCompat="@mipmap/photo"
-        tools:ignore="ContentDescription"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <TextView
-        android:id="@+id/memoryComments"
-        android:layout_width="0dp"
-        android:layout_height="143dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/memoryPicture"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
-    <include
-        layout="@layout/menu_layout"
-        android:layout_width="380dp"
-        android:layout_height="67dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/memoryComments"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_editor_absoluteY="590dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/memoryAuthorPic"
+                android:layout_width="105dp"
+                android:layout_height="93dp"
+                android:layout_marginStart="2dp"
+                app:layout_constraintBottom_toTopOf="@+id/memoryDate"
+                app:layout_constraintLeft_toLeftOf="@+id/memoryLocation"
+                app:layout_constraintTop_toTopOf="@+id/memoryDate"
+                tools:ignore="ContentDescription"
+                tools:layout_constraintBottom_creator="1"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintTop_creator="1" />
+
+            <TextView
+                android:id="@+id/memoryDate"
+                android:layout_width="194dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/time"
+                app:layout_constraintLeft_toRightOf="@+id/memoryAuthorPic"
+                app:layout_constraintTop_toBottomOf="@+id/memoryAuthor"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintTop_creator="1" />
+
+            <TextView
+                android:id="@+id/memoryLocation"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="46dp"
+                android:layout_marginLeft="46dp"
+                android:layout_marginRight="46dp"
+                android:layout_marginStart="46dp"
+                android:layout_marginTop="116dp"
+                android:text="@string/country_city"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/memoryAuthorPic"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintRight_creator="1"
+                tools:layout_constraintTop_creator="1" />
+
+            <TextView
+                android:id="@+id/memoryAuthor"
+                android:layout_width="0dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="80dp"
+                android:text="@string/username"
+                app:layout_constraintLeft_toLeftOf="@+id/memoryDate"
+                app:layout_constraintRight_toRightOf="@+id/memoryDate"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintRight_creator="1"
+                tools:layout_constraintTop_creator="1" />
+
+            <ImageView
+                android:id="@+id/memoryPicture"
+                android:layout_width="0dp"
+                android:layout_height="140dp"
+                android:layout_marginEnd="43dp"
+                android:layout_marginLeft="43dp"
+                android:layout_marginRight="43dp"
+                android:layout_marginStart="43dp"
+                android:layout_marginTop="103dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/memoryDate"
+                app:srcCompat="@mipmap/photo"
+                tools:ignore="ContentDescription"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintRight_creator="1"
+                tools:layout_constraintTop_creator="1" />
+
+            <TextView
+                android:id="@+id/memoryComments"
+                android:layout_width="0dp"
+                android:layout_height="143dp"
+                android:layout_marginEnd="42dp"
+                android:layout_marginStart="42dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/memoryPicture"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintRight_creator="1"
+                tools:layout_constraintTop_creator="1" />
+        </android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dp">
+
+            <include
+                layout="@layout/menu_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
