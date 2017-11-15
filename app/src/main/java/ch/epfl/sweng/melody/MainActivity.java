@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         final int timer = 250;
         super.onCreate(savedInstanceState);
-        startService(new Intent(this,FirebaseBackgroundService.class));
+        startService(new Intent(this, FirebaseBackgroundService.class));
         setContentView(R.layout.activity_main);
         mHandler.postDelayed(new Runnable() {
             @Override

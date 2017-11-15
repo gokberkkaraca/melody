@@ -11,7 +11,6 @@ import java.util.Date;
 import ch.epfl.sweng.melody.memory.Memory;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,7 +38,7 @@ public class UserTest {
 
     @Test
     public void getId() throws Exception {
-        assertEquals(user.getId(),"jiacheng,xu@epfl,ch");
+        assertEquals(user.getId(), "jiacheng,xu@epfl,ch");
     }
 
     @Test
