@@ -7,13 +7,11 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,10 +31,10 @@ import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
-public class PublicMemoryActivity extends FragmentActivity { //was extending Activity before
+public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
 
     private static User user;
-    private List<Memory> memoryList;
+    private static List<Memory> memoryList;
     private RecyclerView recyclerView;
     private static MemoryAdapter memoryAdapter;
     private static Button dateButton;
@@ -101,6 +99,22 @@ public class PublicMemoryActivity extends FragmentActivity { //was extending Act
                 }).create().show();
     }
 
+    public void refreshPage() {
+        memoryList = new ArrayList<>();
+        fetchMemoriesFromDatabase();
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        refreshPage();
+    }
+
+
     /*************************************************
      ******************* Menu Buttons ****************
      *************************************************/
@@ -129,7 +143,6 @@ public class PublicMemoryActivity extends FragmentActivity { //was extending Act
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
@@ -138,20 +151,25 @@ public class PublicMemoryActivity extends FragmentActivity { //was extending Act
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             datePicked = true;
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day, 0, 0, 0);
             memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis();
             dateButton.setText(dateFormat.format(calendar.getTime()));
-            //this.recreate();
         }
+
+        @Override
+        public void onDismiss(final DialogInterface dialog) {
+            super.onDismiss(dialog);
+            final Activity activity = getActivity();
+            if (activity instanceof DialogInterface.OnDismissListener) {
+                ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
+            }
+        }
+
     }
 
-
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
 
 }
