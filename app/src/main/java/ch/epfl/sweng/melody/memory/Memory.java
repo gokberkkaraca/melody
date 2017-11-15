@@ -109,6 +109,10 @@ public class Memory {
         }
     }
 
+    public int getLikeNumber(){
+        return likes.size();
+    }
+
     public enum Privacy {PRIVATE, SHARED, PUBLIC}
 
     public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
