@@ -1,8 +1,11 @@
 package ch.epfl.sweng.melody.memory;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import ch.epfl.sweng.melody.user.User;
 
 
 public class Memory {
@@ -12,6 +15,7 @@ public class Memory {
     private String location;
     private String text;
     private List<Comment> comments;
+    private List<User> likes;
     private Privacy privacy;
     private MemoryType memoryType;
     private Boolean reminder;
@@ -29,6 +33,7 @@ public class Memory {
         this.reminder = memoryBuilder.reminder;
 
         this.comments = memoryBuilder.comments;
+        this.likes = memoryBuilder.likes;
         this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
@@ -95,6 +100,15 @@ public class Memory {
         return new MemoryUploader(this);
     }
 
+    public void likeAction(User user){
+        if (likes.contains(user)){
+            likes.remove(user);
+        }
+        else {
+            likes.add(user);
+        }
+    }
+
     public enum Privacy {PRIVATE, SHARED, PUBLIC}
 
     public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
@@ -109,6 +123,7 @@ public class Memory {
         private final Boolean reminder;
         private final Long MAX_ID = Long.MAX_VALUE;
         private List<Comment> comments;
+        private List<User> likes;
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
@@ -123,6 +138,8 @@ public class Memory {
             this.privacy = Privacy.PUBLIC;
             this.reminder = true;
             this.memoryType = MemoryType.TEXT;
+            this.comments = new ArrayList<>();
+            this.likes = new ArrayList<>();
         }
 
         public MemoryBuilder photo(String photoUrl) {
@@ -145,6 +162,11 @@ public class Memory {
 
         public MemoryBuilder comments(List<Comment> comments) {
             this.comments = comments;
+            return this;
+        }
+
+        public MemoryBuilder likes(List<User> likes){
+            this.likes = likes;
             return this;
         }
 
