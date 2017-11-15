@@ -15,6 +15,38 @@ public class Location implements Serializable {
         this.latitude = location.getLatitude();
         this.locationName = location.getProvider();
     }
+
+    public Location(Location location){
+        this.longitude = location.longitude;
+        this.latitude = location.latitude;
+        this.locationName = location.locationName;
+    }
+
+    public void setLongitude(double longitude){
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(double latitude){
+        this.latitude = latitude;
+    }
+
+    public void setLocationName(String locationName){
+        this.locationName = locationName;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+
     public double distanceTo(Location location){
         int MAXITERS = 20;
         // Convert lat/long to radians
