@@ -48,9 +48,17 @@ public class Memory {
         likes = new ArrayList<>();
     }
 
-    public String getId() {
-        return id;
+    public Long getLongId() {
+        long longId = 0L;
+        try {
+            longId = Long.parseLong(id);
+        } catch (NumberFormatException nfe) {
+            System.out.println("NumberFormatException: " + nfe.getMessage());
+        }
+        return longId;
     }
+
+    public String getId() { return id; }
 
     public String getAuthorId() {
         return authorId;
