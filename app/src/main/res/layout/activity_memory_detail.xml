@@ -15,10 +15,10 @@
         app:layout_constraintBottom_toTopOf="@+id/memoryDate"
         app:layout_constraintLeft_toLeftOf="@+id/memoryLocation"
         app:layout_constraintTop_toTopOf="@+id/memoryDate"
+        tools:ignore="ContentDescription"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:ignore="ContentDescription" />
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/memoryDate"
@@ -75,24 +75,24 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/memoryDate"
         app:srcCompat="@mipmap/photo"
+        tools:ignore="ContentDescription"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"
-        tools:ignore="ContentDescription" />
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/memoryComments"
         android:layout_width="0dp"
         android:layout_height="143dp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="42dp"
         android:layout_marginEnd="42dp"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="42dp"
         android:layout_marginTop="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/memoryPicture"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <include
         layout="@layout/menu_layout"
@@ -106,11 +106,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/memoryComments"
+        app:layout_constraintVertical_bias="1.0"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1"
-        app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteY="590dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -29,7 +29,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,7 +51,7 @@ public class DetailedMemoryActivityTest {
                     user = new User(googleSignInAccount);
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
-                    Intent intent = new Intent(targetContext,DetailedMemoryActivity.class);
+                    Intent intent = new Intent(targetContext, DetailedMemoryActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("USER", user);
                     intent.putExtra("memoryId", "9223370527218314362");
@@ -63,15 +62,15 @@ public class DetailedMemoryActivityTest {
 
 
     @Test
-    public void getMemoryTest() throws Exception{
+    public void getMemoryTest() throws Exception {
         Thread.sleep(5000);
         onView(withId(R.id.memoryAuthor)).check(matches(withText("Jiacheng Xu")));
         onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
     }
 
     @Test
-    public void goToPublicMemoryTest() throws Exception{
-        onView(withId(R.id.home)).check(matches(allOf( isEnabled(), isClickable()))).perform(
+    public void goToPublicMemoryTest() throws Exception {
+        onView(withId(R.id.home)).check(matches(allOf(isEnabled(), isClickable()))).perform(
                 new ViewAction() {
                     @Override
                     public Matcher<View> getConstraints() {
@@ -94,7 +93,7 @@ public class DetailedMemoryActivityTest {
     }
 
     @Test
-    public void goToCreateNewMemoryTest() throws Exception{
+    public void goToCreateNewMemoryTest() throws Exception {
         onView(withId(R.id.plus)).perform(click());
         Thread.sleep(100);
         intended(hasComponent(CreateMemoryActivity.class.getName()));

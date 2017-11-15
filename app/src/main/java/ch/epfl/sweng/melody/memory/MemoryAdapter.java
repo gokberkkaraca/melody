@@ -37,6 +37,20 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         this.memoryList = memoryList;
     }
 
+    //Catch and send exceptions ??
+    public static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+        bitmap = mediaMetadataRetriever.getFrameAtTime();
+
+        if (mediaMetadataRetriever != null) {
+            mediaMetadataRetriever.release();
+        }
+
+        return bitmap;
+    }
+
     @Override
     public MemoriesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -65,10 +79,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
                 if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
                     Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
-                }
-                else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
+                } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
                     //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
-                    Bitmap thumbnail =retrieveVideoFrameFromVideo(memory.getVideoUrl());
+                    Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
                     holder.memoryPic.setImageBitmap(thumbnail);
                 }
             }
@@ -93,12 +106,12 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         MemoriesViewHolder(View view) {
             super(view);
 
-            itemView.setOnClickListener(new View.OnClickListener(){
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
 
-                    if(pos != RecyclerView.NO_POSITION){
+                    if (pos != RecyclerView.NO_POSITION) {
                         Memory clickedMemory = memoryList.get(pos);
                         Intent intent = new Intent(v.getContext(), DetailedMemoryActivity.class);
                         intent.putExtra("memoryId", clickedMemory.getId());
@@ -114,20 +127,6 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             authorPic = view.findViewById(R.id.authorPic);
             memoryPic = view.findViewById(R.id.memoryPic);
         }
-    }
-
-    //Catch and send exceptions ??
-    public static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-        mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-        bitmap = mediaMetadataRetriever.getFrameAtTime();
-
-        if (mediaMetadataRetriever != null) {
-            mediaMetadataRetriever.release();
-        }
-
-        return bitmap;
     }
 
 }

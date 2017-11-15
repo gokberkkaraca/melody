@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.melody.service.FirebaseBackgroundService;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by maxwell on 02.11.17.

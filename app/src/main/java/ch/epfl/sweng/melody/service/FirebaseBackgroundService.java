@@ -19,34 +19,37 @@ import ch.epfl.sweng.melody.user.User;
  */
 
 public class FirebaseBackgroundService extends Service {
-    @RestrictTo (RestrictTo.Scope.TESTS)
+    @RestrictTo(RestrictTo.Scope.TESTS)
     private static boolean isServiceStarted;
+
+    public static boolean isServiceStarted() {
+        return isServiceStarted;
+    }
+
     @Override
-    public IBinder onBind(Intent intent){
+    public IBinder onBind(Intent intent) {
         return null;
     }
+
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
-        isServiceStarted=true;
+        isServiceStarted = true;
         DatabaseHandler.getLatestMemory(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    String message = User.docodeIdtoEmail(memory.getAuthorId())+" upload a memory just now!";
+                    String message = User.docodeIdtoEmail(memory.getAuthorId()) + " upload a memory just now!";
                     NotificationHandler
                             .sendNotification(FirebaseBackgroundService.this, message);
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-    }
-
-    public static boolean isServiceStarted() {
-        return isServiceStarted;
     }
 }

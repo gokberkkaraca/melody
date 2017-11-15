@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:onClick="goToPublicMemory"
+        android:onClick="goToPublicMemoryActivity"
         android:src="@mipmap/home_unfilled"
         tools:ignore="ContentDescription" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:onClick="goToMap"
+        android:onClick="goToMapActivity"
         android:src="@mipmap/planet_unfilled"
         tools:ignore="ContentDescription" />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:onClick="addNewMemory"
+        android:onClick="goToCreateMemoryActivity"
         android:src="@mipmap/plus_unfilled"
         tools:ignore="ContentDescription" />
 

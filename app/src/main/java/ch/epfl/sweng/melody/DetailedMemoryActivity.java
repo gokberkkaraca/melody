@@ -1,6 +1,5 @@
 package ch.epfl.sweng.melody;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,11 +19,12 @@ import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
-    private Memory memory;
-    User user;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
+    User user;
+    private Memory memory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     }
 
     private void fetchMemoryFromDatabase(final String memoryId) {
-        DatabaseHandler.getMemory(memoryId, new ValueEventListener(){
+        DatabaseHandler.getMemory(memoryId, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
@@ -84,27 +84,26 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         });
     }
 
-    public void goToPublicMemory(View view) {
-        Intent intent = new Intent(this, PublicMemoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MainActivity.USER_INFO, user);
-        intent.putExtras(bundle);
-        startActivity(intent);
+    /*************************************************
+     ******************* Menu Buttons ****************
+     *************************************************/
+    public void goToCreateMemoryActivity(View view) {
+        MenuButtons.goToCreateMemoryActivity(this, user);
     }
 
-    public void addNewMemory(View view) {
-        Intent intent = new Intent(this, CreateMemoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MainActivity.USER_INFO, user);
-        intent.putExtras(bundle);
-        startActivity(intent);
+    public void goToPublicMemoryActivity(View view) {
+        MenuButtons.goToPublicMemoryActivity(this, user);
+    }
+
+    public void goToMapActivity(View view) {
+        MenuButtons.goToMapActivity(this, user);
+    }
+
+    public void goToNotification(View view) {
+        MenuButtons.goToNotificationActivity(this, user);
     }
 
     public void goToUser(View view) {
-        Intent intent = new Intent(this, UserProfileActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MainActivity.USER_INFO, user);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        MenuButtons.goToUserProfileActivity(this, user);
     }
 }

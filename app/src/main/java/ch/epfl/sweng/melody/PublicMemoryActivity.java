@@ -3,7 +3,6 @@ package ch.epfl.sweng.melody;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
@@ -32,14 +31,15 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class PublicMemoryActivity extends Activity {
 
     private static User user;
+    int filterRadius = 0;
     private List<Memory> memoryList;
     private RecyclerView recyclerView;
     private MemoryAdapter memoryAdapter;
-    int filterRadius = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,39 +80,6 @@ public class PublicMemoryActivity extends Activity {
         });
     }
 
-    public void addNewMemory(View view) {
-        Intent intent = new Intent(this, CreateMemoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MainActivity.USER_INFO, user);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-
-    public void goToPublicMemory(View view) {
-        Intent intent = new Intent(this, PublicMemoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MainActivity.USER_INFO, user);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    public void goToMap(View view) {
-
-    }
-
-    public void goToNotification(View view) {
-
-    }
-
-    public void goToUser(View view) {
-        Intent intent = new Intent(this, UserProfileActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MainActivity.USER_INFO, user);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -127,7 +94,7 @@ public class PublicMemoryActivity extends Activity {
                 }).create().show();
     }
 
-    public void filterByLocation(View view){
+    public void filterByLocation(View view) {
         LinearLayout radiusView = new LinearLayout(this);
         radiusView.setOrientation(LinearLayout.VERTICAL);
 
@@ -143,9 +110,9 @@ public class PublicMemoryActivity extends Activity {
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         title.setTypeface(Typeface.DEFAULT_BOLD);
         LinearLayout.LayoutParams titleLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        titleLayoutParam.setMargins(0,20,0,0);
+        titleLayoutParam.setMargins(0, 20, 0, 0);
         title.setGravity(Gravity.CENTER);
-        title.setPadding(0,30,0,0);
+        title.setPadding(0, 30, 0, 0);
         title.setLayoutParams(titleLayoutParam);
         title.setText(R.string.radiusTitle);
         radiusDialog.setCustomTitle(title);
@@ -169,7 +136,7 @@ public class PublicMemoryActivity extends Activity {
         seekBar.setThumb(thumb);
         seekBar.setProgress(1);
         seekBar.setVisibility(View.VISIBLE);
-        seekBar.setPadding(50,30,50,0);
+        seekBar.setPadding(50, 30, 50, 0);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
@@ -184,10 +151,12 @@ public class PublicMemoryActivity extends Activity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         radiusView.addView(seekBar);
@@ -197,4 +166,26 @@ public class PublicMemoryActivity extends Activity {
         dialog.show();
     }
 
+    /*************************************************
+     ******************* Menu Buttons ****************
+     *************************************************/
+    public void goToCreateMemoryActivity(View view) {
+        MenuButtons.goToCreateMemoryActivity(this, user);
+    }
+
+    public void goToPublicMemoryActivity(View view) {
+        MenuButtons.goToPublicMemoryActivity(this, user);
+    }
+
+    public void goToMapActivity(View view) {
+        MenuButtons.goToMapActivity(this, user);
+    }
+
+    public void goToNotification(View view) {
+        MenuButtons.goToNotificationActivity(this, user);
+    }
+
+    public void goToUser(View view) {
+        MenuButtons.goToUserProfileActivity(this, user);
+    }
 }

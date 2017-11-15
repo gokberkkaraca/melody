@@ -11,6 +11,7 @@ import android.widget.TextView;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -35,12 +36,27 @@ public class UserProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToPublicMemory(View view) {
-        Intent intent = new Intent(this, PublicMemoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(MainActivity.USER_INFO, user);
-        intent.putExtras(bundle);
-        startActivity(intent);
+    /*************************************************
+     ******************* Menu Buttons ****************
+     *************************************************/
+    public void goToCreateMemoryActivity(View view) {
+        MenuButtons.goToCreateMemoryActivity(this, user);
+    }
+
+    public void goToPublicMemoryActivity(View view) {
+        MenuButtons.goToPublicMemoryActivity(this, user);
+    }
+
+    public void goToMapActivity(View view) {
+        MenuButtons.goToMapActivity(this, user);
+    }
+
+    public void goToNotification(View view) {
+        MenuButtons.goToNotificationActivity(this, user);
+    }
+
+    public void goToUser(View view) {
+        MenuButtons.goToUserProfileActivity(this, user);
     }
 }
 
