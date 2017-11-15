@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import ch.epfl.sweng.melody.MemoryDetailActivity;
+import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
@@ -100,7 +100,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
                     if(pos != RecyclerView.NO_POSITION){
                         Memory clickedMemory = memoryList.get(pos);
-                        Intent intent = new Intent(v.getContext(), MemoryDetailActivity.class);
+                        Intent intent = new Intent(v.getContext(), DetailedMemoryActivity.class);
                         intent.putExtra("memoryId", clickedMemory.getId());
                         v.getContext().startActivity(intent);
                     }
