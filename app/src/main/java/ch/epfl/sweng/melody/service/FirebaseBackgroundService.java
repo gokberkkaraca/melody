@@ -41,9 +41,8 @@ public class FirebaseBackgroundService extends Service {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    String message = User.docodeIdtoEmail(memory.getAuthorId()) + " upload a memory just now!";
-                    NotificationHandler
-                            .sendNotification(FirebaseBackgroundService.this, message);
+                    String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
+                    NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
                 }
             }
 

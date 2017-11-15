@@ -1,20 +1,13 @@
 package ch.epfl.sweng.melody;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,7 +28,6 @@ import java.util.Locale;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
-import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
@@ -104,42 +96,27 @@ public class DetailedMemoryActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
 
-                TextView date = (TextView) findViewById(R.id.memoryDate);
+                TextView date = findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));
 
-                TextView location = (TextView) findViewById(R.id.memoryLocation);
+                TextView location = findViewById(R.id.memoryLocation);
                 location.setText(memory.getLocation());
 
-                ImageView imageView = (ImageView) findViewById(R.id.memoryPicture);
+                ImageView imageView = findViewById(R.id.memoryPicture);
 
                 if (memory.getPhotoUrl() != null) {
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(imageView);
                 }
 
-                fetchUserInfo(memory.getAuthorId());
+                TextView author = findViewById(R.id.memoryAuthor);
+                assert user != null;
+                author.setText(user.getDisplayName());
+
+                ImageView authorPic = findViewById(R.id.memoryAuthorPic);
+                new GoogleProfilePictureAsync(authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
 
                 TextView likeNumber = findViewById(R.id.likeNumber);
                 likeNumber.setText(memory.getLikeNumber() +  "");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed!");
-            }
-        });
-    }
-
-    private void fetchUserInfo(final String userId) {
-        DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-
-                TextView author = (TextView) findViewById(R.id.memoryAuthor);
-                author.setText(user.getDisplayName());
-
-                ImageView authorPic = (ImageView) findViewById(R.id.memoryAuthorPic);
-                new GoogleProfilePictureAsync(authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
             }
 
             @Override
