@@ -23,30 +23,29 @@ public class Location implements Serializable {
         this.locationName = location.locationName;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
-    }
-
     public double getLongitude() {
         return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public double getLatitude() {
         return latitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public String getLocationName() {
         return locationName;
     }
 
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
 
     public double distanceTo(Location location) {
         int MAXITERS = 20;

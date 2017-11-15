@@ -51,10 +51,10 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         // Add a marker in Lausanne and move the camera
         LatLng lausanne = new LatLng(46.5197, 6.6323);
         mMap.addMarker(new MarkerOptions().position(lausanne).title("Marker in Lansanne"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lausanne,15.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lausanne, 15.0f));
     }
 
-    public void filterByLocation(){
+    public void filterByLocation() {
         TextView title = findViewById(R.id.filter_title);
         title.setTextColor(Color.BLACK);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
@@ -74,7 +74,7 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         seekBar.setThumb(thumb);
         seekBar.setProgress(1);
         seekBar.setVisibility(View.VISIBLE);
-        seekBar.setPadding(50,30,50,0);
+        seekBar.setPadding(50, 30, 50, 0);
         filterRadius = seekBar.getProgress();
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -85,10 +85,12 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 }
