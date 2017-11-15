@@ -12,7 +12,6 @@ import com.google.firebase.database.ValueEventListener;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
-import ch.epfl.sweng.melody.user.User;
 
 /**
  * Created by maxwell on 02.11.17.
