@@ -19,7 +19,7 @@
         android:id="@+id/dateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick time"
+        android:text="@string/timePickDescription"
         android:onClick="showDatePickerDialog" />
 
     <android.support.v7.widget.RecyclerView

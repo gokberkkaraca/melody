@@ -37,10 +37,11 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
     private List<Memory> memoryList;
     private RecyclerView recyclerView;
     private static MemoryAdapter memoryAdapter;
-    private static Button dateButton;
+    private Button dateButton;
     private static long memoryStartTime = 0L;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
     private static boolean datePicked = false;
+    private static Calendar calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,11 +100,6 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
                 }).create().show();
     }
 
-    public void refreshPage() {
-        memoryList = new ArrayList<>();
-        fetchMemoriesFromDatabase();
-    }
-
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
@@ -111,7 +107,9 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        refreshPage();
+        dateButton.setText(dateFormat.format(calendar.getTime()));
+        memoryList = new ArrayList<>();
+        fetchMemoriesFromDatabase();
     }
 
 
@@ -154,10 +152,9 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
             datePicked = true;
-            Calendar calendar = Calendar.getInstance();
+            calendar = Calendar.getInstance();
             calendar.set(year, month, day, 0, 0, 0);
             memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis();
-            dateButton.setText(dateFormat.format(calendar.getTime()));
         }
 
         @Override

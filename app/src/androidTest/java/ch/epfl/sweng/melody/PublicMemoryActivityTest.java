@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.v4.app.DialogFragment;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.junit.Rule;
+import org.junit.Test;
 
 import ch.epfl.sweng.melody.user.User;
 
@@ -44,5 +46,13 @@ public class PublicMemoryActivityTest extends ActivityTest {
                     return intent;
                 }
             };
+
+    @Test
+    public void datePickingWorks() {
+        PublicMemoryActivity.DatePickerFragment dialog = new PublicMemoryActivity.DatePickerFragment();
+        assert(dialog instanceof DialogFragment);
+    }
+
+
 }
 
