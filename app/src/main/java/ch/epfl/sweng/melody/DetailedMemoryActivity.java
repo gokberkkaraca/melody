@@ -1,10 +1,26 @@
 package ch.epfl.sweng.melody;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +34,7 @@ import java.util.Locale;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
@@ -34,10 +51,54 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         fetchMemoryFromDatabase(getIntent().getStringExtra("memoryId"));
 
         user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
+
+
+        LinearLayout commentsContainer = findViewById(R.id.memoryComments) ;
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(20, 5, 10, 5);
+
+        TextView commentTitle = new TextView(this);
+        commentTitle.setText(R.string.commentTitle);
+        commentTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
+        commentTitle.setTextColor(Color.BLACK);
+        commentTitle.setLayoutParams(params);
+
+        View viewDivider = new View (this);
+        int dividerHeight = (int) getResources().getDisplayMetrics().density ; // 1dp to pixels
+        viewDivider.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dividerHeight));
+        viewDivider.setBackgroundColor(Color.GRAY);
+
+        GradientDrawable border = new GradientDrawable();
+        border.setColor(0xFFFFFFFF); //white background
+        border.setStroke(1, 0xFF000000); //black border with full opacity
+        commentsContainer.setBackground(border);
+        commentsContainer.addView(commentTitle);
+        commentsContainer.addView(viewDivider);
+
+        EditText editComment = new EditText(this);
+        editComment.setLayoutParams(params);
+        editComment.setHint(R.string.addCommentHint);
+        editComment.setHintTextColor(Color.GRAY);
+        editComment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
+        editComment.setTypeface(commentTitle.getTypeface(), Typeface.ITALIC);
+        editComment.setTextColor(Color.BLACK);
+        editComment.setLayoutParams(params);
+
+        commentsContainer.addView(editComment);
+
+        Button sendButton = new Button(this);
+        sendButton.setLayoutParams(params);
+        sendButton.setText(R.string.submit);
+
+        commentsContainer.addView(sendButton);
+
     }
 
     private void fetchMemoryFromDatabase(final String memoryId) {
-        DatabaseHandler.getMemory(memoryId, new ValueEventListener() {
+        DatabaseHandler.getMemory(memoryId, new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
