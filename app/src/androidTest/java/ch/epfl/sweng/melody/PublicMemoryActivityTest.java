@@ -37,7 +37,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PublicMemoryActivityTest extends ActivityTest{
-    private Random rng = new Random();
 
     @Rule
     public final IntentsTestRule<PublicMemoryActivity> publicMemoryActivityIntentsTestRule =
@@ -65,84 +64,5 @@ public class PublicMemoryActivityTest extends ActivityTest{
                     return intent;
                 }
             };
-
-    @Test
-    public void filterByLocation() throws Exception {
-        onView(withId(R.id.filterByLocation)).check(matches(allOf(isEnabled(), isClickable()))).perform(
-                new ViewAction() {
-                    @Override
-                    public Matcher<View> getConstraints() {
-                        return ViewMatchers.isEnabled(); // no constraints, they are checked above
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "click filter by location button";
-                    }
-
-                    @Override
-                    public void perform(UiController uiController, View view) {
-                        view.performClick();
-                    }
-                }
-        );
-
-    }
-
-    @Test
-    public void moveSeekBar() throws Exception {
-        int cur_progress;
-
-        // do an initial move in case the first random number is 0
-        //  -- if it didn't move, the OnSeekBarChangeListener isn't called
-        onView(withId(R.id.filterByLocation)).perform(click());
-        Thread.sleep(200);
-        onView(withId(R.id.rediusSeekBar)).perform(clickSeekBar(25));
-
-        // try 10 random locations
-        for (int i = 0; i < 10; i++) {
-            cur_progress = rng.nextInt(101);            // 0..100
-
-            // move it to a random location
-            onView(withId(R.id.rediusSeekBar)).perform(clickSeekBar(cur_progress));
-
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                // implement later on
-            }
-        }
-    }
-
-    private static ViewAction clickSeekBar(final int pos) {
-        return new GeneralClickAction(
-                Tap.SINGLE,
-                new CoordinatesProvider() {
-                    @Override
-                    public float[] calculateCoordinates(View view) {
-                        SeekBar seekBar = (SeekBar) view;
-                        final int[] screenPos = new int[2];
-                        seekBar.getLocationOnScreen(screenPos);
-
-                        // get the width of the actual bar area by removing padding
-                        int trueWidth = seekBar.getWidth()
-                                - seekBar.getPaddingLeft() - seekBar.getPaddingRight();
-
-                        // what is the position on a 0-1 scale
-                        // add 0.3f to avoid round off to the next smaller position
-                        float relativePos = (0.3f + pos) / (float) seekBar.getMax();
-                        if (relativePos > 1.0f)
-                            relativePos = 1.0f;
-
-                        // determine where to click
-                        final float screenX = trueWidth * relativePos + screenPos[0]
-                                + seekBar.getPaddingLeft();
-                        final float screenY = seekBar.getHeight() / 2f + screenPos[1];
-
-                        return new float[]{screenX, screenY};
-                    }
-                },
-                Press.FINGER);
-    }
 }
 

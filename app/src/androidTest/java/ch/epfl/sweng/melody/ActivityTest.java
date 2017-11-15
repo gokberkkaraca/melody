@@ -39,13 +39,11 @@ abstract public class ActivityTest {
         intended(hasComponent(UserProfileActivity.class.getName()));
     }
 
-    // TODO Activate this test when Map Activity is implemented
-    @Ignore
     @Test
     public void goToMapTest() throws Exception {
         onView(withId(R.id.planet)).check(matches(allOf(isEnabled(), isClickable()))).perform(click());
         Thread.sleep(100);
-        intended(hasComponent(UserProfileActivity.class.getName()));
+        intended(hasComponent(ShowMapActivity.class.getName()));
     }
 
     // TODO Activate this test when Map Activity is implemented
