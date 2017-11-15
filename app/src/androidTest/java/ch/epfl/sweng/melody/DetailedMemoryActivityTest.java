@@ -43,7 +43,7 @@ public class DetailedMemoryActivityTest extends ActivityTest{
                     Intent intent = new Intent(targetContext, DetailedMemoryActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("USER", user);
-                    intent.putExtra("memoryId", "9223370527218314362");
+                    intent.putExtra("memoryId", "9223370526086170827");
                     intent.putExtras(bundle);
                     return intent;
                 }
