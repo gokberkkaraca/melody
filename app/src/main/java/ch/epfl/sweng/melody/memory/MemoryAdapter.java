@@ -38,15 +38,13 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
     }
 
     //Catch and send exceptions ??
-    public static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
+    private static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
         Bitmap bitmap = null;
         MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
         mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
         bitmap = mediaMetadataRetriever.getFrameAtTime();
 
-        if (mediaMetadataRetriever != null) {
-            mediaMetadataRetriever.release();
-        }
+        mediaMetadataRetriever.release();
 
         return bitmap;
     }
@@ -68,30 +66,17 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.description.setText(memory.getText());
         holder.location.setText(memory.getLocation());
 
-        String userId = memory.getUser().getId();
-        DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                assert user != null;
-                holder.author.setText(user.getDisplayName());
-                new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
+        User user = memory.getUser();
+        holder.author.setText(user.getDisplayName());
+        new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
 
-                if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
-                    Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
-                } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
-                    //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
-                    Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
-                    holder.memoryPic.setImageBitmap(thumbnail);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
+            Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
+        } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
+            //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
+            Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+            holder.memoryPic.setImageBitmap(thumbnail);
+        }
     }
 
     @Override

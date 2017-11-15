@@ -108,31 +108,15 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(imageView);
                 }
 
-                fetchUserInfo(memory.getUser().getId());
-
-                TextView likeNumber = findViewById(R.id.likeNumber);
-                likeNumber.setText(memory.getLikeNumber() +  "");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed!");
-            }
-        });
-    }
-
-    private void fetchUserInfo(final String userId) {
-        DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-
                 TextView author = findViewById(R.id.memoryAuthor);
                 assert user != null;
                 author.setText(user.getDisplayName());
 
                 ImageView authorPic = findViewById(R.id.memoryAuthorPic);
                 new GoogleProfilePictureAsync(authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
+
+                TextView likeNumber = findViewById(R.id.likeNumber);
+                likeNumber.setText(memory.getLikeNumber() +  "");
             }
 
             @Override
