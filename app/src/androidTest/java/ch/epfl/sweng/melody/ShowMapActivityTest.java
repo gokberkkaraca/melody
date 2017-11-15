@@ -35,19 +35,19 @@ public class ShowMapActivityTest {
         //  -- if it didn't move, the OnSeekBarChangeListener isn't called
         onView(withId(R.id.seekBar)).perform(clickSeekBar(25));
 
-//        // try 10 random locations
-//        for (int i = 0; i < 10; i++) {
-//            cur_progress = rng.nextInt(101);            // 0..100
-//
-//            // move it to a random location
-//            onView(withId(R.id.seekBar)).perform(clickSeekBar(cur_progress));
-//
-//            try {
-//                Thread.sleep(1000);
-//            } catch (Exception e) {
-//                // implement later on
-//            }
-//        }
+        // try 10 random locations
+        for (int i = 0; i < 10; i++) {
+            cur_progress = rng.nextInt(101);            // 0..100
+
+            // move it to a random location
+            onView(withId(R.id.seekBar)).perform(clickSeekBar(cur_progress));
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                // implement later on
+            }
+        }
     }
 
     private static ViewAction clickSeekBar(final int pos) {
