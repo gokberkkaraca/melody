@@ -142,9 +142,9 @@ public class MemoryTest {
 
     @Test
     public void likeAction() throws Exception {
-        memoryFromBuilder.likeAction(user);
+        memoryFromBuilder.likeAction(user.getId());
         assertTrue(memoryFromBuilder.getLikeNumber() > 0);
-        memoryFromBuilder.likeAction(user);
+        memoryFromBuilder.likeAction(user.getId());
         assertTrue(memoryFromBuilder.getLikeNumber() == 0);
     }
 }

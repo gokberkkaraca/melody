@@ -15,7 +15,7 @@ public class Memory {
     private String location;
     private String text;
     private List<Comment> comments;
-    private List<User> likes;
+    private List<String> likes;
     private Privacy privacy;
     private MemoryType memoryType;
     private Boolean reminder;
@@ -34,6 +34,8 @@ public class Memory {
 
         this.comments = memoryBuilder.comments;
         this.likes = memoryBuilder.likes;
+        // Firebase doesn't accept empty list
+        likes.add(authorId);
         this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
@@ -42,6 +44,8 @@ public class Memory {
     }
 
     public Memory() {
+        comments = new ArrayList<>();
+        likes = new ArrayList<>();
     }
 
     public String getId() {
@@ -100,17 +104,25 @@ public class Memory {
         return new MemoryUploader(this);
     }
 
-    public void likeAction(User user){
-        if (likes.contains(user)){
-            likes.remove(user);
+    public void likeAction(String userId){
+        if (userId.equals(authorId))
+            return;
+
+        if (likes.contains(userId)){
+            likes.remove(userId);
         }
         else {
-            likes.add(user);
+            likes.add(userId);
         }
     }
 
     public int getLikeNumber(){
-        return likes.size();
+        // Author's like is not counted, it is liked by default
+        return likes.size() - 1;
+    }
+
+    protected List<String> getLikes() {
+        return likes;
     }
 
     public enum Privacy {PRIVATE, SHARED, PUBLIC}
@@ -127,7 +139,7 @@ public class Memory {
         private final Boolean reminder;
         private final Long MAX_ID = Long.MAX_VALUE;
         private List<Comment> comments;
-        private List<User> likes;
+        private List<String> likes;
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
@@ -169,7 +181,7 @@ public class Memory {
             return this;
         }
 
-        public MemoryBuilder likes(List<User> likes){
+        public MemoryBuilder likes(List<String> likes){
             this.likes = likes;
             return this;
         }

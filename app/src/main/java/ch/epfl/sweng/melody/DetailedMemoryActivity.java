@@ -1,5 +1,6 @@
 package ch.epfl.sweng.melody;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -94,11 +95,11 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         sendButton.setText(R.string.submit);
 
         commentsContainer.addView(sendButton);
-
     }
 
     private void fetchMemoryFromDatabase(final String memoryId) {
         DatabaseHandler.getMemory(memoryId, new ValueEventListener(){
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
@@ -116,6 +117,9 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 }
 
                 fetchUserInfo(memory.getAuthorId());
+
+                TextView likeNumber = findViewById(R.id.likeNumber);
+                likeNumber.setText(memory.getLikeNumber() +  "");
             }
 
             @Override
