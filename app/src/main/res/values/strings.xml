@@ -28,6 +28,5 @@
     <string name="ChooseRadius">Please choose a radius</string>
     <string name="radiusTitle">Choose a radius</string>
     <string name="showRadiusMessage">Show memories posted within %1$d km.</string>
-    <string name="km"> km</string>
     <color name="white">#ffffff</color>
 </resources>

@@ -166,20 +166,12 @@ public class PublicMemoryActivityTest {
             try {
                 Thread.sleep(1000);
             } catch ( Exception e ) {
-                // do nothing
+                // implement later on
             }
-//            // Check that the text was changed
-//            Resources str = getInstrumentation().getTargetContext().getResources();
-//            //str.getString(R.string.showRadiusMessage);
-//            String showRadiusMessage = getInstrumentation().getContext().getString(ch.epfl.sweng.melody.R.string.showRadiusMessage);
-//            //String km = getInstrumentation().getContext().getString(ch.epfl.sweng.melody.R.string.km);
-//            String expected =str.getString(R.string.showRadiusMessage) + cur_progress + str.getString(R.string.km);
-//            onView(withId(R.id.radiusValue))
-//                    .check(matches(withText(expected)));
         }
     }
 
-    public static ViewAction clickSeekBar(final int pos){
+    private static ViewAction clickSeekBar(final int pos){
         return new GeneralClickAction(
                 Tap.SINGLE,
                 new CoordinatesProvider() {
@@ -189,13 +181,12 @@ public class PublicMemoryActivityTest {
                         final int[] screenPos = new int[2];
                         seekBar.getLocationOnScreen(screenPos);
 
-                        // get the width of the actual bar area
-                        // by removing padding
+                        // get the width of the actual bar area by removing padding
                         int trueWidth = seekBar.getWidth()
                                 - seekBar.getPaddingLeft() - seekBar.getPaddingRight();
 
                         // what is the position on a 0-1 scale
-                        //  add 0.3f to avoid roundoff to the next smaller position
+                        // add 0.3f to avoid round off to the next smaller position
                         float relativePos = (0.3f + pos)/(float) seekBar.getMax();
                         if ( relativePos > 1.0f )
                             relativePos = 1.0f;
@@ -204,9 +195,8 @@ public class PublicMemoryActivityTest {
                         final float screenX = trueWidth*relativePos + screenPos[0]
                                 + seekBar.getPaddingLeft();
                         final float screenY = seekBar.getHeight()/2f + screenPos[1];
-                        float[] coordinates = {screenX, screenY};
 
-                        return coordinates;
+                        return new float[]{screenX, screenY};
                     }
                 },
                 Press.FINGER);
