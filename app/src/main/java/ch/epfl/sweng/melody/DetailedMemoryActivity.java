@@ -21,7 +21,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
-public class MemoryDetailActivity extends AppCompatActivity {
+public class DetailedMemoryActivity extends AppCompatActivity {
     private Memory memory;
     User user;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
