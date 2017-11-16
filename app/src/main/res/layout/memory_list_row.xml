@@ -117,7 +117,7 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="end"/>
 
-                <ImageButton
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/comment_without"
@@ -134,6 +134,7 @@
                     android:gravity="end"/>
 
                 <ImageButton
+                    android:id="@+id/likeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/like_without"

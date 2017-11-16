@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -73,7 +72,6 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
-                //recyclerView.addItemDecoration(new DividerItemDecoration(PublicMemoryActivity.this, LinearLayoutManager.VERTICAL));
                 recyclerView.setAdapter(memoryAdapter);
             }
 
@@ -152,7 +150,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         public void onDateSet(DatePicker view, int year, int month, int day) {
             datePicked = true;
             calendar = Calendar.getInstance();
-            calendar.set(year, month, day, 0, 0, 0);
+            calendar.set(year, month, day);
             memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis();
         }
 

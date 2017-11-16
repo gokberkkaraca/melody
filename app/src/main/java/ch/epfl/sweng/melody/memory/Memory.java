@@ -124,6 +124,10 @@ public class Memory {
             likes.add(user);
         }
     }
+    
+    public boolean isLikedByUser(User user) {
+        return likes.contains(user) ? true : false;
+    }
 
     public int getLikeNumber() {
         // Author's like is not counted, it is liked by default
