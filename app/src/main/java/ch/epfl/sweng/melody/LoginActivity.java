@@ -90,10 +90,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
-            MainActivity.user = new User(GOOGLE_ACCOUNT);
+            MainActivity.setUser(new User(GOOGLE_ACCOUNT));
 
-            DatabaseHandler.addUser(MainActivity.user);
-            LoginStatusHandler.setUserId(this, MainActivity.user.getId());
+            DatabaseHandler.addUser(MainActivity.getUser());
+            LoginStatusHandler.setUserId(this, MainActivity.getUser().getId());
 
             MenuButtons.goToPublicMemoryActivity(this);
         }

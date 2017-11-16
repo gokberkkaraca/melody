@@ -125,13 +125,13 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(MainActivity.user, memoryDescription, FAKE_ADDRESS)
+            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, FAKE_ADDRESS)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(MainActivity.USER_INFO, MainActivity.user);
+            bundle.putSerializable(MainActivity.USER_INFO, MainActivity.getUser());
             intent.putExtras(bundle);
             startActivity(intent);
             return;
@@ -146,18 +146,18 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.user, memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, FAKE_ADDRESS)
                             .photo(url)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.user, memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, FAKE_ADDRESS)
                             .video(url)
                             .build();
                 }
                 DatabaseHandler.uploadMemory(memory);
                 Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(MainActivity.USER_INFO, MainActivity.user);
+                bundle.putSerializable(MainActivity.USER_INFO, MainActivity.getUser());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -449,7 +449,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(MainActivity.USER_INFO, MainActivity.user);
+                        bundle.putSerializable(MainActivity.USER_INFO, MainActivity.getUser());
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }

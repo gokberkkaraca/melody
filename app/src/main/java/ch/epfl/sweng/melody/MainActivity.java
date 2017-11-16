@@ -18,7 +18,8 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 public class MainActivity extends AppCompatActivity {
 
     public static final String USER_INFO = "USER";
-    public static User user;
+
+    private static User user;
     private final Handler mHandler = new Handler();
 
     @Override
@@ -53,5 +54,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, timer);
+    }
+
+    public static User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        MainActivity.user = user;
     }
 }

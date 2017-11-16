@@ -1,7 +1,14 @@
 package ch.epfl.sweng.melody;
 
+import android.net.Uri;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -12,8 +19,23 @@ import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 abstract public class ActivityTest {
+
+    @Before
+    public void setUp(){
+        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
+        when(googleSignInAccount.getId()).thenReturn("QWERTYU");
+        when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
+        when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
+        when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
+        when(googleSignInAccount.getEmail()).thenReturn("xjcmaxwell@163.com");
+        String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
+        when(googleSignInAccount.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
+        MainActivity.setUser(new User(googleSignInAccount));
+    }
 
     /******************************************************
      ******************* Menu Button Tests ****************

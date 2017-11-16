@@ -29,7 +29,6 @@ import java.util.Locale;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
-import ch.epfl.sweng.melody.MainActivity.*;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
@@ -62,7 +61,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    if(memory.getLongId() > memoryStartTime) {
+                    if (memory.getLongId() > memoryStartTime) {
                         memoryList.add(memory);
                     }
                 }

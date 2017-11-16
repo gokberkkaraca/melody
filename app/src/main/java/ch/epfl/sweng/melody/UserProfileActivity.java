@@ -21,10 +21,10 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         TextView username = findViewById(R.id.username);
-        username.setText(MainActivity.user.getDisplayName());
+        username.setText(MainActivity.getUser().getDisplayName());
 
         ImageView profilePicView = findViewById(R.id.profilePicView);
-        new GoogleProfilePictureAsync(profilePicView, Uri.parse(MainActivity.user.getProfilePhotoUrl())).execute();
+        new GoogleProfilePictureAsync(profilePicView, Uri.parse(MainActivity.getUser().getProfilePhotoUrl())).execute();
     }
 
     public void logOut(View view) {
@@ -53,7 +53,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void goToUser(View view) {
-        MenuButtons.goToUserProfileActivity(this)
+        MenuButtons.goToUserProfileActivity(this);
     }
 }
 
