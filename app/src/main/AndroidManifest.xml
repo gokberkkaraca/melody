@@ -33,8 +33,8 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CreateMemoryActivity" />
-        <activity android:name=".AudioRecordingActivity"></activity>
-        <activity android:name=".DetailedMemoryActivity"></activity>
+        <activity android:name=".AudioRecordingActivity" />
+        <activity android:name=".DetailedMemoryActivity" />
 
         <service
             android:name=".service.MelodyFirebaseMessagingService"
@@ -43,7 +43,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".service.FirebaseBackgroundService"></service>
+        <service android:name=".service.FirebaseBackgroundService" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -59,7 +59,7 @@
 
         <activity
             android:name=".ShowMapActivity"
-            android:label="@string/title_activity_show_map"></activity>
+            android:label="@string/title_activity_show_map" />
     </application>
 
 </manifest>

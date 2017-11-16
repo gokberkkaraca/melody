@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -73,7 +74,7 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.addMarker(new MarkerOptions().position(FAKE_LATLNG).title("Your location"));
+        mMap.addMarker(new MarkerOptions().position(FAKE_LATLNG).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(FAKE_LATLNG, 12.0f));
 
     }
@@ -105,7 +106,7 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
                 mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(FAKE_LATLNG).title("Your location"));
+                mMap.addMarker(new MarkerOptions().position(FAKE_LATLNG).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(FAKE_LATLNG, 12.0f));
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
                 DatabaseHandler.getAllMemories(new ValueEventListener() {
