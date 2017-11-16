@@ -106,6 +106,9 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 ImageView imageView = findViewById(R.id.memoryPicture);
 
+                TextView description = findViewById(R.id.memoryText);
+                description.setText(memory.getText());
+
                 if (memory.getPhotoUrl() != null) {
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(imageView);
                 }
