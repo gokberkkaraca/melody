@@ -58,7 +58,9 @@ public class Memory {
         return longId;
     }
 
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
 
     public User getUser() {
         return user;
@@ -112,19 +114,18 @@ public class Memory {
         return new MemoryUploader(this);
     }
 
-    public void likeAction(User user){
+    public void likeAction(User user) {
         if (this.user.getId().equals(user.getId()))
             return;
 
-        if (likes.contains(user)){
+        if (likes.contains(user)) {
             likes.remove(user);
-        }
-        else {
+        } else {
             likes.add(user);
         }
     }
 
-    public int getLikeNumber(){
+    public int getLikeNumber() {
         // Author's like is not counted, it is liked by default
         return likes.size() - 1;
     }
@@ -189,7 +190,7 @@ public class Memory {
             return this;
         }
 
-        public MemoryBuilder likes(List<User> likes){
+        public MemoryBuilder likes(List<User> likes) {
             this.likes = likes;
             return this;
         }

@@ -29,28 +29,25 @@ import java.util.Locale;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
-import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
 
-    private static User user;
-    private List<Memory> memoryList;
-    private RecyclerView recyclerView;
     private static MemoryAdapter memoryAdapter;
-    private Button dateButton;
     private static long memoryStartTime = 0L;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
     private static boolean datePicked = false;
     private static Calendar calendar;
+    private List<Memory> memoryList;
+    private RecyclerView recyclerView;
+    private Button dateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
 
-        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
-        dateButton = (Button)findViewById(R.id.dateButton);
+        dateButton = findViewById(R.id.dateButton);
 
         memoryList = new ArrayList<>();
         fetchMemoriesFromDatabase();
@@ -64,7 +61,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    if(memory.getLongId() > memoryStartTime) {
+                    if (memory.getLongId() > memoryStartTime) {
                         memoryList.add(memory);
                     }
                 }
@@ -118,23 +115,23 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
      ******************* Menu Buttons ****************
      *************************************************/
     public void goToCreateMemoryActivity(View view) {
-        MenuButtons.goToCreateMemoryActivity(this, user);
+        MenuButtons.goToCreateMemoryActivity(this);
     }
 
     public void goToPublicMemoryActivity(View view) {
-        MenuButtons.goToPublicMemoryActivity(this, user);
+        MenuButtons.goToPublicMemoryActivity(this);
     }
 
     public void goToMapActivity(View view) {
-        MenuButtons.goToMapActivity(this, user);
+        MenuButtons.goToMapActivity(this);
     }
 
     public void goToNotification(View view) {
-        MenuButtons.goToNotificationActivity(this, user);
+        MenuButtons.goToNotificationActivity(this);
     }
 
     public void goToUser(View view) {
-        MenuButtons.goToUserProfileActivity(this, user);
+        MenuButtons.goToUserProfileActivity(this);
     }
 
     public static class DatePickerFragment extends DialogFragment

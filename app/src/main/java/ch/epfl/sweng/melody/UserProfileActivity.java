@@ -10,24 +10,20 @@ import android.widget.TextView;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
-import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class UserProfileActivity extends AppCompatActivity {
-
-    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
-        TextView username = (TextView) findViewById(R.id.username);
-        username.setText(user.getDisplayName());
+        TextView username = findViewById(R.id.username);
+        username.setText(MainActivity.getUser().getDisplayName());
 
-        ImageView profilePicView = (ImageView) findViewById(R.id.profilePicView);
-        new GoogleProfilePictureAsync(profilePicView, Uri.parse(user.getProfilePhotoUrl())).execute();
+        ImageView profilePicView = findViewById(R.id.profilePicView);
+        new GoogleProfilePictureAsync(profilePicView, Uri.parse(MainActivity.getUser().getProfilePhotoUrl())).execute();
     }
 
     public void logOut(View view) {
@@ -40,23 +36,23 @@ public class UserProfileActivity extends AppCompatActivity {
      ******************* Menu Buttons ****************
      *************************************************/
     public void goToCreateMemoryActivity(View view) {
-        MenuButtons.goToCreateMemoryActivity(this, user);
+        MenuButtons.goToCreateMemoryActivity(this);
     }
 
     public void goToPublicMemoryActivity(View view) {
-        MenuButtons.goToPublicMemoryActivity(this, user);
+        MenuButtons.goToPublicMemoryActivity(this);
     }
 
     public void goToMapActivity(View view) {
-        MenuButtons.goToMapActivity(this, user);
+        MenuButtons.goToMapActivity(this);
     }
 
     public void goToNotification(View view) {
-        MenuButtons.goToNotificationActivity(this, user);
+        MenuButtons.goToNotificationActivity(this);
     }
 
     public void goToUser(View view) {
-        MenuButtons.goToUserProfileActivity(this, user);
+        MenuButtons.goToUserProfileActivity(this);
     }
 }
 

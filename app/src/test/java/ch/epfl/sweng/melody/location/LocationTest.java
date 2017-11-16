@@ -12,8 +12,8 @@ import static org.mockito.Mockito.when;
  * Created by maxwell on 15.11.17.
  */
 public class LocationTest {
-    private android.location.Location andLocation;
     private final double DELTA = 10e-5;
+    private android.location.Location andLocation;
 
     @Before
     public void setUp() {

@@ -28,25 +28,23 @@ import java.util.Locale;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
-import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
-    User user;
     private Memory memory;
+    private String memoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_memory_detail);
-        fetchMemoryFromDatabase(getIntent().getStringExtra("memoryId"));
+        memoryId = getIntent().getStringExtra("memoryId");
+        fetchMemoryFromDatabase();
 
-        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
-
-        LinearLayout commentsContainer = findViewById(R.id.memoryComments) ;
+        LinearLayout commentsContainer = findViewById(R.id.memoryComments);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -59,8 +57,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         commentTitle.setTextColor(Color.BLACK);
         commentTitle.setLayoutParams(params);
 
-        View viewDivider = new View (this);
-        int dividerHeight = (int) getResources().getDisplayMetrics().density ; // 1dp to pixels
+        View viewDivider = new View(this);
+        int dividerHeight = (int) getResources().getDisplayMetrics().density; // 1dp to pixels
         viewDivider.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dividerHeight));
         viewDivider.setBackgroundColor(Color.GRAY);
 
@@ -89,8 +87,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         commentsContainer.addView(sendButton);
     }
 
-    private void fetchMemoryFromDatabase(final String memoryId) {
-        DatabaseHandler.getMemory(memoryId, new ValueEventListener(){
+    private void fetchMemoryFromDatabase() {
+        DatabaseHandler.getMemory(memoryId, new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -109,14 +107,13 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 }
 
                 TextView author = findViewById(R.id.memoryAuthor);
-                assert user != null;
-                author.setText(user.getDisplayName());
+                author.setText(memory.getUser().getDisplayName());
 
                 ImageView authorPic = findViewById(R.id.memoryAuthorPic);
-                new GoogleProfilePictureAsync(authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
+                new GoogleProfilePictureAsync(authorPic, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
 
                 TextView likeNumber = findViewById(R.id.likeNumber);
-                likeNumber.setText(memory.getLikeNumber() +  "");
+                likeNumber.setText(memory.getLikeNumber() + "");
             }
 
             @Override
@@ -130,22 +127,22 @@ public class DetailedMemoryActivity extends AppCompatActivity {
      ******************* Menu Buttons ****************
      *************************************************/
     public void goToCreateMemoryActivity(View view) {
-        MenuButtons.goToCreateMemoryActivity(this, user);
+        MenuButtons.goToCreateMemoryActivity(this);
     }
 
     public void goToPublicMemoryActivity(View view) {
-        MenuButtons.goToPublicMemoryActivity(this, user);
+        MenuButtons.goToPublicMemoryActivity(this);
     }
 
     public void goToMapActivity(View view) {
-        MenuButtons.goToMapActivity(this, user);
+        MenuButtons.goToMapActivity(this);
     }
 
     public void goToNotification(View view) {
-        MenuButtons.goToNotificationActivity(this, user);
+        MenuButtons.goToNotificationActivity(this);
     }
 
     public void goToUser(View view) {
-        MenuButtons.goToUserProfileActivity(this, user);
+        MenuButtons.goToUserProfileActivity(this);
     }
 }

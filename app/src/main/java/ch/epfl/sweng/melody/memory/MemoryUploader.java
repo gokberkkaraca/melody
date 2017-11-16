@@ -81,7 +81,7 @@ class MemoryUploader {
         return id;
     }
 
-    public List<User> getLikes(){
+    public List<User> getLikes() {
         return likes;
     }
 
