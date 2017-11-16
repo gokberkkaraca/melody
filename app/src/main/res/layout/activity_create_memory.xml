@@ -140,7 +140,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="57dp"
         android:layout_marginTop="59dp"
-        android:text="@string/country_city"
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/take_photos"
         app:layout_constraintLeft_toLeftOf="@+id/take_photos"
         app:layout_constraintRight_toLeftOf="@+id/take_videos"

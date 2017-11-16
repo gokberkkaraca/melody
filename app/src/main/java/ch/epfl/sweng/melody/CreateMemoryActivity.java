@@ -62,6 +62,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
+    private SerializableLocation serializableLocation= new SerializableLocation();
 
     private LocationManager mLocationManager;
 
@@ -129,7 +130,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, FAKE_ADDRESS)
+            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
@@ -150,11 +151,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
                             .photo(url)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
                             .video(url)
                             .build();
                 }
@@ -405,6 +406,9 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             TextView address = findViewById(R.id.address);
             String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
             address.setText(addressText);
+            serializableLocation.setLatitude(location.getLatitude());
+            serializableLocation.setLongitude(location.getLongitude());
+            serializableLocation.setLocationName(addressText);
         } catch (IOException e) {
             e.printStackTrace();
         }
