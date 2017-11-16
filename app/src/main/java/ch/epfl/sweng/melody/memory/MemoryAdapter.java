@@ -28,7 +28,7 @@ import ch.epfl.sweng.melody.user.User;
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
 
     private final List<Memory> memoryList;
-    private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
+    private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
 
     public MemoryAdapter(List<Memory> memoryList) {
         this.memoryList = memoryList;

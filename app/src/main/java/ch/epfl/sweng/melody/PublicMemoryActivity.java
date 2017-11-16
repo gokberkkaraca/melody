@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
@@ -151,7 +152,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
             datePicked = true;
             calendar = Calendar.getInstance();
             calendar.set(year, month, day);
-            memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis();
+            memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis() - TimeUnit.DAYS.toMillis(1);
         }
 
         @Override

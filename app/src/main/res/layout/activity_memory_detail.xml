@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toTopOf="@+id/memoryLocation"
                 app:srcCompat="@android:drawable/btn_star_big_on"
                 tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="271dp" />
+                tools:layout_editor_absoluteX="271dp"/>
 
             <TextView
                 android:id="@+id/memoryAuthor"
