@@ -61,6 +61,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.time.setText(format.format(memory.getTime()));
         holder.description.setText(memory.getText());
         holder.location.setText(memory.getLocation());
+        holder.likesNumberPublic.setText(String.valueOf(memory.getLikeNumber()));
+        holder.commentsNumberPublic.setText(String.valueOf(memory.getCommentNumber()));
 
         User user = memory.getUser();
         holder.author.setText(user.getDisplayName());
@@ -81,7 +83,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
     }
 
     class MemoriesViewHolder extends RecyclerView.ViewHolder {
-        final TextView author, time, description, location;
+        final TextView author, time, description, location, likesNumberPublic, commentsNumberPublic ;
         final ImageView authorPic, memoryPic;
 
 
@@ -108,6 +110,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             location = view.findViewById(R.id.location);
             authorPic = view.findViewById(R.id.authorPic);
             memoryPic = view.findViewById(R.id.memoryPic);
+            likesNumberPublic = view.findViewById(R.id.likesNumberPublic);
+            commentsNumberPublic = view.findViewById(R.id.commentsNumberPublic);
         }
     }
 

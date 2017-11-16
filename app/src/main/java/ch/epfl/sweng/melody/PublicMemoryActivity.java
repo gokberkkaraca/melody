@@ -73,7 +73,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.addItemDecoration(new DividerItemDecoration(PublicMemoryActivity.this, LinearLayoutManager.VERTICAL));
+                //recyclerView.addItemDecoration(new DividerItemDecoration(PublicMemoryActivity.this, LinearLayoutManager.VERTICAL));
                 recyclerView.setAdapter(memoryAdapter);
             }
 

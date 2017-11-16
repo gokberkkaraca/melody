@@ -130,6 +130,10 @@ public class Memory {
         return likes.size() - 1;
     }
 
+    public int getCommentNumber() {
+        return comments == null ? 0 : comments.size();
+    }
+
     protected List<User> getLikes() {
         return likes;
     }
