@@ -106,6 +106,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
     @Override
     public void onDismiss(DialogInterface dialog) {
         dateButton.setText(dateFormat.format(calendar.getTime()));
+        recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
         memoryList = new ArrayList<>();
         fetchMemoriesFromDatabase();
     }

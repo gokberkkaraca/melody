@@ -84,6 +84,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         final TextView author, time, description, location;
         final ImageView authorPic, memoryPic;
 
+
         MemoriesViewHolder(View view) {
             super(view);
 
