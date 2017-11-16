@@ -17,7 +17,7 @@ public class SerializableLocation implements Serializable {
         this.locationName = location.getProvider();
     }
 
-    public SerializableLocation(double latitude, double longitude, String locationName){
+    public SerializableLocation(double latitude, double longitude, String locationName) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.locationName = locationName;
@@ -30,7 +30,8 @@ public class SerializableLocation implements Serializable {
         this.locationName = serializableLocation.locationName;
     }
 
-    public SerializableLocation(){}
+    public SerializableLocation() {
+    }
 
     public double getLongitude() {
         return longitude;
