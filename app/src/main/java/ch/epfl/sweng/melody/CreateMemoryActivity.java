@@ -49,7 +49,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
     private static final String FAKE_ADDRESS = "Lausanne,Switzerland";
 
-    private User user;
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
@@ -68,8 +67,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_memory);
-
-        user = (User) getIntent().getExtras().getSerializable(MainActivity.USER_INFO);
 
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
@@ -128,13 +125,13 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(user, memoryDescription, FAKE_ADDRESS)
+            memory = new Memory.MemoryBuilder(MainActivity.user, memoryDescription, FAKE_ADDRESS)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putSerializable(MainActivity.USER_INFO, user);
+            bundle.putSerializable(MainActivity.USER_INFO, MainActivity.user);
             intent.putExtras(bundle);
             startActivity(intent);
             return;
@@ -149,18 +146,18 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(user, memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(MainActivity.user, memoryDescription, FAKE_ADDRESS)
                             .photo(url)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(user, memoryDescription, FAKE_ADDRESS)
+                    memory = new Memory.MemoryBuilder(MainActivity.user, memoryDescription, FAKE_ADDRESS)
                             .video(url)
                             .build();
                 }
                 DatabaseHandler.uploadMemory(memory);
                 Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(MainActivity.USER_INFO, user);
+                bundle.putSerializable(MainActivity.USER_INFO, MainActivity.user);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -452,7 +449,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(MainActivity.USER_INFO, user);
+                        bundle.putSerializable(MainActivity.USER_INFO, MainActivity.user);
                         intent.putExtras(bundle);
                         startActivity(intent);
                     }

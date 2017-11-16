@@ -130,22 +130,22 @@ public class DetailedMemoryActivity extends AppCompatActivity {
      ******************* Menu Buttons ****************
      *************************************************/
     public void goToCreateMemoryActivity(View view) {
-        MenuButtons.goToCreateMemoryActivity(this, user);
+        MenuButtons.goToCreateMemoryActivity(this);
     }
 
     public void goToPublicMemoryActivity(View view) {
-        MenuButtons.goToPublicMemoryActivity(this, user);
+        MenuButtons.goToPublicMemoryActivity(this);
     }
 
     public void goToMapActivity(View view) {
-        MenuButtons.goToMapActivity(this, user);
+        MenuButtons.goToMapActivity(this);
     }
 
     public void goToNotification(View view) {
-        MenuButtons.goToNotificationActivity(this, user);
+        MenuButtons.goToNotificationActivity(this);
     }
 
     public void goToUser(View view) {
-        MenuButtons.goToUserProfileActivity(this, user);
+        MenuButtons.goToUserProfileActivity(this);
     }
 }

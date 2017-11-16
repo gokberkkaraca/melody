@@ -18,6 +18,7 @@ import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.util.MenuButtons;
 
 import static ch.epfl.sweng.melody.account.GoogleAccount.mGoogleApiClient;
 
@@ -89,16 +90,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
-            User user = new User(GOOGLE_ACCOUNT);
+            MainActivity.user = new User(GOOGLE_ACCOUNT);
 
-            DatabaseHandler.addUser(user);
-            LoginStatusHandler.setUserId(this, user.getId());
+            DatabaseHandler.addUser(MainActivity.user);
+            LoginStatusHandler.setUserId(this, MainActivity.user.getId());
 
-            Intent intent = new Intent(this, PublicMemoryActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(MainActivity.USER_INFO, user);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            MenuButtons.goToPublicMemoryActivity(this);
         }
         // Logout
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
