@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 abstract public class ActivityTest {
 
     @Before
-    public void setUp(){
+    public void setUp() {
         final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
         when(googleSignInAccount.getId()).thenReturn("QWERTYU");
         when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
@@ -69,7 +69,8 @@ abstract public class ActivityTest {
     }
 
     // TODO Activate this test when Map Activity is implemented
-    @Ignore @Test
+    @Ignore
+    @Test
     public void goToNotification() throws Exception {
         onView(withId(R.id.bell)).check(matches(allOf(isEnabled(), isClickable()))).perform(click());
         Thread.sleep(100);

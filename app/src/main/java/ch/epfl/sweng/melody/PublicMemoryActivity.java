@@ -33,14 +33,14 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
 
-    private List<Memory> memoryList;
-    private RecyclerView recyclerView;
     private static MemoryAdapter memoryAdapter;
-    private Button dateButton;
     private static long memoryStartTime = 0L;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
     private static boolean datePicked = false;
     private static Calendar calendar;
+    private List<Memory> memoryList;
+    private RecyclerView recyclerView;
+    private Button dateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

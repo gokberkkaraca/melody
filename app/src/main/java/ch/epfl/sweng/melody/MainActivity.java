@@ -22,6 +22,14 @@ public class MainActivity extends AppCompatActivity {
     private static User user;
     private final Handler mHandler = new Handler();
 
+    public static User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        MainActivity.user = user;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,13 +62,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, timer);
-    }
-
-    public static User getUser() {
-        return user;
-    }
-
-    public static void setUser(User user) {
-        MainActivity.user = user;
     }
 }

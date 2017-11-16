@@ -35,7 +35,6 @@ import java.io.IOException;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
-import ch.epfl.sweng.melody.user.User;
 
 import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_AUDIOFILE;
 import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_GPS;

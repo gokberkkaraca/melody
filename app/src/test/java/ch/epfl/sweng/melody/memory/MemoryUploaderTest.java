@@ -22,9 +22,9 @@ public class MemoryUploaderTest {
     private final String memoryAuthorId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
     private final String commentAuthorId = UUID.randomUUID().toString();
+    User user;
     private MemoryUploader memoryUploader;
     private Memory memory;
-    User user;
 
     @Before
     public void setUp() {

@@ -22,33 +22,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  */
 
 public class ShowMapActivityTest {
-    private Random rng = new Random();
     @Rule
     public final ActivityTestRule<ShowMapActivity> mainActivityActivityTestRule =
             new ActivityTestRule<>(ShowMapActivity.class);
-
-    @Test
-    public void moveSeekBar() throws Exception {
-        int cur_progress;
-
-        // do an initial move in case the first random number is 0
-        //  -- if it didn't move, the OnSeekBarChangeListener isn't called
-        onView(withId(R.id.seekBar)).perform(clickSeekBar(25));
-
-        // try 10 random locations
-        for (int i = 0; i < 10; i++) {
-            cur_progress = rng.nextInt(101);            // 0..100
-
-            // move it to a random location
-            onView(withId(R.id.seekBar)).perform(clickSeekBar(cur_progress));
-
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                // implement later on
-            }
-        }
-    }
+    private Random rng = new Random();
 
     private static ViewAction clickSeekBar(final int pos) {
         return new GeneralClickAction(
@@ -79,5 +56,28 @@ public class ShowMapActivityTest {
                     }
                 },
                 Press.FINGER);
+    }
+
+    @Test
+    public void moveSeekBar() throws Exception {
+        int cur_progress;
+
+        // do an initial move in case the first random number is 0
+        //  -- if it didn't move, the OnSeekBarChangeListener isn't called
+        onView(withId(R.id.seekBar)).perform(clickSeekBar(25));
+
+        // try 10 random locations
+        for (int i = 0; i < 10; i++) {
+            cur_progress = rng.nextInt(101);            // 0..100
+
+            // move it to a random location
+            onView(withId(R.id.seekBar)).perform(clickSeekBar(cur_progress));
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                // implement later on
+            }
+        }
     }
 }

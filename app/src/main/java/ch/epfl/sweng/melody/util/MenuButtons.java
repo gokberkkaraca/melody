@@ -2,14 +2,11 @@ package ch.epfl.sweng.melody.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 import ch.epfl.sweng.melody.CreateMemoryActivity;
-import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.ShowMapActivity;
 import ch.epfl.sweng.melody.UserProfileActivity;
-import ch.epfl.sweng.melody.user.User;
 
 public class MenuButtons {
     public static void goToPublicMemoryActivity(Context context) {
