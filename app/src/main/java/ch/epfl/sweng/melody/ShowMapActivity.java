@@ -26,7 +26,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.location.SerializableLocation;
+import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
@@ -66,6 +72,27 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        LatLng current = new LatLng(46.533, 6.57666);
+        mMap.addMarker(new MarkerOptions().position(current).title("Marker in Lansanne"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 12.0f));
+
+        DatabaseHandler.getAllMemories(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                    Memory memory = memDataSnapshot.getValue(Memory.class);
+                    assert memory != null;
+                    SerializableLocation location = memory.getSerializableLocation();
+                    LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(memory.getText()));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -139,9 +166,6 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onLocationChanged(Location location) {
-        LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(current).title("Marker in Lansanne"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 17.0f));
     }
 
     @Override
