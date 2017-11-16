@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <issues by="lint 2.3.3" format="4">
-	<issue category="Performance"
+    <issue category="Performance"
         errorLine1="    &lt;string name=&quot;google_crash_reporting_api_key&quot; translatable=&quot;false&quot;>&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         explanation="Unused resources make applications larger and slow down builds."

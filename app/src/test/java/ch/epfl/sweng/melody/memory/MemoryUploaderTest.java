@@ -1,12 +1,16 @@
 package ch.epfl.sweng.melody.memory;
 
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
+
+import ch.epfl.sweng.melody.user.User;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -18,11 +22,20 @@ public class MemoryUploaderTest {
     private final String memoryAuthorId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
     private final String commentAuthorId = UUID.randomUUID().toString();
+    User user;
     private MemoryUploader memoryUploader;
     private Memory memory;
 
     @Before
     public void setUp() {
+
+        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
+        when(googleSignInAccount.getId()).thenReturn("jiacheng.xu@epfl.ch");
+        when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
+        when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
+        when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
+        when(googleSignInAccount.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
+        user = new User(googleSignInAccount);
 
         final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1508935737477.mp4?alt=media&token=5a33aae6-a8c6-46c1-9add-181b0ef258c3";
         final String testPhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
@@ -37,7 +50,7 @@ public class MemoryUploaderTest {
 
         memory = mock(Memory.class);
         when(memory.getId()).thenReturn(memoryId);
-        when(memory.getAuthorId()).thenReturn(memoryAuthorId);
+        when(memory.getUser()).thenReturn(user);
         when(memory.getTime()).thenReturn(new Date());
         when(memory.getText()).thenReturn("Test text");
         when(memory.getComments()).thenReturn(Collections.singletonList(comment));
@@ -53,8 +66,8 @@ public class MemoryUploaderTest {
     }
 
     @Test
-    public void getAuthorId() throws Exception {
-        assertEquals(memoryUploader.getAuthorId(), memory.getAuthorId());
+    public void getUser() throws Exception {
+        assertEquals(memoryUploader.getUser(), memory.getUser());
     }
 
     @Test

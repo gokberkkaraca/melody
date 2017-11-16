@@ -3,13 +3,16 @@ package ch.epfl.sweng.melody.memory;
 import java.util.Date;
 import java.util.List;
 
+import ch.epfl.sweng.melody.user.User;
+
 class MemoryUploader {
     final private String id;
-    final private String authorId;
+    final private User user;
     final private Date time;
     final private String location;
     final private String text;
     final private List<Comment> comments;
+    final private List<User> likes;
     final private Memory.Privacy privacy;
     final private Boolean reminder;
     final private String photoUrl;
@@ -19,7 +22,7 @@ class MemoryUploader {
 
     MemoryUploader(Memory memory) {
         id = memory.getId();
-        authorId = memory.getAuthorId();
+        user = memory.getUser();
         time = memory.getTime();
         location = memory.getLocation();
         text = memory.getText();
@@ -30,10 +33,11 @@ class MemoryUploader {
         videoUrl = memory.getVideoUrl();
         audioUrl = memory.getAudioUrl();
         memoryType = memory.getMemoryType();
+        likes = memory.getLikes();
     }
 
-    public String getAuthorId() {
-        return authorId;
+    public User getUser() {
+        return user;
     }
 
     public Date getTime() {
@@ -75,6 +79,10 @@ class MemoryUploader {
     public String getId() {
 
         return id;
+    }
+
+    public List<User> getLikes() {
+        return likes;
     }
 
     public Memory.MemoryType getMemoryType() {

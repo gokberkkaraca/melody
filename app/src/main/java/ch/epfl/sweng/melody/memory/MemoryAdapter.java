@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -22,10 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import ch.epfl.sweng.melody.MemoryDetailActivity;
+import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
-import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
@@ -35,6 +31,18 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
     public MemoryAdapter(List<Memory> memoryList) {
         this.memoryList = memoryList;
+    }
+
+    //Catch and send exceptions ??
+    private static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+        mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+        bitmap = mediaMetadataRetriever.getFrameAtTime();
+
+        mediaMetadataRetriever.release();
+
+        return bitmap;
     }
 
     @Override
@@ -54,31 +62,17 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.description.setText(memory.getText());
         holder.location.setText(memory.getLocation());
 
-        String userId = memory.getAuthorId();
-        DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                assert user != null;
-                holder.author.setText(user.getDisplayName());
-                new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
+        User user = memory.getUser();
+        holder.author.setText(user.getDisplayName());
+        new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
 
-                if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
-                    Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
-                }
-                else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
-                    //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
-                    Bitmap thumbnail =retrieveVideoFrameFromVideo(memory.getVideoUrl());
-                    holder.memoryPic.setImageBitmap(thumbnail);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
+            Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
+        } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
+            //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
+            Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+            holder.memoryPic.setImageBitmap(thumbnail);
+        }
     }
 
     @Override
@@ -93,14 +87,14 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         MemoriesViewHolder(View view) {
             super(view);
 
-            itemView.setOnClickListener(new View.OnClickListener(){
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
 
-                    if(pos != RecyclerView.NO_POSITION){
+                    if (pos != RecyclerView.NO_POSITION) {
                         Memory clickedMemory = memoryList.get(pos);
-                        Intent intent = new Intent(v.getContext(), MemoryDetailActivity.class);
+                        Intent intent = new Intent(v.getContext(), DetailedMemoryActivity.class);
                         intent.putExtra("memoryId", clickedMemory.getId());
                         v.getContext().startActivity(intent);
                     }
@@ -114,20 +108,6 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             authorPic = view.findViewById(R.id.authorPic);
             memoryPic = view.findViewById(R.id.memoryPic);
         }
-    }
-
-    //Catch and send exceptions ??
-    public static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-        mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-        bitmap = mediaMetadataRetriever.getFrameAtTime();
-
-        if (mediaMetadataRetriever != null) {
-            mediaMetadataRetriever.release();
-        }
-
-        return bitmap;
     }
 
 }

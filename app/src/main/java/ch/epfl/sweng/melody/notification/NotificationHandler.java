@@ -19,23 +19,24 @@ import ch.epfl.sweng.melody.R;
 
 public class NotificationHandler {
     private static final int NOTIFICATION_CODE = 10;
-    public static void sendNotification(Context context, String message){
+
+    public static void sendNotification(Context context, String message) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Bitmap icon = BitmapFactory.decodeResource(context.getResources(),R.mipmap.app_logo);
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.app_logo);
         int smallIcon = R.mipmap.app_logo;
-        Uri notificationSound= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_CODE, intent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                        .setLargeIcon(icon)
-                        .setSmallIcon(smallIcon)
-                        .setContentTitle("Melody")
-                        .setContentText(message)
-                        .setAutoCancel(true)
-                        .setSound(notificationSound)
-                        .setContentIntent(pendingIntent);
-        notificationManager.notify(0,builder.build());
+                .setLargeIcon(icon)
+                .setSmallIcon(smallIcon)
+                .setContentTitle("Melody")
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(notificationSound)
+                .setContentIntent(pendingIntent);
+        notificationManager.notify(0, builder.build());
     }
 }
