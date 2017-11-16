@@ -125,10 +125,18 @@ public class Memory {
             likes.add(user);
         }
     }
+    
+    public boolean isLikedByUser(User user) {
+        return likes.contains(user) ? true : false;
+    }
 
     public int getLikeNumber() {
         // Author's like is not counted, it is liked by default
         return likes.size() - 1;
+    }
+
+    public int getCommentNumber() {
+        return comments == null ? 0 : comments.size();
     }
 
     protected List<User> getLikes() {
