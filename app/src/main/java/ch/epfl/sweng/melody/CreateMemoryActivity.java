@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,6 +34,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
@@ -59,7 +63,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
     private LocationManager mLocationManager;
 
-    private AlertDialog.Builder builder;
 //    private String audioPath;
 
     @Override
@@ -393,17 +396,25 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            TextView address = findViewById(R.id.address);
+            String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
+            address.setText(addressText);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-
+        Toast.makeText(this, "Provider Enabled", Toast.LENGTH_SHORT).show();
     }
 
     @Override
