@@ -64,6 +64,11 @@ public class PermissionUtils {
 
     }
 
+    public static void requestLocationPermission(AppCompatActivity activity){
+        if(permissionNotGranted(activity,Manifest.permission.ACCESS_FINE_LOCATION))
+            requestPermission(activity,Manifest.permission.ACCESS_FINE_LOCATION,REQUEST_LOCATION);
+    }
+
     public static void photoFromCamera(AppCompatActivity activity) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         activity.startActivityForResult(intent, REQUEST_PHOTO_CAMERA);

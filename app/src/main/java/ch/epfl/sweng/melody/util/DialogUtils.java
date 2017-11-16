@@ -127,7 +127,7 @@ public class DialogUtils {
                 .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //TODO Acccess location permission
+                        PermissionUtils.requestLocationPermission(activity);
                     }
                 })
                 .setCancelable(false)
