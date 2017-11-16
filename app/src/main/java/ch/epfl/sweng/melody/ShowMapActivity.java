@@ -1,15 +1,24 @@
 package ch.epfl.sweng.melody;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,11 +26,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import ch.epfl.sweng.melody.util.DialogUtils;
 
-public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallback {
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
+
+public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback,LocationListener {
     private int filterRadius = 0;
 
     private GoogleMap mMap;
+    private LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +44,9 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        accessWithPermission(REQUEST_LOCATION);
         filterByLocation();
     }
 
@@ -48,10 +64,6 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Lausanne and move the camera
-        LatLng lausanne = new LatLng(46.5197, 6.6323);
-        mMap.addMarker(new MarkerOptions().position(lausanne).title("Marker in Lansanne"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lausanne, 15.0f));
     }
 
     public void filterByLocation() {
@@ -92,5 +104,53 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    private void accessWithPermission(int requestCode) {
+        switch (requestCode) {
+            case REQUEST_LOCATION: {
+                if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                else
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+            switch (requestCode) {
+                case REQUEST_LOCATION: {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        DialogUtils.showLocationPermissionRationale(this);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(current).title("Marker in Lansanne"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 15.0f));
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(this, "Provider Enabled", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (provider.equals(LocationManager.GPS_PROVIDER)) {
+            DialogUtils.showGPSDisabledDialog(this);
+        }
     }
 }
