@@ -3,6 +3,8 @@ package ch.epfl.sweng.melody.util;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +23,7 @@ public class PermissionUtils {
     public static final int REQUEST_AUDIOFILE = 5;
     public static final int REQUEST_GPS = 6;
     public static final int REQUEST_LOCATION = 7;
+    public static LocationManager locationManager;
 
 
     public static void accessResourceWithPermission(AppCompatActivity activity, int requestCode) {
@@ -64,9 +67,21 @@ public class PermissionUtils {
 
     }
 
-    public static void requestLocationPermission(AppCompatActivity activity){
-        if(permissionNotGranted(activity,Manifest.permission.ACCESS_FINE_LOCATION))
-            requestPermission(activity,Manifest.permission.ACCESS_FINE_LOCATION,REQUEST_LOCATION);
+    public static void requestLocationPermission(AppCompatActivity activity) {
+        if (permissionNotGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION))
+            requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION);
+    }
+
+    public static void accessLocationWithPermission(AppCompatActivity activity, LocationListener locationListener) {
+        if (permissionNotGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION))
+            requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION);
+        else {
+            try {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static void photoFromCamera(AppCompatActivity activity) {

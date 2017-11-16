@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -12,7 +13,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
@@ -26,15 +26,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import ch.epfl.sweng.melody.util.DialogUtils;
+import ch.epfl.sweng.melody.util.PermissionUtils;
 
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
+import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
-public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback,LocationListener {
+public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     private int filterRadius = 0;
 
     private GoogleMap mMap;
-    private LocationManager mLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +47,9 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        accessWithPermission(REQUEST_LOCATION);
+        PermissionUtils.accessLocationWithPermission(this, this);
         filterByLocation();
     }
 
@@ -106,21 +109,9 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         });
     }
 
-    private void accessWithPermission(int requestCode) {
-        switch (requestCode) {
-            case REQUEST_LOCATION: {
-                if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-                else
-                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                break;
-            }
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)){
+        if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
             switch (requestCode) {
                 case REQUEST_LOCATION: {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -132,10 +123,25 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_GPS: {
+                if (PermissionUtils.locationManager == null) {
+                    PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                }
+                assert PermissionUtils.locationManager != null;
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                    DialogUtils.showGPSDisabledDialog(this);
+            }
+        }
+    }
+
+    @Override
     public void onLocationChanged(Location location) {
         LatLng current = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.addMarker(new MarkerOptions().position(current).title("Marker in Lansanne"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 15.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 17.0f));
     }
 
     @Override

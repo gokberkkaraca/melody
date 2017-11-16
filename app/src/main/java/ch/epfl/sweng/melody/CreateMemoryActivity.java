@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -37,6 +36,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
+import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_AUDIOFILE;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
@@ -46,6 +46,8 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.accessAudioFiles;
+import static ch.epfl.sweng.melody.util.PermissionUtils.accessLocationWithPermission;
+import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromGallery;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromCamera;
@@ -66,8 +68,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private Memory memory;
     private SerializableLocation serializableLocation = new SerializableLocation();
 
-    private LocationManager mLocationManager;
-
 //    private String audioPath;
 
     @Override
@@ -81,9 +81,9 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS.getLocationName());
 
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        accessWithPermission(REQUEST_LOCATION);
+        accessLocationWithPermission(this, this);
     }
 
 
@@ -183,12 +183,12 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 break;
             }
             case REQUEST_GPS: {
-                if (mLocationManager == null) {
-                    mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                if (PermissionUtils.locationManager == null) {
+                    PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
                 }
 
-                assert mLocationManager != null;
-                if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                assert PermissionUtils.locationManager != null;
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
                     DialogUtils.showGPSDisabledDialog(this);
             }
         }
@@ -219,11 +219,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     break;
                 }
                 case REQUEST_LOCATION: {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-                    }
-
-                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                    PermissionUtils.accessLocationWithPermission(this, this);
                 }
             }
         } else {
@@ -233,19 +229,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                         DialogUtils.showLocationPermissionRationale(this);
                     }
                 }
-            }
-        }
-    }
-
-
-    private void accessWithPermission(int requestCode) {
-        switch (requestCode) {
-            case REQUEST_LOCATION: {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-                else
-                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                break;
             }
         }
     }
