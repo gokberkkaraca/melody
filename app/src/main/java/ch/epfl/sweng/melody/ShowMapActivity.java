@@ -42,7 +42,8 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
 public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     private int filterRadius = 0;
-
+    private LatLng FAKE_LATLNG = new LatLng(46.533, 6.57666);
+    private SerializableLocation  FAKE_CURRENT = new SerializableLocation(FAKE_LATLNG.latitude,FAKE_LATLNG.longitude,"FAKE_CURRENT");
     private GoogleMap mMap;
 
     @Override
@@ -72,27 +73,8 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng current = new LatLng(46.533, 6.57666);
-        mMap.addMarker(new MarkerOptions().position(current).title("Marker in Lansanne"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current, 12.0f));
-
-        DatabaseHandler.getAllMemories(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                    Memory memory = memDataSnapshot.getValue(Memory.class);
-                    assert memory != null;
-                    SerializableLocation location = memory.getSerializableLocation();
-                    LatLng latLng = new LatLng(location.getLatitude(),location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(latLng).title(memory.getText()));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        mMap.addMarker(new MarkerOptions().position(FAKE_LATLNG).title("Your location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(FAKE_LATLNG, 12.0f));
 
     }
 
@@ -122,7 +104,29 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(FAKE_LATLNG).title("Your location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(FAKE_LATLNG, 12.0f));
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
+                DatabaseHandler.getAllMemories(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                            Memory memory = memDataSnapshot.getValue(Memory.class);
+                            assert memory != null;
+                            SerializableLocation location = memory.getSerializableLocation();
+                            if(location.distanceTo(FAKE_CURRENT)<filterRadius*1000) {
+                                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                                mMap.addMarker(new MarkerOptions().position(latLng).title(memory.getText()));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
             }
 
