@@ -60,7 +60,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         holder.time.setText(format.format(memory.getTime()));
         holder.description.setText(memory.getText());
-        holder.location.setText(memory.getLocation());
+        holder.location.setText(memory.getLocation().getLocationName());
 
         User user = memory.getUser();
         holder.author.setText(user.getDisplayName());

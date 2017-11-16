@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
 
+import ch.epfl.sweng.melody.location.Location;
 import ch.epfl.sweng.melody.user.User;
 
 import static junit.framework.Assert.assertEquals;
@@ -59,7 +60,7 @@ public class MemoryUploaderTest {
         when(memory.getPhotoUrl()).thenReturn(testPhotoUrl);
         when(memory.getVideoUrl()).thenReturn(testVideoUrl);
         when(memory.getAudioUrl()).thenReturn(testAudioUrl);
-        when(memory.getLocation()).thenReturn("Lausanne");
+        when(memory.getLocation()).thenReturn(new Location(46.5197, 6.6323,"Lausanne"));
         when(memory.getMemoryType()).thenReturn(Memory.MemoryType.AUDIO);
 
         memoryUploader = new MemoryUploader(memory);

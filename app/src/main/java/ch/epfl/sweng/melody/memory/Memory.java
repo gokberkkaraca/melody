@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import ch.epfl.sweng.melody.location.Location;
 import ch.epfl.sweng.melody.user.User;
 
 
@@ -12,7 +13,7 @@ public class Memory {
     private String id;
     private User user;
     private Date time;
-    private String location;
+    private Location location;
     private String text;
     private List<Comment> comments;
     private List<User> likes;
@@ -70,7 +71,7 @@ public class Memory {
         return time;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
@@ -142,7 +143,7 @@ public class Memory {
         private final String id;
         private final User user;
         private final Date time;
-        private final String location;
+        private final Location location;
         private final String text;
         private final Privacy privacy;
         private final Boolean reminder;
@@ -154,7 +155,7 @@ public class Memory {
         private String videoUrl;
         private String audioUrl;
 
-        public MemoryBuilder(User user, String text, String location) {
+        public MemoryBuilder(User user, String text, Location location) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());
             this.time = Calendar.getInstance().getTime();
             this.user = user;

@@ -50,7 +50,8 @@ import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_VIDEO_GALLERY;
 
 public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
 
-    private static final String FAKE_ADDRESS = "Lausanne,Switzerland";
+    private static final ch.epfl.sweng.melody.location.Location FAKE_ADDRESS
+            = new ch.epfl.sweng.melody.location.Location(46.5197, 6.6323,"Lausanne");
 
     private ImageView imageView;
     private VideoView videoView;
@@ -74,7 +75,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
         TextView address = findViewById(R.id.address);
-        address.setText(FAKE_ADDRESS);
+        address.setText(FAKE_ADDRESS.getLocationName());
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
