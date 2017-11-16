@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +34,16 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 public class DetailedMemoryActivity extends AppCompatActivity {
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
     private Memory memory;
+    private String memoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_memory_detail);
-        fetchMemoryFromDatabase(getIntent().getStringExtra("memoryId"));
+        memoryId = getIntent().getStringExtra("memoryId");
+        fetchMemoryFromDatabase();
+
 
         LinearLayout commentsContainer = findViewById(R.id.memoryComments);
 
@@ -84,7 +88,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         commentsContainer.addView(sendButton);
     }
 
-    private void fetchMemoryFromDatabase(final String memoryId) {
+    private void fetchMemoryFromDatabase() {
         DatabaseHandler.getMemory(memoryId, new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
