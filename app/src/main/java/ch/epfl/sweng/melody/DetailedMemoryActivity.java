@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -77,6 +80,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         editComment.setTypeface(commentTitle.getTypeface(), Typeface.ITALIC);
         editComment.setTextColor(Color.BLACK);
         editComment.setLayoutParams(params);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         commentsContainer.addView(editComment);
 
@@ -101,6 +105,9 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 location.setText(memory.getSerializableLocation().getLocationName());
 
                 ImageView imageView = findViewById(R.id.memoryPicture);
+
+                TextView description = findViewById(R.id.memoryText);
+                description.setText(memory.getText());
 
                 if (memory.getPhotoUrl() != null) {
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(imageView);
