@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="2dp"
-        card_view:cardCornerRadius="5dp"
-        card_view:cardBackgroundColor="@color/cardview_dark_background">
+        card_view:cardCornerRadius="3dp"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
 
 
         <LinearLayout
@@ -28,9 +28,8 @@
                     android:id="@+id/authorPic"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_alignStart="@+id/author"
-                    android:layout_marginTop="10dp"
                     android:src="@mipmap/person_filled"
+                    android:layout_margin="3dp"
                     tools:ignore="ContentDescription" />
 
                 <TextView
