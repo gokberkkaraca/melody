@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 
 import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_AUDIOFILE;
@@ -50,8 +51,8 @@ import static ch.epfl.sweng.melody.util.RequestCodes.REQUEST_VIDEO_GALLERY;
 
 public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
 
-    private static final ch.epfl.sweng.melody.location.Location FAKE_ADDRESS
-            = new ch.epfl.sweng.melody.location.Location(46.5197, 6.6323,"Lausanne");
+    private static final SerializableLocation FAKE_ADDRESS
+            = new SerializableLocation(46.5197, 6.6323,"Lausanne");
 
     private ImageView imageView;
     private VideoView videoView;
@@ -433,7 +434,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         if (!isLocationEnabled) {
             new AlertDialog.Builder(this)
                     .setTitle("Open GPS")
-                    .setMessage("Creating a new memory requires Melody to access your location. Do you want to activate Location Services?")
+                    .setMessage("Creating a new memory requires Melody to access your location. Do you want to activate SerializableLocation Services?")
                     .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             finishAffinity();

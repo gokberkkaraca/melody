@@ -27,13 +27,13 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/location"
+        android:id="@+id/serializableLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/authorPic"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/authorPic"
-        android:text="@string/location"
+        android:text="@string/serializableLocation"
         android:textSize="12sp"
         android:textStyle="italic" />
 
@@ -41,10 +41,10 @@
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/location"
-        android:layout_alignBottom="@+id/location"
+        android:layout_alignBaseline="@+id/serializableLocation"
+        android:layout_alignBottom="@+id/serializableLocation"
         android:layout_marginStart="24dp"
-        android:layout_toEndOf="@+id/location"
+        android:layout_toEndOf="@+id/serializableLocation"
         android:text="@string/time"
         android:textSize="12sp" />
 

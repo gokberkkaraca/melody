@@ -3,14 +3,14 @@ package ch.epfl.sweng.melody.memory;
 import java.util.Date;
 import java.util.List;
 
-import ch.epfl.sweng.melody.location.Location;
+import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
 
 class MemoryUploader {
     final private String id;
     final private User user;
     final private Date time;
-    final private Location location;
+    final private SerializableLocation serializableLocation;
     final private String text;
     final private List<Comment> comments;
     final private List<User> likes;
@@ -25,7 +25,7 @@ class MemoryUploader {
         id = memory.getId();
         user = memory.getUser();
         time = memory.getTime();
-        location = memory.getLocation();
+        serializableLocation = memory.getSerializableLocation();
         text = memory.getText();
         comments = memory.getComments();
         privacy = memory.getPrivacy();
@@ -45,8 +45,8 @@ class MemoryUploader {
         return time;
     }
 
-    public Location getLocation() {
-        return location;
+    public SerializableLocation getSerializableLocation() {
+        return serializableLocation;
     }
 
     public String getText() {

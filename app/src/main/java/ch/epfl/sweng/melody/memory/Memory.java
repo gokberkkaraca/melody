@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import ch.epfl.sweng.melody.location.Location;
+import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
 
 
@@ -13,7 +13,7 @@ public class Memory {
     private String id;
     private User user;
     private Date time;
-    private Location location;
+    private SerializableLocation serializableLocation;
     private String text;
     private List<Comment> comments;
     private List<User> likes;
@@ -29,7 +29,7 @@ public class Memory {
         this.time = memoryBuilder.time;
         this.user = memoryBuilder.user;
         this.text = memoryBuilder.text;
-        this.location = memoryBuilder.location;
+        this.serializableLocation = memoryBuilder.serializableLocation;
         this.privacy = memoryBuilder.privacy;
         this.reminder = memoryBuilder.reminder;
 
@@ -71,8 +71,8 @@ public class Memory {
         return time;
     }
 
-    public Location getLocation() {
-        return location;
+    public SerializableLocation getSerializableLocation() {
+        return serializableLocation;
     }
 
     public String getText() {
@@ -143,7 +143,7 @@ public class Memory {
         private final String id;
         private final User user;
         private final Date time;
-        private final Location location;
+        private final SerializableLocation serializableLocation;
         private final String text;
         private final Privacy privacy;
         private final Boolean reminder;
@@ -155,12 +155,12 @@ public class Memory {
         private String videoUrl;
         private String audioUrl;
 
-        public MemoryBuilder(User user, String text, Location location) {
+        public MemoryBuilder(User user, String text, SerializableLocation serializableLocation) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());
             this.time = Calendar.getInstance().getTime();
             this.user = user;
             this.text = text;
-            this.location = location;
+            this.serializableLocation = serializableLocation;
             this.privacy = Privacy.PUBLIC;
             this.reminder = true;
             this.memoryType = MemoryType.TEXT;

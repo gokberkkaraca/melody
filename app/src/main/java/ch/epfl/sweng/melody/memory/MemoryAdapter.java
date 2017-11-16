@@ -60,7 +60,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         holder.time.setText(format.format(memory.getTime()));
         holder.description.setText(memory.getText());
-        holder.location.setText(memory.getLocation().getLocationName());
+        holder.location.setText(memory.getSerializableLocation().getLocationName());
 
         User user = memory.getUser();
         holder.author.setText(user.getDisplayName());
@@ -104,7 +104,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             author = view.findViewById(R.id.author);
             time = view.findViewById(R.id.time);
             description = view.findViewById(R.id.description);
-            location = view.findViewById(R.id.location);
+            location = view.findViewById(R.id.serializableLocation);
             authorPic = view.findViewById(R.id.authorPic);
             memoryPic = view.findViewById(R.id.memoryPic);
         }

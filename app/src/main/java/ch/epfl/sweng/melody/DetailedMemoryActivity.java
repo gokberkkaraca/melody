@@ -98,7 +98,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 date.setText(format.format(memory.getTime()));
 
                 TextView location = findViewById(R.id.memoryLocation);
-                location.setText(memory.getLocation().getLocationName());
+                location.setText(memory.getSerializableLocation().getLocationName());
 
                 ImageView imageView = findViewById(R.id.memoryPicture);
 

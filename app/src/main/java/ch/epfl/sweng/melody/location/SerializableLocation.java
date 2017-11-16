@@ -6,29 +6,31 @@ import java.io.Serializable;
  * Created by maxwell on 15.11.17.
  */
 
-public class Location implements Serializable {
+public class SerializableLocation implements Serializable {
     private double longitude;
     private double latitude;
     private String locationName;
 
-    public Location(android.location.Location location) {
+    public SerializableLocation(android.location.Location location) {
         this.longitude = location.getLongitude();
         this.latitude = location.getLatitude();
         this.locationName = location.getProvider();
     }
 
-    public Location(double latitude,double longitude,String locationName){
+    public SerializableLocation(double latitude, double longitude, String locationName){
         this.longitude = longitude;
         this.latitude = latitude;
         this.locationName = locationName;
     }
 
 
-    public Location(Location location) {
-        this.longitude = location.longitude;
-        this.latitude = location.latitude;
-        this.locationName = location.locationName;
+    public SerializableLocation(SerializableLocation serializableLocation) {
+        this.longitude = serializableLocation.longitude;
+        this.latitude = serializableLocation.latitude;
+        this.locationName = serializableLocation.locationName;
     }
+
+    public SerializableLocation(){}
 
     public double getLongitude() {
         return longitude;
@@ -54,13 +56,13 @@ public class Location implements Serializable {
         this.locationName = locationName;
     }
 
-    public double distanceTo(Location location) {
+    public double distanceTo(SerializableLocation serializableLocation) {
         int MAXITERS = 20;
         // Convert lat/long to radians
         double lat1 = latitude * Math.PI / 180.0;
-        double lat2 = location.latitude * Math.PI / 180.0;
+        double lat2 = serializableLocation.latitude * Math.PI / 180.0;
         double lon1 = longitude * Math.PI / 180.0;
-        double lon2 = location.longitude * Math.PI / 180.0;
+        double lon2 = serializableLocation.longitude * Math.PI / 180.0;
         double a = 6378137.0; // WGS84 major axis
         double b = 6356752.3142; // WGS84 semi-major axis
         double f = (a - b) / a;
