@@ -32,7 +32,7 @@ import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
-    private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.getDefault());
+    private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
     private String memoryId;
 

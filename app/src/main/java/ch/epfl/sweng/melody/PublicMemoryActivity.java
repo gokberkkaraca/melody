@@ -35,7 +35,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
 
     private static MemoryAdapter memoryAdapter;
     private static long memoryStartTime = 0L;
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.FRANCE);
     private static boolean datePicked = false;
     private static Calendar calendar;
     private List<Memory> memoryList;
