@@ -78,15 +78,14 @@
                     app:layout_constraintRight_toRightOf="@+id/memoryAuthor"
                     app:layout_constraintTop_toBottomOf="@+id/memoryAuthorPic"/>
 
-                <ImageView
-                    android:id="@+id/likes"
-                    android:layout_width="30dp"
-                    android:layout_height="29dp"
-                    app:layout_constraintTop_toTopOf="@+id/memoryLocation"
-                    app:layout_constraintEnd_toStartOf="@+id/likeNumber"
-                    android:layout_marginEnd="15dp"
-                    app:srcCompat="@android:drawable/btn_star_big_on"
-                    tools:ignore="ContentDescription,MissingConstraints" />
+            <ImageView
+                android:id="@+id/likes"
+                android:layout_width="30dp"
+                android:layout_height="29dp"
+                app:layout_constraintTop_toTopOf="@+id/memoryLocation"
+                app:srcCompat="@android:drawable/btn_star_big_on"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="271dp"/>
 
                 <TextView
                     android:id="@+id/likeNumber"
