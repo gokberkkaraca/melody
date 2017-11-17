@@ -21,6 +21,7 @@ public class MemoryUploaderTest {
 
     private final String memoryId = UUID.randomUUID().toString();
     private final String memoryAuthorId = UUID.randomUUID().toString();
+    private final String tagId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
     private final String commentAuthorId = UUID.randomUUID().toString();
     User user;
@@ -48,6 +49,10 @@ public class MemoryUploaderTest {
         when(comment.getMemoryId()).thenReturn(memoryId);
         when(comment.getTime()).thenReturn(new Date());
         when(comment.getId()).thenReturn(commentId);
+
+        final Tag tag = mock(Tag.class);
+        when(tag.getId()).thenReturn(tagId);
+        when(tag.getContent()).thenReturn("Test tag");
 
         memory = mock(Memory.class);
         when(memory.getId()).thenReturn(memoryId);

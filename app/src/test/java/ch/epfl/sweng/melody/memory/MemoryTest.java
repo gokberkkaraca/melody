@@ -23,6 +23,7 @@ public class MemoryTest {
 
     private final String memoryId = Long.toString(System.currentTimeMillis());
     private final String commentId = UUID.randomUUID().toString();
+    private final String tagId = UUID.randomUUID().toString();
     private final String commentAuthorId = UUID.randomUUID().toString();
     private final Date time = Calendar.getInstance().getTime();
     private final String text = "Test text";
@@ -50,6 +51,10 @@ public class MemoryTest {
         when(comment.getMemoryId()).thenReturn(memoryId);
         when(comment.getTime()).thenReturn(new Date());
         when(comment.getId()).thenReturn(commentId);
+
+        final Tag tag = mock(Tag.class);
+        when(tag.getId()).thenReturn(tagId);
+        when(tag.getContent()).thenReturn("Test tag");
 
         memory = mock(Memory.class);
         when(memory.getId()).thenReturn(memoryId);
@@ -93,6 +98,11 @@ public class MemoryTest {
     @Test
     public void getComments() throws Exception {
         assertTrue(memoryFromBuilder.getComments() != null);
+    }
+
+    @Test
+    public void getTags() throws Exception {
+        assertTrue(memoryFromBuilder.getTags() != null);
     }
 
     @Test
