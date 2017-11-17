@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
 
@@ -35,8 +36,6 @@ public class Memory {
 
         this.comments = memoryBuilder.comments;
         this.likes = memoryBuilder.likes;
-        // Firebase doesn't accept empty list
-        likes.add(user);
         this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
@@ -116,24 +115,32 @@ public class Memory {
     }
 
     public void likeAction(User user) {
-        if (this.user.getId().equals(user.getId()))
-            return;
-
-        if (likes.contains(user)) {
-            likes.remove(user);
-        } else {
-            likes.add(user);
+        for (User liker: likes) {
+            if (liker.getId().equals(user.getId())){
+                likes.remove(liker);
+                DatabaseHandler.uploadMemory(this);
+                return;
+            }
         }
+
+        likes.add(user);
+        DatabaseHandler.uploadMemory(this);
     }
 
-    public boolean isLikedByUser(User user) {
-        return likes.contains(user) ? true : false;
+    boolean isLikedByUser(User user) {
+        for (User liker: likes) {
+            if (liker.getId().equals(user.getId())){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public int getLikeNumber() {
-        // Author's like is not counted, it is liked by default
-        return likes.size() - 1;
+        return likes.size();
     }
+
 
     public int getCommentNumber() {
         return comments == null ? 0 : comments.size();
