@@ -206,13 +206,19 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         } catch (IOException e) {
             e.printStackTrace();
         }
-        currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
+        if(currentLatLng.longitude==0&&currentLatLng.latitude==0){
+            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
+        }else {
+            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
+        }
         if(currentMarker!=null){
             currentMarker.setPosition(currentLatLng);
         }else{
             currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
+
     }
 }
