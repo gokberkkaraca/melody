@@ -17,6 +17,7 @@ public class Memory {
     private String text;
     private List<Comment> comments;
     private List<User> likes;
+    private List<Tag> tags;
     private Privacy privacy;
     private MemoryType memoryType;
     private Boolean reminder;
@@ -32,9 +33,9 @@ public class Memory {
         this.serializableLocation = memoryBuilder.serializableLocation;
         this.privacy = memoryBuilder.privacy;
         this.reminder = memoryBuilder.reminder;
-
         this.comments = memoryBuilder.comments;
         this.likes = memoryBuilder.likes;
+        this.tags = memoryBuilder.tags;
         // Firebase doesn't accept empty list
         likes.add(user);
         this.photoUrl = memoryBuilder.photoUrl;
@@ -143,6 +144,8 @@ public class Memory {
         return likes;
     }
 
+    public List<Tag> getTags() { return tags; }
+
     public enum Privacy {PRIVATE, SHARED, PUBLIC}
 
     public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
@@ -158,6 +161,7 @@ public class Memory {
         private final Long MAX_ID = Long.MAX_VALUE;
         private List<Comment> comments;
         private List<User> likes;
+        private List<Tag> tags;
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
@@ -174,6 +178,7 @@ public class Memory {
             this.memoryType = MemoryType.TEXT;
             this.comments = new ArrayList<>();
             this.likes = new ArrayList<>();
+            this.tags = new ArrayList<>();
         }
 
         public MemoryBuilder photo(String photoUrl) {
@@ -201,6 +206,11 @@ public class Memory {
 
         public MemoryBuilder likes(List<User> likes) {
             this.likes = likes;
+            return this;
+        }
+
+        public MemoryBuilder tags(List<Tag> tags){
+            this.tags = tags;
             return this;
         }
 
