@@ -103,7 +103,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
     private void fetchMemoryFromDatabase() {
         DatabaseHandler.getMemory(memoryId, new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
