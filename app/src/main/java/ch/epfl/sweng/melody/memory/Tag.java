@@ -6,12 +6,11 @@ public class Tag {
     private String content;
 
     public Tag(String content) {
+        this.id = Long.toString(System.currentTimeMillis());
         this.content = content;
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return this.id; }
 
     public String getContent() { return this.content; }
 }
