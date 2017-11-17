@@ -102,9 +102,16 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 ImageView memoryImage = findViewById(R.id.memoryPicture);
 
+                TextView memoryText = (TextView) findViewById(R.id.memoryText);
+
                 if(memory.getPhotoUrl() != null) {
                     memoryImage.setVisibility(View.VISIBLE);
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
+                }
+
+                if(memory.getText() != null){
+                    memoryText.setVisibility(View.VISIBLE);
+                    memoryText.setText(memory.getText());
                 }
 
                 TextView author = findViewById(R.id.memoryAuthor);
