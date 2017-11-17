@@ -23,7 +23,7 @@ public class DetailedMemoryActivityTest extends ActivityTest {
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
                     Intent intent = new Intent(targetContext, DetailedMemoryActivity.class);
-                    intent.putExtra("memoryId", "9223370526068641586");
+                    intent.putExtra("memoryId", "9223370525953497250");
                     return intent;
                 }
             };
@@ -32,7 +32,7 @@ public class DetailedMemoryActivityTest extends ActivityTest {
     @Test
     public void getMemoryTest() throws Exception {
         Thread.sleep(5000);
-        //onView(withId(R.id.memoryAuthor)).check(matches(withText("Jiacheng Xu")));
-        onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
+        onView(withId(R.id.memoryAuthor)).check(matches(withText("Yusi Zou")));
+        //onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
     }
 }

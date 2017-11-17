@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,7 +32,7 @@ import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
-    private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm a", Locale.US);
+    private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
     private String memoryId;
 
@@ -77,6 +78,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         editComment.setTypeface(commentTitle.getTypeface(), Typeface.ITALIC);
         editComment.setTextColor(Color.BLACK);
         editComment.setLayoutParams(params);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         commentsContainer.addView(editComment);
 
@@ -98,9 +100,12 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 date.setText(format.format(memory.getTime()));
 
                 TextView location = findViewById(R.id.memoryLocation);
-                location.setText(memory.getLocation());
+                location.setText(memory.getSerializableLocation().getLocationName());
 
                 ImageView imageView = findViewById(R.id.memoryPicture);
+
+                TextView description = findViewById(R.id.memoryText);
+                description.setText(memory.getText());
 
                 if (memory.getPhotoUrl() != null) {
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(imageView);
