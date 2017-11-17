@@ -51,8 +51,8 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
     private int filterRadius = 0;
     //    private LatLng FAKE_LATLNG = new LatLng(46.533, 6.57666);
 //    private SerializableLocation  FAKE_CURRENT = new SerializableLocation(FAKE_LATLNG.latitude,FAKE_LATLNG.longitude,"FAKE_CURRENT");
-    private LatLng currentLatLng;
-    private SerializableLocation currentLocation;
+    private LatLng currentLatLng = new LatLng(0,0);
+    private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude,currentLatLng.longitude,"FAKE");
     private GoogleMap mMap;
 
     @Override
