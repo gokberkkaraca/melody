@@ -5,9 +5,13 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -16,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +36,8 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
+import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
+
 public class DetailedMemoryActivity extends AppCompatActivity {
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
@@ -43,6 +50,13 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_memory_detail);
         memoryId = getIntent().getStringExtra("memoryId");
         fetchMemoryFromDatabase();
+
+        ImageView memoryImage = findViewById(R.id.memoryPicture);
+
+        TextView memoryText = (TextView) findViewById(R.id.memoryText);
+
+        memoryText.setVisibility(View.GONE);
+        memoryImage.setVisibility(View.GONE);
 
 
         LinearLayout commentsContainer = findViewById(R.id.memoryComments);
@@ -91,10 +105,18 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
     private void fetchMemoryFromDatabase() {
         DatabaseHandler.getMemory(memoryId, new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
+
+                ScrollView parentScroll = findViewById(R.id.parentScroll);
+                ScrollView textScroll = findViewById(R.id.textScroll);
+
+                ImageView memoryImage = findViewById(R.id.memoryPicture);
+
+                TextView memoryText = (TextView) findViewById(R.id.memoryText);
 
                 TextView date = findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));
@@ -102,9 +124,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 TextView location = findViewById(R.id.memoryLocation);
                 location.setText(memory.getSerializableLocation().getLocationName());
 
-                ImageView memoryImage = findViewById(R.id.memoryPicture);
-
-                TextView memoryText = (TextView) findViewById(R.id.memoryText);
 
                 if(memory.getPhotoUrl() != null) {
                     memoryImage.setVisibility(View.VISIBLE);
@@ -112,8 +131,28 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 }
 
                 if(memory.getText() != null) {
+                    textScroll.setVisibility(View.VISIBLE);
                     memoryText.setVisibility(View.VISIBLE);
                     memoryText.setText(memory.getText());
+
+                    if(memory.getText().length() > 30){
+                        parentScroll.setOnTouchListener(new View.OnTouchListener() {
+
+                            public boolean onTouch(View v, MotionEvent event) {
+                                findViewById(R.id.textScroll).getParent().requestDisallowInterceptTouchEvent(false);
+                                return false;
+                            }
+                        });
+
+                        textScroll.setOnTouchListener(new View.OnTouchListener() {
+
+                            public boolean onTouch(View v, MotionEvent event)
+                            {
+                                v.getParent().requestDisallowInterceptTouchEvent(true);
+                                return false;
+                            }
+                        });
+                    }
                 }
 
                 TextView author = findViewById(R.id.memoryAuthor);
@@ -131,7 +170,10 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 System.out.println("The read failed!");
             }
         });
+
+
     }
+
 
     /*************************************************
      ******************* Menu Buttons ****************
