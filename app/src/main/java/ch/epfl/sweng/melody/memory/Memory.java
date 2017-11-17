@@ -11,6 +11,9 @@ import ch.epfl.sweng.melody.user.User;
 
 
 public class Memory {
+    public enum Privacy {PRIVATE, SHARED, PUBLIC}
+    public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
+
     private String id;
     private User user;
     private Date time;
@@ -118,13 +121,13 @@ public class Memory {
         for (User liker: likes) {
             if (liker.getId().equals(user.getId())){
                 likes.remove(liker);
-                DatabaseHandler.uploadMemory(this);
+                updateMemory();
                 return;
             }
         }
 
         likes.add(user);
-        DatabaseHandler.uploadMemory(this);
+        updateMemory();
     }
 
     boolean isLikedByUser(User user) {
@@ -141,18 +144,17 @@ public class Memory {
         return likes.size();
     }
 
-
     public int getCommentNumber() {
         return comments == null ? 0 : comments.size();
     }
 
-    protected List<User> getLikes() {
+    List<User> getLikes() {
         return likes;
     }
 
-    public enum Privacy {PRIVATE, SHARED, PUBLIC}
-
-    public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
+    public void updateMemory() {
+        DatabaseHandler.uploadMemory(this);
+    }
 
     public static class MemoryBuilder {
         private final String id;
