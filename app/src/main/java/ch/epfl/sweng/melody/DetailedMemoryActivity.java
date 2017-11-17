@@ -36,8 +36,6 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
-import static android.widget.TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM;
-
 public class DetailedMemoryActivity extends AppCompatActivity {
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
@@ -137,7 +135,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                     if(memory.getText().length() > 30){
                         parentScroll.setOnTouchListener(new View.OnTouchListener() {
-
+                            @SuppressLint("ClickableViewAccessibility")
+                            @Override
                             public boolean onTouch(View v, MotionEvent event) {
                                 findViewById(R.id.textScroll).getParent().requestDisallowInterceptTouchEvent(false);
                                 return false;
@@ -145,7 +144,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                         });
 
                         textScroll.setOnTouchListener(new View.OnTouchListener() {
-
+                            @SuppressLint("ClickableViewAccessibility")
+                            @Override
                             public boolean onTouch(View v, MotionEvent event)
                             {
                                 v.getParent().requestDisallowInterceptTouchEvent(true);
