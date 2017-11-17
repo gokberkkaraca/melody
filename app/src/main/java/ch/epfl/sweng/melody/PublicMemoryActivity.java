@@ -151,7 +151,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         public void onDateSet(DatePicker view, int year, int month, int day) {
             datePicked = true;
             calendar = Calendar.getInstance();
-            calendar.set(year, month, day);
+            calendar.set(year, month, day, 0, 0, 0);
             memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis() - TimeUnit.DAYS.toMillis(1);
         }
 
