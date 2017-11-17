@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
@@ -35,7 +35,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
 
     private static MemoryAdapter memoryAdapter;
     private static long memoryStartTime = 0L;
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.FRANCE);
     private static boolean datePicked = false;
     private static Calendar calendar;
     private List<Memory> memoryList;
@@ -73,7 +73,6 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.addItemDecoration(new DividerItemDecoration(PublicMemoryActivity.this, LinearLayoutManager.VERTICAL));
                 recyclerView.setAdapter(memoryAdapter);
             }
 
@@ -106,6 +105,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
     @Override
     public void onDismiss(DialogInterface dialog) {
         dateButton.setText(dateFormat.format(calendar.getTime()));
+        recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
         memoryList = new ArrayList<>();
         fetchMemoriesFromDatabase();
     }
@@ -152,7 +152,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
             datePicked = true;
             calendar = Calendar.getInstance();
             calendar.set(year, month, day, 0, 0, 0);
-            memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis();
+            memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis() - TimeUnit.DAYS.toMillis(1);
         }
 
         @Override

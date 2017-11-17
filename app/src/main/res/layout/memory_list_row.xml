@@ -1,71 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/authorPic"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/author"
-        android:layout_marginTop="10dp"
-        android:src="@mipmap/person_filled"
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/author"
-        android:layout_width="90dp"
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/authorPic"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="11dp"
-        android:text="@string/author"
-        android:textSize="14sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/authorPic"
-        android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/authorPic"
-        android:text="@string/location"
-        android:textSize="12sp"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/location"
-        android:layout_alignBottom="@+id/location"
-        android:layout_marginStart="24dp"
-        android:layout_toEndOf="@+id/location"
-        android:text="@string/time"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="130dp"
-        android:layout_height="70dp"
-        android:layout_alignBottom="@+id/author"
-        android:layout_marginStart="12dp"
-        android:layout_toEndOf="@+id/author"
-        android:text="@string/description"
-        android:textSize="12sp" />
-
-    <ImageView
-        android:id="@+id/memoryPic"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/time"
-        android:layout_marginStart="25dp"
-        android:layout_toEndOf="@+id/description"
-        tools:ignore="ContentDescription" />
+        android:layout_gravity="center"
+        card_view:cardBackgroundColor="@color/colorPublicActivityBackrgound"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="5dp"
+        card_view:cardUseCompatPadding="true">
 
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/authorPic"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:src="@mipmap/person_filled"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/author"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/authorPic"
+                    android:layout_toEndOf="@+id/authorPic"
+                    android:text="@string/author"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/typeOfMemory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/authorPic"
+                    android:layout_toEndOf="@+id/authorPic"
+                    android:src="@mipmap/photo_type"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/typeOfMemory"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end"
+                    android:text="@string/time"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/privacyOfMemory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@mipmap/public_memory"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/hashOfMemory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toStartOf="@+id/privacyOfMemory"
+                    android:src="@mipmap/hash_without"
+                    tools:ignore="ContentDescription" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/memoryPic"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/serializableLocation"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#555" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/commentsNumberPublic"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="end"
+                    android:text="@string/zero"
+                    android:textColor="#000" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="3dp"
+                    android:src="@mipmap/comment_without"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/likesNumberPublic"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="end"
+                    android:text="@string/zero"
+                    android:textColor="#000" />
+
+                <ImageButton
+                    android:id="@+id/likeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="3dp"
+                    android:src="@mipmap/like_without"
+                    tools:ignore="ContentDescription" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

@@ -1,26 +1,58 @@
 package ch.epfl.sweng.melody;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
-public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.location.SerializableLocation;
+import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.util.DialogUtils;
+import ch.epfl.sweng.melody.util.PermissionUtils;
+
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
+import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
+
+public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     private int filterRadius = 0;
-
+    //    private LatLng FAKE_LATLNG = new LatLng(46.533, 6.57666);
+//    private SerializableLocation  FAKE_CURRENT = new SerializableLocation(FAKE_LATLNG.latitude,FAKE_LATLNG.longitude,"FAKE_CURRENT");
+    private LatLng currentLatLng = new LatLng(0,0);
+    private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude,currentLatLng.longitude,"FAKE");
     private GoogleMap mMap;
 
     @Override
@@ -31,6 +63,9 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        PermissionUtils.accessLocationWithPermission(this, this);
         filterByLocation();
     }
 
@@ -48,10 +83,6 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Lausanne and move the camera
-        LatLng lausanne = new LatLng(46.5197, 6.6323);
-        mMap.addMarker(new MarkerOptions().position(lausanne).title("Marker in Lansanne"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lausanne, 15.0f));
     }
 
     public void filterByLocation() {
@@ -80,7 +111,29 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
+                DatabaseHandler.getAllMemories(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                            Memory memory = memDataSnapshot.getValue(Memory.class);
+                            assert memory != null;
+                            SerializableLocation location = memory.getSerializableLocation();
+                            if (location.distanceTo(currentLocation) < filterRadius * 1000) {
+                                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                                mMap.addMarker(new MarkerOptions().position(latLng).title(memory.getText()));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
             }
 
@@ -92,5 +145,70 @@ public class ShowMapActivity extends FragmentActivity implements OnMapReadyCallb
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+            switch (requestCode) {
+                case REQUEST_LOCATION: {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        DialogUtils.showLocationPermissionRationale(this);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_GPS: {
+                if (locationManager == null) {
+                    locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                }
+                assert locationManager != null;
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                    DialogUtils.showGPSDisabledDialog(this);
+            }
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        updateMarkerOfCurrentLocation(location);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(this, "Provider Enabled", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (provider.equals(LocationManager.GPS_PROVIDER)) {
+            DialogUtils.showGPSDisabledDialog(this);
+        }
+    }
+
+    private void updateMarkerOfCurrentLocation(Location location) {
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses;
+        String addressText = "";
+        try {
+            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
+        mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
     }
 }
