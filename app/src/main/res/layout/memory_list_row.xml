@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        card_view:cardBackgroundColor="@color/colorPublicActivityBackrgound"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="5dp"
-        card_view:cardBackgroundColor="@color/colorPublicActivityBackrgound"
         card_view:cardUseCompatPadding="true">
 
 
@@ -40,28 +40,28 @@
                     android:layout_alignTop="@+id/authorPic"
                     android:layout_toEndOf="@+id/authorPic"
                     android:text="@string/author"
-                    android:textSize="14sp"
-                    android:textColor="#000"/>
+                    android:textColor="#000"
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/typeOfMemory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/photo_type"
                     android:layout_alignBottom="@+id/authorPic"
                     android:layout_toEndOf="@+id/authorPic"
-                    tools:ignore="ContentDescription"/>
+                    android:src="@mipmap/photo_type"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/time"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/time"
-                    android:textSize="14sp"
-                    android:textColor="#000"
                     android:layout_alignBottom="@+id/typeOfMemory"
                     android:layout_alignParentEnd="true"
-                    android:gravity="end"/>
+                    android:gravity="end"
+                    android:text="@string/time"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/privacyOfMemory"
@@ -70,16 +70,16 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:src="@mipmap/public_memory"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/hashOfMemory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/hash_without"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/privacyOfMemory"
-                    tools:ignore="ContentDescription"/>
+                    android:src="@mipmap/hash_without"
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
 
@@ -88,12 +88,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:scaleType="centerCrop"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="14dp">
+
                 <TextView
                     android:id="@+id/location"
                     android:layout_width="match_parent"
@@ -102,12 +104,14 @@
                     android:text="@string/serializableLocation"
                     android:textColor="#000"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#555" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -117,37 +121,36 @@
                     android:id="@+id/commentsNumberPublic"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
-                    android:text="@string/zero"
                     android:layout_gravity="center_vertical"
-                    android:gravity="end"/>
+                    android:gravity="end"
+                    android:text="@string/zero"
+                    android:textColor="#000" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/comment_without"
                     android:background="@android:color/transparent"
                     android:padding="3dp"
-                    tools:ignore="ContentDescription"/>
+                    android:src="@mipmap/comment_without"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/likesNumberPublic"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textColor="#000"
+                    android:gravity="end"
                     android:text="@string/zero"
-                    android:gravity="end"/>
+                    android:textColor="#000" />
 
                 <ImageButton
                     android:id="@+id/likeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/like_without"
                     android:background="@android:color/transparent"
                     android:padding="3dp"
-                    tools:ignore="ContentDescription"/>
-
+                    android:src="@mipmap/like_without"
+                    tools:ignore="ContentDescription" />
 
 
             </LinearLayout>

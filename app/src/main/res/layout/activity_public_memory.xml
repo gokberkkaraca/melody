@@ -19,10 +19,10 @@
         android:id="@+id/dateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="showDatePickerDialog"
-        android:text="@string/timePickDescription"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:onClick="showDatePickerDialog"
+        android:text="@string/timePickDescription" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/memories_recyclerview"

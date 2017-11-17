@@ -7,10 +7,10 @@
         id="UnusedResources"
         message="The resource `R.string.google_crash_reporting_api_key` appears to be unused"
         priority="3" quickfix="studio" severity="Error" summary="Unused resources">
-        <serializableLocation column="13" file="build/generated/res/google-services/debug/values/values.xml"
-            line="7" />
-        <serializableLocation column="13" file="build/generated/res/google-services/release/values/values.xml"
-            line="7" />
+        <serializableLocation column="13"
+            file="build/generated/res/google-services/debug/values/values.xml" line="7" />
+        <serializableLocation column="13"
+            file="build/generated/res/google-services/release/values/values.xml" line="7" />
     </issue>
 
     <issue category="Performance"
@@ -19,9 +19,9 @@
         explanation="Unused resources make applications larger and slow down builds."
         id="UnusedResources" message="The resource `R.string.project_id` appears to be unused"
         priority="3" quickfix="studio" severity="Error" summary="Unused resources">
-        <serializableLocation column="13" file="build/generated/res/google-services/debug/values/values.xml"
-            line="10" />
-        <serializableLocation column="13" file="build/generated/res/google-services/release/values/values.xml"
-            line="10" />
+        <serializableLocation column="13"
+            file="build/generated/res/google-services/debug/values/values.xml" line="10" />
+        <serializableLocation column="13"
+            file="build/generated/res/google-services/release/values/values.xml" line="10" />
     </issue>
 </issues>

@@ -70,7 +70,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             public void onClick(View v) {
                 memory.likeAction(MainActivity.getUser());
 
-                if(memory.isLikedByUser(MainActivity.getUser())) {
+                if (memory.isLikedByUser(MainActivity.getUser())) {
                     holder.likeButton.setImageResource(R.mipmap.like_with);
                 } else {
                     holder.likeButton.setImageResource(R.mipmap.like_without);
@@ -79,7 +79,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             }
         });
 
-        if(memory.isLikedByUser(MainActivity.getUser())) {
+        if (memory.isLikedByUser(MainActivity.getUser())) {
             holder.likeButton.setImageResource(R.mipmap.like_with);
         }
 
@@ -87,7 +87,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.author.setText(user.getDisplayName());
         new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
 
-        if(memory.getMemoryType() == Memory.MemoryType.TEXT) {
+        if (memory.getMemoryType() == Memory.MemoryType.TEXT) {
             holder.typeOfMemory.setImageResource(R.mipmap.text_type);
             holder.memoryPic.setImageResource(R.mipmap.writing_type_image);
         } else if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
@@ -106,7 +106,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
     }
 
     class MemoriesViewHolder extends RecyclerView.ViewHolder {
-        final TextView author, time, description, location, likesNumberPublic, commentsNumberPublic ;
+        final TextView author, time, description, location, likesNumberPublic, commentsNumberPublic;
         final ImageView authorPic, memoryPic, likeButton, typeOfMemory;
 
 

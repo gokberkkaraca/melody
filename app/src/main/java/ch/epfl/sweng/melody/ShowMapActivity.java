@@ -1,5 +1,6 @@
 package ch.epfl.sweng.melody;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.Manifest;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,9 +47,9 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
-public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback,LocationListener{
+public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     private int filterRadius = 0;
-//    private LatLng FAKE_LATLNG = new LatLng(46.533, 6.57666);
+    //    private LatLng FAKE_LATLNG = new LatLng(46.533, 6.57666);
 //    private SerializableLocation  FAKE_CURRENT = new SerializableLocation(FAKE_LATLNG.latitude,FAKE_LATLNG.longitude,"FAKE_CURRENT");
     private LatLng currentLatLng;
     private SerializableLocation currentLocation;
@@ -122,7 +122,7 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
                             Memory memory = memDataSnapshot.getValue(Memory.class);
                             assert memory != null;
                             SerializableLocation location = memory.getSerializableLocation();
-                            if(location.distanceTo(currentLocation)<filterRadius*1000) {
+                            if (location.distanceTo(currentLocation) < filterRadius * 1000) {
                                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                                 mMap.addMarker(new MarkerOptions().position(latLng).title(memory.getText()));
                             }
@@ -196,18 +196,18 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
-    private void updateMarkerOfCurrentLocation(Location location){
+    private void updateMarkerOfCurrentLocation(Location location) {
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
         List<Address> addresses;
-        String addressText ="";
+        String addressText = "";
         try {
             addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        currentLatLng = new LatLng(location.getLatitude(),location.getLongitude());
-        currentLocation = new SerializableLocation(location.getLatitude(),location.getLongitude(),addressText);
+        currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+        currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
         mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
     }

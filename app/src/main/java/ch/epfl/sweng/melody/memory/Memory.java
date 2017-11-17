@@ -125,7 +125,7 @@ public class Memory {
             likes.add(user);
         }
     }
-    
+
     public boolean isLikedByUser(User user) {
         return likes.contains(user) ? true : false;
     }
