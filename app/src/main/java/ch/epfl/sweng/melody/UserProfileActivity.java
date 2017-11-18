@@ -27,11 +27,17 @@ public class UserProfileActivity extends AppCompatActivity {
         new GoogleProfilePictureAsync(profilePicView, Uri.parse(MainActivity.getUser().getProfilePhotoUrl())).execute();
     }
 
+    @Override
+    public void onBackPressed() {
+        MenuButtons.goToPublicMemoryActivity(this);
+    }
+
     public void logOut(View view) {
         LoginStatusHandler.clearUserId(this);
         stopService(new Intent(this, FirebaseBackgroundService.class));
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /*************************************************

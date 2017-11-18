@@ -42,6 +42,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
+import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
@@ -69,6 +70,10 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         filterByLocation();
     }
 
+    @Override
+    public void onBackPressed() {
+        MenuButtons.goToPublicMemoryActivity(this);
+    }
 
     /**
      * Manipulates the map once available.
