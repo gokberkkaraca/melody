@@ -39,14 +39,12 @@ import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_AUDIOFILE;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
-import static ch.epfl.sweng.melody.util.PermissionUtils.accessAudioFiles;
 import static ch.epfl.sweng.melody.util.PermissionUtils.accessLocationWithPermission;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromCamera;
@@ -68,8 +66,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private String memoryDescription;
     private Memory memory;
     private SerializableLocation serializableLocation = new SerializableLocation();
-
-//    private String audioPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +95,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
     public void pickPhotoDialog(View view) {
         DialogUtils.pickPhotoDialog(this);
-    }
-
-    public void pickAudioDialog(View view) {
-        DialogUtils.pickAudioDialog(this);
     }
 
     public void sendMemory(View view) {
@@ -176,10 +168,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 onVideoFromGalleryResult(data);
                 break;
             }
-            case REQUEST_AUDIOFILE: {
-                //   onAudioFileResult(data);
-                break;
-            }
             case REQUEST_GPS: {
                 if (PermissionUtils.locationManager == null) {
                     PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -210,10 +198,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 }
                 case REQUEST_VIDEO_GALLERY: {
                     videoFromGallery(this);
-                    break;
-                }
-                case REQUEST_AUDIOFILE: {
-                    accessAudioFiles(this);
                     break;
                 }
                 case REQUEST_LOCATION: {
@@ -248,17 +232,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         picture = (Bitmap) data.getExtras().get("data");
         imageView.setImageBitmap(picture);
     }
-
-  /*  private void onAudioFileResult(Intent data) {
-        if (data != null) {
-            try {
-                File audio = MediaStore.Audio.Media.getContentUriForPath()
-                // what to  get ??
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    } */
 
     private void onVideoFromGalleryResult(Intent data) {
         resourceUri = data.getData();

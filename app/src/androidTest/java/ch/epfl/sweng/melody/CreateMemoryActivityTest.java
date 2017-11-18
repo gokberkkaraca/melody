@@ -149,15 +149,6 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
     }
 
-    @Ignore @Test
-    public void pickAudioDialogTest() throws Exception {
-        onView(withId(R.id.record_audio)).perform(click());
-        onView(withText("Record")).perform(click());
-        pressBack();
-        onView(withId(R.id.record_audio)).perform(click());
-        onView(withText(CANCEL)).perform(click());
-    }
-
     @Test
     public void sendEmptyMemoryTest() throws Exception {
         onView(withId(R.id.memory_send)).perform(click());
