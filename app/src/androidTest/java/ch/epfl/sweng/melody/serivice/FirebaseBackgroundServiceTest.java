@@ -37,4 +37,10 @@ public class FirebaseBackgroundServiceTest {
     public void onCreate() throws Exception {
         assertTrue(FirebaseBackgroundService.isServiceStarted());
     }
+
+    @Test
+    public void onDestory() throws Exception{
+        context.stopService(new Intent(context,FirebaseBackgroundService.class));
+        assertTrue(!FirebaseBackgroundService.isServiceStarted());
+    }
 }
