@@ -147,7 +147,7 @@ public class CreateMemoryActivityTest {
         onView(withText(CANCEL)).perform(click());
         Thread.sleep(3000);
         onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
-    }t
+    }
 
     @Ignore @Test
     public void pickAudioDialogTest() throws Exception {
