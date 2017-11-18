@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             LoginStatusHandler.setUserId(this, MainActivity.getUser().getId());
 
             MenuButtons.goToPublicMemoryActivity(this);
-            startService(new Intent(this, FirebaseBackgroundService.class));
         }
         // Logout
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {

@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
@@ -45,7 +46,7 @@ public class FirebaseBackgroundService extends Service {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    if(memory.getLongId() < preMemoryId && counter != 0){
+                    if(memory.getLongId() < preMemoryId && counter != 0 && memory.getUser().getId()!=MainActivity.getUser().getId()){
                         preMemoryId = memory.getLongId();
                         String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
                         NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
