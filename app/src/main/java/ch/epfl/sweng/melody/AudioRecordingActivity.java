@@ -16,6 +16,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.UUID;
 
+import ch.epfl.sweng.melody.util.MenuButtons;
+
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -123,6 +125,11 @@ public class AudioRecordingActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        MenuButtons.goToPublicMemoryActivity(this);
     }
 
     private void prepareRecorder() {

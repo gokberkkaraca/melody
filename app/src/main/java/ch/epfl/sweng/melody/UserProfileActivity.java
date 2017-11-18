@@ -26,6 +26,11 @@ public class UserProfileActivity extends AppCompatActivity {
         new GoogleProfilePictureAsync(profilePicView, Uri.parse(MainActivity.getUser().getProfilePhotoUrl())).execute();
     }
 
+    @Override
+    public void onBackPressed() {
+        MenuButtons.goToPublicMemoryActivity(this);
+    }
+
     public void logOut(View view) {
         LoginStatusHandler.clearUserId(this);
         Intent intent = new Intent(this, LoginActivity.class);

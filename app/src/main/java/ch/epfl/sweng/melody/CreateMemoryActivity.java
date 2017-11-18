@@ -87,6 +87,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         accessLocationWithPermission(this, this);
     }
 
+    @Override
+    public void onBackPressed() {
+        MenuButtons.goToPublicMemoryActivity(this);
+    }
+
 
     public void pickVideoDialog(View view) {
         DialogUtils.pickVideoDialog(this);
