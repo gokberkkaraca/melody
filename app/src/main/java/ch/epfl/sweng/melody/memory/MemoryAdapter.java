@@ -73,7 +73,6 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 if (memory.getLikes().contains(MainActivity.getUser())){
                     memory.getLikes().remove(MainActivity.getUser());
                     holder.likeButton.setImageResource(R.mipmap.like_without);
-                    DatabaseHandler.uploadMemory(memory);
                 }
                 // Like
                 else {
@@ -81,6 +80,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                     holder.likeButton.setImageResource(R.mipmap.like_with);
                 }
 
+                DatabaseHandler.uploadMemory(memory);
                 holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
             }
         });
