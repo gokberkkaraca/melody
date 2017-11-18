@@ -73,7 +73,6 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 if (memory.getLikes().contains(MainActivity.getUser())){
                     memory.getLikes().remove(MainActivity.getUser());
                     holder.likeButton.setImageResource(R.mipmap.like_without);
-                    DatabaseHandler.uploadMemory(memory);
                 }
                 // Like
                 else {
@@ -81,12 +80,17 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                     holder.likeButton.setImageResource(R.mipmap.like_with);
                 }
 
+                DatabaseHandler.uploadMemory(memory);
                 holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
             }
         });
 
         if (memory.getLikes().contains(MainActivity.getUser())) {
             holder.likeButton.setImageResource(R.mipmap.like_with);
+        }
+
+        if(memory.getTags().isEmpty()){
+            holder.hashOfMemory.setImageResource(R.mipmap.hash_without);
         }
 
         User user = memory.getUser();
@@ -113,7 +117,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
     class MemoriesViewHolder extends RecyclerView.ViewHolder {
         final TextView author, time, description, location, likesNumberPublic, commentsNumberPublic;
-        final ImageView authorPic, memoryPic, likeButton, typeOfMemory;
+        final ImageView authorPic, memoryPic, likeButton, typeOfMemory, hashOfMemory;
 
 
         MemoriesViewHolder(View view) {
@@ -143,6 +147,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             likeButton = view.findViewById(R.id.likeButton);
             likesNumberPublic = view.findViewById(R.id.likesNumberPublic);
             commentsNumberPublic = view.findViewById(R.id.commentsNumberPublic);
+            hashOfMemory = view.findViewById(R.id.hashOfMemory);
         }
     }
 
