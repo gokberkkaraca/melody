@@ -69,28 +69,23 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO use contains method here after merging with user-refactor branch
-                if (memory.isLikedByUser(MainActivity.getUser())) {
-                    for (User liker : memory.getLikes()) {
-                        if (liker.getId().equals(MainActivity.getUser().getId())) {
-                            memory.getLikes().remove(liker);
-                            DatabaseHandler.uploadMemory(memory);
-                        }
-                    }
-                } else {
+                // Unlike
+                if (memory.getLikes().contains(MainActivity.getUser())){
+                    memory.getLikes().remove(MainActivity.getUser());
+                    holder.likeButton.setImageResource(R.mipmap.like_without);
+                    DatabaseHandler.uploadMemory(memory);
+                }
+                // Like
+                else {
                     memory.getLikes().add(MainActivity.getUser());
+                    holder.likeButton.setImageResource(R.mipmap.like_with);
                 }
 
-                if (memory.isLikedByUser(MainActivity.getUser())) {
-                    holder.likeButton.setImageResource(R.mipmap.like_with);
-                } else {
-                    holder.likeButton.setImageResource(R.mipmap.like_without);
-                }
                 holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
             }
         });
 
-        if (memory.isLikedByUser(MainActivity.getUser())) {
+        if (memory.getLikes().contains(MainActivity.getUser())) {
             holder.likeButton.setImageResource(R.mipmap.like_with);
         }
 

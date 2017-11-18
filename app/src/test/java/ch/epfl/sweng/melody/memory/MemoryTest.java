@@ -127,7 +127,7 @@ public class MemoryTest {
     }
 
     @Test
-    public void getViedoUrl() throws Exception {
+    public void getVideoUrl() throws Exception {
         assertEquals(testVideoUrl, memoryFromBuilder.getVideoUrl());
     }
 
@@ -139,12 +139,5 @@ public class MemoryTest {
     @Test
     public void upload() throws Exception {
         assertEquals(memoryFromBuilder.getId(), memoryFromBuilder.upload().getId());
-    }
-
-    @Test
-    public void isLikedByUser() throws Exception {
-        assertFalse(memoryFromBuilder.isLikedByUser(user));
-        memoryFromBuilder.getLikes().add(user);
-        assertTrue(memoryFromBuilder.isLikedByUser(user));
     }
 }

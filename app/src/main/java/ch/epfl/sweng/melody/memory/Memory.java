@@ -120,14 +120,6 @@ public class Memory {
         return new MemoryUploader(this);
     }
 
-    boolean isLikedByUser(User user) {
-        for (User liker : likes)
-            if (liker.getId().equals(user.getId()))
-                return true;
-
-        return false;
-    }
-
     public List<User> getLikes() {
         return likes;
     }
