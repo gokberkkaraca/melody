@@ -161,7 +161,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 new GoogleProfilePictureAsync(authorPic, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
 
                 TextView likeNumber = findViewById(R.id.likeNumber);
-                likeNumber.setText(memory.getLikeNumber() + "");
+                likeNumber.setText(memory.getLikes().size() + "");
             }
 
             @Override

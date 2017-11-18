@@ -10,6 +10,10 @@ import ch.epfl.sweng.melody.user.User;
 
 
 public class Memory {
+    public enum Privacy {PRIVATE, SHARED, PUBLIC}
+
+    public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
+
     private String id;
     private User user;
     private Date time;
@@ -35,8 +39,6 @@ public class Memory {
 
         this.comments = memoryBuilder.comments;
         this.likes = memoryBuilder.likes;
-        // Firebase doesn't accept empty list
-        likes.add(user);
         this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
@@ -115,37 +117,17 @@ public class Memory {
         return new MemoryUploader(this);
     }
 
-    public void likeAction(User user) {
-        if (this.user.getId().equals(user.getId()))
-            return;
+    boolean isLikedByUser(User user) {
+        for (User liker : likes)
+            if (liker.getId().equals(user.getId()))
+                return true;
 
-        if (likes.contains(user)) {
-            likes.remove(user);
-        } else {
-            likes.add(user);
-        }
+        return false;
     }
 
-    public boolean isLikedByUser(User user) {
-        return likes.contains(user) ? true : false;
-    }
-
-    public int getLikeNumber() {
-        // Author's like is not counted, it is liked by default
-        return likes.size() - 1;
-    }
-
-    public int getCommentNumber() {
-        return comments == null ? 0 : comments.size();
-    }
-
-    protected List<User> getLikes() {
+    public List<User> getLikes() {
         return likes;
     }
-
-    public enum Privacy {PRIVATE, SHARED, PUBLIC}
-
-    public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
 
     public static class MemoryBuilder {
         private final String id;
