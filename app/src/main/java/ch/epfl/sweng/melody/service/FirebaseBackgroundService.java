@@ -21,6 +21,8 @@ public class FirebaseBackgroundService extends Service {
     @RestrictTo(RestrictTo.Scope.TESTS)
     private static boolean isServiceStarted;
     private static ValueEventListener valueEventListener;
+    private long counter;
+    private long preMemoryId;
 
     public static boolean isServiceStarted() {
         return isServiceStarted;
@@ -35,14 +37,20 @@ public class FirebaseBackgroundService extends Service {
     public void onCreate() {
         super.onCreate();
         isServiceStarted = true;
+        counter = 0;
+        preMemoryId = Long.MAX_VALUE;
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
-                    NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
+                    if(memory.getLongId() < preMemoryId && counter != 0){
+                        preMemoryId = memory.getLongId();
+                        String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
+                        NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
+                    }
+                    counter++;
                 }
             }
 
