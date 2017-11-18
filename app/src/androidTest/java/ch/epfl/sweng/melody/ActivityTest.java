@@ -68,7 +68,6 @@ abstract public class ActivityTest {
         intended(hasComponent(ShowMapActivity.class.getName()));
     }
 
-    // TODO Activate this test when Map Activity is implemented
     @Ignore
     @Test
     public void goToNotification() throws Exception {
