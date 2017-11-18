@@ -14,6 +14,7 @@ import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -141,25 +142,9 @@ public class MemoryTest {
     }
 
     @Test
-    public void likeAction() throws Exception {
-        // Action of the author does not affect anything
-        memoryFromBuilder.likeAction(user);
-        assertTrue(memoryFromBuilder.getLikeNumber() == 0);
-
-        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-        when(googleSignInAccount.getId()).thenReturn("gokberk.karaca@epfl.ch");
-        when(googleSignInAccount.getGivenName()).thenReturn("Gokberk");
-        when(googleSignInAccount.getFamilyName()).thenReturn("Karaca");
-        when(googleSignInAccount.getDisplayName()).thenReturn("Gokberk Karaca");
-        when(googleSignInAccount.getEmail()).thenReturn("gokberk.karaca@epfl.ch");
-        User user2 = new User(googleSignInAccount);
-
-        // Action of another user
-        memoryFromBuilder.likeAction(user2);
-        assertTrue(memoryFromBuilder.getLikeNumber() > 0);
-
-        // Action of the same user again (Unlike)
-        memoryFromBuilder.likeAction(user2);
-        assertTrue(memoryFromBuilder.getLikeNumber() == 0);
+    public void isLikedByUser() throws Exception {
+        assertFalse(memoryFromBuilder.isLikedByUser(user));
+        memoryFromBuilder.getLikes().add(user);
+        assertTrue(memoryFromBuilder.isLikedByUser(user));
     }
 }
