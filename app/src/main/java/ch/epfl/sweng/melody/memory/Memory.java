@@ -5,13 +5,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
 
 
 public class Memory {
     public enum Privacy {PRIVATE, SHARED, PUBLIC}
+
     public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
 
     private String id;
@@ -117,43 +117,16 @@ public class Memory {
         return new MemoryUploader(this);
     }
 
-    public void likeAction(User user) {
-        for (User liker: likes) {
-            if (liker.getId().equals(user.getId())){
-                likes.remove(liker);
-                updateMemory();
-                return;
-            }
-        }
-
-        likes.add(user);
-        updateMemory();
-    }
-
     boolean isLikedByUser(User user) {
-        for (User liker: likes) {
-            if (liker.getId().equals(user.getId())){
+        for (User liker : likes)
+            if (liker.getId().equals(user.getId()))
                 return true;
-            }
-        }
 
         return false;
     }
 
-    public int getLikeNumber() {
-        return likes.size();
-    }
-
-    public int getCommentNumber() {
-        return comments == null ? 0 : comments.size();
-    }
-
-    List<User> getLikes() {
+    public List<User> getLikes() {
         return likes;
-    }
-
-    public void updateMemory() {
-        DatabaseHandler.uploadMemory(this);
     }
 
     public static class MemoryBuilder {
