@@ -166,6 +166,7 @@ public class AudioRecordingActivity extends AppCompatActivity {
         Intent intent = new Intent(AudioRecordingActivity.this, CreateMemoryActivity.class);
         intent.putExtra("audioPath", audioSavingPath);
         startActivity(intent);
+        finish();
     }
 
 }

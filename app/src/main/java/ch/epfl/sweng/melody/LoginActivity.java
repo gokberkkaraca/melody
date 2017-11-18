@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void signUp() {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void googleSignIn() {

@@ -36,6 +36,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
+import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_AUDIOFILE;
@@ -111,11 +112,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(MainActivity.USER_INFO, MainActivity.getUser());
-            intent.putExtras(bundle);
-            startActivity(intent);
+            MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
             return;
         }
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -137,11 +134,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                             .build();
                 }
                 DatabaseHandler.uploadMemory(memory);
-                Intent intent = new Intent(CreateMemoryActivity.this, PublicMemoryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(MainActivity.USER_INFO, MainActivity.getUser());
-                intent.putExtras(bundle);
-                startActivity(intent);
+                MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
             }
         }, new OnFailureListener() {
             @Override

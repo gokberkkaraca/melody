@@ -30,6 +30,7 @@ public class UserProfileActivity extends AppCompatActivity {
         LoginStatusHandler.clearUserId(this);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /*************************************************
