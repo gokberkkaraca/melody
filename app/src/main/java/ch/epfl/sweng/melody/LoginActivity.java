@@ -1,5 +1,7 @@
 package ch.epfl.sweng.melody;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -54,6 +56,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             case R.id.sign_up_button:
                 signUp();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        LoginActivity.this.finishAffinity();
+                    }
+                }).create().show();
     }
 
     private void signUp() {
