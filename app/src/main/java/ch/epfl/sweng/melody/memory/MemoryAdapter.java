@@ -23,6 +23,7 @@ import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
+import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
@@ -62,20 +63,30 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.time.setText(format.format(memory.getTime()));
         holder.description.setText(memory.getText());
         holder.location.setText(memory.getSerializableLocation().getLocationName());
-        holder.likesNumberPublic.setText(String.valueOf(memory.getLikeNumber()));
-        holder.commentsNumberPublic.setText(String.valueOf(memory.getCommentNumber()));
+        holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
+        holder.commentsNumberPublic.setText(String.valueOf(memory.getComments().size()));
 
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                memory.likeAction(MainActivity.getUser());
+                // TODO use contains method here after merging with user-refactor branch
+                if (memory.isLikedByUser(MainActivity.getUser())) {
+                    for (User liker : memory.getLikes()) {
+                        if (liker.getId().equals(MainActivity.getUser().getId())) {
+                            memory.getLikes().remove(liker);
+                            DatabaseHandler.uploadMemory(memory);
+                        }
+                    }
+                } else {
+                    memory.getLikes().add(MainActivity.getUser());
+                }
 
                 if (memory.isLikedByUser(MainActivity.getUser())) {
                     holder.likeButton.setImageResource(R.mipmap.like_with);
                 } else {
                     holder.likeButton.setImageResource(R.mipmap.like_without);
                 }
-                holder.likesNumberPublic.setText(String.valueOf(memory.getLikeNumber()));
+                holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
             }
         });
 

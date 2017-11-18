@@ -28,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,11 +50,10 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
 public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     private int filterRadius = 0;
-    //    private LatLng FAKE_LATLNG = new LatLng(46.533, 6.57666);
-//    private SerializableLocation  FAKE_CURRENT = new SerializableLocation(FAKE_LATLNG.latitude,FAKE_LATLNG.longitude,"FAKE_CURRENT");
     private LatLng currentLatLng = new LatLng(0,0);
     private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude,currentLatLng.longitude,"FAKE");
     private GoogleMap mMap;
+    private Marker currentMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
                 mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
                 DatabaseHandler.getAllMemories(new ValueEventListener() {
@@ -206,9 +206,19 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         } catch (IOException e) {
             e.printStackTrace();
         }
-        currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
-        mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
+        if(currentLatLng.longitude==0&&currentLatLng.latitude==0){
+            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
+        }else {
+            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
+        }
+        if(currentMarker!=null){
+            currentMarker.setPosition(currentLatLng);
+        }else{
+            currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        }
+
     }
 }
