@@ -21,7 +21,7 @@ public class Memory {
     private String text;
     private List<Comment> comments;
     private List<User> likes;
-    private List<Tag> tags;
+    private List<String> tags;
     private Privacy privacy;
     private MemoryType memoryType;
     private Boolean reminder;
@@ -52,6 +52,7 @@ public class Memory {
     public Memory() {
         comments = new ArrayList<>();
         likes = new ArrayList<>();
+        tags = new ArrayList<>();
     }
 
     public Long getLongId() {
@@ -86,6 +87,10 @@ public class Memory {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 
     public Privacy getPrivacy() {
@@ -132,8 +137,6 @@ public class Memory {
         return likes;
     }
 
-    public List<Tag> getTags() { return tags; }
-
     public static class MemoryBuilder {
         private final String id;
         private final User user;
@@ -145,7 +148,7 @@ public class Memory {
         private final Long MAX_ID = Long.MAX_VALUE;
         private List<Comment> comments;
         private List<User> likes;
-        private List<Tag> tags;
+        private List<String> tags;
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
@@ -193,7 +196,7 @@ public class Memory {
             return this;
         }
 
-        public MemoryBuilder tags(List<Tag> tags){
+        public MemoryBuilder tags(List<String> tags){
             this.tags = tags;
             return this;
         }

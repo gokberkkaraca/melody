@@ -14,7 +14,7 @@ class MemoryUploader {
     final private String text;
     final private List<Comment> comments;
     final private List<User> likes;
-    final private List<Tag> tags;
+    final private List<String> tags;
     final private Memory.Privacy privacy;
     final private Boolean reminder;
     final private String photoUrl;
@@ -88,7 +88,7 @@ class MemoryUploader {
         return likes;
     }
 
-    public List<Tag> getTags() { return tags; }
+    public List<String> getTags() { return tags; }
 
     public Memory.MemoryType getMemoryType() {
         return memoryType;
