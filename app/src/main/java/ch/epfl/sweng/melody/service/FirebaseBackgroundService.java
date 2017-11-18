@@ -20,6 +20,7 @@ import ch.epfl.sweng.melody.notification.NotificationHandler;
 public class FirebaseBackgroundService extends Service {
     @RestrictTo(RestrictTo.Scope.TESTS)
     private static boolean isServiceStarted;
+    private static ValueEventListener valueEventListener;
 
     public static boolean isServiceStarted() {
         return isServiceStarted;
@@ -34,7 +35,7 @@ public class FirebaseBackgroundService extends Service {
     public void onCreate() {
         super.onCreate();
         isServiceStarted = true;
-        DatabaseHandler.getLatestMemory(new ValueEventListener() {
+        valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
@@ -47,7 +48,15 @@ public class FirebaseBackgroundService extends Service {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
             }
-        });
+        };
+        DatabaseHandler.getLatestMemory(valueEventListener);
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        isServiceStarted = false;
+        DatabaseHandler.removeLatestMemoryListener(valueEventListener);
     }
 }
