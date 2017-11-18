@@ -101,6 +101,11 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         commentsContainer.addView(sendButton);
     }
 
+    @Override
+    public void onBackPressed() {
+        MenuButtons.goToPublicMemoryActivity(this);
+    }
+
     private void fetchMemoryFromDatabase() {
         DatabaseHandler.getMemory(memoryId, new ValueEventListener() {
             @SuppressLint("SetTextI18n")
