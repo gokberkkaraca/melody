@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -29,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
+import ch.epfl.sweng.melody.service.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
@@ -50,6 +52,9 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         dateButton = findViewById(R.id.dateButton);
 
         memoryList = new ArrayList<>();
+        if(MainActivity.getUser()!=null){
+            startService(new Intent(this, FirebaseBackgroundService.class));
+        }
         fetchMemoriesFromDatabase();
 
     }
