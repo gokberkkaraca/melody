@@ -46,11 +46,14 @@ public class FirebaseBackgroundService extends Service {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    if(memory.getLongId() < preMemoryId && counter != 0 && memory.getUser().getId()!=MainActivity.getUser().getId()){
-                        preMemoryId = memory.getLongId();
+                    if(memory.getLongId() < preMemoryId
+                            && preMemoryId!=Long.MAX_VALUE
+                            && counter != 0
+                            && !memory.getUser().getId().equals(MainActivity.getUser().getId())){
                         String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
                         NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
                     }
+                    preMemoryId = memory.getLongId();
                     counter++;
                 }
             }
