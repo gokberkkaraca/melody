@@ -23,7 +23,7 @@ public class FirebaseBackgroundService extends Service {
     private static boolean isServiceStarted;
     private static ValueEventListener valueEventListener;
     private long counter;
-    private long preMemoryId;
+    private long latestMemoryId;
 
     public static boolean isServiceStarted() {
         return isServiceStarted;
@@ -39,21 +39,23 @@ public class FirebaseBackgroundService extends Service {
         super.onCreate();
         isServiceStarted = true;
         counter = 0;
-        preMemoryId = Long.MAX_VALUE;
+        latestMemoryId = Long.MAX_VALUE;
         valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    if(memory.getLongId() < preMemoryId
-                            && preMemoryId!=Long.MAX_VALUE
-                            && counter != 0
-                            && !memory.getUser().getId().equals(MainActivity.getUser().getId())){
+
+                    boolean isNewMemory = memory.getLongId() < latestMemoryId;
+                    boolean isFirstLogin = latestMemoryId == Long.MAX_VALUE || counter == 0;
+                    boolean isUsersMemory = memory.getUser().getId().equals(MainActivity.getUser().getId());
+
+                    if(isNewMemory && !isFirstLogin && !isUsersMemory){
                         String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
                         NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
                     }
-                    preMemoryId = memory.getLongId();
+                    latestMemoryId = memory.getLongId();
                     counter++;
                 }
             }
