@@ -223,7 +223,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 e.printStackTrace();// this one is not good and need to be discussed
             }
         }
-        imageView.setVisibility(View.VISIBLE);
+        videoView.setVisibility(View.GONE);
         imageView.setImageBitmap(picture);
         resourceUri = data.getData();
         memoryType = Memory.MemoryType.PHOTO;
@@ -238,7 +238,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         resourceUri = data.getData();
         memoryType = Memory.MemoryType.VIDEO;
         videoView.setVideoURI(data.getData());
-        videoView.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.GONE);
         videoView.start();
     }
 

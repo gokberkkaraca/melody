@@ -11,7 +11,7 @@
     <EditText
         android:id="@+id/memory_description"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="75dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
@@ -19,7 +19,7 @@
         android:hint="@string/hitforMemoryDescription"
         android:inputType="textMultiLine"
         android:maxLines="4"
-        android:lines="4"
+        android:lines="3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,10 +27,9 @@
     <ImageView
         android:id="@+id/display_chosen_photo"
         android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
         android:scaleType="fitXY"
-        android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintTop_toBottomOf="@+id/memory_description"
@@ -40,14 +39,13 @@
     <VideoView
         android:id="@+id/display_chosen_video"
         android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="50dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
         android:background="@null"
         android:scaleType="fitXY"
-        android:visibility="invisible"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
-        app:layout_constraintTop_toBottomOf="@+id/memory_description"
+        app:layout_constraintTop_toBottomOf="@+id/display_chosen_photo"
         tools:ignore="ContentDescription" />
 
     <TextView
@@ -58,7 +56,7 @@
         android:text=""
         app:layout_constraintBottom_toTopOf="@+id/take_photos"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
-        app:layout_constraintTop_toBottomOf="@+id/display_chosen_photo"
+        app:layout_constraintTop_toBottomOf="@+id/display_chosen_video"
         tools:ignore="ContentDescription" />
 
 
