@@ -20,7 +20,6 @@ public class PermissionUtils {
     public static final int REQUEST_PHOTO_CAMERA = 2;
     public static final int REQUEST_VIDEO_GALLERY = 3;
     public static final int REQUEST_VIDEO_CAMERA = 4;
-    public static final int REQUEST_AUDIOFILE = 5;
     public static final int REQUEST_GPS = 6;
     public static final int REQUEST_LOCATION = 7;
     public static LocationManager locationManager;
@@ -54,13 +53,6 @@ public class PermissionUtils {
                     requestPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_VIDEO_GALLERY);
                 else
                     videoFromGallery(activity);
-                break;
-            }
-            case REQUEST_AUDIOFILE: {
-                if (permissionNotGranted(activity, Manifest.permission.READ_EXTERNAL_STORAGE))
-                    requestPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_AUDIOFILE);
-                else
-                    accessAudioFiles(activity);
                 break;
             }
         }
@@ -102,11 +94,6 @@ public class PermissionUtils {
     public static void videoFromGallery(AppCompatActivity activity) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         activity.startActivityForResult(intent, REQUEST_VIDEO_GALLERY);
-    }
-
-    public static void accessAudioFiles(AppCompatActivity activity) {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-        activity.startActivityForResult(intent, REQUEST_AUDIOFILE);
     }
 
     private static boolean permissionNotGranted(AppCompatActivity activity, String permission) {

@@ -12,7 +12,7 @@ import ch.epfl.sweng.melody.user.User;
 public class Memory {
     public enum Privacy {PRIVATE, SHARED, PUBLIC}
 
-    public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
+    public enum MemoryType {TEXT, PHOTO, VIDEO}
 
     private String id;
     private User user;
@@ -27,7 +27,6 @@ public class Memory {
     private Boolean reminder;
     private String photoUrl;
     private String videoUrl;
-    private String audioUrl;
 
     private Memory(MemoryBuilder memoryBuilder) {
         this.id = memoryBuilder.id;
@@ -44,7 +43,6 @@ public class Memory {
         this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
-        this.audioUrl = memoryBuilder.audioUrl;
         this.memoryType = memoryBuilder.memoryType;
     }
 
@@ -104,10 +102,6 @@ public class Memory {
         return videoUrl;
     }
 
-    public String getAudioUrl() {
-        return audioUrl;
-    }
-
     public MemoryType getMemoryType() {
         return memoryType;
     }
@@ -143,7 +137,6 @@ public class Memory {
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
-        private String audioUrl;
 
         public MemoryBuilder(User user, String text, SerializableLocation serializableLocation) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());
@@ -168,12 +161,6 @@ public class Memory {
         public MemoryBuilder video(String videoUrl) {
             this.videoUrl = videoUrl;
             this.memoryType = MemoryType.VIDEO;
-            return this;
-        }
-
-        public MemoryBuilder audio(String audioUrl) {
-            this.audioUrl = audioUrl;
-            this.memoryType = MemoryType.AUDIO;
             return this;
         }
 
