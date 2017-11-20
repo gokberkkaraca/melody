@@ -91,9 +91,6 @@ public class ShowMapActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMapClickListener(this);
-        pickPlaceMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-
     }
 
     public void filterByLocation() {
@@ -123,7 +120,7 @@ public class ShowMapActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
                 mMap.clear();
-                currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                addMarkerForCurrentLocation();
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
                 DatabaseHandler.getAllMemories(new ValueEventListener() {
@@ -228,12 +225,33 @@ public class ShowMapActivity extends AppCompatActivity
         if (currentMarker != null) {
             currentMarker.setPosition(currentLatLng);
         } else {
-            currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            addMarkerForCurrentLocation();
         }
     }
 
     @Override
     public void onMapClick(LatLng point) {
-        pickPlaceMarker.setPosition(point);
+        if(pickPlaceMarker!=null){
+            pickPlaceMarker.setPosition(point);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,12.0f));
+        }
     }
+
+    public void pickLocation(View view){
+        mMap.setOnMapClickListener(this);
+        currentMarker.remove();
+        pickPlaceMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+    }
+
+    public void findMemoryAroundCurrentLocation(View view){
+        pickPlaceMarker.remove();
+        pickPlaceMarker=null;
+        addMarkerForCurrentLocation();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng,12.0f));
+    }
+
+    private void addMarkerForCurrentLocation(){
+        currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+    }
+
 }
