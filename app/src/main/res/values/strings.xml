@@ -28,7 +28,6 @@
     <string name="commentTitle">Comments</string>
     <string name="addCommentHint">Say something about this memory</string>
     <string name="timePickDescription">Time Travel</string>
-    <color name="white">#ffffff</color>
     <string name="title_activity_show_map">Map</string>
     <string name="zero">0</string>
 </resources>
