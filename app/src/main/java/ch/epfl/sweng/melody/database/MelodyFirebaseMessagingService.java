@@ -1,4 +1,4 @@
-package ch.epfl.sweng.melody.service;
+package ch.epfl.sweng.melody.database;
 
 
 import com.google.firebase.messaging.FirebaseMessagingService;

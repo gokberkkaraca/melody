@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
-import ch.epfl.sweng.melody.service.FirebaseBackgroundService;
+import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {

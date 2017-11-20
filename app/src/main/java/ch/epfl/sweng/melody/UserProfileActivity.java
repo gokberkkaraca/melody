@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
-import ch.epfl.sweng.melody.service.FirebaseBackgroundService;
+import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class UserProfileActivity extends AppCompatActivity {
