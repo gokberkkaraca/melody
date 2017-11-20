@@ -49,12 +49,16 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
-public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
+public class ShowMapActivity extends AppCompatActivity
+        implements OnMapReadyCallback,
+        LocationListener,
+        GoogleMap.OnMapClickListener {
     private int filterRadius = 0;
-    private LatLng currentLatLng = new LatLng(0,0);
-    private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude,currentLatLng.longitude,"FAKE");
+    private LatLng currentLatLng = new LatLng(0, 0);
+    private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude, currentLatLng.longitude, "FAKE");
     private GoogleMap mMap;
     private Marker currentMarker;
+    private Marker pickPlaceMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,8 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMapClickListener(this);
+        pickPlaceMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
 
     }
 
@@ -211,19 +217,23 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(currentLatLng.longitude==0&&currentLatLng.latitude==0){
+        if (currentLatLng.longitude == 0 && currentLatLng.latitude == 0) {
             currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
-        }else {
+        } else {
             currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
         }
-        if(currentMarker!=null){
+        if (currentMarker != null) {
             currentMarker.setPosition(currentLatLng);
-        }else{
+        } else {
             currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         }
+    }
 
+    @Override
+    public void onMapClick(LatLng point) {
+        pickPlaceMarker.setPosition(point);
     }
 }
