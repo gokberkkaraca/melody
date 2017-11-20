@@ -26,4 +26,6 @@
     <string name="timePickDescription">Time Travel</string>
     <string name="title_activity_show_map">Map</string>
     <string name="zero">0</string>
+    <string name="findMemoryAroundCurrentLocation">Find Some memories around you!</string>
+    <string name="findMemoryAroundPickedLocation">Find Some memories from picking a location!</string>
 </resources>
