@@ -19,16 +19,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,6 +65,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
 
     private ImageView imageView;
     private VideoView videoView;
+    private Spinner dropDown;
+    private List <String> tags = new ArrayList<>();
     private Bitmap picture;
     private EditText editText;
     private Uri resourceUri;
@@ -78,12 +85,14 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
+        dropDown = findViewById(R.id.tags_dropdown);
         TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS.getLocationName());
 
         PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         accessLocationWithPermission(this, this);
+        fetchTagsFromDatabase();
     }
 
 
@@ -154,6 +163,28 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                 double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 progressDialog.setMessage("Uploaded " + (int) progress + "%");
+            }
+        });
+    }
+
+    public void fetchTagsFromDatabase() {
+        DatabaseHandler.getAllTags(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot tagDataSnapshot : dataSnapshot.getChildren()) {
+                    String tag = tagDataSnapshot.getValue(String.class);
+                    assert tag != null;
+                    tags.add(tag);
+                }
+
+                TextView test = findViewById(R.id.testView);
+                test.setText(Integer.toString(tags.size()));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed!");
             }
         });
     }
