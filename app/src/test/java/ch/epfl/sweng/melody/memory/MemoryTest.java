@@ -30,7 +30,6 @@ public class MemoryTest {
     private final SerializableLocation serializableLocation = new SerializableLocation(46.5197, 6.6323,"Lausanne");
     private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1508935737477.mp4?alt=media&token=5a33aae6-a8c6-46c1-9add-181b0ef258c3";
     private final String testPhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
-    private final String testAudioUrl = "https://fakeaudiourl.com";
     private User user;
     private Memory memory;
     private Memory memoryFromBuilder;
@@ -61,7 +60,6 @@ public class MemoryTest {
         memoryFromBuilder = new Memory.MemoryBuilder(user, text, serializableLocation)
                 .photo(testPhotoUrl)
                 .video(testVideoUrl)
-                .audio(testAudioUrl)
                 .comments(Collections.singletonList(comment))
                 .build();
     }
@@ -112,11 +110,6 @@ public class MemoryTest {
     }
 
     @Test
-    public void getMemoryType() throws Exception {
-        assertEquals(Memory.MemoryType.AUDIO, memoryFromBuilder.getMemoryType());
-    }
-
-    @Test
     public void getMemory() throws Exception {
         assertEquals(memoryFromBuilder, memoryFromBuilder.getMemory());
     }
@@ -127,12 +120,7 @@ public class MemoryTest {
     }
 
     @Test
-    public void getAudioUrl() throws Exception {
-        assertEquals(testAudioUrl, memoryFromBuilder.getAudioUrl());
-    }
-
-    @Test
-    public void getViedoUrl() throws Exception {
+    public void getVideoUrl() throws Exception {
         assertEquals(testVideoUrl, memoryFromBuilder.getVideoUrl());
     }
 
@@ -144,12 +132,5 @@ public class MemoryTest {
     @Test
     public void upload() throws Exception {
         assertEquals(memoryFromBuilder.getId(), memoryFromBuilder.upload().getId());
-    }
-
-    @Test
-    public void isLikedByUser() throws Exception {
-        assertFalse(memoryFromBuilder.isLikedByUser(user));
-        memoryFromBuilder.getLikes().add(user);
-        assertTrue(memoryFromBuilder.isLikedByUser(user));
     }
 }

@@ -19,7 +19,6 @@ class MemoryUploader {
     final private Boolean reminder;
     final private String photoUrl;
     final private String videoUrl;
-    final private String audioUrl;
     private Memory.MemoryType memoryType;
 
     MemoryUploader(Memory memory) {
@@ -33,7 +32,6 @@ class MemoryUploader {
         reminder = memory.getReminder();
         photoUrl = memory.getPhotoUrl();
         videoUrl = memory.getVideoUrl();
-        audioUrl = memory.getAudioUrl();
         memoryType = memory.getMemoryType();
         likes = memory.getLikes();
         tags = memory.getTags();
@@ -73,10 +71,6 @@ class MemoryUploader {
 
     public String getVideoUrl() {
         return videoUrl;
-    }
-
-    public String getAudioUrl() {
-        return audioUrl;
     }
 
     public String getId() {

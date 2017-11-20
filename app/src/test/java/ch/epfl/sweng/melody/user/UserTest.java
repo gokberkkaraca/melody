@@ -24,16 +24,9 @@ public class UserTest {
 
         final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
         when(googleSignInAccount.getId()).thenReturn("jiacheng.xu@epfl.ch");
-        when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
-        when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
         when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
         when(googleSignInAccount.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
         user = new User(googleSignInAccount);
-    }
-
-    @Test
-    public void getUsername() throws Exception {
-        assertEquals(user.getUsername(), "jiacheng.xu");
     }
 
     @Test
@@ -42,61 +35,13 @@ public class UserTest {
     }
 
     @Test
-    public void getFirstName() throws Exception {
-        assertEquals(user.getFirstName(), "Jiacheng");
-    }
-
-    @Test
-    public void getLastName() throws Exception {
-        assertEquals(user.getLastName(), "Xu");
-    }
-
-    @Test
     public void getDisplayName() throws Exception {
         assertEquals(user.getDisplayName(), "Jiacheng Xu");
     }
 
     @Test
-    public void getGender() throws Exception {
-        assertEquals(user.getGender(), null);
-    }
-
-    @Test
     public void getEmail() throws Exception {
         assertEquals(user.getEmail(), "jiacheng.xu@epfl.ch");
-    }
-
-    @Test
-    public void getPhone() throws Exception {
-        assertEquals(user.getPhone(), null);
-    }
-
-    @Test
-    public void setPhone() throws Exception {
-        user.setPhone("123456789");
-        assertEquals(user.getPhone(), "123456789");
-    }
-
-    @Test
-    public void getBirthday() throws Exception {
-        assertEquals(user.getBirthday(), null);
-    }
-
-    @Test
-    public void setBirthday() throws Exception {
-        user.setBirthday(new Date(123));
-        assertEquals(user.getBirthday(), new Date(123));
-    }
-
-    @Test
-    public void getHome() throws Exception {
-        assertEquals(user.getHome(), null);
-    }
-
-    @Test
-    public void setHome() throws Exception {
-        user.setHome("Lausanne");
-        assertEquals(user.getHome(), "Lausanne");
     }
 
     @Test

@@ -8,14 +8,24 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Root;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.VideoView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +45,6 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasDat
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sweng.melody.ViewMatcher.hasDrawable;
-import static ch.epfl.sweng.melody.ViewMatcher.hasVideo;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
@@ -73,6 +81,8 @@ public class CreateMemoryActivityTest {
     private final String CAMERA = "Camera";
     private final String CANCEL = "Cancel";
     private final String ALBUM = "Choose from Album";
+    private ToastMatcher toastMatcher;
+    private ViewMatcher viewMatcher;
 
     @Before
     public void prepareIntent() {
@@ -88,52 +98,55 @@ public class CreateMemoryActivityTest {
         Instrumentation.ActivityResult videoGalleryResult = videoFromGallerySub();
         intending(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI))).respondWith(videoGalleryResult);
 
+        toastMatcher = new ToastMatcher();
+        viewMatcher = new ViewMatcher();
+
 
     }
 
 
     @Test
     public void displayPhotoFromCameraTest() throws Exception {
-        onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
+        onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(CAMERA)).perform(click());
         intended(hasAction(equalTo(MediaStore.ACTION_IMAGE_CAPTURE)));
         Thread.sleep(3000);
-        onView(withId(R.id.display_chosen_photo)).check(matches(hasDrawable()));
+        onView(withId(R.id.display_chosen_photo)).check(matches(viewMatcher.hasDrawable()));
     }
 
     @Test
     public void displayPhotoFromGalleryTest() throws Exception {
-        onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
+        onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(ALBUM)).perform(click());
         intended(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
         Thread.sleep(3000);
-        onView(withId(R.id.display_chosen_photo)).check(matches(hasDrawable()));
+        onView(withId(R.id.display_chosen_photo)).check(matches(viewMatcher.hasDrawable()));
     }
 
     @Test
     public void cancelDisplayPhotoTest() throws Exception {
-        onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
+        onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(CANCEL)).perform(click());
         Thread.sleep(3000);
-        onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
+        onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
     }
 
     @Test
     public void displayVideoFromCameraTest() throws Exception {
-        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
+        onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         onView(withText(CAMERA)).perform(click());
         intended(hasAction(equalTo(MediaStore.ACTION_VIDEO_CAPTURE)));
         Thread.sleep(3000);
-        onView(withId(R.id.display_chosen_video)).check(matches(hasVideo()));
+        onView(withId(R.id.display_chosen_video)).check(matches(viewMatcher.hasVideo()));
     }
 
     @Test
     public void displayVideoFromGalleryTest() throws Exception {
-        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
+        onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         //onView(withText(ALBUM)).perform(click());
         //intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI)));
@@ -141,53 +154,44 @@ public class CreateMemoryActivityTest {
 
     @Test
     public void cancelDisplayVideoTest() throws Exception {
-        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
+        onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         onView(withText(CANCEL)).perform(click());
         Thread.sleep(3000);
-        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
-    }
-
-    @Test
-    public void pickAudioDialogTest() throws Exception {
-        onView(withId(R.id.record_audio)).perform(click());
-        onView(withText("Record")).perform(click());
-        pressBack();
-        onView(withId(R.id.record_audio)).perform(click());
-        onView(withText(CANCEL)).perform(click());
+        onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
     }
 
     @Test
     public void sendEmptyMemoryTest() throws Exception {
         onView(withId(R.id.memory_send)).perform(click());
-        onView(withText("Say something!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+        onView(withText("Say something!")).inRoot(toastMatcher).check(matches(isDisplayed()));
     }
 
     @Test
     public void sendPhotoMemoryTest() {
-        onView(withId(R.id.display_chosen_photo)).check(matches(not(hasDrawable())));
+        onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
         onView(withText(ALBUM)).perform(click());
         intended(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
         onView(withId(R.id.memory_send)).perform(click());
-        onView(withText("Say something!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
+        onView(withText("Say something!")).inRoot(toastMatcher).check(matches(isDisplayed()));
         onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
         closeSoftKeyboard();
         onView(withId(R.id.memory_send)).perform(click());
     }
 
-//    @Test
-//    public void sendVideoMemoryTest(){
-//        onView(withId(R.id.display_chosen_video)).check(matches(not(hasVideo())));
-//        onView(withId(R.id.take_videos)).perform(click());
-//        onView(withText(CAMERA)).perform(click());
-//        intended(hasAction(equalTo(MediaStore.ACTION_VIDEO_CAPTURE)));
-//        onView(withId(R.id.memory_send)).perform(click());
-//        onView(withText("Say something!")).inRoot(new ToastMatcher()).check(matches(isDisplayed()));
-//        onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
-//        closeSoftKeyboard();
-//        onView(withId(R.id.memory_send)).perform(click());
-//    }
+    @Test @Ignore
+    public void sendVideoMemoryTest(){
+        onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
+        onView(withId(R.id.take_videos)).perform(click());
+        onView(withText(CAMERA)).perform(click());
+        intended(hasAction(equalTo(MediaStore.ACTION_VIDEO_CAPTURE)));
+        onView(withId(R.id.memory_send)).perform(click());
+        onView(withText("Say something!")).inRoot(toastMatcher).check(matches(isDisplayed()));
+        onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
+        closeSoftKeyboard();
+        onView(withId(R.id.memory_send)).perform(click());
+    }
 
     private Instrumentation.ActivityResult photoFromCameraSub() {
         Bundle bundle = new Bundle();
@@ -217,6 +221,56 @@ public class CreateMemoryActivityTest {
         Intent intent = new Intent();
         intent.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
+    }
+
+    private class ToastMatcher extends TypeSafeMatcher<Root> {
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("is toast");
+        }
+
+        @Override
+        public boolean matchesSafely(Root root) {
+            int type = root.getWindowLayoutParams().get().type;
+            if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
+                IBinder windowToken = root.getDecorView().getWindowToken();
+                IBinder appToken = root.getDecorView().getApplicationWindowToken();
+                if (windowToken == appToken) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private class ViewMatcher {
+        private BoundedMatcher<View, ImageView> hasDrawable() {
+            return new BoundedMatcher<View, ImageView>(ImageView.class) {
+                @Override
+                public void describeTo(Description description) {
+                    description.appendText("has drawable");
+                }
+
+                @Override
+                public boolean matchesSafely(ImageView imageView) {
+                    return imageView.getDrawable() != null;
+                }
+            };
+        }
+
+        private BoundedMatcher<View, VideoView> hasVideo() {
+            return new BoundedMatcher<View, VideoView>(VideoView.class) {
+                @Override
+                protected boolean matchesSafely(VideoView item) {
+                    return item.isPlaying();
+                }
+
+                @Override
+                public void describeTo(Description description) {
+                    description.appendText("has video");
+                }
+            };
+        }
     }
 
 }
