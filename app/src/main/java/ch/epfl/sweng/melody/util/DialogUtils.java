@@ -8,12 +8,10 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import ch.epfl.sweng.melody.AudioRecordingActivity;
 import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.PublicMemoryActivity;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_AUDIOFILE;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
@@ -37,26 +35,6 @@ public class DialogUtils {
                     PermissionUtils.accessResourceWithPermission(activity, REQUEST_VIDEO_CAMERA);
                 } else if (options[option].equals("Choose from Album")) {
                     PermissionUtils.accessResourceWithPermission(activity, REQUEST_VIDEO_GALLERY);
-                } else if (options[option].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    public static void pickAudioDialog(final AppCompatActivity activity) {
-        final CharSequence[] options = {"Record", "Choose from Library", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Add audio");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int option) {
-                if (options[option].equals("Record")) {
-                    Intent intent = new Intent(activity, AudioRecordingActivity.class);
-                    activity.startActivity(intent);
-                } else if (options[option].equals("Choose from Library")) {
-                    PermissionUtils.accessResourceWithPermission(activity, REQUEST_AUDIOFILE);
                 } else if (options[option].equals("Cancel")) {
                     dialog.dismiss();
                 }
