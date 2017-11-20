@@ -12,7 +12,7 @@ import ch.epfl.sweng.melody.user.User;
 public class Memory {
     public enum Privacy {PRIVATE, SHARED, PUBLIC}
 
-    public enum MemoryType {TEXT, PHOTO, VIDEO, AUDIO}
+    public enum MemoryType {TEXT, PHOTO, VIDEO}
 
     private String id;
     private User user;
@@ -27,7 +27,6 @@ public class Memory {
     private Boolean reminder;
     private String photoUrl;
     private String videoUrl;
-    private String audioUrl;
 
     private Memory(MemoryBuilder memoryBuilder) {
         this.id = memoryBuilder.id;
@@ -37,15 +36,13 @@ public class Memory {
         this.serializableLocation = memoryBuilder.serializableLocation;
         this.privacy = memoryBuilder.privacy;
         this.reminder = memoryBuilder.reminder;
+
         this.comments = memoryBuilder.comments;
         this.likes = memoryBuilder.likes;
         this.tags = memoryBuilder.tags;
-        // Firebase doesn't accept empty list
-        likes.add(user);
         this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
-        this.audioUrl = memoryBuilder.audioUrl;
         this.memoryType = memoryBuilder.memoryType;
     }
 
@@ -89,10 +86,6 @@ public class Memory {
         return comments;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
     public Privacy getPrivacy() {
         return privacy;
     }
@@ -109,10 +102,6 @@ public class Memory {
         return videoUrl;
     }
 
-    public String getAudioUrl() {
-        return audioUrl;
-    }
-
     public MemoryType getMemoryType() {
         return memoryType;
     }
@@ -125,16 +114,12 @@ public class Memory {
         return new MemoryUploader(this);
     }
 
-    boolean isLikedByUser(User user) {
-        for (User liker : likes)
-            if (liker.getId().equals(user.getId()))
-                return true;
-
-        return false;
-    }
-
     public List<User> getLikes() {
         return likes;
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 
     public static class MemoryBuilder {
@@ -152,7 +137,6 @@ public class Memory {
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
-        private String audioUrl;
 
         public MemoryBuilder(User user, String text, SerializableLocation serializableLocation) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());
@@ -180,19 +164,8 @@ public class Memory {
             return this;
         }
 
-        public MemoryBuilder audio(String audioUrl) {
-            this.audioUrl = audioUrl;
-            this.memoryType = MemoryType.AUDIO;
-            return this;
-        }
-
         public MemoryBuilder comments(List<Comment> comments) {
             this.comments = comments;
-            return this;
-        }
-
-        public MemoryBuilder likes(List<User> likes) {
-            this.likes = likes;
             return this;
         }
 

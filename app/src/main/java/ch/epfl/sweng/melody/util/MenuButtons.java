@@ -1,5 +1,6 @@
 package ch.epfl.sweng.melody.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -32,5 +33,6 @@ public class MenuButtons {
     private static void goToActivity(Context context, Class cls) {
         Intent intent = new Intent(context, cls);
         context.startActivity(intent);
+        ((Activity) context).finish();
     }
 }

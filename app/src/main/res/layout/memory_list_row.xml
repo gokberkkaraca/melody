@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/privacyOfMemory"
-                    android:src="@mipmap/hash_without"
+                    android:src="@mipmap/hash_with"
                     tools:ignore="ContentDescription" />
 
             </RelativeLayout>
