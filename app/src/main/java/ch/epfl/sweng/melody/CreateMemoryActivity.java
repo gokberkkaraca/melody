@@ -65,6 +65,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private ImageView imageView;
     private VideoView videoView;
     private Spinner dropDown;
+    private TextView addTags;
     private List <String> tags = new ArrayList<>();
     private Bitmap picture;
     private EditText editText;
@@ -83,6 +84,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
         dropDown = findViewById(R.id.tags_dropdown);
+        addTags = findViewById(R.id.add_tags);
         TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS.getLocationName());
 
@@ -167,9 +169,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     tags.add(tag);
                 }
 
-                TextView test = findViewById(R.id.testView);
-                test.setText(Integer.toString(tags.size()));
-
+                addTags.setText(String.valueOf(tags.size()));
             }
 
             @Override
