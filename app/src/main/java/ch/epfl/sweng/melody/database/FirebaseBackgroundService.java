@@ -50,7 +50,7 @@ public class FirebaseBackgroundService extends Service {
                     boolean isFirstLogin = latestMemoryId == Long.MAX_VALUE || counter == 0;
                     boolean isUsersMemory = memory.getUser().getId().equals(MainActivity.getUser().getId());
 
-                    if(isNewMemory && !isFirstLogin && !isUsersMemory){
+                    if (isNewMemory && !isFirstLogin && !isUsersMemory) {
                         String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
                         NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
                     }
@@ -66,8 +66,9 @@ public class FirebaseBackgroundService extends Service {
         };
         DatabaseHandler.getLatestMemory(valueEventListener);
     }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         isServiceStarted = false;
         DatabaseHandler.removeLatestMemoryListener(valueEventListener);

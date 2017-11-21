@@ -1,7 +1,6 @@
 package ch.epfl.sweng.melody;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -11,7 +10,6 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +19,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,9 +35,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.location.LocationObserver;
+import ch.epfl.sweng.melody.location.LocationListenerSubject;
+import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
@@ -51,10 +51,10 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
-public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationObserver {
+public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, Observer {
     private int filterRadius = 0;
-    private LatLng currentLatLng = new LatLng(0,0);
-    private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude,currentLatLng.longitude,"FAKE");
+    private LatLng currentLatLng = new LatLng(0, 0);
+    private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude, currentLatLng.longitude, "FAKE");
     private GoogleMap mMap;
     private Marker currentMarker;
 
@@ -70,6 +70,7 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
 
         //PermissionUtils.accessLocationWithPermission(this, this);
         filterByLocation();
+        LocationService.locationListener.addObserver(this);
     }
 
     @Override
@@ -184,28 +185,32 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
 
 
     @Override
-    public void update(Location location) {
-        Geocoder gcd = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses;
-        String addressText = "";
-        try {
-            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(currentLatLng.longitude==0&&currentLatLng.latitude==0){
-            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
-        }else {
-            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
-        }
-        if(currentMarker!=null){
-            currentMarker.setPosition(currentLatLng);
-        }else{
-            currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+    public void update(Observable observable, Object o) {
+        if (observable instanceof LocationListenerSubject) {
+            LocationListenerSubject locationSubject = (LocationListenerSubject) observable;
+            Location location = locationSubject.getLocation();
+            Geocoder gcd = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses;
+            String addressText = "";
+            try {
+                addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (currentLatLng.longitude == 0 && currentLatLng.latitude == 0) {
+                currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
+            } else {
+                currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
+            }
+            if (currentMarker != null) {
+                currentMarker.setPosition(currentLatLng);
+            } else {
+                currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            }
         }
     }
 }

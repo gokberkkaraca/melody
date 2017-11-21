@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,9 +30,12 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.location.LocationObserver;
+import ch.epfl.sweng.melody.location.LocationListenerSubject;
+import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
@@ -46,18 +48,15 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
-import static ch.epfl.sweng.melody.util.PermissionUtils.accessLocationWithPermission;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromGallery;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromGallery;
 
-public class CreateMemoryActivity extends AppCompatActivity implements LocationObserver {
+public class CreateMemoryActivity extends AppCompatActivity implements Observer {
 
-    private static final SerializableLocation FAKE_ADDRESS
-            = new SerializableLocation(46.5197, 6.6323, "Lausanne");
-
+    TextView address;
     private ImageView imageView;
     private VideoView videoView;
     private Bitmap picture;
@@ -66,7 +65,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
-    TextView address;
     private SerializableLocation serializableLocation = new SerializableLocation();
 
     @Override
@@ -77,8 +75,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
-        address= findViewById(R.id.address);
-        address.setText(FAKE_ADDRESS.getLocationName());
+        address = findViewById(R.id.address);
+        LocationService.locationListener.addObserver(this);
     }
 
     @Override
@@ -246,18 +244,22 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     }
 
     @Override
-    public void update(Location location) {
-//        Geocoder gcd = new Geocoder(this, Locale.getDefault());
-//        List<Address> addresses;
-//        try {
-//            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-//            String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
-            address.setText((int)location.getLatitude());
-            serializableLocation.setLatitude(location.getLatitude());
-            serializableLocation.setLongitude(location.getLongitude());
-            serializableLocation.setLocationName("fdjaslf");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public void update(Observable observable, Object object) {
+        if (observable instanceof LocationListenerSubject) {
+            LocationListenerSubject locationSubject = (LocationListenerSubject) observable;
+            Location location = locationSubject.getLocation();
+            Geocoder gcd = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses;
+            try {
+                addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
+                address.setText(addressText);
+                serializableLocation.setLatitude(location.getLatitude());
+                serializableLocation.setLongitude(location.getLongitude());
+                serializableLocation.setLocationName(addressText);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

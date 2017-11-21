@@ -28,10 +28,10 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
-import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
@@ -53,7 +53,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         dateButton = findViewById(R.id.dateButton);
 
         memoryList = new ArrayList<>();
-        if(MainActivity.getUser()!=null){
+        if (MainActivity.getUser() != null) {
             startService(new Intent(this, FirebaseBackgroundService.class));
         }
         startService(new Intent(this, LocationService.class));

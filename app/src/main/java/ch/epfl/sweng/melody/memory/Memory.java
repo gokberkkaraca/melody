@@ -10,10 +10,6 @@ import ch.epfl.sweng.melody.user.User;
 
 
 public class Memory {
-    public enum Privacy {PRIVATE, SHARED, PUBLIC}
-
-    public enum MemoryType {TEXT, PHOTO, VIDEO}
-
     private String id;
     private User user;
     private Date time;
@@ -27,7 +23,6 @@ public class Memory {
     private Boolean reminder;
     private String photoUrl;
     private String videoUrl;
-
     private Memory(MemoryBuilder memoryBuilder) {
         this.id = memoryBuilder.id;
         this.time = memoryBuilder.time;
@@ -45,7 +40,6 @@ public class Memory {
 
         this.memoryType = memoryBuilder.memoryType;
     }
-
     public Memory() {
         comments = new ArrayList<>();
         likes = new ArrayList<>();
@@ -121,6 +115,10 @@ public class Memory {
     public List<String> getTags() {
         return tags;
     }
+
+    public enum Privacy {PRIVATE, SHARED, PUBLIC}
+
+    public enum MemoryType {TEXT, PHOTO, VIDEO}
 
     public static class MemoryBuilder {
         private final String id;
