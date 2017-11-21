@@ -52,7 +52,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         dateButton = findViewById(R.id.dateButton);
 
         memoryList = new ArrayList<>();
-        if(MainActivity.getUser()!=null){
+        if (MainActivity.getUser() != null) {
             startService(new Intent(this, FirebaseBackgroundService.class));
         }
         fetchMemoriesFromDatabase();

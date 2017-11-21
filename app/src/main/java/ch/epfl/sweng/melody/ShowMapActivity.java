@@ -180,12 +180,13 @@ public class ShowMapActivity extends AppCompatActivity
                 mMap.clear();
                 if (pickPlaceMarker != null) {
                     addMarkerForPickedLocation();
-                    filerMemoriesByLocation(radiusValue, progressValue, pickLocation);
+                    filerMemoriesByLocation(radiusValue, pickLocation);
                 } else {
                     addMarkerForCurrentLocation();
-                    filerMemoriesByLocation(radiusValue, progressValue, currentLocation);
+                    filerMemoriesByLocation(radiusValue, currentLocation);
                 }
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -220,7 +221,7 @@ public class ShowMapActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (currentMarker==null) {
+        if (currentMarker == null) {
             currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
             addMarkerForCurrentLocation();
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 12.0f));
@@ -244,7 +245,7 @@ public class ShowMapActivity extends AppCompatActivity
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
     }
 
-    private void filerMemoriesByLocation(TextView radiusValue, int radiusOnSeekbar, SerializableLocation location) {
+    private void filerMemoriesByLocation(TextView radiusValue, SerializableLocation location) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12.0f));
         radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
         DatabaseHandler.getAllMemories(new ValueEventListener() {
