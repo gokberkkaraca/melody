@@ -24,7 +24,7 @@ public class LocationService extends Service {
     public void onCreate() {
         super.onCreate();
         PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListenerSubject(LocationManager.GPS_PROVIDER);
+        locationListener = new LocationListenerSubject(LocationManager.GPS_PROVIDER, LocationService.this);
         try {
             PermissionUtils.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         } catch (SecurityException e) {
