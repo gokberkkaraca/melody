@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
@@ -52,7 +53,7 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromGallery;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromGallery;
 
-public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
+public class CreateMemoryActivity extends AppCompatActivity implements LocationObserver {
 
     private static final SerializableLocation FAKE_ADDRESS
             = new SerializableLocation(46.5197, 6.6323, "Lausanne");
@@ -65,6 +66,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private Memory.MemoryType memoryType;
     private String memoryDescription;
     private Memory memory;
+    TextView address;
     private SerializableLocation serializableLocation = new SerializableLocation();
 
     @Override
@@ -75,12 +77,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
-        TextView address = findViewById(R.id.address);
+        address= findViewById(R.id.address);
         address.setText(FAKE_ADDRESS.getLocationName());
-
-        PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        accessLocationWithPermission(this, this);
     }
 
     @Override
@@ -201,7 +199,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     break;
                 }
                 case REQUEST_LOCATION: {
-                    PermissionUtils.accessLocationWithPermission(this, this);
+                    //PermissionUtils.accessLocationWithPermission(this, this);
                 }
             }
         } else {
@@ -248,35 +246,18 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        Geocoder gcd = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses;
-        try {
-            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            TextView address = findViewById(R.id.address);
-            String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
-            address.setText(addressText);
+    public void update(Location location) {
+//        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+//        List<Address> addresses;
+//        try {
+//            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+//            String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
+            address.setText((int)location.getLatitude());
             serializableLocation.setLatitude(location.getLatitude());
             serializableLocation.setLongitude(location.getLongitude());
-            serializableLocation.setLocationName(addressText);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Provider Enabled", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        if (provider.equals(LocationManager.GPS_PROVIDER)) {
-            DialogUtils.showGPSDisabledDialog(this);
-        }
+            serializableLocation.setLocationName("fdjaslf");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
@@ -49,7 +51,7 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
-public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
+public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationObserver {
     private int filterRadius = 0;
     private LatLng currentLatLng = new LatLng(0,0);
     private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude,currentLatLng.longitude,"FAKE");
@@ -66,7 +68,7 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         mapFragment.getMapAsync(this);
         PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        PermissionUtils.accessLocationWithPermission(this, this);
+        //PermissionUtils.accessLocationWithPermission(this, this);
         filterByLocation();
     }
 
@@ -180,28 +182,9 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        updateMarkerOfCurrentLocation(location);
-    }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Provider Enabled", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        if (provider.equals(LocationManager.GPS_PROVIDER)) {
-            DialogUtils.showGPSDisabledDialog(this);
-        }
-    }
-
-    private void updateMarkerOfCurrentLocation(Location location) {
+    public void update(Location location) {
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
         List<Address> addresses;
         String addressText = "";
@@ -224,6 +207,5 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         }else{
             currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
         }
-
     }
 }
