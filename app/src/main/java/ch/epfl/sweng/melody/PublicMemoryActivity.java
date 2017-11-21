@@ -69,7 +69,6 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         }
         PermissionUtils.accessLocationWithPermission(this);
         fetchMemoriesFromDatabase();
-
     }
 
     @Override
