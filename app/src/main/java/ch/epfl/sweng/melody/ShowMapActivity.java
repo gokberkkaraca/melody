@@ -39,7 +39,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.location.LocationListenerSubject;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
@@ -186,8 +185,8 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void update(Observable observable, Object o) {
-        if (observable instanceof LocationListenerSubject) {
-            LocationListenerSubject locationSubject = (LocationListenerSubject) observable;
+        if (observable instanceof LocationService.LocationListenerSubject) {
+            LocationService.LocationListenerSubject locationSubject = (LocationService.LocationListenerSubject) observable;
             Location location = locationSubject.getLocation();
             Geocoder gcd = new Geocoder(this, Locale.getDefault());
             List<Address> addresses;
