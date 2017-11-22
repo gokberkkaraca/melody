@@ -75,6 +75,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements Observer 
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
         address = findViewById(R.id.address);
+        PermissionUtils.accessLocationWithPermission(this);
         LocationService.locationListener.addObserver(this);
     }
 
@@ -196,7 +197,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements Observer 
                     break;
                 }
                 case REQUEST_LOCATION: {
-                    //PermissionUtils.accessLocationWithPermission(this, this);
+                    PermissionUtils.accessLocationWithPermission(this);
                 }
             }
         } else {

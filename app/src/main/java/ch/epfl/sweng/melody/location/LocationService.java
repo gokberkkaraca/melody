@@ -7,6 +7,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -94,18 +95,17 @@ public class LocationService extends Service {
 
 
         @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
+        public void onStatusChanged(String provider, int i, Bundle bundle) {
 
         }
 
         @Override
-        public void onProviderEnabled(String s) {
-
+        public void onProviderEnabled(String provider) {
+            Toast.makeText(getApplicationContext(), "Provider Enabled", Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onProviderDisabled(String s) {
-
+        public void onProviderDisabled(String provider) {
         }
 
         private void triggerObservers() {

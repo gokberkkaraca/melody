@@ -6,7 +6,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,10 +32,13 @@ import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
-import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
+import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.PermissionUtils;
+
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
 
@@ -56,7 +62,7 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         if (MainActivity.getUser() != null) {
             startService(new Intent(this, FirebaseBackgroundService.class));
         }
-        startService(new Intent(this, LocationService.class));
+        PermissionUtils.accessLocationWithPermission(this);
         fetchMemoriesFromDatabase();
 
     }
@@ -115,6 +121,25 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
         memoryList = new ArrayList<>();
         fetchMemoriesFromDatabase();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            switch (requestCode) {
+                case REQUEST_LOCATION: {
+                    PermissionUtils.accessLocationWithPermission(this);
+                }
+            }
+        } else {
+            switch (requestCode) {
+                case REQUEST_LOCATION: {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        DialogUtils.showLocationPermissionRationale(this);
+                    }
+                }
+            }
+        }
     }
 
 
