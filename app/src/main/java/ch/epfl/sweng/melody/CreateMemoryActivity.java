@@ -93,10 +93,24 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS.getLocationName());
 
+        fetchTagsFromDatabase();
+
         tagSubmit.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
                 String addTag = newTag.getText().toString();
-                if(addTag != null){
+
+                if(addTag.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Cannot add empty tag!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else{
+                    for(int i = 0; i < tags.size(); ++i){
+                        if(tags.get(i).equals(addTag)){
+                            Toast.makeText(getApplicationContext(), "Tag already exists!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
                     addTagToDatabase(addTag);
                     selectedTags.add(addTag);
                     fetchTagsFromDatabase();
@@ -107,7 +121,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         accessLocationWithPermission(this, this);
-        fetchTagsFromDatabase();
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tags);
         dropDown.setAdapter(adapter);
