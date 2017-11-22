@@ -175,51 +175,36 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
                                     @Override
                                     public View getInfoContents(final Marker marker) {
                                         final ViewGroup nullParent = null;
-                                        final View v = getLayoutInflater().inflate(R.layout.info_window_layout, nullParent);
+                                        View v = getLayoutInflater().inflate(R.layout.info_window_layout, nullParent);
 
+                                        TextView userId = v.findViewById(R.id.userId);
                                         ImageView userPhoto = v.findViewById(R.id.userPhoto);
                                         TextView memoryText = v.findViewById(R.id.memoryText);
                                         ImageView memoryImage = v.findViewById(R.id.memoryImage);
-
+                                        userId.setTextColor(Color.BLACK);
+                                        userId.setGravity(Gravity.START);
+                                        userId.setTypeface(userId.getTypeface(), Typeface.BOLD);
                                         memoryText.setTextColor(Color.BLACK);
                                         memoryText.setGravity(Gravity.START);
 
                                         Memory markerMemory = dataSnapshot.child(marker.getTitle()).getValue(Memory.class);
                                         assert markerMemory != null;
 
+                                        userId.setText(markerMemory.getUser().getDisplayName());
+
                                         new GoogleProfilePictureAsync(userPhoto, Uri.parse(markerMemory.getUser().getProfilePhotoUrl())).execute();
 
-                                        memoryText.setText(getString(R.string.briefText,takeSubtext(markerMemory.getText(), 60)));
+                                        String text = markerMemory.getText();
+                                        if(text.length()>60){
+                                            memoryText.setText(getString(R.string.briefText,takeSubtext(markerMemory.getText(), 60)));
+                                        }else{
+                                            memoryText.setText(text);
+                                        }
 
                                         if (markerMemory.getPhotoUrl() != null) {
                                             userPhoto.setVisibility(View.VISIBLE);
                                             Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into(memoryImage);
                                         }
-
-//                                        DatabaseHandler.getMemory(marker.getTitle(), new ValueEventListener(){
-//                                            @Override
-//                                            public void onDataChange(DataSnapshot dataSnapshot) {
-////                                                ImageView userPhoto = v.findViewById(R.id.userPhoto);
-////                                                TextView memoryText = v.findViewById(R.id.memoryText);
-////                                                ImageView memoryImage = v.findViewById(R.id.memoryImage);
-//                                                Memory memory = dataSnapshot.getValue(Memory.class);
-//                                                assert memory != null;
-//                                                userPhoto.setVisibility(View.VISIBLE);
-//                                                new GoogleProfilePictureAsync(userPhoto, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
-//                                                memoryText.setText(takeSubtext(memory.getText(), 50));
-//                                                if(memory.getPhotoUrl() != null) {
-//                                                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
-//                                                }
-//                                            }
-//
-//                                            @Override
-//                                            public void onCancelled(DatabaseError databaseError) {
-//                                            }
-//                                        });
-
-//                                        v.addView(userPhoto);
-//                                        v.addView(memoryText);
-//                                        v.addView(memoryImage);
                                         return v;
                                     }
                                 });
