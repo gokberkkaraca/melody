@@ -27,11 +27,13 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendsVie
         return new FriendsViewHolder(itemView);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final FriendsViewHolder holder, int position) {
 
         final User friend = friendList.get(position);
+
+        holder.friendName.setText(friend.getDisplayName());
+        holder.friendMail.setText(friend.getEmail());
 
         new GoogleProfilePictureAsync(holder.friendPic, Uri.parse(friend.getProfilePhotoUrl())).execute();
 
@@ -43,11 +45,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendsVie
     }
 
     class FriendsViewHolder extends RecyclerView.ViewHolder {
+        final TextView friendName, friendMail;
         final ImageView friendPic;
 
         FriendsViewHolder(View view) {
             super(view);
 
+            friendName = view.findViewById(R.id.friendName);
+            friendMail = view.findViewById(R.id.friendMail);
             friendPic = view.findViewById(R.id.friendPic);
         }
     }
