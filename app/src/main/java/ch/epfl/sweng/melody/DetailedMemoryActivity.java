@@ -5,10 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -127,17 +124,17 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 location.setText(memory.getSerializableLocation().getLocationName());
 
 
-                if(memory.getPhotoUrl() != null) {
+                if (memory.getPhotoUrl() != null) {
                     memoryImage.setVisibility(View.VISIBLE);
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
                 }
 
-                if(memory.getText() != null) {
+                if (memory.getText() != null) {
                     textScroll.setVisibility(View.VISIBLE);
                     memoryText.setVisibility(View.VISIBLE);
                     memoryText.setText(memory.getText());
 
-                    if(memory.getText().length() > 30){
+                    if (memory.getText().length() > 30) {
                         parentScroll.setOnTouchListener(new View.OnTouchListener() {
                             @SuppressLint("ClickableViewAccessibility")
                             @Override
@@ -150,8 +147,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                         textScroll.setOnTouchListener(new View.OnTouchListener() {
                             @SuppressLint("ClickableViewAccessibility")
                             @Override
-                            public boolean onTouch(View v, MotionEvent event)
-                            {
+                            public boolean onTouch(View v, MotionEvent event) {
                                 v.getParent().requestDisallowInterceptTouchEvent(true);
                                 return false;
                             }
