@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -32,13 +33,20 @@ import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
+import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
+import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
+import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
 
@@ -61,10 +69,27 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
         memoryList = new ArrayList<>();
         if (MainActivity.getUser() != null) {
             startService(new Intent(this, FirebaseBackgroundService.class));
+            startService(new Intent(this, LocationService.class));
         }
         PermissionUtils.accessLocationWithPermission(this);
         fetchMemoriesFromDatabase();
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_GPS: {
+                if (PermissionUtils.locationManager == null) {
+                    PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                }
+
+                assert PermissionUtils.locationManager != null;
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                    DialogUtils.showGPSDisabledDialog(this);
+            }
+        }
     }
 
     private void fetchMemoriesFromDatabase() {

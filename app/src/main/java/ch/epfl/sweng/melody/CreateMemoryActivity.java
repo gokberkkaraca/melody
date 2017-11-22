@@ -1,6 +1,5 @@
 package ch.epfl.sweng.melody;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -34,26 +32,23 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.location.LocationService;
+import ch.epfl.sweng.melody.location.LocationListenerSubject;
+import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
-import ch.epfl.sweng.melody.util.PermissionUtils;
 
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
-import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromGallery;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromGallery;
 
-public class CreateMemoryActivity extends AppCompatActivity implements Observer {
+public class CreateMemoryActivity extends AppCompatActivity implements LocationObserver {
 
     TextView address;
     private ImageView imageView;
@@ -75,7 +70,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements Observer 
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
         address = findViewById(R.id.address);
-        LocationService.locationListener.addObserver(this);
+        LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
     }
 
     @Override
@@ -163,15 +158,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements Observer 
                 onVideoFromGalleryResult(data);
                 break;
             }
-            case REQUEST_GPS: {
-                if (PermissionUtils.locationManager == null) {
-                    PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                }
-
-                assert PermissionUtils.locationManager != null;
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                    DialogUtils.showGPSDisabledDialog(this);
-            }
         }
     }
 
@@ -194,17 +180,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements Observer 
                 case REQUEST_VIDEO_GALLERY: {
                     videoFromGallery(this);
                     break;
-                }
-                case REQUEST_LOCATION: {
-                    PermissionUtils.accessLocationWithPermission(this);
-                }
-            }
-        } else {
-            switch (requestCode) {
-                case REQUEST_LOCATION: {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        DialogUtils.showLocationPermissionRationale(this);
-                    }
                 }
             }
         }
@@ -243,10 +218,10 @@ public class CreateMemoryActivity extends AppCompatActivity implements Observer 
     }
 
     @Override
-    public void update(Observable observable, Object object) {
-        if (observable instanceof LocationService.LocationListenerSubject) {
-            LocationService.LocationListenerSubject locationSubject = (LocationService.LocationListenerSubject) observable;
-            Location location = locationSubject.getLocation();
+    public void update(Location location) {
+//        if (observable instanceof LocationListenerSubject) {
+//            LocationListenerSubject locationSubject = (LocationListenerSubject) observable;
+//            Location location = locationSubject.getLocation();
             Geocoder gcd = new Geocoder(this, Locale.getDefault());
             List<Address> addresses;
             try {
@@ -260,5 +235,5 @@ public class CreateMemoryActivity extends AppCompatActivity implements Observer 
                 e.printStackTrace();
             }
         }
-    }
+//    }
 }

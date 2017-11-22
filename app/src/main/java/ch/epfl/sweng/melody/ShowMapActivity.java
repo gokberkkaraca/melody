@@ -1,8 +1,5 @@
 package ch.epfl.sweng.melody;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
@@ -12,8 +9,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.TypedValue;
 import android.view.View;
@@ -39,19 +34,15 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.location.LocationService;
+import ch.epfl.sweng.melody.location.LocationListenerSubject;
+import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
-import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
-
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
-import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
 public class ShowMapActivity extends FragmentActivity
         implements OnMapReadyCallback,
-        Observer,
+        LocationObserver,
         GoogleMap.OnMapClickListener {
     private int filterRadius = 0;
     private LatLng currentLatLng = new LatLng(0, 0);
@@ -71,7 +62,8 @@ public class ShowMapActivity extends FragmentActivity
         mapFragment.getMapAsync(this);
 
         filterByLocationSeekBar();
-        LocationService.locationListener.addObserver(this);
+        LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
+
     }
 
     @Override
@@ -94,39 +86,10 @@ public class ShowMapActivity extends FragmentActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-            switch (requestCode) {
-                case REQUEST_LOCATION: {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        DialogUtils.showLocationPermissionRationale(this);
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_GPS: {
-                if (locationManager == null) {
-                    locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                }
-                assert locationManager != null;
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                    DialogUtils.showGPSDisabledDialog(this);
-            }
-        }
-    }
-
-
-    @Override
-    public void update(Observable observable, Object o) {
-        if (observable instanceof LocationService.LocationListenerSubject) {
-            LocationService.LocationListenerSubject locationSubject = (LocationService.LocationListenerSubject) observable;
-            Location location = locationSubject.getLocation();
+    public void update(Location location) {
+        //if (observable instanceof LocationListenerSubject) {
+          //  LocationListenerSubject locationSubject = (LocationListenerSubject) observable;
+           // Location location = locationSubject.getLocation();
             Geocoder gcd = new Geocoder(this, Locale.getDefault());
             List<Address> addresses;
             String addressText = "";
@@ -149,7 +112,6 @@ public class ShowMapActivity extends FragmentActivity
             } else {
                 currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
             }
-        }
     }
 
     @Override

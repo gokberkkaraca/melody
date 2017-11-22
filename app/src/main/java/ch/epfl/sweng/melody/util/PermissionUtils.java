@@ -4,13 +4,17 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import ch.epfl.sweng.melody.location.LocationListenerSubject;
 import ch.epfl.sweng.melody.location.LocationService;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 
 /**
@@ -71,7 +75,13 @@ public class PermissionUtils {
             requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION);
         else {
             try {
-                activity.startService(new Intent(activity, LocationService.class));
+                locationManager = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
+                LocationListenerSubject locationListener = LocationListenerSubject.getLocationListenerInstance();
+                try {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
