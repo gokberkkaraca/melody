@@ -3,8 +3,9 @@ package ch.epfl.sweng.melody;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -13,20 +14,20 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,11 +40,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
+import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
@@ -56,13 +60,13 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
-public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
+public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback, LocationListener {
     private int filterRadius = 0;
     private LatLng currentLatLng = new LatLng(0, 0);
     private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude, currentLatLng.longitude, "FAKE");
     private GoogleMap mMap;
     private Marker currentMarker;
-    private PopupWindow mPopupWindow;
+    private PopupWindow popupWindow;
     private int mWidth;
     private int mHeight;
 
@@ -122,35 +126,93 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         seekBar.setVisibility(View.VISIBLE);
         seekBar.setPadding(50, 30, 50, 0);
         filterRadius = seekBar.getProgress();
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
                 mMap.clear();
-                currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
+
+
+                currentMarker = mMap.addMarker(new MarkerOptions()
+                        .position(currentLatLng)
+                        .title("Your location")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
                 DatabaseHandler.getAllMemories(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                            Memory memory = memDataSnapshot.getValue(Memory.class);
+                        for (final DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                            final Memory memory = memDataSnapshot.getValue(Memory.class);
                             assert memory != null;
                             SerializableLocation location = memory.getSerializableLocation();
                             if (location.distanceTo(currentLocation) < filterRadius * 1000) {
                                 final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                                 mMap.addMarker(new MarkerOptions()
                                         .position(latLng)
-                                        .title(memory.getText()));
+                                        .title(memory.getId()));
 
-//                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
-//                                    @Override
-//                                    public boolean onMarkerClick(Marker marker) {
-//                                        PopupWindow popupWindow = new PopupWindow();
-//
-//                                        return true;
-//                                    }
-//                                });
+                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+                                    @Override
+                                    public boolean onMarkerClick(Marker marker) {
+                                        marker.showInfoWindow();
+                                        System.out.print("I show info window");
+                                        return false;
+                                    }
+                                });
+
+                                mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                                    @Override
+                                    public View getInfoWindow(Marker arg0) {
+                                        return null;
+                                    }
+
+                                    @Override
+                                    public View getInfoContents(final Marker marker) {
+                                        View v = getLayoutInflater().inflate(R.layout.info_window_layout, null);
+                                        System.out.print("I get the layout");
+//                                        LinearLayout v = new LinearLayout(ShowMapActivity.this);
+//                                        v.setOrientation(LinearLayout.VERTICAL);
+//                                        final ImageView userPhoto = new ImageView(ShowMapActivity.this);
+//                                        final TextView memoryText = new TextView(ShowMapActivity.this);
+//                                        final ImageView memoryImage = new ImageView(ShowMapActivity.this);
+
+
+                                        DatabaseHandler.getMemory(marker.getTitle(), new ValueEventListener(){
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                ImageView userPhoto = findViewById(R.id.userPhoto);
+                                                TextView memoryText = findViewById(R.id.memoryText);
+                                                ImageView memoryImage = findViewById(R.id.memoryImage);
+                                                Memory memory = dataSnapshot.getValue(Memory.class);
+                                                assert memory != null;
+                                                String link = memory.getUser().getProfilePhotoUrl();
+                                                userPhoto.setVisibility(View.VISIBLE);
+                                                Picasso.with(getApplicationContext()).load(memory.getUser().getProfilePhotoUrl()).into(userPhoto);
+
+                                                //new GoogleProfilePictureAsync(userPhoto, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
+                                                memoryText.setText(takeSubtext(memory.getText(), 50));
+                                                if(memory.getPhotoUrl() != null) {
+                                                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                            }
+                                        });
+
+//                                        v.addView(userPhoto);
+//                                        v.addView(memoryText);
+//                                        v.addView(memoryImage);
+                                        return v;
+                                    }
+                                });
+
+
                             }
                         }
                     }
@@ -247,4 +309,26 @@ public class ShowMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
 
     }
+
+    private String takeSubtext(String text, int length) {
+        if (text.length() > length) {
+            String reverse = new StringBuffer(text.substring(0, length)).reverse().toString();
+            int i = 0;
+            while (i < length && reverse.charAt(0) != ' ') {
+                reverse = reverse.substring(1, reverse.length());
+                i++;
+            }
+            return new StringBuffer(reverse).reverse().toString();
+        } else {
+            return text;
+        }
+    }
+
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toast.makeText(this, "Info window clicked",
+                Toast.LENGTH_SHORT).show();
+    }
+
 }
