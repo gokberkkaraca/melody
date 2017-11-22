@@ -3,8 +3,6 @@ package ch.epfl.sweng.melody;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
@@ -16,7 +14,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +22,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -45,7 +41,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,7 +53,6 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static android.app.PendingIntent.getActivity;
-import static ch.epfl.sweng.melody.R.id.parent;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
@@ -177,7 +171,7 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
                                         final ViewGroup nullParent = null;
                                         View v = getLayoutInflater().inflate(R.layout.info_window_layout, nullParent);
 
-                                        TextView userId = v.findViewById(R.id.userId);
+                                        TextView userId = v.findViewById(R.id.userName);
                                         ImageView userPhoto = v.findViewById(R.id.userPhoto);
                                         TextView memoryText = v.findViewById(R.id.memoryText);
                                         ImageView memoryImage = v.findViewById(R.id.memoryImage);
