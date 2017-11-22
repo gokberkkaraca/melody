@@ -204,9 +204,11 @@ public class ShowMapActivity extends FragmentActivity
     }
 
     public void findMemoryAroundCurrentLocation(View view) {
-        pickPlaceMarker.remove();
-        pickPlaceMarker = null;
-        pickLocation = null;
+        if(pickPlaceMarker!=null) {
+            pickPlaceMarker.remove();
+            pickPlaceMarker = null;
+            pickLocation = null;
+        }
         addMarkerForCurrentLocation();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 12.0f));
     }
