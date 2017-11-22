@@ -52,7 +52,6 @@ import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
-import static android.app.PendingIntent.getActivity;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
@@ -63,9 +62,6 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
     private SerializableLocation currentLocation = new SerializableLocation(currentLatLng.latitude, currentLatLng.longitude, "FAKE");
     private GoogleMap mMap;
     private Marker currentMarker;
-    private PopupWindow popupWindow;
-    private int mWidth;
-    private int mHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +125,6 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
                 mMap.clear();
-
 
                 currentMarker = mMap.addMarker(new MarkerOptions()
                         .position(currentLatLng)
@@ -202,15 +197,12 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
                                         return v;
                                     }
                                 });
-
-
                             }
                         }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
 
