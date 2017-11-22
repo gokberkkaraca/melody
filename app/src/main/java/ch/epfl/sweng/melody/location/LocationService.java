@@ -27,6 +27,7 @@ import ch.epfl.sweng.melody.util.PermissionUtils;
 
 public class LocationService extends Service {
     public static LocationListenerSubject locationListener;
+    private ValueEventListener valueEventListener;
 
 
     @Override
@@ -49,6 +50,8 @@ public class LocationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        DatabaseHandler.removeAllMemoriesListener(valueEventListener);
+        locationListener=null;
     }
 
     public class LocationListenerSubject extends Observable implements LocationListener {
@@ -67,7 +70,7 @@ public class LocationService extends Service {
         @Override
         public void onLocationChanged(final Location location) {
             this.location = location;
-            ValueEventListener valueEventListener = new ValueEventListener() {
+            valueEventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {

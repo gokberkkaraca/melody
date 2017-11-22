@@ -39,6 +39,10 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).addValueEventListener(vel);
     }
 
+    public static void removeAllMemoriesListener(ValueEventListener valueEventListener){
+        databaseReference.child(DATABASE_MEMORIES_PATH).removeEventListener(valueEventListener);
+    }
+
     public static void getMemory(String id, ValueEventListener vel) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addValueEventListener(vel);
     }

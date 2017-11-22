@@ -11,6 +11,7 @@ import android.widget.TextView;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
+import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -35,6 +36,7 @@ public class UserProfileActivity extends AppCompatActivity {
     public void logOut(View view) {
         LoginStatusHandler.clearUserId(this);
         stopService(new Intent(this, FirebaseBackgroundService.class));
+        stopService(new Intent(this, LocationService.class));
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
