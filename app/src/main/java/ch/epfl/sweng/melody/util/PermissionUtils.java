@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody.util;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
@@ -59,12 +60,12 @@ public class PermissionUtils {
 
     }
 
-    public static void requestLocationPermission(AppCompatActivity activity) {
+    public static void requestLocationPermission(Activity activity) {
         if (permissionNotGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION))
             requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION);
     }
 
-    public static void accessLocationWithPermission(AppCompatActivity activity, LocationListener locationListener) {
+    public static void accessLocationWithPermission(Activity activity, LocationListener locationListener) {
         if (permissionNotGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION))
             requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION);
         else {
@@ -96,11 +97,11 @@ public class PermissionUtils {
         activity.startActivityForResult(intent, REQUEST_VIDEO_GALLERY);
     }
 
-    private static boolean permissionNotGranted(AppCompatActivity activity, String permission) {
+    private static boolean permissionNotGranted(Activity activity, String permission) {
         return ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED;
     }
 
-    private static void requestPermission(AppCompatActivity activity, String permission, int resquestCode) {
+    private static void requestPermission(Activity activity, String permission, int resquestCode) {
         ActivityCompat.requestPermissions(activity, new String[]{permission}, resquestCode);
     }
 }
