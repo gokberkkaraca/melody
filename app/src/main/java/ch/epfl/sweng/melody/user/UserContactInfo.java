@@ -29,4 +29,9 @@ class UserContactInfo {
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass().equals(UserContactInfo.class) && this.userId.equals(((UserContactInfo) obj).getUserId());
+    }
 }
