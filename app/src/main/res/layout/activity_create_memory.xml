@@ -46,18 +46,17 @@
         android:id="@+id/display_chosen_photo"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:scaleType="fitXY"
-        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintTop_toBottomOf="@+id/memory_description"
         app:srcCompat="@null"
         tools:ignore="ContentDescription"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        tools:layout_constraintLeft_creator="1" />
 
     <VideoView
         android:id="@+id/display_chosen_video"
@@ -66,9 +65,8 @@
         android:layout_marginTop="20dp"
         android:background="@null"
         android:scaleType="fitXY"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="@+id/memory_description"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
+        app:layout_constraintLeft_toLeftOf="@+id/memory_description"
         app:layout_constraintTop_toBottomOf="@+id/display_chosen_photo"
         tools:ignore="ContentDescription" />
 

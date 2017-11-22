@@ -36,12 +36,10 @@ public class Memory {
         this.serializableLocation = memoryBuilder.serializableLocation;
         this.privacy = memoryBuilder.privacy;
         this.reminder = memoryBuilder.reminder;
+
         this.comments = memoryBuilder.comments;
         this.likes = memoryBuilder.likes;
         this.tags = memoryBuilder.tags;
-        // Firebase doesn't accept empty list
-        likes.add(user);
-
         this.photoUrl = memoryBuilder.photoUrl;
         this.videoUrl = memoryBuilder.videoUrl;
 
@@ -88,10 +86,6 @@ public class Memory {
         return comments;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
     public Privacy getPrivacy() {
         return privacy;
     }
@@ -122,6 +116,10 @@ public class Memory {
 
     public List<User> getLikes() {
         return likes;
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 
     public static class MemoryBuilder {
@@ -168,11 +166,6 @@ public class Memory {
 
         public MemoryBuilder comments(List<Comment> comments) {
             this.comments = comments;
-            return this;
-        }
-
-        public MemoryBuilder likes(List<User> likes) {
-            this.likes = likes;
             return this;
         }
 
