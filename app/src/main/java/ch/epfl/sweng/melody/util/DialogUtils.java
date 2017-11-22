@@ -63,7 +63,7 @@ public class DialogUtils {
         builder.show();
     }
 
-    public static void showGPSDisabledDialog(final AppCompatActivity activity) {
+    public static void showGPSDisabledDialog(final Activity activity) {
         LocationManager service = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
         assert service != null;
         boolean isLocationEnabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
