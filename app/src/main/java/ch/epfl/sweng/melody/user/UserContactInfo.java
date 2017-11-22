@@ -1,6 +1,6 @@
 package ch.epfl.sweng.melody.user;
 
-class UserContactInfo {
+public class UserContactInfo {
 
     private String userId;
     private String displayName;

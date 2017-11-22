@@ -9,14 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import java.util.List;
 
 import ch.epfl.sweng.melody.user.FriendAdapter;
-import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.user.UserContactInfo;
 
 public class FriendListActivity extends AppCompatActivity {
     private RecyclerView friendsRecyclerView;
     private FriendAdapter friendAdapter;
     DividerItemDecoration dividerItemDecoration;
 
-    private List<User> friendsToDisplay = MainActivity.getUser().getFriends();
+    private List<UserContactInfo> friendsToDisplay = MainActivity.getUser().getFriends();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

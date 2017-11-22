@@ -14,9 +14,9 @@ import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendsViewHolder> {
-    private final List<User> friendList;
+    private final List<UserContactInfo> friendList;
 
-    public FriendAdapter(List<User> friendList) {
+    public FriendAdapter(List<UserContactInfo> friendList) {
         this.friendList = friendList;
     }
 
@@ -30,7 +30,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendsVie
     @Override
     public void onBindViewHolder(final FriendsViewHolder holder, int position) {
 
-        final User friend = friendList.get(position);
+        final UserContactInfo friend = friendList.get(position);
 
         holder.friendName.setText(friend.getDisplayName());
         holder.friendMail.setText(friend.getEmail());
