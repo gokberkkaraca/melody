@@ -216,9 +216,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
 
     @Override
     public void update(Location location) {
-//        if (observable instanceof LocationListenerSubject) {
-//            LocationListenerSubject locationSubject = (LocationListenerSubject) observable;
-//            Location location = locationSubject.getLocation();
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
         List<Address> addresses;
         try {

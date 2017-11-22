@@ -84,31 +84,7 @@ public class ShowMapActivity extends FragmentActivity
 
     @Override
     public void update(Location location) {
-        //if (observable instanceof LocationListenerSubject) {
-        //  LocationListenerSubject locationSubject = (LocationListenerSubject) observable;
-        // Location location = locationSubject.getLocation();
-        Geocoder gcd = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses;
-        String addressText = "";
-        try {
-            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (currentLatLng.longitude == 0 && currentLatLng.latitude == 0) {
-            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12.0f));
-        } else {
-            currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
-        }
-        if (currentMarker != null) {
-            currentMarker.setPosition(currentLatLng);
-        } else {
-            currentMarker = mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Your location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-        }
+        updateMarkerOfCurrentLocation(location);
     }
 
     @Override

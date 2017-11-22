@@ -22,8 +22,8 @@ import ch.epfl.sweng.melody.notification.NotificationHandler;
 public class LocationService extends Service implements LocationObserver {
     @RestrictTo(RestrictTo.Scope.TESTS)
     private static boolean isServiceStarted;
-    private double DISTANCETOUSER = 5000;
-    private double MINDISTANCE = 500;
+    private double DISTANCE_TO_USER = 5000;
+    private double MIN_DISTANCE = 500;
     private SerializableLocation lastLocation = new SerializableLocation(0, 0, "FAKE");
     private ValueEventListener valueEventListenerLocation;
 
@@ -54,7 +54,7 @@ public class LocationService extends Service implements LocationObserver {
     @Override
     public void update(final Location location) {
         SerializableLocation newLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), "NOW");
-        if (newLocation.distanceTo(lastLocation) > MINDISTANCE) {
+        if (newLocation.distanceTo(lastLocation) > MIN_DISTANCE) {
             valueEventListenerLocation = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -63,7 +63,7 @@ public class LocationService extends Service implements LocationObserver {
                         assert memory != null;
                         double DistanceToUser = memory.getSerializableLocation().
                                 distanceTo(new SerializableLocation(location.getLatitude(), location.getLongitude(), ""));
-                        boolean isCloseToUser = DistanceToUser < DISTANCETOUSER;
+                        boolean isCloseToUser = DistanceToUser < DISTANCE_TO_USER;
                         boolean isFromSameUser = memory.getUser().equals(MainActivity.getUser());
                         if (isCloseToUser && isFromSameUser) {
                             String message = "Welcome back to " + memory.getSerializableLocation().getLocationName() + " !";
@@ -78,7 +78,7 @@ public class LocationService extends Service implements LocationObserver {
 
                 }
             };
-            DatabaseHandler.getAllMemoriesWitehSingleListener(valueEventListenerLocation);
+            DatabaseHandler.getAllMemoriesWithSingleListener(valueEventListenerLocation);
         }
         lastLocation = newLocation;
     }
