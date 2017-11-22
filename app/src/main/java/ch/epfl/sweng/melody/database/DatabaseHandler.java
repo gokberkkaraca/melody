@@ -42,7 +42,9 @@ public class DatabaseHandler {
     }
 
     public static void removeAllMemoriesListener(ValueEventListener valueEventListener) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).removeEventListener(valueEventListener);
+        if(valueEventListener!=null){
+            databaseReference.child(DATABASE_MEMORIES_PATH).removeEventListener(valueEventListener);
+        }
     }
 
     public static void getMemory(String id, ValueEventListener vel) {
@@ -54,7 +56,9 @@ public class DatabaseHandler {
     }
 
     public static void removeLatestMemoryListener(ValueEventListener valueEventListener) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).removeEventListener(valueEventListener);
+        if(valueEventListener!=null){
+            databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).removeEventListener(valueEventListener);
+        }
     }
 
 
