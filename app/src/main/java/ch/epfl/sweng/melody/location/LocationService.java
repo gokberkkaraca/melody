@@ -68,6 +68,7 @@ public class LocationService extends Service implements LocationObserver {
                         if (isCloseToUser && isFromSameUser) {
                             String message = "Welcome back to " + memory.getSerializableLocation().getLocationName() + " !";
                             NotificationHandler.sendNotification(LocationService.this, message);
+                            break;
                         }
                     }
                 }
