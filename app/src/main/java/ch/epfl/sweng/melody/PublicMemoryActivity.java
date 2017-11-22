@@ -42,10 +42,6 @@ import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
 public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {

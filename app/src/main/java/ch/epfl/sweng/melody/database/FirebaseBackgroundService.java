@@ -2,20 +2,14 @@ package ch.epfl.sweng.melody.database;
 
 import android.app.Service;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.IBinder;
 import android.support.annotation.RestrictTo;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.MainActivity;
-import ch.epfl.sweng.melody.location.LocationListenerSubject;
-import ch.epfl.sweng.melody.location.LocationObserver;
-import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
 

@@ -51,7 +51,7 @@ public class LocationService extends Service implements LocationObserver {
     }
 
     @Override
-    public void update(final Location location){
+    public void update(final Location location) {
         valueEventListenerLocation = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

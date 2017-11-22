@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,8 +27,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.LocationListenerSubject;
@@ -222,18 +219,18 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
 //        if (observable instanceof LocationListenerSubject) {
 //            LocationListenerSubject locationSubject = (LocationListenerSubject) observable;
 //            Location location = locationSubject.getLocation();
-            Geocoder gcd = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses;
-            try {
-                addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
-                address.setText(addressText);
-                serializableLocation.setLatitude(location.getLatitude());
-                serializableLocation.setLongitude(location.getLongitude());
-                serializableLocation.setLocationName(addressText);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
+            address.setText(addressText);
+            serializableLocation.setLatitude(location.getLatitude());
+            serializableLocation.setLongitude(location.getLongitude());
+            serializableLocation.setLocationName(addressText);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 //    }
 }

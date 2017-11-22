@@ -1,7 +1,6 @@
 package ch.epfl.sweng.melody;
 
 import android.content.Intent;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
-import ch.epfl.sweng.melody.location.LocationListenerSubject;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
