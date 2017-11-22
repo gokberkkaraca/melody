@@ -3,7 +3,6 @@ package ch.epfl.sweng.melody.location;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.IBinder;
 import android.support.annotation.RestrictTo;
 
@@ -24,6 +23,8 @@ public class LocationService extends Service implements LocationObserver {
     @RestrictTo(RestrictTo.Scope.TESTS)
     private static boolean isServiceStarted;
     private double DISTANCETOUSER = 5000;
+    private double MINDISTANCE = 500;
+    private SerializableLocation lastLocation = new SerializableLocation(0, 0, "FAKE");
     private ValueEventListener valueEventListenerLocation;
 
     public static boolean isServiceStarted() {
@@ -39,7 +40,7 @@ public class LocationService extends Service implements LocationObserver {
     public void onCreate() {
         super.onCreate();
         isServiceStarted = true;
-        LocationListenerSubject.getLocationListenerInstance(LocationManager.GPS_PROVIDER).registerObserver(this);
+        LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
     }
 
     @Override
@@ -47,33 +48,37 @@ public class LocationService extends Service implements LocationObserver {
         super.onDestroy();
         isServiceStarted = false;
         DatabaseHandler.removeAllMemoriesListener(valueEventListenerLocation);
-        LocationListenerSubject.getLocationListenerInstance(LocationManager.GPS_PROVIDER).removeAllObservers();
+        LocationListenerSubject.getLocationListenerInstance().removeAllObservers();
     }
 
     @Override
     public void update(final Location location) {
-        valueEventListenerLocation = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                    Memory memory = memDataSnapshot.getValue(Memory.class);
-                    assert memory != null;
-                    double DistanceToUser = memory.getSerializableLocation().
-                            distanceTo(new SerializableLocation(location.getLatitude(), location.getLongitude(), ""));
-                    boolean isCloseToUser = DistanceToUser < DISTANCETOUSER;
-                    boolean isFromSameUser = memory.getUser().equals(MainActivity.getUser());
-                    if (isCloseToUser && isFromSameUser) {
-                        String message = "Welcome back to " + memory.getSerializableLocation().getLocationName() + " !";
-                        NotificationHandler.sendNotification(LocationService.this, message);
+        SerializableLocation newLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), "NOW");
+        if (newLocation.distanceTo(lastLocation) > MINDISTANCE) {
+            valueEventListenerLocation = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                        Memory memory = memDataSnapshot.getValue(Memory.class);
+                        assert memory != null;
+                        double DistanceToUser = memory.getSerializableLocation().
+                                distanceTo(new SerializableLocation(location.getLatitude(), location.getLongitude(), ""));
+                        boolean isCloseToUser = DistanceToUser < DISTANCETOUSER;
+                        boolean isFromSameUser = memory.getUser().equals(MainActivity.getUser());
+                        if (isCloseToUser && isFromSameUser) {
+                            String message = "Welcome back to " + memory.getSerializableLocation().getLocationName() + " !";
+                            NotificationHandler.sendNotification(LocationService.this, message);
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        };
-        DatabaseHandler.getAllMemories(valueEventListenerLocation);
+                }
+            };
+            DatabaseHandler.getAllMemories(valueEventListenerLocation);
+        }
+        lastLocation = newLocation;
     }
 }
