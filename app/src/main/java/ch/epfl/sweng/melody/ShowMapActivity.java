@@ -44,7 +44,6 @@ import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
-import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
@@ -152,6 +151,7 @@ public class ShowMapActivity extends FragmentActivity
             }
         }
     }
+
     @Override
     public void onMapClick(LatLng point) {
         if (pickPlaceMarker != null) {
@@ -214,7 +214,7 @@ public class ShowMapActivity extends FragmentActivity
     }
 
     public void findMemoryAroundCurrentLocation(View view) {
-        if(pickPlaceMarker!=null) {
+        if (pickPlaceMarker != null) {
             pickPlaceMarker.remove();
             pickPlaceMarker = null;
             pickLocation = null;

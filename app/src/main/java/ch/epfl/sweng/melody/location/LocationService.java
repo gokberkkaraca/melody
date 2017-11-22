@@ -51,7 +51,7 @@ public class LocationService extends Service {
     public void onDestroy() {
         super.onDestroy();
         DatabaseHandler.removeAllMemoriesListener(valueEventListener);
-        locationListener=null;
+        locationListener = null;
     }
 
     public class LocationListenerSubject extends Observable implements LocationListener {
@@ -81,7 +81,7 @@ public class LocationService extends Service {
                         boolean isCloseToUser = DistanceToUser < DISTANCETOUSER;
                         boolean isFromSameUser = memory.getUser().equals(MainActivity.getUser());
                         if (isCloseToUser && isFromSameUser) {
-                            String message = "Welcome to revisit " + memory.getSerializableLocation().getLocationName() + " ! See what you did here before!";
+                            String message = "Welcome back to " + memory.getSerializableLocation().getLocationName() + " !";
                             NotificationHandler.sendNotification(LocationService.this, message);
                         }
                     }
