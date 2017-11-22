@@ -17,6 +17,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -65,9 +67,12 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private ImageView imageView;
     private VideoView videoView;
     private Spinner dropDown;
+    private Button tagSubmit;
     private List <String> tags = new ArrayList<>();
+    private List <String> selectedTags = new ArrayList<>();
     private Bitmap picture;
     private EditText editText;
+    private EditText newTag;
     private Uri resourceUri;
     private Memory.MemoryType memoryType;
     private String memoryDescription;
@@ -82,14 +87,30 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
+        newTag = findViewById(R.id.new_tag_content);
         dropDown = findViewById(R.id.tags_dropdown);
+        tagSubmit = findViewById(R.id.submit_tag);
         TextView address = findViewById(R.id.address);
         address.setText(FAKE_ADDRESS.getLocationName());
+
+        tagSubmit.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                String addTag = newTag.getText().toString();
+                if(addTag != null){
+                    addTagToDatabase(addTag);
+                    selectedTags.add(addTag);
+                    fetchTagsFromDatabase();
+                }
+            }
+        });
 
         PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         accessLocationWithPermission(this, this);
         fetchTagsFromDatabase();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tags);
+        dropDown.setAdapter(adapter);
     }
 
     @Override
@@ -166,10 +187,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                     assert tag != null;
                     tags.add(tag);
                 }
-
-                TextView test = findViewById(R.id.testView);
-                test.setText("Number of tags " + Integer.toString(tags.size()));
-
             }
 
             @Override
@@ -177,6 +194,10 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 System.out.println("The read failed!");
             }
         });
+    }
+
+    public void addTagToDatabase(String newTag) {
+        DatabaseHandler.addTag(newTag);
     }
 
     @Override
@@ -254,13 +275,14 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 e.printStackTrace();// this one is not good and need to be discussed
             }
         }
-        videoView.setVisibility(View.GONE);
+        imageView.setVisibility(View.VISIBLE);
         imageView.setImageBitmap(picture);
         resourceUri = data.getData();
         memoryType = Memory.MemoryType.PHOTO;
     }
 
     private void onPhotoFromCameraResult(Intent data) {
+        imageView.setVisibility(View.VISIBLE);
         picture = (Bitmap) data.getExtras().get("data");
         imageView.setImageBitmap(picture);
     }
@@ -268,12 +290,13 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     private void onVideoFromGalleryResult(Intent data) {
         resourceUri = data.getData();
         memoryType = Memory.MemoryType.VIDEO;
+        videoView.setVisibility(View.VISIBLE);
         videoView.setVideoURI(data.getData());
-        imageView.setVisibility(View.GONE);
         videoView.start();
     }
 
     private void onVideoFromCameraResult(Intent data) {
+        videoView.setVisibility(View.VISIBLE);
         videoView.setVideoURI(data.getData());
         videoView.start();
     }
