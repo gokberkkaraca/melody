@@ -51,7 +51,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         ImageView memoryImage = findViewById(R.id.memoryPicture);
 
-        TextView memoryText = (TextView) findViewById(R.id.memoryText);
+        TextView memoryText = findViewById(R.id.memoryText);
 
         memoryText.setVisibility(View.GONE);
         memoryImage.setVisibility(View.GONE);
@@ -118,7 +118,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 ImageView memoryImage = findViewById(R.id.memoryPicture);
 
-                TextView memoryText = (TextView) findViewById(R.id.memoryText);
+                TextView memoryText = findViewById(R.id.memoryText);
 
                 TextView date = findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));

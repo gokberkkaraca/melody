@@ -16,12 +16,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -56,6 +58,7 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static android.app.PendingIntent.getActivity;
+import static ch.epfl.sweng.melody.R.id.parent;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
@@ -134,7 +137,6 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
                 mMap.clear();
 
 
-
                 currentMarker = mMap.addMarker(new MarkerOptions()
                         .position(currentLatLng)
                         .title("Your location")
@@ -143,7 +145,7 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
                 DatabaseHandler.getAllMemories(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(final DataSnapshot dataSnapshot) {
                         for (final DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                             final Memory memory = memDataSnapshot.getValue(Memory.class);
                             assert memory != null;
@@ -154,7 +156,7 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
                                         .position(latLng)
                                         .title(memory.getId()));
 
-                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                     @Override
                                     public boolean onMarkerClick(Marker marker) {
                                         marker.showInfoWindow();
@@ -172,38 +174,48 @@ public class ShowMapActivity extends AppCompatActivity implements GoogleMap.OnIn
 
                                     @Override
                                     public View getInfoContents(final Marker marker) {
-                                        View v = getLayoutInflater().inflate(R.layout.info_window_layout, null);
-                                        System.out.print("I get the layout");
-//                                        LinearLayout v = new LinearLayout(ShowMapActivity.this);
-//                                        v.setOrientation(LinearLayout.VERTICAL);
-//                                        final ImageView userPhoto = new ImageView(ShowMapActivity.this);
-//                                        final TextView memoryText = new TextView(ShowMapActivity.this);
-//                                        final ImageView memoryImage = new ImageView(ShowMapActivity.this);
+                                        final ViewGroup nullParent = null;
+                                        final View v = getLayoutInflater().inflate(R.layout.info_window_layout, nullParent);
 
+                                        ImageView userPhoto = v.findViewById(R.id.userPhoto);
+                                        TextView memoryText = v.findViewById(R.id.memoryText);
+                                        ImageView memoryImage = v.findViewById(R.id.memoryImage);
 
-                                        DatabaseHandler.getMemory(marker.getTitle(), new ValueEventListener(){
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                ImageView userPhoto = findViewById(R.id.userPhoto);
-                                                TextView memoryText = findViewById(R.id.memoryText);
-                                                ImageView memoryImage = findViewById(R.id.memoryImage);
-                                                Memory memory = dataSnapshot.getValue(Memory.class);
-                                                assert memory != null;
-                                                String link = memory.getUser().getProfilePhotoUrl();
-                                                userPhoto.setVisibility(View.VISIBLE);
-                                                Picasso.with(getApplicationContext()).load(memory.getUser().getProfilePhotoUrl()).into(userPhoto);
+                                        memoryText.setTextColor(Color.BLACK);
+                                        memoryText.setGravity(Gravity.START);
 
-                                                //new GoogleProfilePictureAsync(userPhoto, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
-                                                memoryText.setText(takeSubtext(memory.getText(), 50));
-                                                if(memory.getPhotoUrl() != null) {
-                                                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
-                                                }
-                                            }
+                                        Memory markerMemory = dataSnapshot.child(marker.getTitle()).getValue(Memory.class);
+                                        assert markerMemory != null;
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-                                            }
-                                        });
+                                        new GoogleProfilePictureAsync(userPhoto, Uri.parse(markerMemory.getUser().getProfilePhotoUrl())).execute();
+
+                                        memoryText.setText(getString(R.string.briefText,takeSubtext(markerMemory.getText(), 60)));
+
+                                        if (markerMemory.getPhotoUrl() != null) {
+                                            userPhoto.setVisibility(View.VISIBLE);
+                                            Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into(memoryImage);
+                                        }
+
+//                                        DatabaseHandler.getMemory(marker.getTitle(), new ValueEventListener(){
+//                                            @Override
+//                                            public void onDataChange(DataSnapshot dataSnapshot) {
+////                                                ImageView userPhoto = v.findViewById(R.id.userPhoto);
+////                                                TextView memoryText = v.findViewById(R.id.memoryText);
+////                                                ImageView memoryImage = v.findViewById(R.id.memoryImage);
+//                                                Memory memory = dataSnapshot.getValue(Memory.class);
+//                                                assert memory != null;
+//                                                userPhoto.setVisibility(View.VISIBLE);
+//                                                new GoogleProfilePictureAsync(userPhoto, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
+//                                                memoryText.setText(takeSubtext(memory.getText(), 50));
+//                                                if(memory.getPhotoUrl() != null) {
+//                                                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
+//                                                }
+//                                            }
+//
+//                                            @Override
+//                                            public void onCancelled(DatabaseError databaseError) {
+//                                            }
+//                                        });
 
 //                                        v.addView(userPhoto);
 //                                        v.addView(memoryText);
