@@ -7,6 +7,8 @@ import android.webkit.MimeTypeMap;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -64,16 +66,21 @@ public class DatabaseHandler {
                                       OnSuccessListener onSuccessListener,
                                       OnFailureListener onFailureListener,
                                       OnProgressListener onProgressListener) {
-        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis() + "." + getResourceExtenson(uri, context))
+        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis() + "." + getResourceExtension(uri, context))
                 .putFile(uri)
                 .addOnSuccessListener(onSuccessListener)
                 .addOnFailureListener(onFailureListener)
                 .addOnProgressListener(onProgressListener);
     }
 
-    private static String getResourceExtenson(Uri uri, Context context) {
+    private static String getResourceExtension(Uri uri, Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    public static void newFriendshipRequest(User sender, User receiver) {
+        receiver.getFriendshipRequests().add(sender.getUserContactInfo());
+        addUser(receiver);
     }
 }
