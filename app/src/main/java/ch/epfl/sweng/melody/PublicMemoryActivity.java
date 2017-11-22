@@ -13,9 +13,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -44,7 +49,7 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
-public class PublicMemoryActivity extends FragmentActivity implements DialogInterface.OnDismissListener {
+public class PublicMemoryActivity extends AppCompatActivity implements DialogInterface.OnDismissListener { //extended FragmentActivity before
 
     private static MemoryAdapter memoryAdapter;
     private static long memoryStartTime = 0L;
@@ -59,6 +64,9 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
+        setSupportActionBar(myToolbar);
 
         dateButton = findViewById(R.id.dateButton);
 
@@ -130,17 +138,19 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
                 }).create().show();
     }
 
-    public void showDatePickerDialog(View v) {
+    public void showDatePickerDialog() { //deleted View v because was unused
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        dateButton.setText(dateFormat.format(calendar.getTime()));
-        recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
-        memoryList = new ArrayList<>();
-        fetchMemoriesFromDatabase();
+        if(calendar != null) {
+            dateButton.setText(dateFormat.format(calendar.getTime()));
+            recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
+            memoryList = new ArrayList<>();
+            fetchMemoriesFromDatabase();
+        }
     }
 
     @Override
@@ -216,6 +226,29 @@ public class PublicMemoryActivity extends FragmentActivity implements DialogInte
             }
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.time_changing_item:
+                showDatePickerDialog();
+                return true;
+
+            case R.id.see_friends_item :
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.public_toolbar_items, menu);
+        return true;
     }
 
 }
