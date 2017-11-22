@@ -23,6 +23,7 @@ public class Memory {
     private Boolean reminder;
     private String photoUrl;
     private String videoUrl;
+
     private Memory(MemoryBuilder memoryBuilder) {
         this.id = memoryBuilder.id;
         this.time = memoryBuilder.time;
@@ -40,6 +41,7 @@ public class Memory {
 
         this.memoryType = memoryBuilder.memoryType;
     }
+
     public Memory() {
         comments = new ArrayList<>();
         likes = new ArrayList<>();
