@@ -58,17 +58,15 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static Calendar calendar;
     private List<Memory> memoryList;
     private RecyclerView recyclerView;
-    private Button dateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
 
+        setTitle("Melody");
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
         setSupportActionBar(myToolbar);
-
-        dateButton = findViewById(R.id.dateButton);
 
         memoryList = new ArrayList<>();
         if (MainActivity.getUser() != null) {
@@ -146,7 +144,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     @Override
     public void onDismiss(DialogInterface dialog) {
         if(calendar != null) {
-            dateButton.setText(dateFormat.format(calendar.getTime()));
+            setTitle("Melody - " + dateFormat.format(calendar.getTime()));
             recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
             memoryList = new ArrayList<>();
             fetchMemoriesFromDatabase();
@@ -236,7 +234,9 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 return true;
 
             case R.id.see_friends_item :
-
+                Intent intent = new Intent(this, FriendListActivity.class);
+                this.startActivity(intent);
+                ((Activity) this).finish();
                 return true;
 
             default:
