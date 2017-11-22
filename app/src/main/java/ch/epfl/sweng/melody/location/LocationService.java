@@ -78,7 +78,7 @@ public class LocationService extends Service implements LocationObserver {
 
                 }
             };
-            DatabaseHandler.getAllMemories(valueEventListenerLocation);
+            DatabaseHandler.getAllMemoriesWitehSingleListener(valueEventListenerLocation);
         }
         lastLocation = newLocation;
     }
