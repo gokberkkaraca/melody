@@ -75,21 +75,8 @@ public class DatabaseHandler {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-    public static void newFriendshipRequest(final String senderId, String receiverId) {
-        getUserInfo(receiverId, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User receiver = dataSnapshot.getValue(User.class);
-                assert receiver != null;
-                receiver.getFriendshipRequests().add(receiver.getUserContactInfo());
-                addUser(receiver);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+    public static void newFriendshipRequest(User sender, User receiver) {
+        receiver.getFriendshipRequests().add(sender.getUserContactInfo());
+        addUser(receiver);
     }
 }
