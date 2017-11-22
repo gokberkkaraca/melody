@@ -10,8 +10,10 @@ import java.util.Date;
 
 import ch.epfl.sweng.melody.memory.Memory;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -77,6 +79,15 @@ public class UserTest {
     @Test
     public void emptyConstructor() throws Exception {
         assertNotNull(new User());
+    }
+
+    @Test
+    public void getUserContactInfo() throws Exception {
+        UserContactInfo userContactInfo = user.getUserContactInfo();
+        assertThat(userContactInfo.getDisplayName(), is(user.getDisplayName()));
+        assertThat(userContactInfo.getEmail(), is(user.getEmail()));
+        assertThat(userContactInfo.getProfilePhotoUrl(), is(user.getProfilePhotoUrl()));
+        assertThat(userContactInfo.getUserId(), is(user.getId()));
     }
 
 }
