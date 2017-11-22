@@ -236,7 +236,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             case R.id.see_friends_item :
                 Intent intent = new Intent(this, FriendListActivity.class);
                 this.startActivity(intent);
-                ((Activity) this).finish();
                 return true;
 
             default:

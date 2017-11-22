@@ -1,10 +1,12 @@
 package ch.epfl.sweng.melody;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import java.util.List;
 
@@ -22,6 +24,13 @@ public class FriendListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
+
+        setTitle("");
+        Toolbar friendToolbar = (Toolbar) findViewById(R.id.friends_toolbar);
+        setSupportActionBar(friendToolbar);
+
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
         friendsRecyclerView = (RecyclerView) findViewById(R.id.friends_recyclerView);
 

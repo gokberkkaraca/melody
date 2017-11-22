@@ -59,7 +59,13 @@
         <activity
             android:name=".ShowMapActivity"
             android:label="@string/title_activity_show_map" />
-        <activity android:name=".FriendListActivity"></activity>
+        <activity
+            android:name=".FriendListActivity"
+            android:parentActivityName="ch.epfl.sweng.melody.PublicMemoryActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.epfl.sweng.melody.PublicMemoryActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@
     <string name="zero">0</string>
     <string name="time_changing">Time travel</string>
     <string name="show_friends">See my friends</string>
+    <string name="friends_list">My friends</string>
     <string name="findMemoryAroundCurrentLocation">Find Some memories around you!</string>
     <string name="findMemoryAroundPickedLocation">Find Some memories from picking a location!</string>
 </resources>
