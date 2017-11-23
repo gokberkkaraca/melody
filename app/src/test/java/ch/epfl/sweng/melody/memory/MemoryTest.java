@@ -94,6 +94,11 @@ public class MemoryTest {
     }
 
     @Test
+    public void getTags() throws Exception {
+        assertTrue(memoryFromBuilder.getTags() != null);
+    }
+
+    @Test
     public void getPrivacy() throws Exception {
         assertEquals(Memory.Privacy.PUBLIC, memory.getPrivacy());
     }
