@@ -71,6 +71,7 @@ public class PublicMemoryActivityTest extends ActivityTest {
     @Test
     public void openFriendsList() throws Exception {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        Thread.sleep(2000);
         onView(withText("See my friends")).perform(click());
     }
 }
