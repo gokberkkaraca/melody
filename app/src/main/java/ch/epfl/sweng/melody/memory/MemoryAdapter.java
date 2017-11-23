@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,15 +36,22 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         this.memoryList = memoryList;
     }
 
-    //Catch and send exceptions ??
     private static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
         Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-        mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-        bitmap = mediaMetadataRetriever.getFrameAtTime();
-
-        mediaMetadataRetriever.release();
-
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            bitmap = mediaMetadataRetriever.getFrameAtTime();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
         return bitmap;
     }
 
@@ -99,7 +107,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         if (memory.getMemoryType() == Memory.MemoryType.TEXT) {
             holder.typeOfMemory.setImageResource(R.mipmap.text_type);
-            holder.memoryPic.setImageResource(R.mipmap.writing_type_image);
+            holder.memoryPic.setVisibility(View.GONE);
+            //holder.memoryPic.setImageResource(R.mipmap.writing_type_image);
         } else if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
