@@ -203,7 +203,7 @@
                 app:layout_constraintStart_toEndOf="@+id/likes"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints,RtlHardcoded" />
-
+            @SuppressLint("NestedScrolling")
             <ScrollView
                 android:id="@+id/textScroll"
                 android:layout_width="311dp"
