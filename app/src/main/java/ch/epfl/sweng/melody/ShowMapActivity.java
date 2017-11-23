@@ -259,11 +259,13 @@ public class ShowMapActivity extends FragmentActivity
 
                                 TextView userId = v.findViewById(R.id.userName);
                                 ImageView userPhoto = v.findViewById(R.id.userPhoto);
+                                TextView uploadTime = v.findViewById(R.id.uploadTime);
                                 TextView memoryText = v.findViewById(R.id.memoryText);
                                 ImageView memoryImage = v.findViewById(R.id.memoryImage);
                                 userId.setTextColor(Color.BLACK);
                                 userId.setGravity(Gravity.START);
                                 userId.setTypeface(userId.getTypeface(), Typeface.BOLD);
+                                uploadTime.setTextColor(Color.GRAY);
                                 memoryText.setTextColor(Color.BLACK);
                                 memoryText.setGravity(Gravity.START);
 
@@ -271,6 +273,7 @@ public class ShowMapActivity extends FragmentActivity
                                 assert markerMemory != null;
 
                                 userId.setText(markerMemory.getUser().getDisplayName());
+                                uploadTime.setText(markerMemory.getTime().toString());
 
                                 new GoogleProfilePictureAsync(userPhoto, Uri.parse(markerMemory.getUser().getProfilePhotoUrl())).execute();
 
