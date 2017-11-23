@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,9 @@ import java.util.Locale;
 
 import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.MainActivity;
+import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.R;
+import ch.epfl.sweng.melody.UserProfileActivity;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
@@ -31,6 +32,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
     private final List<Memory> memoryList;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
+    public static final String EXTRA_USERID = "ch.epfl.sweng.USERID";
 
     public MemoryAdapter(List<Memory> memoryList) {
         this.memoryList = memoryList;
@@ -101,14 +103,23 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.hashOfMemory.setImageResource(R.mipmap.hash_without);
         }
 
-        User user = memory.getUser();
+        final User user = memory.getUser();
         holder.author.setText(user.getDisplayName());
         new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
+
+        /*
+        holder.authorPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.itemView.getContext(), UserProfileActivity.class);
+                //intent.putExtra(EXTRA_USERID, user.getId());
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });*/
 
         if (memory.getMemoryType() == Memory.MemoryType.TEXT) {
             holder.typeOfMemory.setImageResource(R.mipmap.text_type);
             holder.memoryPic.setVisibility(View.GONE);
-            //holder.memoryPic.setImageResource(R.mipmap.writing_type_image);
         } else if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
@@ -117,6 +128,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
             holder.memoryPic.setImageBitmap(thumbnail);
         }
+
     }
 
     @Override

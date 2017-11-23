@@ -22,9 +22,9 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         TextView username = findViewById(R.id.username);
-        username.setText(MainActivity.getUser().getDisplayName());
-
         ImageView profilePicView = findViewById(R.id.profilePicView);
+
+        username.setText(MainActivity.getUser().getDisplayName());
         new GoogleProfilePictureAsync(profilePicView, Uri.parse(MainActivity.getUser().getProfilePhotoUrl())).execute();
     }
 
