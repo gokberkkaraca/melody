@@ -145,27 +145,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading Memory...");
         progressDialog.show();
-
-        //------------------------------------------------
-        /*if (memoryType == Memory.MemoryType.VIDEO) {
-            DatabaseHandler.uploadResource(resourceUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String url = taskSnapshot.getDownloadUrl().toString();
-                    DatabaseHandler.uploadMemory(memory);
-                    MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
-                }
-            }, new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                }
-            }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
-            });
-        }*/
-        //------------------------------------------------
-
+        
         DatabaseHandler.uploadResource(resourceUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
