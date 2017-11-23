@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,15 +45,15 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_memory_detail);
         memoryId = getIntent().getStringExtra("memoryId");
-        fetchMemoryFromDatabase();
 
-        ImageView memoryImage = findViewById(R.id.memoryPicture);
+        TextView memoryText = findViewById(R.id.memoryText);
 
-        TextView memoryText = (TextView) findViewById(R.id.memoryText);
+        RelativeLayout videoSpace = findViewById(R.id.memoryImageOrVideo);
 
         memoryText.setVisibility(View.GONE);
-        memoryImage.setVisibility(View.GONE);
+        videoSpace.setVisibility(View.GONE);
 
+        fetchMemoryFromDatabase();
 
         LinearLayout commentsContainer = findViewById(R.id.memoryComments);
 
@@ -113,9 +114,13 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 ScrollView parentScroll = findViewById(R.id.parentScroll);
                 ScrollView textScroll = findViewById(R.id.textScroll);
 
+                RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
+
                 ImageView memoryImage = findViewById(R.id.memoryPicture);
 
-                TextView memoryText = (TextView) findViewById(R.id.memoryText);
+                TextView memoryText = findViewById(R.id.memoryText);
+
+                VideoView memoryVideo = findViewById(R.id.memoryVideo);
 
                 TextView date = findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));
@@ -125,6 +130,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
 
                 if (memory.getPhotoUrl() != null) {
+                    memoryImageOrVideo.setVisibility(View.VISIBLE);
+                    memoryVideo.setVisibility(View.INVISIBLE);
                     memoryImage.setVisibility(View.VISIBLE);
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
                 }
@@ -153,6 +160,14 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                             }
                         });
                     }
+                }
+
+                if(memory.getVideoUrl() != null){
+                    memoryImageOrVideo.setVisibility(View.VISIBLE);
+                    memoryImage.setVisibility(View.INVISIBLE);
+                    memoryVideo.setVisibility(View.VISIBLE);
+                    memoryVideo.setVideoPath(memory.getVideoUrl());
+                    memoryVideo.start();
                 }
 
                 TextView author = findViewById(R.id.memoryAuthor);
