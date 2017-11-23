@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sweng.melody.user.FriendAdapter;
@@ -18,7 +19,8 @@ public class FriendListActivity extends AppCompatActivity {
     private FriendAdapter friendAdapter;
     DividerItemDecoration dividerItemDecoration;
 
-    private List<UserContactInfo> friendsToDisplay = MainActivity.getUser().getFriends();
+    //private List<UserContactInfo> friendsToDisplay = MainActivity.getUser().getFriends(); //REAL LIST
+    private List<UserContactInfo> friendsToDisplay = new ArrayList<>(); //MOCK LIST
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
