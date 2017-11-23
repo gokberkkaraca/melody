@@ -147,7 +147,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     memoryText.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
-                            memoryText.performClick();
+                            v.performClick();
                             v.getParent().requestDisallowInterceptTouchEvent(true);
                             return false;
                         }
