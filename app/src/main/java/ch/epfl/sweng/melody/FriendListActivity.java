@@ -25,6 +25,14 @@ public class FriendListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
+        //----------------Mock datas-----------------------
+        friendsToDisplay.clear();
+        UserContactInfo user1 = new UserContactInfo("user1", "First Friend :)", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "first@gmail.com");
+        UserContactInfo user2 = new UserContactInfo("user2", "Second ", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511391615137.jpg?alt=media&token=d1b06dcb-6786-4717-89b5-4775e3d92112", "second@gmail.com");
+        friendsToDisplay.add(user1);
+        friendsToDisplay.add(user2);
+        //-------------------------------------------------
+
         setTitle("");
         Toolbar friendToolbar = (Toolbar) findViewById(R.id.friends_toolbar);
         setSupportActionBar(friendToolbar);
