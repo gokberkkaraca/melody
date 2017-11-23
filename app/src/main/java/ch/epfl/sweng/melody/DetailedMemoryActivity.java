@@ -167,7 +167,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     memoryImage.setVisibility(View.INVISIBLE);
                     memoryVideo.setVisibility(View.VISIBLE);
                     memoryVideo.setVideoPath(memory.getVideoUrl());
-                    memoryText.setText(memory.getVideoUrl());
                     memoryVideo.start();
                 }
 
