@@ -118,7 +118,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 ImageView memoryImage = findViewById(R.id.memoryPicture);
 
-                TextView memoryText = findViewById(R.id.memoryText);
+                final TextView memoryText = findViewById(R.id.memoryText);
 
                 final VideoView memoryVideo = findViewById(R.id.memoryVideo);
 
@@ -147,6 +147,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     memoryText.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
+                            memoryText.performClick();
                             v.getParent().requestDisallowInterceptTouchEvent(true);
                             return false;
                         }

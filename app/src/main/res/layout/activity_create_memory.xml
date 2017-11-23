@@ -55,7 +55,7 @@
         android:layout_height="25dp"
         app:layout_constraintTop_toTopOf="@+id/select_tags"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
-        app:layout_constraintLeft_toRighOf="@+id/select_tags"/>
+        app:layout_constraintLeft_toRightOf="@+id/select_tags"/>
 
     <TextView
         android:id="@+id/add_tag"
