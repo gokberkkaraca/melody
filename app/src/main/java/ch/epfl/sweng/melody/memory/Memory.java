@@ -137,6 +137,7 @@ public class Memory {
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
+        private String thumbnailUrl;
 
         public MemoryBuilder(User user, String text, SerializableLocation serializableLocation) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());

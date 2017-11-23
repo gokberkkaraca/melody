@@ -28,11 +28,14 @@ import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERFRIENDS;
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERNAME;
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERPIC;
+
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
 
     private final List<Memory> memoryList;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
-    public static final String EXTRA_USERID = "ch.epfl.sweng.USERID";
 
     public MemoryAdapter(List<Memory> memoryList) {
         this.memoryList = memoryList;
@@ -107,15 +110,17 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         holder.author.setText(user.getDisplayName());
         new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
 
-        /*
+
         holder.authorPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(holder.itemView.getContext(), UserProfileActivity.class);
-                //intent.putExtra(EXTRA_USERID, user.getId());
-                holder.itemView.getContext().startActivity(intent);
+                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                intent.putExtra(EXTRA_USERNAME, memory.getUser().getDisplayName());
+                intent.putExtra(EXTRA_USERPIC, memory.getUser().getProfilePhotoUrl());
+                intent.putExtra(EXTRA_USERFRIENDS, memory.getUser().getFriendsSize());
+                v.getContext().startActivity(intent);
             }
-        });*/
+        });
 
         if (memory.getMemoryType() == Memory.MemoryType.TEXT) {
             holder.typeOfMemory.setImageResource(R.mipmap.text_type);

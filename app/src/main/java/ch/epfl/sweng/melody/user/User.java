@@ -65,6 +65,8 @@ public class User implements Serializable {
         return email;
     }
 
+    public String getFriendsSize() { return (friends == null) ? "0" : Integer.toString(friends.size()); }
+
     public List<Memory> getMemories() {
         return memories;
     }
@@ -95,6 +97,10 @@ public class User implements Serializable {
 
     private String encodeEmailForId(String email) {
         return email.replace('.', ',');
+    }
+
+    private String decodeEmailForId(String email) {
+        return email.replace(',', '.');
     }
 
     public void removeFriend(UserContactInfo otherUser) {

@@ -242,6 +242,10 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 this.startActivity(intent);
                 return true;
 
+            case R.id.settings_item :
+                //just put the method to display the settings here
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

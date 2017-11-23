@@ -21,7 +21,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <ImageView
             android:id="@+id/profilePicView"
@@ -114,7 +114,8 @@
             android:layout_alignTop="@+id/profilePicView"
             android:text="@string/edit"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone"/>
 
 
         <LinearLayout
@@ -126,7 +127,15 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/followings"
             android:layout_marginTop="22dp"
-            android:orientation="horizontal" />
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/sendFriendRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/friendRequest" />
+        </LinearLayout>
 
 
         <Button
