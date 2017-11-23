@@ -7,12 +7,17 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,11 +30,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.LocationListenerSubject;
 import ch.epfl.sweng.melody.location.LocationObserver;
@@ -38,7 +45,8 @@ import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class ShowMapActivity extends FragmentActivity
-        implements OnMapReadyCallback,
+        implements GoogleMap.OnInfoWindowClickListener,
+        OnMapReadyCallback,
         LocationObserver,
         GoogleMap.OnMapClickListener {
     private int filterRadius = 0;
@@ -118,6 +126,7 @@ public class ShowMapActivity extends FragmentActivity
         seekBar.setVisibility(View.VISIBLE);
         seekBar.setPadding(50, 30, 50, 0);
         filterRadius = seekBar.getProgress();
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
@@ -186,6 +195,26 @@ public class ShowMapActivity extends FragmentActivity
                         icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
     }
 
+    private String takeSubtext(String text, int length) {
+        if (text.length() > length) {
+            String reverse = new StringBuffer(text.substring(0, length)).reverse().toString();
+            int i = 0;
+            while (i < length && reverse.charAt(0) != ' ') {
+                reverse = reverse.substring(1, reverse.length());
+                i++;
+            }
+            return new StringBuffer(reverse).reverse().toString();
+        } else {
+            return text;
+        }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toast.makeText(this, "Info window clicked",
+                Toast.LENGTH_SHORT).show();
+    }
+
     private void addMarkerForPickedLocation() {
         pickPlaceMarker = mMap.addMarker(new MarkerOptions()
                 .position(new LatLng(pickLocation.getLatitude(), pickLocation.getLongitude()))
@@ -197,14 +226,71 @@ public class ShowMapActivity extends FragmentActivity
         radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
         DatabaseHandler.getAllMemories(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    SerializableLocation memorylocation = memory.getSerializableLocation();
-                    if (location.distanceTo(memorylocation) < filterRadius * 1000) {
-                        LatLng latLng = new LatLng(memorylocation.getLatitude(), memorylocation.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(memory.getText()));
+                    SerializableLocation memoryLocation = memory.getSerializableLocation();
+                    if (memoryLocation.distanceTo(location) < filterRadius * 1000) {
+                        final LatLng latLng = new LatLng(memoryLocation.getLatitude(), memoryLocation.getLongitude());
+                        mMap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .title(memory.getId()));
+
+                        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(Marker marker) {
+                                marker.showInfoWindow();
+                                return false;
+                            }
+                        });
+
+                        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                            @Override
+                            public View getInfoWindow(Marker arg0) {
+                                return null;
+                            }
+
+                            @Override
+                            public View getInfoContents(final Marker marker) {
+                                final ViewGroup nullParent = null;
+                                View v = getLayoutInflater().inflate(R.layout.info_window_layout, nullParent);
+
+                                TextView userId = v.findViewById(R.id.userName);
+                                ImageView userPhoto = v.findViewById(R.id.userPhoto);
+                                TextView uploadTime = v.findViewById(R.id.uploadTime);
+                                TextView memoryText = v.findViewById(R.id.memoryText);
+                                ImageView memoryImage = v.findViewById(R.id.memoryImage);
+                                userId.setTextColor(Color.BLACK);
+                                userId.setGravity(Gravity.START);
+                                userId.setTypeface(userId.getTypeface(), Typeface.BOLD);
+                                uploadTime.setTextColor(Color.GRAY);
+                                memoryText.setTextColor(Color.BLACK);
+                                memoryText.setGravity(Gravity.START);
+
+                                Memory markerMemory = dataSnapshot.child(marker.getTitle()).getValue(Memory.class);
+                                assert markerMemory != null;
+
+                                userId.setText(markerMemory.getUser().getDisplayName());
+                                uploadTime.setText(markerMemory.getTime().toString());
+
+                                new GoogleProfilePictureAsync(userPhoto, Uri.parse(markerMemory.getUser().getProfilePhotoUrl())).execute();
+
+                                String text = markerMemory.getText();
+                                if(text.length()>60){
+                                    memoryText.setText(getString(R.string.briefText,takeSubtext(markerMemory.getText(), 60)));
+                                }else{
+                                    memoryText.setText(text);
+                                }
+
+                                if (markerMemory.getPhotoUrl() != null) {
+                                    userPhoto.setVisibility(View.VISIBLE);
+                                    Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into(memoryImage);
+                                }
+                                return v;
+                            }
+                        });
                     }
                 }
             }
