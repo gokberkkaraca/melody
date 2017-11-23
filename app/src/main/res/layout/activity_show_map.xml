@@ -1,68 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ch.epfl.sweng.melody.ShowMapActivity">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    <fragment
         android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="0dp"
-        android:layout_height="331dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/filter_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
-        android:id="@+id/filter_layout"
-        android:layout_width="0dp"
-        android:layout_height="139dp"
-        android:layout_marginBottom="50dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/whiteForMap"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/aroundCurrentLocationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="findMemoryAroundCurrentLocation"
+                android:text="@string/findMemoryAroundCurrentLocation" />
+
+            <Button
+                android:id="@+id/aroundPickLocationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="pickLocation"
+                android:text="@string/findMemoryAroundPickedLocation" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/filter_title"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:gravity="center_horizontal"
-            android:text="@string/ChooseRadius"
-            app:layout_constraintBottom_toTopOf="@+id/seekBar"
-            app:layout_constraintEnd_toStartOf="@+id/filter_message"
-            app:layout_constraintStart_toStartOf="@+id/filter_message"
-            app:layout_constraintTop_toBottomOf="@+id/map" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/ChooseRadius" />
 
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="51dp"
-            app:layout_constraintBottom_toTopOf="@+id/filter_message"
-            app:layout_constraintEnd_toStartOf="@+id/filter_message"
-            app:layout_constraintStart_toStartOf="@+id/filter_message"
-            app:layout_constraintTop_toBottomOf="@+id/filter_title" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/filter_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:gravity="center_horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
-
+            android:gravity="center" />
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

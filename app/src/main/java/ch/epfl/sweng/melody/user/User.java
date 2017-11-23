@@ -4,7 +4,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ch.epfl.sweng.melody.memory.Memory;
@@ -21,7 +20,8 @@ public class User implements Serializable {
     private String email;
 
     private List<Memory> memories;
-    private List<User> friends;
+    private List<UserContactInfo> friends;
+    private List<UserContactInfo> friendshipRequests;
     private List<User> followers;
     private List<User> followings;
 
@@ -39,12 +39,18 @@ public class User implements Serializable {
 
         memories = new ArrayList<>();
         friends = new ArrayList<>();
+        friendshipRequests = new ArrayList<>();
         followers = new ArrayList<>();
         followings = new ArrayList<>();
     }
 
     // Empty constructor is needed for database connection
     public User() {
+        memories = new ArrayList<>();
+        friends = new ArrayList<>();
+        friendshipRequests = new ArrayList<>();
+        followers = new ArrayList<>();
+        followings = new ArrayList<>();
     }
 
     public String getId() {
@@ -63,8 +69,12 @@ public class User implements Serializable {
         return memories;
     }
 
-    public List<User> getFriends() {
+    public List<UserContactInfo> getFriends() {
         return friends;
+    }
+
+    public List<UserContactInfo> getFriendshipRequests() {
+        return friendshipRequests;
     }
 
     public List<User> getFollowers() {
@@ -85,6 +95,43 @@ public class User implements Serializable {
 
     private String encodeEmailForId(String email) {
         return email.replace('.', ',');
+    }
+
+    public void removeFriend(UserContactInfo otherUser) {
+        if (friends.contains(otherUser)) {
+            friends.remove(otherUser);
+        } else {
+            throw new IllegalStateException("User " + otherUser.getDisplayName() + " is not in friend list");
+        }
+    }
+
+    public void addFriend(UserContactInfo otherUser) {
+        if (!friends.contains(otherUser)) {
+            friends.add(otherUser);
+        } else {
+            throw new IllegalStateException("User " + otherUser.getDisplayName() + " is already in friend list");
+        }
+    }
+
+    public UserContactInfo getUserContactInfo() {
+        return new UserContactInfo(id, displayName, profilePhotoUrl, email);
+    }
+
+    public void acceptFriendshipRequest(UserContactInfo otherUserId) {
+        if (friendshipRequests.contains(otherUserId)) {
+            friendshipRequests.remove(otherUserId);
+            addFriend(otherUserId);
+        } else {
+            throw new IllegalStateException("Friendship request does not exist");
+        }
+    }
+
+    public void rejectFriendshipRequest(UserContactInfo otherUserId) {
+        if (friendshipRequests.contains(otherUserId)) {
+            friendshipRequests.remove(otherUserId);
+        } else {
+            throw new IllegalStateException("Friendship request does not exist");
+        }
     }
 
     @Override

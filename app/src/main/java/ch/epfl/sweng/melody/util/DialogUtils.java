@@ -1,5 +1,6 @@
 package ch.epfl.sweng.melody.util;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -62,7 +63,7 @@ public class DialogUtils {
         builder.show();
     }
 
-    public static void showGPSDisabledDialog(final AppCompatActivity activity) {
+    public static void showGPSDisabledDialog(final Activity activity) {
         LocationManager service = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
         assert service != null;
         boolean isLocationEnabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -88,7 +89,7 @@ public class DialogUtils {
         }
     }
 
-    public static void showLocationPermissionRationale(final AppCompatActivity activity) {
+    public static void showLocationPermissionRationale(final Activity activity) {
         new AlertDialog.Builder(activity)
                 .setTitle("Permission Required")
                 .setMessage("Melody can't continue without location permission. If you want to create memories, please activate permissions")

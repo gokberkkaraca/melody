@@ -19,7 +19,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.service.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
@@ -112,7 +111,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             DatabaseHandler.addUser(MainActivity.getUser());
             LoginStatusHandler.setUserId(this, MainActivity.getUser().getId());
-
             MenuButtons.goToPublicMemoryActivity(this);
         }
         // Logout

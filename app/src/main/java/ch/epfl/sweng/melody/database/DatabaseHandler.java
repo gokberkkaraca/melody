@@ -39,6 +39,16 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).addValueEventListener(vel);
     }
 
+    public static void getAllMemoriesWithSingleListener(ValueEventListener vel) {
+        databaseReference.child(DATABASE_MEMORIES_PATH).addListenerForSingleValueEvent(vel);
+    }
+
+    public static void removeAllMemoriesListener(ValueEventListener valueEventListener) {
+        if (valueEventListener != null) {
+            databaseReference.child(DATABASE_MEMORIES_PATH).removeEventListener(valueEventListener);
+        }
+    }
+
     public static void getMemory(String id, ValueEventListener vel) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addValueEventListener(vel);
     }
@@ -47,8 +57,10 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).addValueEventListener(valueEventListener);
     }
 
-    public static void removeLatestMemoryListener(ValueEventListener valueEventListener){
-        databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).removeEventListener(valueEventListener);
+    public static void removeLatestMemoryListener(ValueEventListener valueEventListener) {
+        if (valueEventListener != null) {
+            databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).removeEventListener(valueEventListener);
+        }
     }
 
 
@@ -60,16 +72,21 @@ public class DatabaseHandler {
                                       OnSuccessListener onSuccessListener,
                                       OnFailureListener onFailureListener,
                                       OnProgressListener onProgressListener) {
-        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis() + "." + getResourceExtenson(uri, context))
+        storageReference.child(STORAGE_IMAGES_PATH + System.currentTimeMillis() + "." + getResourceExtension(uri, context))
                 .putFile(uri)
                 .addOnSuccessListener(onSuccessListener)
                 .addOnFailureListener(onFailureListener)
                 .addOnProgressListener(onProgressListener);
     }
 
-    private static String getResourceExtenson(Uri uri, Context context) {
+    private static String getResourceExtension(Uri uri, Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    public static void newFriendshipRequest(User sender, User receiver) {
+        receiver.getFriendshipRequests().add(sender.getUserContactInfo());
+        addUser(receiver);
     }
 }
