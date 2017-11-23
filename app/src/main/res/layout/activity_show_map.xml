@@ -29,7 +29,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="findMemoryAroundCurrentLocation"
-                android:text="@string/findMemoryAroundCurrentLocation" />
+                android:text="@string/findMemoryAroundCurrentLocation"
+                style="?android:attr/buttonBarButtonStyle"/>
 
             <Button
                 android:id="@+id/aroundPickLocationButton"
@@ -37,7 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="pickLocation"
-                android:text="@string/findMemoryAroundPickedLocation" />
+                android:text="@string/findMemoryAroundPickedLocation"
+                style="?android:attr/buttonBarButtonStyle"/>
 
         </LinearLayout>
 

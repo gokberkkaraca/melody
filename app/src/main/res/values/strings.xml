@@ -29,6 +29,9 @@
     <string name="zero">0</string>
     <string name="findMemoryAroundCurrentLocation">Find Some memories around you!</string>
     <string name="findMemoryAroundPickedLocation">Find Some memories from picking a location!</string>
+    <string name="stop">STOP</string>
+    <string name="pause">PAUSE</string>
+    <string name="play">PLAY</string>
     <string name="sample_tag">sample tag</string>
     <string name="select_tag">Select tags:</string>
     <string name="add_tag">Add tag:</string>
