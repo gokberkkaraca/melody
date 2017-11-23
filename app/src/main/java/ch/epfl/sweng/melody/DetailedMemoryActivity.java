@@ -120,7 +120,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 TextView memoryText = findViewById(R.id.memoryText);
 
-                VideoView memoryVideo = findViewById(R.id.memoryVideo);
+                final VideoView memoryVideo = findViewById(R.id.memoryVideo);
 
                 TextView date = findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));
@@ -175,6 +175,28 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     stopVideo.setVisibility(View.VISIBLE);
 
                     memoryVideo.setVideoPath(memory.getVideoUrl());
+
+                    playVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.start();
+                        }
+                    });
+
+                    pauseVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.pause();
+                        }
+                    });
+
+                    stopVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.seekTo(0);
+                        }
+                    });
+
                 }
 
                 TextView author = findViewById(R.id.memoryAuthor);
