@@ -6,12 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import ch.epfl.sweng.melody.memory.Memory;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -77,6 +79,54 @@ public class UserTest {
     @Test
     public void emptyConstructor() throws Exception {
         assertNotNull(new User());
+    }
+
+    @Test
+    public void getUserContactInfo() throws Exception {
+        UserContactInfo userContactInfo = user.getUserContactInfo();
+        UserContactInfo userContactInfo1 = user.getUserContactInfo();
+        assertTrue(userContactInfo.equals(userContactInfo1));
+        assertThat(userContactInfo.getDisplayName(), is(user.getDisplayName()));
+        assertThat(userContactInfo.getEmail(), is(user.getEmail()));
+        assertThat(userContactInfo.getProfilePhotoUrl(), is(user.getProfilePhotoUrl()));
+        assertThat(userContactInfo.getUserId(), is(user.getId()));
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void addFriend() throws Exception {
+        UserContactInfo userContactInfo = user.getUserContactInfo();
+        user.addFriend(userContactInfo);
+        assertThat(user.getFriends().size(), is(1));
+        user.addFriend(userContactInfo);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void removeFriend() throws Exception {
+        UserContactInfo userContactInfo = user.getUserContactInfo();
+        user.addFriend(userContactInfo);
+        user.removeFriend(userContactInfo);
+        assertThat(user.getFriends().size(), is(0));
+        user.removeFriend(userContactInfo);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void acceptFriendshipRequest(){
+        UserContactInfo userContactInfo = user.getUserContactInfo();
+        user.getFriendshipRequests().add(userContactInfo);
+        user.acceptFriendshipRequest(userContactInfo);
+        assertThat(user.getFriends().size(), is(1));
+        assertThat(user.getFriendshipRequests().size(), is(0));
+        user.acceptFriendshipRequest(userContactInfo);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void rejectFriendshipRequest(){
+        UserContactInfo userContactInfo = user.getUserContactInfo();
+        user.getFriendshipRequests().add(userContactInfo);
+        user.rejectFriendshipRequest(userContactInfo);
+        assertThat(user.getFriends().size(), is(0));
+        assertThat(user.getFriendshipRequests().size(), is(0));
+        user.rejectFriendshipRequest(userContactInfo);
     }
 
 }
