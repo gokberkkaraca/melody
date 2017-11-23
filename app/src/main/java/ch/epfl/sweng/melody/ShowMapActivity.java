@@ -230,9 +230,9 @@ public class ShowMapActivity extends FragmentActivity
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    SerializableLocation memorylocation = memory.getSerializableLocation();
-                    if (memorylocation.distanceTo(location) < filterRadius * 1000) {
-                        final LatLng latLng = new LatLng(memorylocation.getLatitude(), memorylocation.getLongitude());
+                    SerializableLocation memoryLocation = memory.getSerializableLocation();
+                    if (memoryLocation.distanceTo(location) < filterRadius * 1000) {
+                        final LatLng latLng = new LatLng(memoryLocation.getLatitude(), memoryLocation.getLongitude());
                         mMap.addMarker(new MarkerOptions()
                                 .position(latLng)
                                 .title(memory.getId()));
@@ -241,7 +241,6 @@ public class ShowMapActivity extends FragmentActivity
                             @Override
                             public boolean onMarkerClick(Marker marker) {
                                 marker.showInfoWindow();
-                                System.out.print("I show info window");
                                 return false;
                             }
                         });
