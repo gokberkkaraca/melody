@@ -24,6 +24,7 @@ public class DatabaseHandler {
     private static final String STORAGE_IMAGES_PATH = "resources/";
     private static final String DATABASE_MEMORIES_PATH = "memories";
     private static final String DATABASE_USERS_PATH = "users";
+    private static final String DATABASE_TAGS_PATH = "tags";
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
     private static final StorageReference storageReference = FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
 
@@ -63,9 +64,16 @@ public class DatabaseHandler {
         }
     }
 
-
     public static void uploadMemory(Memory memory) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getId()).setValue(memory.upload());
+    }
+
+    public static void addTag(String tag) {
+        databaseReference.child(DATABASE_TAGS_PATH).child(tag).setValue(tag);
+    }
+
+    public static void getAllTags(ValueEventListener vel) {
+        databaseReference.child(DATABASE_TAGS_PATH).addValueEventListener(vel);
     }
 
     public static void uploadResource(Uri uri, Context context,

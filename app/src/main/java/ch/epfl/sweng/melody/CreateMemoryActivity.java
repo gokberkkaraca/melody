@@ -13,18 +13,25 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,8 +57,13 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     TextView address;
     private ImageView imageView;
     private VideoView videoView;
+    private Spinner dropDown;
+    private Button tagSubmit;
+    private List <String> tags = new ArrayList<>();
+    private List <String> selectedTags = new ArrayList<>();
     private Bitmap picture;
     private EditText editText;
+    private EditText newTag;
     private Uri resourceUri;
     private Memory.MemoryType memoryType;
     private String memoryDescription;
@@ -66,8 +78,39 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
+        newTag = findViewById(R.id.new_tag_content);
+        dropDown = findViewById(R.id.tags_dropdown);
+        tagSubmit = findViewById(R.id.submit_tag);
         address = findViewById(R.id.address);
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
+
+        fetchTagsFromDatabase();
+
+        tagSubmit.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                String addTag = newTag.getText().toString();
+
+                if(addTag.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Cannot add empty tag!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else{
+                    for(int i = 0; i < tags.size(); ++i){
+                        if(tags.get(i).equals(addTag)){
+                            Toast.makeText(getApplicationContext(), "Tag already exists!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    addTagToDatabase(addTag);
+                    selectedTags.add(addTag);
+                    fetchTagsFromDatabase();
+                }
+            }
+        });
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tags);
+        dropDown.setAdapter(adapter);
     }
 
     @Override
@@ -156,6 +199,28 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         });
     }
 
+    public void fetchTagsFromDatabase() {
+        DatabaseHandler.getAllTags(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot tagDataSnapshot : dataSnapshot.getChildren()) {
+                    String tag = tagDataSnapshot.getValue(String.class);
+                    assert tag != null;
+                    tags.add(tag);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed!");
+            }
+        });
+    }
+
+    public void addTagToDatabase(String newTag) {
+        DatabaseHandler.addTag(newTag);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -212,25 +277,31 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             }
         }
         videoView.setVisibility(View.GONE);
+        imageView.setVisibility(View.VISIBLE);
         imageView.setImageBitmap(picture);
         resourceUri = data.getData();
         memoryType = Memory.MemoryType.PHOTO;
     }
 
     private void onPhotoFromCameraResult(Intent data) {
+        videoView.setVisibility(View.GONE);
+        imageView.setVisibility(View.VISIBLE);
         picture = (Bitmap) data.getExtras().get("data");
         imageView.setImageBitmap(picture);
     }
 
     private void onVideoFromGalleryResult(Intent data) {
+        videoView.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.GONE);
         resourceUri = data.getData();
         memoryType = Memory.MemoryType.VIDEO;
         videoView.setVideoURI(data.getData());
-        imageView.setVisibility(View.GONE);
         videoView.start();
     }
 
     private void onVideoFromCameraResult(Intent data) {
+        videoView.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.GONE);
         videoView.setVideoURI(data.getData());
         videoView.start();
     }

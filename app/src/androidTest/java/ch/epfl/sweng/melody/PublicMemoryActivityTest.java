@@ -20,6 +20,7 @@ import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -65,6 +66,12 @@ public class PublicMemoryActivityTest extends ActivityTest {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
         Date currtTime = Calendar.getInstance().getTime();*/
         //onView(withId(R.id.dateButton)).check(matches(withText(dateFormat.format(currtTime))));
+    }
+
+    @Test
+    public void openFriendsList() throws Exception {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        onView(withText("See my friends")).perform(click());
     }
 }
 
