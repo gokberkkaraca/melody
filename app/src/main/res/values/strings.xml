@@ -24,7 +24,6 @@
     <string name="briefText">%1$s …</string>
     <string name="commentTitle">Comments</string>
     <string name="addCommentHint">Say something about this memory</string>
-    <string name="timePickDescription">Time Travel</string>
     <string name="title_activity_show_map">Map</string>
     <string name="zero">0</string>
     <string name="time_changing">Time travel</string>
