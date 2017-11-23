@@ -14,6 +14,7 @@ class MemoryUploader {
     final private String text;
     final private List<Comment> comments;
     final private List<User> likes;
+    final private List<String> tags;
     final private Memory.Privacy privacy;
     final private Boolean reminder;
     final private String photoUrl;
@@ -33,6 +34,7 @@ class MemoryUploader {
         videoUrl = memory.getVideoUrl();
         memoryType = memory.getMemoryType();
         likes = memory.getLikes();
+        tags = memory.getTags();
     }
 
     public User getUser() {
@@ -79,6 +81,8 @@ class MemoryUploader {
     public List<User> getLikes() {
         return likes;
     }
+
+    public List<String> getTags() { return tags; }
 
     public Memory.MemoryType getMemoryType() {
         return memoryType;
