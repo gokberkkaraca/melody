@@ -111,7 +111,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             DatabaseHandler.addUser(MainActivity.getUser());
             LoginStatusHandler.setUserId(this, MainActivity.getUser().getId());
-
             MenuButtons.goToPublicMemoryActivity(this);
         }
         // Logout

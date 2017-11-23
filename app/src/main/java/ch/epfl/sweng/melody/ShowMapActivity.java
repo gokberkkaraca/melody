@@ -1,8 +1,5 @@
 package ch.epfl.sweng.melody;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
@@ -10,17 +7,12 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,26 +31,23 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.location.LocationListenerSubject;
+import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
-import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
-import ch.epfl.sweng.melody.util.PermissionUtils;
-
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
-import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
 public class ShowMapActivity extends FragmentActivity
         implements OnMapReadyCallback,
-        LocationListener,
+        LocationObserver,
         GoogleMap.OnMapClickListener {
     private int filterRadius = 0;
+    private LatLng currentLatLng = new LatLng(0, 0);
     private SerializableLocation currentLocation = new SerializableLocation(0, 0, "FAKE");
-    private SerializableLocation pickLocation;
     private GoogleMap mMap;
     private Marker currentMarker;
     private Marker pickPlaceMarker;
+    private SerializableLocation pickLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +57,10 @@ public class ShowMapActivity extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        PermissionUtils.accessLocationWithPermission(this, this);
         filterByLocationSeekBar();
+        LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
+
     }
 
     @Override
@@ -94,52 +83,8 @@ public class ShowMapActivity extends FragmentActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-            switch (requestCode) {
-                case REQUEST_LOCATION: {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        DialogUtils.showLocationPermissionRationale(this);
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_GPS: {
-                if (locationManager == null) {
-                    locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                }
-                assert locationManager != null;
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                    DialogUtils.showGPSDisabledDialog(this);
-            }
-        }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
+    public void update(Location location) {
         updateMarkerOfCurrentLocation(location);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Provider Enabled", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        if (provider.equals(LocationManager.GPS_PROVIDER)) {
-            DialogUtils.showGPSDisabledDialog(this);
-        }
     }
 
     @Override
@@ -204,7 +149,7 @@ public class ShowMapActivity extends FragmentActivity
     }
 
     public void findMemoryAroundCurrentLocation(View view) {
-        if(pickPlaceMarker!=null) {
+        if (pickPlaceMarker != null) {
             pickPlaceMarker.remove();
             pickPlaceMarker = null;
             pickLocation = null;

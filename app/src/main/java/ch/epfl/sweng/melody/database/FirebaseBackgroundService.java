@@ -1,4 +1,4 @@
-package ch.epfl.sweng.melody.service;
+package ch.epfl.sweng.melody.database;
 
 import android.app.Service;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.MainActivity;
-import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
 
@@ -21,7 +20,7 @@ import ch.epfl.sweng.melody.notification.NotificationHandler;
 public class FirebaseBackgroundService extends Service {
     @RestrictTo(RestrictTo.Scope.TESTS)
     private static boolean isServiceStarted;
-    private static ValueEventListener valueEventListener;
+    private static ValueEventListener valueEventListenerMemory;
     private long counter;
     private long latestMemoryId;
 
@@ -40,7 +39,7 @@ public class FirebaseBackgroundService extends Service {
         isServiceStarted = true;
         counter = 0;
         latestMemoryId = Long.MAX_VALUE;
-        valueEventListener = new ValueEventListener() {
+        valueEventListenerMemory = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
@@ -65,13 +64,13 @@ public class FirebaseBackgroundService extends Service {
 
             }
         };
-        DatabaseHandler.getLatestMemory(valueEventListener);
+        DatabaseHandler.getLatestMemory(valueEventListenerMemory);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         isServiceStarted = false;
-        DatabaseHandler.removeLatestMemoryListener(valueEventListener);
+        DatabaseHandler.removeLatestMemoryListener(valueEventListenerMemory);
     }
 }

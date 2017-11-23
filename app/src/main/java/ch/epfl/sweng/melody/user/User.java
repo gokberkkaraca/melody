@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 
 public class User implements Serializable {
@@ -101,8 +100,7 @@ public class User implements Serializable {
     public void removeFriend(UserContactInfo otherUser) {
         if (friends.contains(otherUser)) {
             friends.remove(otherUser);
-        }
-        else {
+        } else {
             throw new IllegalStateException("User " + otherUser.getDisplayName() + " is not in friend list");
         }
     }
@@ -110,8 +108,7 @@ public class User implements Serializable {
     public void addFriend(UserContactInfo otherUser) {
         if (!friends.contains(otherUser)) {
             friends.add(otherUser);
-        }
-        else {
+        } else {
             throw new IllegalStateException("User " + otherUser.getDisplayName() + " is already in friend list");
         }
     }
@@ -124,8 +121,7 @@ public class User implements Serializable {
         if (friendshipRequests.contains(otherUserId)) {
             friendshipRequests.remove(otherUserId);
             addFriend(otherUserId);
-        }
-        else {
+        } else {
             throw new IllegalStateException("Friendship request does not exist");
         }
     }
@@ -133,8 +129,7 @@ public class User implements Serializable {
     public void rejectFriendshipRequest(UserContactInfo otherUserId) {
         if (friendshipRequests.contains(otherUserId)) {
             friendshipRequests.remove(otherUserId);
-        }
-        else {
+        } else {
             throw new IllegalStateException("Friendship request does not exist");
         }
     }

@@ -7,8 +7,6 @@ import android.webkit.MimeTypeMap;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -41,6 +39,16 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).addValueEventListener(vel);
     }
 
+    public static void getAllMemoriesWithSingleListener(ValueEventListener vel) {
+        databaseReference.child(DATABASE_MEMORIES_PATH).addListenerForSingleValueEvent(vel);
+    }
+
+    public static void removeAllMemoriesListener(ValueEventListener valueEventListener) {
+        if (valueEventListener != null) {
+            databaseReference.child(DATABASE_MEMORIES_PATH).removeEventListener(valueEventListener);
+        }
+    }
+
     public static void getMemory(String id, ValueEventListener vel) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addValueEventListener(vel);
     }
@@ -50,7 +58,9 @@ public class DatabaseHandler {
     }
 
     public static void removeLatestMemoryListener(ValueEventListener valueEventListener) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).removeEventListener(valueEventListener);
+        if (valueEventListener != null) {
+            databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).removeEventListener(valueEventListener);
+        }
     }
 
 
