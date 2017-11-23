@@ -128,6 +128,10 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 TextView location = findViewById(R.id.memoryLocation);
                 location.setText(memory.getSerializableLocation().getLocationName());
 
+                Button playVideo = findViewById(R.id.play_button);
+                Button pauseVideo = findViewById(R.id.pause_button);
+                Button stopVideo = findViewById(R.id.stop_button);
+
 
                 if (memory.getPhotoUrl() != null) {
                     memoryImageOrVideo.setVisibility(View.VISIBLE);
@@ -166,8 +170,11 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     memoryImageOrVideo.setVisibility(View.VISIBLE);
                     memoryImage.setVisibility(View.INVISIBLE);
                     memoryVideo.setVisibility(View.VISIBLE);
+                    playVideo.setVisibility(View.VISIBLE);
+                    pauseVideo.setVisibility(View.VISIBLE);
+                    stopVideo.setVisibility(View.VISIBLE);
+
                     memoryVideo.setVideoPath(memory.getVideoUrl());
-                    memoryVideo.start();
                 }
 
                 TextView author = findViewById(R.id.memoryAuthor);
