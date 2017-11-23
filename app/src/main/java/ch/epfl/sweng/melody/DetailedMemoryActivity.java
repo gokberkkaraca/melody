@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -112,7 +113,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 memory = dataSnapshot.getValue(Memory.class);
 
                 ScrollView parentScroll = findViewById(R.id.parentScroll);
-                ScrollView textScroll = findViewById(R.id.textScroll);
 
                 RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
 
@@ -141,29 +141,16 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 }
 
                 if (memory.getText() != null) {
-                    textScroll.setVisibility(View.VISIBLE);
                     memoryText.setVisibility(View.VISIBLE);
                     memoryText.setText(memory.getText());
-
-                    if (memory.getText().length() > 30) {
-                        parentScroll.setOnTouchListener(new View.OnTouchListener() {
-                            @SuppressLint("ClickableViewAccessibility")
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                findViewById(R.id.textScroll).getParent().requestDisallowInterceptTouchEvent(false);
-                                return false;
-                            }
-                        });
-
-                        textScroll.setOnTouchListener(new View.OnTouchListener() {
-                            @SuppressLint("ClickableViewAccessibility")
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                v.getParent().requestDisallowInterceptTouchEvent(true);
-                                return false;
-                            }
-                        });
-                    }
+                    memoryText.setMovementMethod(new ScrollingMovementMethod());
+                    memoryText.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
+                            return false;
+                        }
+                    });
                 }
 
                 if(memory.getVideoUrl() != null){
