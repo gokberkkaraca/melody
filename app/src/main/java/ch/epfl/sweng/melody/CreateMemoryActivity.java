@@ -262,6 +262,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     }
 
     private void onPhotoFromCameraResult(Intent data) {
+        videoView.setVisibility(View.GONE);
         picture = (Bitmap) data.getExtras().get("data");
         imageView.setImageBitmap(picture);
     }
@@ -275,6 +276,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     }
 
     private void onVideoFromCameraResult(Intent data) {
+        imageView.setVisibility(View.GONE);
         videoView.setVideoURI(data.getData());
         videoView.start();
     }

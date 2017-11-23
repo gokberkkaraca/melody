@@ -10,9 +10,8 @@
 
     <EditText
         android:id="@+id/new_tag_content"
-        android:layout_width="145dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="20dp"
+        android:layout_width="144dp"
+        android:layout_height="41dp"
         android:layout_marginStart="20dp"
         android:ems="10"
         android:hint='"sweng"'
@@ -20,9 +19,10 @@
         android:lines="3"
         android:maxLines="4"
         app:layout_constraintLeft_toRightOf="@+id/add_tag"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="34dp"
+        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown"
+        tools:layout_editor_absoluteY="489dp" />
 
     <EditText
         android:id="@+id/memory_description"
@@ -42,47 +42,21 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1" />
 
-    <ImageView
-        android:id="@+id/display_chosen_photo"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
-        android:scaleType="fitXY"
-        app:layout_constraintLeft_toLeftOf="@+id/memory_description"
-        app:layout_constraintRight_toRightOf="@+id/memory_description"
-        app:layout_constraintTop_toBottomOf="@+id/memory_description"
-        app:srcCompat="@null"
-        tools:ignore="ContentDescription"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="60dp"
-        tools:layout_constraintLeft_creator="1" />
-
-    <VideoView
-        android:id="@+id/display_chosen_video"
-        android:layout_width="250dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
-        android:background="@null"
-        android:scaleType="fitXY"
-        app:layout_constraintRight_toRightOf="@+id/memory_description"
-        app:layout_constraintLeft_toLeftOf="@+id/memory_description"
-        app:layout_constraintTop_toBottomOf="@+id/display_chosen_photo"
-        tools:ignore="ContentDescription" />
-
     <TextView
         android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="22dp"
         android:text=""
         tools:ignore="ContentDescription"
-        android:layout_marginTop="76dp"
-        app:layout_constraintTop_toBottomOf="@+id/select_tags"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.817" />
+        app:layout_constraintHorizontal_bias="0.498"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
 
     <ImageButton
@@ -111,8 +85,8 @@
         app:srcCompat="@mipmap/video"
         tools:ignore="ContentDescription"
         tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="159dp"
-        android:layout_marginEnd="160dp"
+        android:layout_marginStart="173dp"
+        android:layout_marginEnd="174dp"
         app:layout_constraintRight_toRightOf="@+id/memory_send"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/take_photos" />
@@ -143,12 +117,14 @@
         android:layout_width="205dp"
         android:layout_height="37dp"
         android:layout_marginEnd="16dp"
-        tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
+        android:layout_marginTop="29dp"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        app:layout_constraintLeft_toRightOf="@+id/select_tags"
+        android:layout_marginLeft="43dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="21dp"
-        app:layout_constraintTop_toBottomOf="@+id/display_chosen_video" />
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <TextView
         android:id="@+id/select_tags"
@@ -159,37 +135,87 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginEnd="18dp"
-        android:layout_marginLeft="32dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/tags_dropdown"
-        android:layout_marginRight="8dp"
-        app:layout_constraintHorizontal_bias="0.942"
-        android:layout_marginTop="26dp"
-        app:layout_constraintTop_toBottomOf="@+id/display_chosen_video" />
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="34dp"
+        app:layout_constraintTop_toBottomOf="@+id/address"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/add_tag"
-        android:layout_width="78dp"
-        android:layout_height="26dp"
+        android:layout_width="81dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="40dp"
+        android:paddingBottom="2dp"
         android:text="Add Tag:"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="42dp"
         app:layout_constraintTop_toBottomOf="@+id/select_tags"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/submit_tag"
         android:layout_width="92dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="48dp"
         android:text="Submit"
-        app:layout_constraintHorizontal_bias="0.6"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown"
         app:layout_constraintLeft_toRightOf="@+id/new_tag_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="398dp"
+        android:layout_height="260dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown" />
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/memory_description"
+        android:id="@+id/relativeLayout"
+        app:layout_constraintHorizontal_bias="0.52">
+
+        <ImageView
+            android:id="@+id/display_chosen_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"
+            app:layout_constraintLeft_toLeftOf="@+id/memory_description"
+            app:layout_constraintRight_toRightOf="@+id/memory_description"
+            app:layout_constraintTop_toBottomOf="@+id/memory_description"
+            app:srcCompat="@null"
+            tools:ignore="ContentDescription"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1" />
+
+        <VideoView
+            android:id="@+id/display_chosen_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="65dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@+id/display_chosen_photo"
+            app:layout_constraintLeft_toLeftOf="@+id/display_chosen_photo"
+            app:layout_constraintRight_toRightOf="@+id/memory_description"
+            app:layout_constraintTop_toTopOf="@+id/display_chosen_photo"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="ContentDescription"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
