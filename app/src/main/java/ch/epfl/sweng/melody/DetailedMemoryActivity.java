@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,15 +45,15 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_memory_detail);
         memoryId = getIntent().getStringExtra("memoryId");
-        fetchMemoryFromDatabase();
 
-        ImageView memoryImage = findViewById(R.id.memoryPicture);
+        TextView memoryText = findViewById(R.id.memoryText);
 
-        TextView memoryText = (TextView) findViewById(R.id.memoryText);
+        RelativeLayout videoSpace = findViewById(R.id.memoryImageOrVideo);
 
         memoryText.setVisibility(View.GONE);
-        memoryImage.setVisibility(View.GONE);
+        videoSpace.setVisibility(View.GONE);
 
+        fetchMemoryFromDatabase();
 
         LinearLayout commentsContainer = findViewById(R.id.memoryComments);
 
@@ -113,9 +114,13 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 ScrollView parentScroll = findViewById(R.id.parentScroll);
                 ScrollView textScroll = findViewById(R.id.textScroll);
 
+                RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
+
                 ImageView memoryImage = findViewById(R.id.memoryPicture);
 
-                TextView memoryText = (TextView) findViewById(R.id.memoryText);
+                TextView memoryText = findViewById(R.id.memoryText);
+
+                final VideoView memoryVideo = findViewById(R.id.memoryVideo);
 
                 TextView date = findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));
@@ -123,8 +128,14 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 TextView location = findViewById(R.id.memoryLocation);
                 location.setText(memory.getSerializableLocation().getLocationName());
 
+                Button playVideo = findViewById(R.id.play_button);
+                Button pauseVideo = findViewById(R.id.pause_button);
+                Button stopVideo = findViewById(R.id.stop_button);
+
 
                 if (memory.getPhotoUrl() != null) {
+                    memoryImageOrVideo.setVisibility(View.VISIBLE);
+                    memoryVideo.setVisibility(View.INVISIBLE);
                     memoryImage.setVisibility(View.VISIBLE);
                     Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
                 }
@@ -153,6 +164,39 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                             }
                         });
                     }
+                }
+
+                if(memory.getVideoUrl() != null){
+                    memoryImageOrVideo.setVisibility(View.VISIBLE);
+                    memoryImage.setVisibility(View.INVISIBLE);
+                    memoryVideo.setVisibility(View.VISIBLE);
+                    playVideo.setVisibility(View.VISIBLE);
+                    pauseVideo.setVisibility(View.VISIBLE);
+                    stopVideo.setVisibility(View.VISIBLE);
+
+                    memoryVideo.setVideoPath(memory.getVideoUrl());
+
+                    playVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.start();
+                        }
+                    });
+
+                    pauseVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.pause();
+                        }
+                    });
+
+                    stopVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.seekTo(0);
+                        }
+                    });
+
                 }
 
                 TextView author = findViewById(R.id.memoryAuthor);
