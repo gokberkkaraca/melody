@@ -3,46 +3,44 @@ package ch.epfl.sweng.melody.serivice;
 import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
+import ch.epfl.sweng.melody.location.LocationService;
 
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by maxwell on 02.11.17.
+ * Created by maxwell on 22.11.17.
  */
-@RunWith(AndroidJUnit4.class)
-public class FirebaseBackgroundServiceTest {
+
+public class LocationServiceTest {
     private Context context;
     private Intent intent;
-    private FirebaseBackgroundService firebaseBackgroundService;
+    private LocationService locationService;
     @Before
     public void setUp() {
         context = InstrumentationRegistry.getTargetContext();
-        firebaseBackgroundService = new FirebaseBackgroundService();
-        intent = new Intent(context,FirebaseBackgroundService.class);
+        locationService = new LocationService();
+        intent = new Intent(context,LocationService.class);
     }
 
     @Test
     public void onBind() throws Exception {
         context.startService(intent);
-        firebaseBackgroundService.onBind(new Intent());
+        locationService.onBind(new Intent());
     }
 
     @Test
     public void onCreate() throws Exception {
-        assertTrue(FirebaseBackgroundService.isServiceStarted());
+        assertTrue(LocationService.isServiceStarted());
     }
 
     @Test @Ignore
     public void onDestory() throws Exception{
         context.stopService(intent);
-        assertTrue(!FirebaseBackgroundService.isServiceStarted());
+        assertTrue(!LocationService.isServiceStarted());
     }
 }

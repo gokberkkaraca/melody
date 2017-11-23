@@ -1,14 +1,18 @@
 package ch.epfl.sweng.melody.util;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+
+import ch.epfl.sweng.melody.location.LocationListenerSubject;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 
 /**
@@ -59,17 +63,23 @@ public class PermissionUtils {
 
     }
 
-    public static void requestLocationPermission(AppCompatActivity activity) {
+    public static void requestLocationPermission(Activity activity) {
         if (permissionNotGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION))
             requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION);
     }
 
-    public static void accessLocationWithPermission(AppCompatActivity activity, LocationListener locationListener) {
+    public static void accessLocationWithPermission(Activity activity) {
         if (permissionNotGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION))
             requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION);
         else {
             try {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                locationManager = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
+                LocationListenerSubject locationListener = LocationListenerSubject.getLocationListenerInstance();
+                try {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
@@ -96,11 +106,11 @@ public class PermissionUtils {
         activity.startActivityForResult(intent, REQUEST_VIDEO_GALLERY);
     }
 
-    private static boolean permissionNotGranted(AppCompatActivity activity, String permission) {
+    private static boolean permissionNotGranted(Activity activity, String permission) {
         return ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED;
     }
 
-    private static void requestPermission(AppCompatActivity activity, String permission, int resquestCode) {
+    private static void requestPermission(Activity activity, String permission, int resquestCode) {
         ActivityCompat.requestPermissions(activity, new String[]{permission}, resquestCode);
     }
 }

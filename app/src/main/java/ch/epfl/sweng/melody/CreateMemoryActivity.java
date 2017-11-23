@@ -1,6 +1,5 @@
 package ch.epfl.sweng.melody;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,13 +7,10 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -40,30 +36,25 @@ import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.location.LocationListenerSubject;
+import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
-import ch.epfl.sweng.melody.util.PermissionUtils;
 
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
-import static ch.epfl.sweng.melody.util.PermissionUtils.accessLocationWithPermission;
-import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromGallery;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromGallery;
 
-public class CreateMemoryActivity extends AppCompatActivity implements LocationListener {
+public class CreateMemoryActivity extends AppCompatActivity implements LocationObserver {
 
-    private static final SerializableLocation FAKE_ADDRESS
-            = new SerializableLocation(46.5197, 6.6323, "Lausanne");
-
+    TextView address;
     private ImageView imageView;
     private VideoView videoView;
     private Spinner dropDown;
@@ -90,8 +81,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
         newTag = findViewById(R.id.new_tag_content);
         dropDown = findViewById(R.id.tags_dropdown);
         tagSubmit = findViewById(R.id.submit_tag);
-        TextView address = findViewById(R.id.address);
-        address.setText(FAKE_ADDRESS.getLocationName());
+        address = findViewById(R.id.address);
+        LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
 
         fetchTagsFromDatabase();
 
@@ -117,10 +108,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 }
             }
         });
-
-        PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        accessLocationWithPermission(this, this);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tags);
         dropDown.setAdapter(adapter);
@@ -233,15 +220,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 onVideoFromGalleryResult(data);
                 break;
             }
-            case REQUEST_GPS: {
-                if (PermissionUtils.locationManager == null) {
-                    PermissionUtils.locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                }
-
-                assert PermissionUtils.locationManager != null;
-                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                    DialogUtils.showGPSDisabledDialog(this);
-            }
         }
     }
 
@@ -264,17 +242,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
                 case REQUEST_VIDEO_GALLERY: {
                     videoFromGallery(this);
                     break;
-                }
-                case REQUEST_LOCATION: {
-                    PermissionUtils.accessLocationWithPermission(this, this);
-                }
-            }
-        } else {
-            switch (requestCode) {
-                case REQUEST_LOCATION: {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        DialogUtils.showLocationPermissionRationale(this);
-                    }
                 }
             }
         }
@@ -313,12 +280,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void update(Location location) {
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
         List<Address> addresses;
         try {
             addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            TextView address = findViewById(R.id.address);
             String addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
             address.setText(addressText);
             serializableLocation.setLatitude(location.getLatitude());
@@ -328,20 +294,5 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationL
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Provider Enabled", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        if (provider.equals(LocationManager.GPS_PROVIDER)) {
-            DialogUtils.showGPSDisabledDialog(this);
-        }
-    }
+//    }
 }

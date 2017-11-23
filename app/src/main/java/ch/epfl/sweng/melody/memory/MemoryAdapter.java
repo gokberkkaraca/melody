@@ -70,7 +70,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             @Override
             public void onClick(View v) {
                 // Unlike
-                if (memory.getLikes().contains(MainActivity.getUser())){
+                if (memory.getLikes().contains(MainActivity.getUser())) {
                     memory.getLikes().remove(MainActivity.getUser());
                     holder.likeButton.setImageResource(R.mipmap.like_without);
                 }
@@ -89,7 +89,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.likeButton.setImageResource(R.mipmap.like_with);
         }
 
-        if(memory.getTags().isEmpty()){
+        if (memory.getTags().isEmpty()) {
             holder.hashOfMemory.setImageResource(R.mipmap.hash_without);
         }
 
