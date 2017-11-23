@@ -192,7 +192,7 @@ public class ShowMapActivity extends FragmentActivity
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
     }
 
-    private void filerMemoriesByLocation(TextView radiusValue, SerializableLocation location) {
+    private void filerMemoriesByLocation(TextView radiusValue, final SerializableLocation location) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12.0f));
         radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
         DatabaseHandler.getAllMemories(new ValueEventListener() {
@@ -201,9 +201,9 @@ public class ShowMapActivity extends FragmentActivity
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
-                    SerializableLocation location = memory.getSerializableLocation();
-                    if (location.distanceTo(location) < filterRadius * 1000) {
-                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    SerializableLocation memorylocation = memory.getSerializableLocation();
+                    if (location.distanceTo(memorylocation) < filterRadius * 1000) {
+                        LatLng latLng = new LatLng(memorylocation.getLatitude(), memorylocation.getLongitude());
                         mMap.addMarker(new MarkerOptions().position(latLng).title(memory.getText()));
                     }
                 }
