@@ -120,13 +120,17 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 TextView memoryText = findViewById(R.id.memoryText);
 
-                VideoView memoryVideo = findViewById(R.id.memoryVideo);
+                final VideoView memoryVideo = findViewById(R.id.memoryVideo);
 
                 TextView date = findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));
 
                 TextView location = findViewById(R.id.memoryLocation);
                 location.setText(memory.getSerializableLocation().getLocationName());
+
+                Button playVideo = findViewById(R.id.play_button);
+                Button pauseVideo = findViewById(R.id.pause_button);
+                Button stopVideo = findViewById(R.id.stop_button);
 
 
                 if (memory.getPhotoUrl() != null) {
@@ -166,8 +170,33 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     memoryImageOrVideo.setVisibility(View.VISIBLE);
                     memoryImage.setVisibility(View.INVISIBLE);
                     memoryVideo.setVisibility(View.VISIBLE);
+                    playVideo.setVisibility(View.VISIBLE);
+                    pauseVideo.setVisibility(View.VISIBLE);
+                    stopVideo.setVisibility(View.VISIBLE);
+
                     memoryVideo.setVideoPath(memory.getVideoUrl());
-                    memoryVideo.start();
+
+                    playVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.start();
+                        }
+                    });
+
+                    pauseVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.pause();
+                        }
+                    });
+
+                    stopVideo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View vw) {
+                            memoryVideo.seekTo(0);
+                        }
+                    });
+
                 }
 
                 TextView author = findViewById(R.id.memoryAuthor);
