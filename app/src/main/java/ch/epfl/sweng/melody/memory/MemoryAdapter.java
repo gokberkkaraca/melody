@@ -21,10 +21,16 @@ import java.util.Locale;
 
 import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.MainActivity;
+import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.R;
+import ch.epfl.sweng.melody.UserProfileActivity;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
+
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERFRIENDS;
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERNAME;
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERPIC;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
 
@@ -35,15 +41,22 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         this.memoryList = memoryList;
     }
 
-    //Catch and send exceptions ??
     private static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
         Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-        mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-        bitmap = mediaMetadataRetriever.getFrameAtTime();
-
-        mediaMetadataRetriever.release();
-
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            bitmap = mediaMetadataRetriever.getFrameAtTime();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
         return bitmap;
     }
 
@@ -93,13 +106,25 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.hashOfMemory.setImageResource(R.mipmap.hash_without);
         }
 
-        User user = memory.getUser();
+        final User user = memory.getUser();
         holder.author.setText(user.getDisplayName());
         new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
 
+
+        holder.authorPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                intent.putExtra(EXTRA_USERNAME, memory.getUser().getDisplayName());
+                intent.putExtra(EXTRA_USERPIC, memory.getUser().getProfilePhotoUrl());
+                intent.putExtra(EXTRA_USERFRIENDS, memory.getUser().getFriendsSize());
+                v.getContext().startActivity(intent);
+            }
+        });
+
         if (memory.getMemoryType() == Memory.MemoryType.TEXT) {
             holder.typeOfMemory.setImageResource(R.mipmap.text_type);
-            holder.memoryPic.setImageResource(R.mipmap.writing_type_image);
+            holder.memoryPic.setVisibility(View.GONE);
         } else if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
@@ -108,6 +133,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
             holder.memoryPic.setImageBitmap(thumbnail);
         }
+
     }
 
     @Override

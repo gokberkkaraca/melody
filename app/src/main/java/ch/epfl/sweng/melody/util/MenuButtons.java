@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import ch.epfl.sweng.melody.CreateMemoryActivity;
+import ch.epfl.sweng.melody.FriendListActivity;
 import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.ShowMapActivity;
 import ch.epfl.sweng.melody.UserProfileActivity;

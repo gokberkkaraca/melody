@@ -145,6 +145,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading Memory...");
         progressDialog.show();
+        
         DatabaseHandler.uploadResource(resourceUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

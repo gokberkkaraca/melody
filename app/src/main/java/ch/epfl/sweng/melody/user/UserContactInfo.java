@@ -1,13 +1,14 @@
 package ch.epfl.sweng.melody.user;
 
-class UserContactInfo {
+public class UserContactInfo {
 
     private String userId;
     private String displayName;
     private String profilePhotoUrl;
     private String email;
 
-    protected UserContactInfo(String userId, String displayName, String profilePhotoUrl, String email) {
+    //temporarily set to public to create mock data, put it back to protected when add users works
+    public UserContactInfo(String userId, String displayName, String profilePhotoUrl, String email) {
         this.userId = userId;
         this.displayName = displayName;
         this.profilePhotoUrl = profilePhotoUrl;
