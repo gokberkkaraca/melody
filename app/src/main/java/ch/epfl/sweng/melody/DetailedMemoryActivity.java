@@ -20,18 +20,24 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.memory.Comment;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
@@ -39,6 +45,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
     private String memoryId;
+    private List<Comment> comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +88,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         commentsContainer.addView(commentTitle);
         commentsContainer.addView(viewDivider);
 
-        EditText editComment = new EditText(this);
+        final EditText editComment = new EditText(this);
         editComment.setLayoutParams(params);
         editComment.setHint(R.string.addCommentHint);
         editComment.setHintTextColor(Color.GRAY);
@@ -98,11 +105,30 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         sendButton.setText(R.string.submit);
 
         commentsContainer.addView(sendButton);
+
+        sendButton.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View v){
+                String commentText = editComment.getText().toString();
+                if(commentText.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Cannot add empty comment!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else {
+                    Comment newComment = new Comment(memoryId, memory.getUser().getId(), commentText);
+                    addCommentToDatabase(newComment);
+                    Toast.makeText(getApplicationContext(), "Comment added!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
         MenuButtons.goToPublicMemoryActivity(this);
+    }
+
+    private void addCommentToDatabase(Comment newComment) {
+        DatabaseHandler.addComment(memoryId, newComment);
     }
 
     private void fetchMemoryFromDatabase() {
@@ -195,6 +221,9 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 TextView likeNumber = findViewById(R.id.likeNumber);
                 likeNumber.setText(memory.getLikes().size() + "");
+
+                TextView test = findViewById(R.id.testComments);
+                test.setText(Integer.toString(memory.getComments().size()));
             }
 
             @Override
