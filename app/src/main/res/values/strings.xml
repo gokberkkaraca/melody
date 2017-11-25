@@ -22,7 +22,7 @@
     <string name="ChooseRadius">Please choose a radius</string>
     <string name="showRadiusMessage">Show memories posted within %1$d km.</string>
     <string name="briefText">%1$s …</string>
-    <string name="commentTitle">Comments</string>
+    <string name="commentTitle">Add Comment</string>
     <string name="addCommentHint">Say something about this memory</string>
     <string name="title_activity_show_map">Map</string>
     <string name="zero">0</string>

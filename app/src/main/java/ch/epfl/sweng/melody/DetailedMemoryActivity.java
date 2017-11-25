@@ -28,11 +28,9 @@ import android.widget.VideoView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +42,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Comment;
 import ch.epfl.sweng.melody.memory.CommentAdapter;
 import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
@@ -65,8 +64,11 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         RelativeLayout videoSpace = findViewById(R.id.memoryImageOrVideo);
 
+        recyclerView = findViewById(R.id.comments_recyclerView);
+
         memoryText.setVisibility(View.GONE);
         videoSpace.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
 
         fetchMemoryFromDatabase();
 
@@ -121,7 +123,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     return;
                 }
                 else {
-                    Comment newComment = new Comment(memoryId, memory.getUser().getId(), commentText);
+                    UserContactInfo sample_user = new UserContactInfo("commentUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
+                    Comment newComment = new Comment(memoryId, sample_user, commentText);
                     addCommentToDatabase(newComment);
                     Toast.makeText(getApplicationContext(), "Comment added!", Toast.LENGTH_SHORT).show();
                 }
@@ -231,14 +234,17 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 commentList = new ArrayList<>(memory.getComments().values());
 
-                commentAdapter = new CommentAdapter(commentList);
-                commentAdapter.notifyDataSetChanged();
+                if(commentList.size() >  0)
+                {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    commentAdapter = new CommentAdapter(commentList);
+                    commentAdapter.notifyDataSetChanged();
 
-                recyclerView = findViewById(R.id.comments_recyclerView);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                recyclerView.setLayoutManager(mLayoutManager);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(commentAdapter);
+                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    recyclerView.setLayoutManager(mLayoutManager);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(commentAdapter);
+                }
             }
 
             @Override
