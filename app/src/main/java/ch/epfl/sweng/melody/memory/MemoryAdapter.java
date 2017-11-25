@@ -100,6 +100,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         if (memory.getLikes().contains(MainActivity.getUser())) {
             holder.likeButton.setImageResource(R.mipmap.like_with);
+        } else {
+            holder.likeButton.setImageResource(R.mipmap.like_without); //RecyclerView tries to recycle the views so we have to be sure the views and the pictures are set again if we have to display them again !
         }
 
         if (memory.getTags().isEmpty()) {
@@ -126,9 +128,12 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.typeOfMemory.setImageResource(R.mipmap.text_type);
             holder.memoryPic.setVisibility(View.GONE);
         } else if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
+            holder.typeOfMemory.setImageResource(R.mipmap.photo_type);
+            holder.memoryPic.setVisibility(View.VISIBLE); //RecyclerView tries to recycle the views so we have to be sure the views and the pictures are set again if we have to display them again !!
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
             holder.typeOfMemory.setImageResource(R.mipmap.video);
+            holder.memoryPic.setVisibility(View.VISIBLE);
             //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
             Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
             holder.memoryPic.setImageBitmap(thumbnail);
