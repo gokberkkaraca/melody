@@ -7,6 +7,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -32,12 +35,14 @@ import com.squareup.picasso.Picasso;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Comment;
+import ch.epfl.sweng.melody.memory.CommentAdapter;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
@@ -45,7 +50,9 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
     private String memoryId;
-    private List<Comment> comments;
+    private List<Comment> commentList;
+    private RecyclerView recyclerView;
+    private static CommentAdapter commentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,8 +229,16 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 TextView likeNumber = findViewById(R.id.likeNumber);
                 likeNumber.setText(memory.getLikes().size() + "");
 
-                TextView test = findViewById(R.id.testComments);
-                test.setText(Integer.toString(memory.getComments().size()));
+                commentList = new ArrayList<>(memory.getComments().values());
+
+                commentAdapter = new CommentAdapter(commentList);
+                commentAdapter.notifyDataSetChanged();
+
+                recyclerView = findViewById(R.id.comments_recyclerView);
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                recyclerView.setAdapter(commentAdapter);
             }
 
             @Override
