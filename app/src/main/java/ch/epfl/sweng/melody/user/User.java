@@ -4,7 +4,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sweng.melody.memory.Memory;
 
@@ -20,8 +22,8 @@ public class User implements Serializable {
     private String email;
 
     private List<Memory> memories;
-    private List<UserContactInfo> friends;
-    private List<UserContactInfo> friendshipRequests;
+    private Map<String, UserContactInfo> friends;
+    private Map<String, UserContactInfo> friendshipRequests;
     private List<User> followers;
     private List<User> followings;
 
@@ -38,8 +40,8 @@ public class User implements Serializable {
         }
 
         memories = new ArrayList<>();
-        friends = new ArrayList<>();
-        friendshipRequests = new ArrayList<>();
+        friends = new HashMap<>();
+        friendshipRequests = new HashMap<>();
         followers = new ArrayList<>();
         followings = new ArrayList<>();
     }
@@ -47,8 +49,8 @@ public class User implements Serializable {
     // Empty constructor is needed for database connection
     public User() {
         memories = new ArrayList<>();
-        friends = new ArrayList<>();
-        friendshipRequests = new ArrayList<>();
+        friends = new HashMap<>();
+        friendshipRequests = new HashMap<>();
         followers = new ArrayList<>();
         followings = new ArrayList<>();
     }
@@ -71,11 +73,11 @@ public class User implements Serializable {
         return memories;
     }
 
-    public List<UserContactInfo> getFriends() {
+    public Map<String, UserContactInfo> getFriends() {
         return friends;
     }
 
-    public List<UserContactInfo> getFriendshipRequests() {
+    public Map<String, UserContactInfo> getFriendshipRequests() {
         return friendshipRequests;
     }
 
@@ -104,16 +106,16 @@ public class User implements Serializable {
     }
 
     public void removeFriend(UserContactInfo otherUser) {
-        if (friends.contains(otherUser)) {
-            friends.remove(otherUser);
+        if (friends.containsKey(otherUser.getUserId())) {
+                friends.remove(otherUser.getUserId());
         } else {
             throw new IllegalStateException("User " + otherUser.getDisplayName() + " is not in friend list");
         }
     }
 
     public void addFriend(UserContactInfo otherUser) {
-        if (!friends.contains(otherUser)) {
-            friends.add(otherUser);
+        if (!friends.containsKey(otherUser.getUserId())) {
+            friends.put(otherUser.getUserId(), otherUser);
         } else {
             throw new IllegalStateException("User " + otherUser.getDisplayName() + " is already in friend list");
         }
@@ -124,8 +126,8 @@ public class User implements Serializable {
     }
 
     public void acceptFriendshipRequest(UserContactInfo otherUserId) {
-        if (friendshipRequests.contains(otherUserId)) {
-            friendshipRequests.remove(otherUserId);
+        if (friendshipRequests.containsKey(otherUserId.getUserId())) {
+            friendshipRequests.remove(otherUserId.getUserId());
             addFriend(otherUserId);
         } else {
             throw new IllegalStateException("Friendship request does not exist");
@@ -133,8 +135,8 @@ public class User implements Serializable {
     }
 
     public void rejectFriendshipRequest(UserContactInfo otherUserId) {
-        if (friendshipRequests.contains(otherUserId)) {
-            friendshipRequests.remove(otherUserId);
+        if (friendshipRequests.containsKey(otherUserId.getUserId())) {
+            friendshipRequests.remove(otherUserId.getUserId());
         } else {
             throw new IllegalStateException("Friendship request does not exist");
         }

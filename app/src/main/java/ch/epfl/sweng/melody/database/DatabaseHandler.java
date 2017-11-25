@@ -93,8 +93,9 @@ public class DatabaseHandler {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
+    /*
     public static void newFriendshipRequest(User sender, User receiver) {
         receiver.getFriendshipRequests().add(sender.getUserContactInfo());
         addUser(receiver);
-    }
+    }*/
 }
