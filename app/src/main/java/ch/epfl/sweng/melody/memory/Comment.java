@@ -3,21 +3,23 @@ package ch.epfl.sweng.melody.memory;
 import java.util.Calendar;
 import java.util.Date;
 
-class Comment {
+public class Comment {
 
-    private final String memoryId;
-    private final String authorId;
-    private final String content;
-    private final Date time;
-    private final String id;
+    private String memoryId;
+    private String authorId;
+    private String content;
+    private Date time;
+    private String id;
 
-    Comment(String memoryId, String authorId, String content) {
+    public Comment(String memoryId, String authorId, String content) {
         this.id = Long.toString(System.currentTimeMillis());
         this.memoryId = memoryId;
         this.authorId = authorId;
         this.content = content;
         this.time = Calendar.getInstance().getTime();
     }
+
+    public Comment() {}
 
     public String getId() {
         return id;
