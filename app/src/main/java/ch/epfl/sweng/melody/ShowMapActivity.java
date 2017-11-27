@@ -42,6 +42,7 @@ import ch.epfl.sweng.melody.location.LocationListenerSubject;
 import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class ShowMapActivity extends FragmentActivity
@@ -105,24 +106,25 @@ public class ShowMapActivity extends FragmentActivity
     }
 
     public void filterByLocationSeekBar() {
+        User user = MainActivity.getUser();
         TextView title = findViewById(R.id.filter_title);
         title.setTextColor(Color.BLACK);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         title.setTypeface(Typeface.DEFAULT_BOLD);
 
         final TextView radiusValue = findViewById(R.id.filter_message);
-        radiusValue.setText(R.string.ChooseRadius);
+        radiusValue.setText(getString(R.string.showRadiusMessage, user.getMinRadius()));
         radiusValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
         radiusValue.setTextColor(Color.BLACK);
 
         SeekBar seekBar = findViewById(R.id.seekBar);
-        seekBar.setMax(100);
+        seekBar.setMax(user.getMaxRadius());
         ShapeDrawable thumb = new ShapeDrawable(new OvalShape());
 
         thumb.setIntrinsicHeight(50);
         thumb.setIntrinsicWidth(50);
         seekBar.setThumb(thumb);
-        seekBar.setProgress(1);
+        seekBar.setProgress(user.getMinRadius());
         seekBar.setVisibility(View.VISIBLE);
         seekBar.setPadding(50, 30, 50, 0);
         filterRadius = seekBar.getProgress();

@@ -50,7 +50,10 @@ public class FirebaseBackgroundService extends Service {
                     boolean isFirstLogin = latestMemoryId == Long.MAX_VALUE || counter == 0;
                     boolean isUsersMemory = memory.getUser().getId().equals(MainActivity.getUser().getId());
 
-                    if (isNewMemory && !isFirstLogin && !isUsersMemory) {
+                    if (isNewMemory
+                            && !isFirstLogin
+                            && !isUsersMemory
+                            && MainActivity.getUser().getNotificationsOn()) {
                         String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
                         NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
                     }

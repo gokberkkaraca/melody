@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,32 +73,43 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         User user = MainActivity.getUser();
-        User.ThemeColor color;
-        switch (sharedPref.getString("themeColor", "Warm Red")){
-            case "Warm Red":
+        String colorValue = sharedPref.getString("themeColor", "RED");
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
+        myToolbar.setTitle("Melody");
+
+        switch (colorValue){
+            case "1":
                 user.setThemeColor(User.ThemeColor.RED);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
                 break;
-            case "Fresh Green":
+            case "2":
                 user.setThemeColor(User.ThemeColor.GREEN);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.green));
                 break;
-            case "Sky Blue":
+            case "3":
                 user.setThemeColor(User.ThemeColor.BLUELIGHT);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueLight));
                 break;
-            case "Ocean Blue":
+            case "4":
                 user.setThemeColor(User.ThemeColor.BLUEDARK);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueDark));
                 break;
-            case "Cool Black":
+            case "5":
                 user.setThemeColor(User.ThemeColor.BLACK);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black));
                 break;
             default:
                 user.setThemeColor(User.ThemeColor.RED);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
         }
-        user.setMinRadius(sharedPref.getInt("minRadius", 1));
-        user.setMaxRadius(sharedPref.getInt("maxRadius", 100));
-        user.setNotificationsOn(sharedPref.getBoolean("notifications", true));
+        int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
+        user.setMinRadius(rMin);
+        int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
+        user.setMaxRadius(rMax);
+        boolean notificationsOn = sharedPref.getBoolean("notifications", true);
+        user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
 
-        setTitle("Melody");
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
         setSupportActionBar(myToolbar);
         myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.menu));
 

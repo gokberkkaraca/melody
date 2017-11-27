@@ -1,12 +1,12 @@
 package ch.epfl.sweng.melody;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-
-import java.util.List;
+import android.view.MenuItem;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -14,6 +14,23 @@ public class SettingsActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, PublicMemoryActivity.class);
+        this.startActivity(intent);
     }
 
     public static class SettingsFragment extends PreferenceFragment
@@ -26,25 +43,4 @@ public class SettingsActivity extends PreferenceActivity {
         }
     }
 
-//    @Override
-//    public void onBuildHeaders(List target) {
-//        super.onBuildHeaders(target);
-//        loadHeadersFromResource(R.xml.preferences, target);
-//    }
-//
-//    @Override
-//    protected boolean isValidFragment(String fragmentName) {
-//        Log.d("DEBUG", "isValidFragment, fragmentName: " + fragmentName);
-//        return true;
-//    }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        // Display the fragment as the main content.
-//        getFragmentManager().beginTransaction()
-//                .replace(android.R.id.content, new SettingsFragment())
-//                .commit();
-//    }
 }
