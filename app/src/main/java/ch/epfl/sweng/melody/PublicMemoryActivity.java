@@ -232,18 +232,20 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.time_changing_item:
                 showDatePickerDialog();
                 return true;
 
             case R.id.see_friends_item :
-                Intent intent = new Intent(this, FriendListActivity.class);
+                intent = new Intent(this, FriendListActivity.class);
                 this.startActivity(intent);
                 return true;
 
             case R.id.settings_item :
-                //just put the method to display the settings here
+                intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
                 return true;
 
             default:
