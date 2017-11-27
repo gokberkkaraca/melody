@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +46,7 @@ import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
@@ -66,6 +69,32 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        User user = MainActivity.getUser();
+        User.ThemeColor color;
+        switch (sharedPref.getString("themeColor", "Warm Red")){
+            case "Warm Red":
+                user.setThemeColor(User.ThemeColor.RED);
+                break;
+            case "Fresh Green":
+                user.setThemeColor(User.ThemeColor.GREEN);
+                break;
+            case "Sky Blue":
+                user.setThemeColor(User.ThemeColor.BLUELIGHT);
+                break;
+            case "Ocean Blue":
+                user.setThemeColor(User.ThemeColor.BLUEDARK);
+                break;
+            case "Cool Black":
+                user.setThemeColor(User.ThemeColor.BLACK);
+                break;
+            default:
+                user.setThemeColor(User.ThemeColor.RED);
+        }
+        user.setMinRadius(sharedPref.getInt("minRadius", 1));
+        user.setMaxRadius(sharedPref.getInt("maxRadius", 100));
+        user.setNotificationsOn(sharedPref.getBoolean("notifications", true));
 
         setTitle("Melody");
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
