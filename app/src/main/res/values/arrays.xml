@@ -1,0 +1,38 @@
+<resources>
+
+    <string-array name="colorList">
+        <item>Demon Red</item>
+        <item>Fresh Green</item>
+        <item>Cool Black</item>
+    </string-array>
+
+    <string-array name="colorListvalues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="minRadiusList">
+        <item>1 km</item>
+        <item>2 km</item>
+        <item>5 km</item>
+    </string-array>
+
+    <string-array name="minRadiusListValues">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="maxRadiusList">
+        <item>20 km</item>
+        <item>50 km</item>
+        <item>100 km</item>
+    </string-array>
+
+    <string-array name="maxRadiusListValues">
+        <item>20</item>
+        <item>50</item>
+        <item>100</item>
+    </string-array>
+</resources>
