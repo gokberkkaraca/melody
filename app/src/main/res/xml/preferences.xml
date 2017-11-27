@@ -6,7 +6,7 @@
         android:title="Theme"
         android:summary="Select a theme color for the application."
         android:key="themeColor"
-        android:defaultValue="1"
+        android:defaultValue="5"
         android:entries="@array/colorList"
         android:entryValues="@array/colorListValues" />
 
@@ -28,7 +28,7 @@
         android:title="Maximum radius"
         android:summary="Select a maximum radius when searching for memories nearby you on the map."
         android:key="maxRadius"
-        android:defaultValue="20"
+        android:defaultValue="100"
         android:entries="@array/maxRadiusList"
         android:entryValues="@array/maxRadiusListValues" />
 </PreferenceScreen>

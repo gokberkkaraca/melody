@@ -54,7 +54,7 @@ public class LocationService extends Service implements LocationObserver {
     @Override
     public void update(final Location location) {
         SerializableLocation newLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), "NOW");
-        if (newLocation.distanceTo(lastLocation) > MIN_DISTANCE) {
+        if (newLocation.distanceTo(lastLocation) > MIN_DISTANCE && MainActivity.getUser().getNotificationsOn()) {
             valueEventListenerLocation = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
