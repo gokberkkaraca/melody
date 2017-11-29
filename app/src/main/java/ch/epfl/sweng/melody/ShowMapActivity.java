@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,8 +41,10 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 public class ShowMapActivity extends FragmentActivity
         implements
         OnMapReadyCallback,
-        LocationObserver{
+        LocationObserver,
+        GoogleMap.OnMyLocationButtonClickListener{
     private int filterRadius = 0;
+    private SerializableLocation currentLocation = new SerializableLocation(0,0,"Current");
     private GoogleMap mMap;
 
     @Override
@@ -75,10 +78,23 @@ public class ShowMapActivity extends FragmentActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMyLocationButtonClickListener(this);
+        try{
+            mMap.setMyLocationEnabled(true);
+        }catch (SecurityException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
     }
 
     @Override
     public void update(Location location) {
+        currentLocation.setLatitude(location.getLatitude());
+        currentLocation.setLongitude(location.getLongitude());
     }
 
     public void seekbarConfig() {
@@ -110,6 +126,8 @@ public class ShowMapActivity extends FragmentActivity
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
+                mMap.clear();
+                filerMemoriesByLocation(currentLocation);
             }
 
             @Override
