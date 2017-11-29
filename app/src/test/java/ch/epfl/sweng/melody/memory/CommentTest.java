@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.util.UUID;
 
+import ch.epfl.sweng.melody.user.UserContactInfo;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -13,11 +15,11 @@ public class CommentTest {
 
     private final String memoryId = Long.toString(System.currentTimeMillis());
     private Comment comment;
-    private String authorId = UUID.randomUUID().toString();
+    private UserContactInfo sample_user = new UserContactInfo("commentUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
 
     @Before
     public void createComment() {
-        comment = new Comment(memoryId, authorId, "Test comment");
+        comment = new Comment(memoryId, sample_user, "Test comment");
     }
 
     @Test
@@ -28,11 +30,6 @@ public class CommentTest {
     @Test
     public void getMemory() throws Exception {
         assertEquals(comment.getMemoryId(), memoryId);
-    }
-
-    @Test
-    public void getAuthor() throws Exception {
-        assertTrue(comment.getAuthorId().equals(authorId));
     }
 
     @Test

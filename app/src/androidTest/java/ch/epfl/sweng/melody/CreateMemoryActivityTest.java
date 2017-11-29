@@ -162,6 +162,7 @@ public class CreateMemoryActivityTest {
 
     @Test
     public void sendEmptyMemoryTest() throws Exception {
+        Thread.sleep(3000);
         onView(withId(R.id.memory_send)).perform(click());
         onView(withText("Say something!")).inRoot(toastMatcher).check(matches(isDisplayed()));
     }
