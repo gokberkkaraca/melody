@@ -14,7 +14,8 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        tools:ignore="UnusedAttribute"/>
+        app:titleTextAppearance="@style/Toolbar.TitleText"
+        tools:ignore="UnusedAttribute" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/memories_recyclerview"

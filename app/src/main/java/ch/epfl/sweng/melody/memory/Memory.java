@@ -3,9 +3,7 @@ package ch.epfl.sweng.melody.memory;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
@@ -17,7 +15,7 @@ public class Memory {
     private Date time;
     private SerializableLocation serializableLocation;
     private String text;
-    private Map<String, Comment> comments;
+    private List<Comment> comments;
     private List<User> likes;
     private List<String> tags;
     private Privacy privacy;
@@ -45,7 +43,7 @@ public class Memory {
     }
 
     public Memory() {
-        comments = new HashMap<>();
+        comments = new ArrayList<>();
         likes = new ArrayList<>();
         tags = new ArrayList<>();
     }
@@ -80,7 +78,7 @@ public class Memory {
         return text;
     }
 
-    public Map<String, Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
@@ -133,7 +131,7 @@ public class Memory {
         private final Privacy privacy;
         private final Boolean reminder;
         private final Long MAX_ID = Long.MAX_VALUE;
-        private Map<String, Comment> comments;
+        private List<Comment> comments;
         private List<User> likes;
         private List<String> tags;
         private MemoryType memoryType;
@@ -150,7 +148,7 @@ public class Memory {
             this.privacy = Privacy.PUBLIC;
             this.reminder = true;
             this.memoryType = MemoryType.TEXT;
-            this.comments = new HashMap<>();
+            this.comments = new ArrayList<>();
             this.likes = new ArrayList<>();
             this.tags = new ArrayList<>();
         }
@@ -167,7 +165,7 @@ public class Memory {
             return this;
         }
 
-        public MemoryBuilder comments(Map<String, Comment> comments) {
+        public MemoryBuilder comments(List<Comment> comments) {
             this.comments = comments;
             return this;
         }

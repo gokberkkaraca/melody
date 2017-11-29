@@ -4,15 +4,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ch.epfl.sweng.melody.memory.Memory;
 
 public class User implements Serializable {
 
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
+
+    public enum ThemeColor {RED, GREEN, BLUELIGHT, BLUEDARK,BLACK}
 
     //  User Info Variables
     private String id;
@@ -22,10 +22,16 @@ public class User implements Serializable {
     private String email;
 
     private List<Memory> memories;
-    private Map<String, UserContactInfo> friends;
-    private Map<String, UserContactInfo> friendshipRequests;
+    private List<UserContactInfo> friends;
+    private List<UserContactInfo> friendshipRequests;
     private List<User> followers;
     private List<User> followings;
+
+    private ThemeColor themeColor;
+    private int minRadius;
+    private int maxRadius;
+    private boolean notificationsOn;
+
 
     public User(GoogleSignInAccount googleSignInAccount) {
         if (googleSignInAccount != null) {
@@ -40,19 +46,28 @@ public class User implements Serializable {
         }
 
         memories = new ArrayList<>();
-        friends = new HashMap<>();
-        friendshipRequests = new HashMap<>();
+        friends = new ArrayList<>();
+        friendshipRequests = new ArrayList<>();
         followers = new ArrayList<>();
         followings = new ArrayList<>();
+
+        themeColor = ThemeColor.BLACK;
+        minRadius = 1;
+        maxRadius = 100;
+        notificationsOn = true;
     }
 
     // Empty constructor is needed for database connection
     public User() {
         memories = new ArrayList<>();
-        friends = new HashMap<>();
-        friendshipRequests = new HashMap<>();
+        friends = new ArrayList<>();
+        friendshipRequests = new ArrayList<>();
         followers = new ArrayList<>();
         followings = new ArrayList<>();
+        themeColor = ThemeColor.BLACK;
+        minRadius = 1;
+        maxRadius = 100;
+        notificationsOn = true;
     }
 
     public String getId() {
@@ -73,11 +88,11 @@ public class User implements Serializable {
         return memories;
     }
 
-    public Map<String, UserContactInfo> getFriends() {
+    public List<UserContactInfo> getFriends() {
         return friends;
     }
 
-    public Map<String, UserContactInfo> getFriendshipRequests() {
+    public List<UserContactInfo> getFriendshipRequests() {
         return friendshipRequests;
     }
 
@@ -97,6 +112,38 @@ public class User implements Serializable {
         return defaultProfilePhotoUrl;
     }
 
+    public ThemeColor getThemeColor(){
+        return themeColor;
+    }
+
+    public int getMinRadius(){
+        return minRadius;
+    }
+
+    public int getMaxRadius(){
+        return maxRadius;
+    }
+
+    public boolean getNotificationsOn(){
+        return notificationsOn;
+    }
+
+    public void setThemeColor (ThemeColor color){
+        themeColor = color;
+    }
+
+    public void setMinRadius(int r){
+        minRadius = r;
+    }
+
+    public void setMaxRadius(int r){
+        maxRadius = r;
+    }
+
+    public void setNotificationsOn (boolean b){
+        notificationsOn = b;
+    }
+
     private String encodeEmailForId(String email) {
         return email.replace('.', ',');
     }
@@ -106,7 +153,7 @@ public class User implements Serializable {
     }
 
     public void removeFriend(UserContactInfo otherUser) {
-        if (friends.containsKey(otherUser.getUserId())) {
+        if (friends.contains(otherUser.getUserId())) {
                 friends.remove(otherUser.getUserId());
         } else {
             throw new IllegalStateException("User " + otherUser.getDisplayName() + " is not in friend list");
@@ -114,8 +161,8 @@ public class User implements Serializable {
     }
 
     public void addFriend(UserContactInfo otherUser) {
-        if (!friends.containsKey(otherUser.getUserId())) {
-            friends.put(otherUser.getUserId(), otherUser);
+        if (!friends.contains(otherUser)) {
+            friends.add(otherUser);
         } else {
             throw new IllegalStateException("User " + otherUser.getDisplayName() + " is already in friend list");
         }
@@ -126,8 +173,8 @@ public class User implements Serializable {
     }
 
     public void acceptFriendshipRequest(UserContactInfo otherUserId) {
-        if (friendshipRequests.containsKey(otherUserId.getUserId())) {
-            friendshipRequests.remove(otherUserId.getUserId());
+        if (friendshipRequests.contains(otherUserId)) {
+            friendshipRequests.remove(otherUserId);
             addFriend(otherUserId);
         } else {
             throw new IllegalStateException("Friendship request does not exist");
@@ -135,8 +182,8 @@ public class User implements Serializable {
     }
 
     public void rejectFriendshipRequest(UserContactInfo otherUserId) {
-        if (friendshipRequests.containsKey(otherUserId.getUserId())) {
-            friendshipRequests.remove(otherUserId.getUserId());
+        if (friendshipRequests.contains(otherUserId)) {
+            friendshipRequests.remove(otherUserId);
         } else {
             throw new IllegalStateException("Friendship request does not exist");
         }

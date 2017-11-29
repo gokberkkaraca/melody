@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +29,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +47,7 @@ import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
@@ -67,8 +71,45 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
 
-        setTitle("Melody");
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        User user = MainActivity.getUser();
+        String colorValue = sharedPref.getString("themeColor", "RED");
+
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
+        myToolbar.setTitle("Melody");
+
+        switch (colorValue){
+            case "1":
+                user.setThemeColor(User.ThemeColor.RED);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
+                break;
+            case "2":
+                user.setThemeColor(User.ThemeColor.GREEN);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.green));
+                break;
+            case "3":
+                user.setThemeColor(User.ThemeColor.BLUELIGHT);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueLight));
+                break;
+            case "4":
+                user.setThemeColor(User.ThemeColor.BLUEDARK);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueDark));
+                break;
+            case "5":
+                user.setThemeColor(User.ThemeColor.BLACK);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black));
+                break;
+            default:
+                user.setThemeColor(User.ThemeColor.RED);
+                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
+        }
+        int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
+        user.setMinRadius(rMin);
+        int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
+        user.setMaxRadius(rMax);
+        boolean notificationsOn = sharedPref.getBoolean("notifications", true);
+        user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
+
         setSupportActionBar(myToolbar);
         myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.menu));
 
@@ -232,18 +273,20 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.time_changing_item:
                 showDatePickerDialog();
                 return true;
 
             case R.id.see_friends_item :
-                Intent intent = new Intent(this, FriendListActivity.class);
+                intent = new Intent(this, FriendListActivity.class);
                 this.startActivity(intent);
                 return true;
 
             case R.id.settings_item :
-                //just put the method to display the settings here
+                intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
                 return true;
 
             default:

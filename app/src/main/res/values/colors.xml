@@ -5,7 +5,11 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000000</color>
     <color name="colorPublicActivityBackrgound">#EEEEEE</color>
-    <color name="white">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#e84c4c</color>
+    <color name="green">#6de07b</color>
+    <color name="blueLight">#7cdbf9</color>
+    <color name="blueDark">#17246d</color>
     <color name="whiteForMap">#D0FFFFFF</color>
     <color name="custom">#f2f2f2</color>
 </resources>
