@@ -15,7 +15,8 @@ public class UserContactInfo {
         this.email = email;
     }
 
-    public UserContactInfo() {}
+    public UserContactInfo() {
+    }
 
     public String getUserId() {
         return userId;

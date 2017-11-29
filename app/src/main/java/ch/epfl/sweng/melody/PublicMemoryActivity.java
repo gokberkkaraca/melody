@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -21,15 +20,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -78,7 +73,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
         myToolbar.setTitle("Melody");
 
-        switch (colorValue){
+        switch (colorValue) {
             case "1":
                 user.setThemeColor(User.ThemeColor.RED);
                 myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
@@ -111,7 +106,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
 
         setSupportActionBar(myToolbar);
-        myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.menu));
+        myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.menu));
 
         memoryList = new ArrayList<>();
         if (MainActivity.getUser() != null) {
@@ -188,7 +183,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        if(calendar != null) {
+        if (calendar != null) {
             setTitle("Melody - " + dateFormat.format(calendar.getTime()));
             recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
             memoryList = new ArrayList<>();
@@ -239,6 +234,36 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         MenuButtons.goToUserProfileActivity(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.time_changing_item:
+                showDatePickerDialog();
+                return true;
+
+            case R.id.see_friends_item:
+                intent = new Intent(this, FriendListActivity.class);
+                this.startActivity(intent);
+                return true;
+
+            case R.id.settings_item:
+                intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.public_toolbar_items, menu);
+        return true;
+    }
+
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -269,36 +294,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             }
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.time_changing_item:
-                showDatePickerDialog();
-                return true;
-
-            case R.id.see_friends_item :
-                intent = new Intent(this, FriendListActivity.class);
-                this.startActivity(intent);
-                return true;
-
-            case R.id.settings_item :
-                intent = new Intent(this, SettingsActivity.class);
-                this.startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.public_toolbar_items, menu);
-        return true;
     }
 
 }

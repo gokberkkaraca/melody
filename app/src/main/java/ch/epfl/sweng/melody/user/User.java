@@ -11,28 +11,20 @@ import ch.epfl.sweng.melody.memory.Memory;
 public class User implements Serializable {
 
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
-
-    public enum ThemeColor {RED, GREEN, BLUELIGHT, BLUEDARK,BLACK}
-
     //  User Info Variables
     private String id;
     private String profilePhotoUrl;
-
     private String displayName;
     private String email;
-
     private List<Memory> memories;
     private List<UserContactInfo> friends;
     private List<UserContactInfo> friendshipRequests;
     private List<User> followers;
     private List<User> followings;
-
     private ThemeColor themeColor;
     private int minRadius;
     private int maxRadius;
     private boolean notificationsOn;
-
-
     public User(GoogleSignInAccount googleSignInAccount) {
         if (googleSignInAccount != null) {
             this.id = encodeEmailForId(googleSignInAccount.getEmail());
@@ -56,6 +48,7 @@ public class User implements Serializable {
         maxRadius = 100;
         notificationsOn = true;
     }
+
 
     // Empty constructor is needed for database connection
     public User() {
@@ -82,7 +75,9 @@ public class User implements Serializable {
         return email;
     }
 
-    public String getFriendsSize() { return (friends == null) ? "0" : Integer.toString(friends.size()); }
+    public String getFriendsSize() {
+        return (friends == null) ? "0" : Integer.toString(friends.size());
+    }
 
     public List<Memory> getMemories() {
         return memories;
@@ -112,35 +107,35 @@ public class User implements Serializable {
         return defaultProfilePhotoUrl;
     }
 
-    public ThemeColor getThemeColor(){
+    public ThemeColor getThemeColor() {
         return themeColor;
     }
 
-    public int getMinRadius(){
-        return minRadius;
-    }
-
-    public int getMaxRadius(){
-        return maxRadius;
-    }
-
-    public boolean getNotificationsOn(){
-        return notificationsOn;
-    }
-
-    public void setThemeColor (ThemeColor color){
+    public void setThemeColor(ThemeColor color) {
         themeColor = color;
     }
 
-    public void setMinRadius(int r){
+    public int getMinRadius() {
+        return minRadius;
+    }
+
+    public void setMinRadius(int r) {
         minRadius = r;
     }
 
-    public void setMaxRadius(int r){
+    public int getMaxRadius() {
+        return maxRadius;
+    }
+
+    public void setMaxRadius(int r) {
         maxRadius = r;
     }
 
-    public void setNotificationsOn (boolean b){
+    public boolean getNotificationsOn() {
+        return notificationsOn;
+    }
+
+    public void setNotificationsOn(boolean b) {
         notificationsOn = b;
     }
 
@@ -154,7 +149,7 @@ public class User implements Serializable {
 
     public void removeFriend(UserContactInfo otherUser) {
         if (friends.contains(otherUser.getUserId())) {
-                friends.remove(otherUser.getUserId());
+            friends.remove(otherUser.getUserId());
         } else {
             throw new IllegalStateException("User " + otherUser.getDisplayName() + " is not in friend list");
         }
@@ -193,4 +188,6 @@ public class User implements Serializable {
     public boolean equals(Object obj) {
         return obj.getClass().equals(User.class) && this.id.equals(((User) obj).getId());
     }
+
+    public enum ThemeColor {RED, GREEN, BLUELIGHT, BLUEDARK, BLACK}
 }

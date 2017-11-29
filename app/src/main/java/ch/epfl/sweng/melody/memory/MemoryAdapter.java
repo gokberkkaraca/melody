@@ -21,7 +21,6 @@ import java.util.Locale;
 
 import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.MainActivity;
-import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.UserProfileActivity;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
@@ -46,13 +45,11 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         MediaMetadataRetriever mediaMetadataRetriever = null;
         try {
             mediaMetadataRetriever = new MediaMetadataRetriever();
-                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
             bitmap = mediaMetadataRetriever.getFrameAtTime();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (mediaMetadataRetriever != null) {
                 mediaMetadataRetriever.release();
             }

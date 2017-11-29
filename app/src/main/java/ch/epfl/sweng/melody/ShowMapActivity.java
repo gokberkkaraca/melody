@@ -44,10 +44,10 @@ public class ShowMapActivity extends FragmentActivity
         LocationObserver,
         GoogleMap.OnMyLocationButtonClickListener,
         LocationSource,
-        GoogleMap.OnMapLongClickListener{
+        GoogleMap.OnMapLongClickListener {
     private int filterRadius = 0;
-    private SerializableLocation currentLocation = new SerializableLocation(0,0,"Current");
-    private SerializableLocation filterOrigin = new SerializableLocation(0,0,"origin point");
+    private SerializableLocation currentLocation = new SerializableLocation(0, 0, "Current");
+    private SerializableLocation filterOrigin = new SerializableLocation(0, 0, "origin point");
     private GoogleMap mMap;
     private OnLocationChangedListener onLocationChangedListener;
 
@@ -83,9 +83,9 @@ public class ShowMapActivity extends FragmentActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMyLocationButtonClickListener(this);
-        try{
+        try {
             mMap.setMyLocationEnabled(true);
-        }catch (SecurityException e){
+        } catch (SecurityException e) {
             e.printStackTrace();
         }
         mMap.setLocationSource(this);
@@ -94,20 +94,20 @@ public class ShowMapActivity extends FragmentActivity
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Location location = createLocation(currentLocation.getLongitude(),currentLocation.getLatitude(),"Go Back");
+        Location location = createLocation(currentLocation.getLongitude(), currentLocation.getLatitude(), "Go Back");
         onLocationChangedListener.onLocationChanged(location);
-        updateLocation(filterOrigin,currentLocation.getLongitude(),currentLocation.getLatitude());
+        updateLocation(filterOrigin, currentLocation.getLongitude(), currentLocation.getLatitude());
         return false;
     }
 
     @Override
     public void update(Location location) {
-        if(onLocationChangedListener!=null
-                &&currentLocation.getLatitude()==filterOrigin.getLatitude()
-                &&currentLocation.getLongitude()==filterOrigin.getLongitude()){
+        if (onLocationChangedListener != null
+                && currentLocation.getLatitude() == filterOrigin.getLatitude()
+                && currentLocation.getLongitude() == filterOrigin.getLongitude()) {
             onLocationChangedListener.onLocationChanged(location);
-            updateLocation(currentLocation,location.getLongitude(),location.getLatitude());
-            updateLocation(filterOrigin,location.getLongitude(),location.getLatitude());
+            updateLocation(currentLocation, location.getLongitude(), location.getLatitude());
+            updateLocation(filterOrigin, location.getLongitude(), location.getLatitude());
         }
     }
 
@@ -118,14 +118,14 @@ public class ShowMapActivity extends FragmentActivity
 
     @Override
     public void deactivate() {
-        onLocationChangedListener=null;
+        onLocationChangedListener = null;
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        if(onLocationChangedListener!=null){
-            updateLocation(filterOrigin,latLng.longitude,latLng.latitude);
-            Location location = createLocation(latLng.longitude,latLng.latitude,"LongPressLocationProvider");
+        if (onLocationChangedListener != null) {
+            updateLocation(filterOrigin, latLng.longitude, latLng.latitude);
+            Location location = createLocation(latLng.longitude, latLng.latitude, "LongPressLocationProvider");
             onLocationChangedListener.onLocationChanged(location);
         }
     }
@@ -243,9 +243,9 @@ public class ShowMapActivity extends FragmentActivity
                                 new GoogleProfilePictureAsync(userPhoto, Uri.parse(markerMemory.getUser().getProfilePhotoUrl())).execute();
 
                                 String text = markerMemory.getText();
-                                if(text.length()>60){
-                                    memoryText.setText(getString(R.string.briefText,takeSubtext(markerMemory.getText(), 60)));
-                                }else{
+                                if (text.length() > 60) {
+                                    memoryText.setText(getString(R.string.briefText, takeSubtext(markerMemory.getText(), 60)));
+                                } else {
                                     memoryText.setText(text);
                                 }
 
@@ -267,12 +267,12 @@ public class ShowMapActivity extends FragmentActivity
         });
     }
 
-    private void updateLocation(SerializableLocation location,double longitude, double latitude){
+    private void updateLocation(SerializableLocation location, double longitude, double latitude) {
         location.setLongitude(longitude);
         location.setLatitude(latitude);
     }
 
-    private Location createLocation(double longitude, double latitude,String provider){
+    private Location createLocation(double longitude, double latitude, String provider) {
         Location location = new Location(provider);
         location.setLatitude(latitude);
         location.setLongitude(longitude);

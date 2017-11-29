@@ -172,8 +172,9 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.memory_send)).perform(click());
     }
 
-    @Test @Ignore
-    public void sendVideoMemoryTest(){
+    @Test
+    @Ignore
+    public void sendVideoMemoryTest() {
         onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         onView(withText(CAMERA)).perform(click());
