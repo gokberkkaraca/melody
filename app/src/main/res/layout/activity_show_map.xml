@@ -18,31 +18,6 @@
         android:background="@color/whiteForMap"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/aroundCurrentLocationButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="findMemoryAroundCurrentLocation"
-                android:text="@string/findMemoryAroundCurrentLocation"
-                style="?android:attr/buttonBarButtonStyle"/>
-
-            <Button
-                android:id="@+id/aroundPickLocationButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="pickLocation"
-                android:text="@string/findMemoryAroundPickedLocation"
-                style="?android:attr/buttonBarButtonStyle"/>
-
-        </LinearLayout>
-
         <TextView
             android:id="@+id/filter_title"
             android:layout_width="match_parent"

@@ -153,22 +153,6 @@ public class ShowMapActivity extends FragmentActivity
         });
     }
 
-    public void pickLocation(View view) {
-        mMap.setOnMapClickListener(this);
-        currentMarker.remove();
-        pickPlaceMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-    }
-
-    public void findMemoryAroundCurrentLocation(View view) {
-        if (pickPlaceMarker != null) {
-            pickPlaceMarker.remove();
-            pickPlaceMarker = null;
-            pickLocation = null;
-        }
-        addMarkerForCurrentLocation();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 12.0f));
-    }
-
     private void updateMarkerOfCurrentLocation(Location location) {
         Geocoder gcd = new Geocoder(this, Locale.getDefault());
         List<Address> addresses;
