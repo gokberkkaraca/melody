@@ -4,8 +4,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,13 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,10 +27,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
@@ -46,17 +38,11 @@ import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class ShowMapActivity extends FragmentActivity
-        implements GoogleMap.OnInfoWindowClickListener,
+        implements
         OnMapReadyCallback,
-        LocationObserver,
-        GoogleMap.OnMapClickListener {
+        LocationObserver{
     private int filterRadius = 0;
-    private LatLng currentLatLng = new LatLng(0, 0);
-    private SerializableLocation currentLocation = new SerializableLocation(0, 0, "FAKE");
     private GoogleMap mMap;
-    private Marker currentMarker;
-    private Marker pickPlaceMarker;
-    private SerializableLocation pickLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +53,7 @@ public class ShowMapActivity extends FragmentActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        filterByLocationSeekBar();
+        seekbarConfig();
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
 
     }
@@ -93,19 +79,9 @@ public class ShowMapActivity extends FragmentActivity
 
     @Override
     public void update(Location location) {
-        updateMarkerOfCurrentLocation(location);
     }
 
-    @Override
-    public void onMapClick(LatLng point) {
-        if (pickPlaceMarker != null) {
-            pickPlaceMarker.setPosition(point);
-            pickLocation = new SerializableLocation(point.latitude, point.longitude, "PICK");
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 12.0f));
-        }
-    }
-
-    public void filterByLocationSeekBar() {
+    public void seekbarConfig() {
         User user = MainActivity.getUser();
         TextView title = findViewById(R.id.filter_title);
         title.setTextColor(Color.BLACK);
@@ -133,14 +109,7 @@ public class ShowMapActivity extends FragmentActivity
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 filterRadius = progressValue;
-                mMap.clear();
-                if (pickPlaceMarker != null) {
-                    addMarkerForPickedLocation();
-                    filerMemoriesByLocation(radiusValue, pickLocation);
-                } else {
-                    addMarkerForCurrentLocation();
-                    filerMemoriesByLocation(radiusValue, currentLocation);
-                }
+                radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
             }
 
             @Override
@@ -151,34 +120,6 @@ public class ShowMapActivity extends FragmentActivity
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-    }
-
-    private void updateMarkerOfCurrentLocation(Location location) {
-        Geocoder gcd = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses;
-        String addressText = "";
-        try {
-            addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            addressText = addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (currentMarker == null) {
-            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
-            addMarkerForCurrentLocation();
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 12.0f));
-        } else {
-            currentLocation = new SerializableLocation(location.getLatitude(), location.getLongitude(), addressText);
-            currentMarker.setPosition(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
-        }
-    }
-
-
-    private void addMarkerForCurrentLocation() {
-        currentMarker = mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
-                .title("Your location").
-                        icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
     }
 
     private String takeSubtext(String text, int length) {
@@ -195,21 +136,8 @@ public class ShowMapActivity extends FragmentActivity
         }
     }
 
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(this, "Info window clicked",
-                Toast.LENGTH_SHORT).show();
-    }
-
-    private void addMarkerForPickedLocation() {
-        pickPlaceMarker = mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(pickLocation.getLatitude(), pickLocation.getLongitude()))
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
-    }
-
-    private void filerMemoriesByLocation(TextView radiusValue, final SerializableLocation location) {
+    private void filerMemoriesByLocation(final SerializableLocation location) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12.0f));
-        radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
         DatabaseHandler.getAllMemories(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
