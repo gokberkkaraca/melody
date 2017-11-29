@@ -2,6 +2,7 @@ package ch.epfl.sweng.melody.memory;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
@@ -12,7 +13,7 @@ class MemoryUploader {
     final private Date time;
     final private SerializableLocation serializableLocation;
     final private String text;
-    final private List<Comment> comments;
+    final private Map<String, Comment> comments;
     final private List<User> likes;
     final private List<String> tags;
     final private Memory.Privacy privacy;
@@ -53,7 +54,7 @@ class MemoryUploader {
         return text;
     }
 
-    public List<Comment> getComments() {
+    public Map<String, Comment> getComments() {
         return comments;
     }
 
