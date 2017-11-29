@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -42,10 +42,14 @@ public class ShowMapActivity extends FragmentActivity
         implements
         OnMapReadyCallback,
         LocationObserver,
-        GoogleMap.OnMyLocationButtonClickListener{
+        GoogleMap.OnMyLocationButtonClickListener,
+        LocationSource,
+        GoogleMap.OnMapLongClickListener{
     private int filterRadius = 0;
     private SerializableLocation currentLocation = new SerializableLocation(0,0,"Current");
+    private SerializableLocation filterOrigin = new SerializableLocation(0,0,"origin point");
     private GoogleMap mMap;
+    private OnLocationChangedListener onLocationChangedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +88,19 @@ public class ShowMapActivity extends FragmentActivity
         }catch (SecurityException e){
             e.printStackTrace();
         }
+        mMap.setLocationSource(this);
+        mMap.setOnMapLongClickListener(this);
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
+        Location location = new Location("Go back");
+        location.setLatitude(currentLocation.getLatitude());
+        location.setLongitude(currentLocation.getLongitude());
+        location.setAccuracy(100);
+        onLocationChangedListener.onLocationChanged(location);
+        filterOrigin.setLatitude(currentLocation.getLatitude());
+        filterOrigin.setLongitude(currentLocation.getLongitude());
         return false;
     }
 
@@ -95,6 +108,34 @@ public class ShowMapActivity extends FragmentActivity
     public void update(Location location) {
         currentLocation.setLatitude(location.getLatitude());
         currentLocation.setLongitude(location.getLongitude());
+        filterOrigin.setLatitude(location.getLatitude());
+        filterOrigin.setLongitude(location.getLongitude());
+        if(onLocationChangedListener!=null){
+            onLocationChangedListener.onLocationChanged(location);
+        }
+    }
+
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
+        this.onLocationChangedListener = onLocationChangedListener;
+    }
+
+    @Override
+    public void deactivate() {
+        onLocationChangedListener=null;
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        filterOrigin.setLatitude(latLng.latitude);
+        filterOrigin.setLongitude(latLng.longitude);
+        if(onLocationChangedListener!=null){
+            Location location = new Location("LongPressLocationProvider");
+            location.setLatitude(latLng.latitude);
+            location.setLongitude(latLng.longitude);
+            location.setAccuracy(100);
+            onLocationChangedListener.onLocationChanged(location);
+        }
     }
 
     public void seekbarConfig() {
@@ -127,7 +168,7 @@ public class ShowMapActivity extends FragmentActivity
                 filterRadius = progressValue;
                 radiusValue.setText(getString(R.string.showRadiusMessage, filterRadius));
                 mMap.clear();
-                filerMemoriesByLocation(currentLocation);
+                filerMemoriesByLocation(filterOrigin);
             }
 
             @Override
