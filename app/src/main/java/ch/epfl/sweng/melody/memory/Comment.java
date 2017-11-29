@@ -3,18 +3,21 @@ package ch.epfl.sweng.melody.memory;
 import java.util.Calendar;
 import java.util.Date;
 
+import ch.epfl.sweng.melody.user.UserContactInfo;
+
 public class Comment {
 
     private String memoryId;
-    private String authorId;
+    private UserContactInfo user;
     private String content;
     private Date time;
     private String id;
 
-    public Comment(String memoryId, String authorId, String content) {
+    public Comment(String memoryId, UserContactInfo user, String content) {
         this.id = Long.toString(System.currentTimeMillis());
         this.memoryId = memoryId;
-        this.authorId = authorId;
+        if(user != null)
+            this.user = user;
         this.content = content;
         this.time = Calendar.getInstance().getTime();
     }
@@ -29,8 +32,11 @@ public class Comment {
         return memoryId;
     }
 
-    public String getAuthorId() {
-        return authorId;
+    public UserContactInfo getUserContactInfo() {
+        if(user != null)
+            return user;
+        else
+            return new UserContactInfo("SampleUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
     }
 
     public String getContent() {

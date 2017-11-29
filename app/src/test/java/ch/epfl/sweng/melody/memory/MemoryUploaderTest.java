@@ -43,7 +43,6 @@ public class MemoryUploaderTest {
         final String testPhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
 
         final Comment comment = mock(Comment.class);
-        when(comment.getAuthorId()).thenReturn(commentAuthorId);
         when(comment.getContent()).thenReturn("Test comment");
         when(comment.getMemoryId()).thenReturn(memoryId);
         when(comment.getTime()).thenReturn(new Date());
@@ -54,7 +53,7 @@ public class MemoryUploaderTest {
         when(memory.getUser()).thenReturn(user);
         when(memory.getTime()).thenReturn(new Date());
         when(memory.getText()).thenReturn("Test text");
-        when(memory.getComments()).thenReturn(Collections.singletonList(comment));
+        when(memory.getComments()).thenReturn(Collections.singletonMap("123", comment));
         when(memory.getPrivacy()).thenReturn(Memory.Privacy.PUBLIC);
         when(memory.getReminder()).thenReturn(true);
         when(memory.getPhotoUrl()).thenReturn(testPhotoUrl);
