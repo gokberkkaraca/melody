@@ -94,24 +94,18 @@ public class ShowMapActivity extends FragmentActivity
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Location location = new Location("Go back");
-        location.setLatitude(currentLocation.getLatitude());
-        location.setLongitude(currentLocation.getLongitude());
-        location.setAccuracy(100);
+        Location location = createLocation(currentLocation.getLongitude(),currentLocation.getLatitude(),"Go Back");
         onLocationChangedListener.onLocationChanged(location);
-        filterOrigin.setLatitude(currentLocation.getLatitude());
-        filterOrigin.setLongitude(currentLocation.getLongitude());
+        updateLocation(filterOrigin,currentLocation.getLongitude(),currentLocation.getLatitude());
         return false;
     }
 
     @Override
     public void update(Location location) {
-        currentLocation.setLatitude(location.getLatitude());
-        currentLocation.setLongitude(location.getLongitude());
-        filterOrigin.setLatitude(location.getLatitude());
-        filterOrigin.setLongitude(location.getLongitude());
         if(onLocationChangedListener!=null){
             onLocationChangedListener.onLocationChanged(location);
+            updateLocation(currentLocation,location.getLongitude(),location.getLatitude());
+            updateLocation(filterOrigin,location.getLongitude(),location.getLatitude());
         }
     }
 
@@ -127,13 +121,9 @@ public class ShowMapActivity extends FragmentActivity
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        filterOrigin.setLatitude(latLng.latitude);
-        filterOrigin.setLongitude(latLng.longitude);
         if(onLocationChangedListener!=null){
-            Location location = new Location("LongPressLocationProvider");
-            location.setLatitude(latLng.latitude);
-            location.setLongitude(latLng.longitude);
-            location.setAccuracy(100);
+            updateLocation(filterOrigin,latLng.longitude,latLng.latitude);
+            Location location = createLocation(latLng.longitude,latLng.latitude,"LongPressLocationProvider");
             onLocationChangedListener.onLocationChanged(location);
         }
     }
@@ -273,6 +263,19 @@ public class ShowMapActivity extends FragmentActivity
 
             }
         });
+    }
+
+    private void updateLocation(SerializableLocation location,double longitude, double latitude){
+        location.setLongitude(longitude);
+        location.setLatitude(latitude);
+    }
+
+    private Location createLocation(double longitude, double latitude,String provider){
+        Location location = new Location(provider);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        location.setAccuracy(100);
+        return location;
     }
 
 }
