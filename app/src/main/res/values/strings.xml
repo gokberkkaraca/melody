@@ -39,4 +39,5 @@
     <string name="sample_tag">sample tag</string>
     <string name="select_tag">Select tags:</string>
     <string name="add_tag">Add tag:</string>
+    <string name="commentAuthorPic">Comment Author Picture</string>
 </resources>

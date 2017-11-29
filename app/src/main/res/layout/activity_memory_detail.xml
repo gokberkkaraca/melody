@@ -197,7 +197,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="18dp"
-                android:backgroundTint="@color/custom"
                 android:scrollbars="vertical"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintLeft_toLeftOf="parent"
