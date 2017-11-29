@@ -27,8 +27,8 @@ import ch.epfl.sweng.melody.user.UserContactInfo;
 
 
 public class DatabaseHandler {
-    private static final String FIREBASE_DATABASE_URL = "https://fir-melody.firebaseio.com/";
-    private static final String FIREBASE_STORAGE_URL = "gs://firebase-melody.appspot.com";
+    private static final String FIREBASE_DATABASE_URL = "https://test-84cb3.firebaseio.com/";
+    private static final String FIREBASE_STORAGE_URL = "gs://test-84cb3.appspot.com";
     private static final String STORAGE_IMAGES_PATH = "resources/";
     private static final String DATABASE_MEMORIES_PATH = "memories";
     private static final String DATABASE_USERS_PATH = "users";
