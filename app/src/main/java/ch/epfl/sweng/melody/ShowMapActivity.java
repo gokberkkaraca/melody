@@ -102,7 +102,9 @@ public class ShowMapActivity extends FragmentActivity
 
     @Override
     public void update(Location location) {
-        if(onLocationChangedListener!=null){
+        if(onLocationChangedListener!=null
+                &&currentLocation.getLatitude()==filterOrigin.getLatitude()
+                &&currentLocation.getLongitude()==filterOrigin.getLongitude()){
             onLocationChangedListener.onLocationChanged(location);
             updateLocation(currentLocation,location.getLongitude(),location.getLatitude());
             updateLocation(filterOrigin,location.getLongitude(),location.getLatitude());
