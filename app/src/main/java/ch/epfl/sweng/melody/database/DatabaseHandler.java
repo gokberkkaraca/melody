@@ -7,6 +7,8 @@ import android.webkit.MimeTypeMap;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -14,8 +16,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.List;
+import java.util.Map;
+
+import org.w3c.dom.Comment;
+
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.user.UserContactInfo;
 
 
 public class DatabaseHandler {
@@ -30,6 +38,33 @@ public class DatabaseHandler {
 
     public static void addUser(User user) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getId()).setValue(user);
+    }
+
+    public static void changeLikesListOfMemory(String id, List<User> likes) {
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).child("likes").setValue(likes);
+    }
+
+    public static void changeFriendsOfUser(String id, Map<String, UserContactInfo> friends) {
+        databaseReference.child(DATABASE_USERS_PATH).child(id).child("friends").setValue(friends);
+    }
+
+    public static void changeFriendsRequestsOfUser(String id, Map<String, UserContactInfo> friendshipRequests) {
+        databaseReference.child(DATABASE_USERS_PATH).child(id).child("friendshipRequests").setValue(friendshipRequests);
+    }
+
+    public static void getUserFromId(String userId, final OnGetDataListener listener) { //used to get user for user activity
+        listener.onStart();
+        databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onSuccess(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onFailed(databaseError);
+            }
+        });
     }
 
     public static void getUserInfo(String userId, ValueEventListener vel) {

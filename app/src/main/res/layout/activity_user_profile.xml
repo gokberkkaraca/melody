@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profileInfosLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.epfl.sweng.melody.UserProfileActivity">
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/profileInfosLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
 
         <ImageView
             android:id="@+id/profilePicView"
@@ -41,126 +32,194 @@
             android:layout_marginTop="14dp"
             android:text="@string/username"
             android:textAlignment="center"
+            android:textColor="#000"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/followingsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/followersText"
-            android:layout_alignBottom="@+id/followersText"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="32dp"
-            android:text="@string/followings"
-            android:textAllCaps="false"
-            android:textStyle="bold" />
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/followersText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/username"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="@string/followers"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/friendsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/followersText"
-            android:layout_alignBottom="@+id/followersText"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="37dp"
-            android:text="@string/friends"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/followings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/followers"
-            android:layout_alignBottom="@+id/followers"
-            android:layout_alignEnd="@+id/followingsText"
-            android:layout_marginEnd="18dp"
-            android:text="@string/_500" />
-
-        <TextView
-            android:id="@+id/followers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/followingsText"
-            android:layout_centerHorizontal="true"
-            android:text="@string/_380" />
-
-
-        <TextView
-            android:id="@+id/friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/followers"
-            android:layout_alignBottom="@+id/followers"
-            android:layout_alignEnd="@+id/friendsText"
-            android:layout_marginEnd="10dp"
-            android:text="@string/_220" />
-
-        <TextView
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/friendsText"
-            android:layout_alignTop="@+id/profilePicView"
-            android:text="@string/edit"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            android:visibility="gone"/>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_marginTop="8dp"
+        android:id="@+id/linearLayout2"
+        android:baselineAligned="false">
 
         <LinearLayout
-            android:id="@+id/showMemoriesLayout"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/followings"
-            android:layout_marginTop="22dp"
-            android:orientation="horizontal" >
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
 
-            <Button
-                android:id="@+id/sendFriendRequest"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/followersText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/friendRequest" />
+                android:layout_gravity="center"
+                android:text="@string/followers"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/followers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/_220"
+                android:textColor="#000" />
+
+
+
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/followingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/followings"
+                android:textColor="#000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/followings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#000"
+                android:text="@string/_500" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/friendsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#000"
+                android:text="@string/friends"
+                android:textStyle="bold"/>
+
+
+            <TextView
+                android:id="@+id/friends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#000"
+                android:text="@string/_220" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/showMemoriesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#000"
+        android:orientation="vertical"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/youAreFriends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/you_are_friends"
+            android:gravity="center"
+            android:textColor="@color/green"
+            android:textSize="22sp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/sendFriendRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/friendRequest"
+            android:onClick="sendFriendRequest"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/removeFriendShipRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/remove_friend_request"
+            android:onClick="removeFriendRequest"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/confirmFriendRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm_friend_request"
+            android:onClick="confirmFriendRequest"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/refuseFriendRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/refuse_friend_request"
+            android:onClick="refuseFriendRequest"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/removeFriend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/remove_friend"
+            android:onClick="removeFriend"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:gravity="end">
 
         <Button
             android:id="@+id/log_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="70dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toEndOf="@+id/profilePicView"
             android:onClick="logOut"
-            android:text="@string/log_out" />
+            android:text="@string/log_out"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"/>
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include
+            layout="@layout/menu_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="6dp">
+            android:layout_height="match_parent" />
 
-            <include
-                layout="@layout/menu_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>
