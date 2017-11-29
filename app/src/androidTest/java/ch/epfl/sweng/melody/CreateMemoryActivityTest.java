@@ -161,13 +161,6 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void sendEmptyMemoryTest() throws Exception {
-        onView(withId(R.id.memory_send)).perform(click());
-        Thread.sleep(3000);
-        onView(withText("Say something!")).inRoot(toastMatcher).check(matches(isDisplayed()));
-    }
-
-    @Test
     public void sendPhotoMemoryTest() {
         onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
