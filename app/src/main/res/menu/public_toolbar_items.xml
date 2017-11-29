@@ -11,6 +11,10 @@
         android:title="@string/show_friends"></item>
 
     <item
+        android:id="@+id/friends_requests_item"
+        android:title="@string/friends_requests"></item>
+
+    <item
         android:id="@+id/settings_item"
         android:title="@string/settings"></item>
 </menu>

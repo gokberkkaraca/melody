@@ -27,7 +27,7 @@
     <string name="title_activity_show_map">Map</string>
     <string name="zero">0</string>
     <string name="time_changing">Time travel</string>
-    <string name="show_friends">See my friends</string>
+    <string name="show_friends">Friends</string>
     <string name="friends_list">My friends</string>
     <string name="settings">Settings</string>
     <string name="friendRequest">Send a friend request</string>
@@ -38,4 +38,11 @@
     <string name="select_tag">Select tags:</string>
     <string name="add_tag">Add tag:</string>
     <string name="commentAuthorPic">Comment Author Picture</string>
+    <string name="friends_requests">Friends Requests</string>
+    <string name="my_friends_requests">My Friends Requests</string>
+    <string name="remove_friend_request">Remove friend request</string>
+    <string name="confirm_friend_request">Confirm friend request</string>
+    <string name="refuse_friend_request">Refuse friend request</string>
+    <string name="remove_friend">Remove friend</string>
+    <string name="you_are_friends">You are now friends !</string>
 </resources>

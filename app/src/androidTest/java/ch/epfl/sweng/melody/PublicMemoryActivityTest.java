@@ -51,21 +51,28 @@ public class PublicMemoryActivityTest extends ActivityTest {
             };
 
     @Test
-    public void datePickerWorks() {
-        //Need to find a way to test menus
-        
-        /*onView(withId(R.id.time_changing_item)).perform(click());
+    public void datePickerWorks() throws Exception {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        Thread.sleep(2000);
+        onView(withText("Time travel")).perform(click());
         onView(withText("OK")).perform(click());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-        Date currtTime = Calendar.getInstance().getTime();*/
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());    We no longer have this button
+        //Date currtTime = Calendar.getInstance().getTime();
         //onView(withId(R.id.dateButton)).check(matches(withText(dateFormat.format(currtTime))));
     }
 
     @Test
     public void openFriendsList() throws Exception {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        Thread.sleep(3000);
+        onView(withText("Friends")).perform(click());
+    }
+
+    @Test
+    public void openFriendRequestList() throws Exception {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         Thread.sleep(2000);
-        onView(withText("See my friends")).perform(click());
+        onView(withText("Friends Requests")).perform(click());
     }
 }
 

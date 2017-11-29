@@ -1,5 +1,6 @@
 package ch.epfl.sweng.melody.user;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import ch.epfl.sweng.melody.R;
+import ch.epfl.sweng.melody.UserProfileActivity;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
+
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USER_ID;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendsViewHolder> {
     private final List<UserContactInfo> friendList;
@@ -54,6 +58,21 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendsVie
             friendName = view.findViewById(R.id.friendName);
             friendMail = view.findViewById(R.id.friendMail);
             friendPic = view.findViewById(R.id.friendPic);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+
+                    if (pos != RecyclerView.NO_POSITION) {
+                        UserContactInfo clickedFriend = friendList.get(pos);
+                    Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                    intent.putExtra(EXTRA_USER_ID, clickedFriend.getUserId());
+                    v.getContext().startActivity(intent);
+                    }
+                }
+            });
+
         }
     }
 
