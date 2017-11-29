@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.user.UserContactInfo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -44,7 +45,8 @@ public class MemoryTest {
         user = new User(googleSignInAccount);
 
         final Comment comment = mock(Comment.class);
-        when(comment.getAuthorId()).thenReturn(commentAuthorId);
+        final UserContactInfo sample_user = mock(UserContactInfo.class);
+        when(comment.getUserContactInfo()).thenReturn(sample_user);
         when(comment.getContent()).thenReturn("Test comment");
         when(comment.getMemoryId()).thenReturn(memoryId);
         when(comment.getTime()).thenReturn(new Date());
@@ -59,7 +61,7 @@ public class MemoryTest {
         memoryFromBuilder = new Memory.MemoryBuilder(user, text, serializableLocation)
                 .photo(testPhotoUrl)
                 .video(testVideoUrl)
-                .comments(Collections.singletonList(comment))
+                .comments(Collections.singletonMap("123", comment))
                 .build();
     }
 

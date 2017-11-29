@@ -160,7 +160,6 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
     }
 
-    @Test
     public void sendPhotoMemoryTest() {
         onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
