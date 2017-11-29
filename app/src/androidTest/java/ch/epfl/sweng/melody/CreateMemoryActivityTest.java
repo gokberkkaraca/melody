@@ -52,7 +52,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class CreateMemoryActivityTest {
-    private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1508935737477.mp4?alt=media&token=5a33aae6-a8c6-46c1-9add-181b0ef258c3";
+    private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1511912988772.mp4?alt=media&token=a8e61a58-9ffc-4847-9e6a-eb78f7f15100";
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
     @Rule
     public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
@@ -158,12 +158,6 @@ public class CreateMemoryActivityTest {
         onView(withText(CANCEL)).perform(click());
         Thread.sleep(3000);
         onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
-    }
-
-    @Test
-    public void sendEmptyMemoryTest() throws Exception {
-        onView(withId(R.id.memory_send)).perform(click());
-        onView(withText("Say something!")).inRoot(toastMatcher).check(matches(isDisplayed()));
     }
 
     @Test
