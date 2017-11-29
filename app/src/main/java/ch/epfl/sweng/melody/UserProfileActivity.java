@@ -14,7 +14,6 @@ import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.util.MenuButtons;
-import ch.epfl.sweng.melody.user.User;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -38,7 +37,7 @@ public class UserProfileActivity extends AppCompatActivity {
         String userPic = intent.getStringExtra(EXTRA_USERPIC);
         String userFriendsSize = intent.getStringExtra(EXTRA_USERFRIENDS);
 
-        if(userName == null) {
+        if (userName == null) {
             username.setText(MainActivity.getUser().getDisplayName());
             new GoogleProfilePictureAsync(profilePicView, Uri.parse(MainActivity.getUser().getProfilePhotoUrl())).execute();
             friends.setText(MainActivity.getUser().getFriendsSize());

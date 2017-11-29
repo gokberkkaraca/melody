@@ -172,7 +172,7 @@ public class Memory {
             return this;
         }
 
-        public MemoryBuilder tags(List<String> tags){
+        public MemoryBuilder tags(List<String> tags) {
             this.tags = tags;
             return this;
         }

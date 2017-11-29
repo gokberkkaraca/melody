@@ -2,13 +2,9 @@ package ch.epfl.sweng.melody;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.v7.widget.RecyclerView;
-
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.junit.Rule;
 import org.mockito.Mockito;
@@ -29,7 +25,7 @@ public class FriendListActivityTest {
             new IntentsTestRule<FriendListActivity>(FriendListActivity.class, false, true) {
                 @Override
                 protected Intent getActivityIntent() {
-                    RecyclerView recyclerView= Mockito.mock(RecyclerView.class);
+                    RecyclerView recyclerView = Mockito.mock(RecyclerView.class);
 
                     List<UserContactInfo> friendList = new ArrayList<>();
 

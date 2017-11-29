@@ -1,8 +1,8 @@
 package ch.epfl.sweng.melody;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +15,9 @@ import ch.epfl.sweng.melody.user.FriendAdapter;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 
 public class FriendListActivity extends AppCompatActivity {
+    DividerItemDecoration dividerItemDecoration;
     private RecyclerView friendsRecyclerView;
     private FriendAdapter friendAdapter;
-    DividerItemDecoration dividerItemDecoration;
-
     //private List<UserContactInfo> friendsToDisplay = MainActivity.getUser().getFriends(); //REAL LIST
     private List<UserContactInfo> friendsToDisplay = new ArrayList<>(); //MOCK LIST
 

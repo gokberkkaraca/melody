@@ -14,8 +14,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
-import org.w3c.dom.Comment;
-
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
@@ -78,7 +76,7 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_TAGS_PATH).addValueEventListener(vel);
     }
 
-    public static void addComment(String memoryId, ch.epfl.sweng.melody.memory.Comment comment){
+    public static void addComment(String memoryId, ch.epfl.sweng.melody.memory.Comment comment) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(memoryId).child("comments").push().setValue(comment);
     }
 

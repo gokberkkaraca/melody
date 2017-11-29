@@ -13,7 +13,7 @@ import java.util.List;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 
-public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentsViewHolder>{
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentsViewHolder> {
 
     private final List<Comment> commentList;
 
