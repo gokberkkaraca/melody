@@ -52,8 +52,7 @@ public class User implements Serializable {
         notificationsOn = true;
     }
 
-
-    // Empty constructor is needed for database connection
+    // Empty constructor is needed for database connection, for friend too
     public User() {
         memories = new ArrayList<>();
         friends = new HashMap<>();
