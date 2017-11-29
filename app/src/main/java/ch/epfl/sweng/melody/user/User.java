@@ -12,6 +12,8 @@ public class User implements Serializable {
 
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
 
+    public enum ThemeColor {RED, GREEN, BLUELIGHT, BLUEDARK,BLACK}
+
     //  User Info Variables
     private String id;
     private String profilePhotoUrl;
@@ -24,6 +26,12 @@ public class User implements Serializable {
     private List<UserContactInfo> friendshipRequests;
     private List<User> followers;
     private List<User> followings;
+
+    private ThemeColor themeColor;
+    private int minRadius;
+    private int maxRadius;
+    private boolean notificationsOn;
+
 
     public User(GoogleSignInAccount googleSignInAccount) {
         if (googleSignInAccount != null) {
@@ -42,6 +50,11 @@ public class User implements Serializable {
         friendshipRequests = new ArrayList<>();
         followers = new ArrayList<>();
         followings = new ArrayList<>();
+
+        themeColor = ThemeColor.BLACK;
+        minRadius = 1;
+        maxRadius = 100;
+        notificationsOn = true;
     }
 
     // Empty constructor is needed for database connection
@@ -51,6 +64,10 @@ public class User implements Serializable {
         friendshipRequests = new ArrayList<>();
         followers = new ArrayList<>();
         followings = new ArrayList<>();
+        themeColor = ThemeColor.BLACK;
+        minRadius = 1;
+        maxRadius = 100;
+        notificationsOn = true;
     }
 
     public String getId() {
@@ -95,6 +112,38 @@ public class User implements Serializable {
         return defaultProfilePhotoUrl;
     }
 
+    public ThemeColor getThemeColor(){
+        return themeColor;
+    }
+
+    public int getMinRadius(){
+        return minRadius;
+    }
+
+    public int getMaxRadius(){
+        return maxRadius;
+    }
+
+    public boolean getNotificationsOn(){
+        return notificationsOn;
+    }
+
+    public void setThemeColor (ThemeColor color){
+        themeColor = color;
+    }
+
+    public void setMinRadius(int r){
+        minRadius = r;
+    }
+
+    public void setMaxRadius(int r){
+        maxRadius = r;
+    }
+
+    public void setNotificationsOn (boolean b){
+        notificationsOn = b;
+    }
+
     private String encodeEmailForId(String email) {
         return email.replace('.', ',');
     }
@@ -104,8 +153,8 @@ public class User implements Serializable {
     }
 
     public void removeFriend(UserContactInfo otherUser) {
-        if (friends.contains(otherUser)) {
-            friends.remove(otherUser);
+        if (friends.contains(otherUser.getUserId())) {
+                friends.remove(otherUser.getUserId());
         } else {
             throw new IllegalStateException("User " + otherUser.getDisplayName() + " is not in friend list");
         }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:title="Theme"
+        android:summary="Select a theme color for the application."
+        android:key="themeColor"
+        android:defaultValue="1"
+        android:entries="@array/colorList"
+        android:entryValues="@array/colorListValues" />
+
+    <SwitchPreference
+        android:title="Notifications"
+        android:defaultValue="true"
+        android:summary="Turn on/off notifications."
+        android:key="notifications" />
+
+    <ListPreference
+    android:title="Minimum radius"
+    android:summary="Select a minimum radius when searching for memories nearby you on the map."
+    android:key="minRadius"
+    android:defaultValue="1"
+    android:entries="@array/minRadiusList"
+    android:entryValues="@array/minRadiusListValues" />
+
+    <ListPreference
+        android:title="Maximum radius"
+        android:summary="Select a maximum radius when searching for memories nearby you on the map."
+        android:key="maxRadius"
+        android:defaultValue="100"
+        android:entries="@array/maxRadiusList"
+        android:entryValues="@array/maxRadiusListValues" />
+</PreferenceScreen>

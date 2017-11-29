@@ -77,6 +77,50 @@ public class UserTest {
     }
 
     @Test
+    public void getThemeColor () throws Exception {
+        assertEquals(user.getThemeColor(), User.ThemeColor.BLACK);
+    }
+
+    @Test
+    public void getMinRadius () throws Exception {
+        assertEquals(user.getMinRadius(), 1);
+    }
+
+    @Test
+    public void getMaxRadius () throws Exception {
+        assertEquals(user.getMaxRadius(), 100);
+    }
+
+    @Test
+    public void getNotificationsOn () throws Exception {
+        assertEquals(user.getNotificationsOn(), true);
+    }
+
+    @Test
+    public void setThemeColor () throws Exception {
+        user.setThemeColor(User.ThemeColor.RED);
+        assertEquals(user.getThemeColor(), User.ThemeColor.RED);
+    }
+
+    @Test
+    public void setMinRadius () throws Exception {
+        user.setMinRadius(2);
+        assertEquals(user.getMinRadius(), 2);
+    }
+
+    @Test
+    public void setMaxRadius () throws Exception {
+        user.setMaxRadius(50);
+        assertEquals(user.getMaxRadius(), 50);
+    }
+
+    @Test
+    public void setNotificationsOn () throws Exception {
+        user.setNotificationsOn(false);
+        assertEquals(user.getNotificationsOn(), false);
+    }
+
+    @Test
     public void emptyConstructor() throws Exception {
         assertNotNull(new User());
     }
@@ -112,7 +156,7 @@ public class UserTest {
     @Test (expected = IllegalStateException.class)
     public void acceptFriendshipRequest(){
         UserContactInfo userContactInfo = user.getUserContactInfo();
-        user.getFriendshipRequests().add(userContactInfo);
+        //user.getFriendshipRequests().add(userContactInfo);
         user.acceptFriendshipRequest(userContactInfo);
         assertThat(user.getFriends().size(), is(1));
         assertThat(user.getFriendshipRequests().size(), is(0));
@@ -122,7 +166,7 @@ public class UserTest {
     @Test (expected = IllegalStateException.class)
     public void rejectFriendshipRequest(){
         UserContactInfo userContactInfo = user.getUserContactInfo();
-        user.getFriendshipRequests().add(userContactInfo);
+       // user.getFriendshipRequests().add(userContactInfo);
         user.rejectFriendshipRequest(userContactInfo);
         assertThat(user.getFriends().size(), is(0));
         assertThat(user.getFriendshipRequests().size(), is(0));
