@@ -22,11 +22,12 @@ public class FirebaseBackgroundServiceTest {
     private Context context;
     private Intent intent;
     private FirebaseBackgroundService firebaseBackgroundService;
+
     @Before
     public void setUp() {
         context = InstrumentationRegistry.getTargetContext();
         firebaseBackgroundService = new FirebaseBackgroundService();
-        intent = new Intent(context,FirebaseBackgroundService.class);
+        intent = new Intent(context, FirebaseBackgroundService.class);
     }
 
     @Test
@@ -40,8 +41,9 @@ public class FirebaseBackgroundServiceTest {
         assertTrue(FirebaseBackgroundService.isServiceStarted());
     }
 
-    @Test @Ignore
-    public void onDestory() throws Exception{
+    @Test
+    @Ignore
+    public void onDestory() throws Exception {
         context.stopService(intent);
         assertTrue(!FirebaseBackgroundService.isServiceStarted());
     }

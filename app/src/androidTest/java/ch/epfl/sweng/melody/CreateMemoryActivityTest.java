@@ -52,8 +52,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class CreateMemoryActivityTest {
-    private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1511912988772.mp4?alt=media&token=a8e61a58-9ffc-4847-9e6a-eb78f7f15100";
-    private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
+    private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/test%2F1511912988772.mp4?alt=media&token=63b36ece-25b4-4f6f-a664-095a95ce2562";
+    private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
     @Rule
     public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
             new IntentsTestRule<CreateMemoryActivity>(CreateMemoryActivity.class) {
@@ -172,8 +172,9 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.memory_send)).perform(click());
     }
 
-    @Test @Ignore
-    public void sendVideoMemoryTest(){
+    @Test
+    @Ignore
+    public void sendVideoMemoryTest() {
         onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         onView(withText(CAMERA)).perform(click());

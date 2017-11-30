@@ -20,11 +20,12 @@ public class LocationServiceTest {
     private Context context;
     private Intent intent;
     private LocationService locationService;
+
     @Before
     public void setUp() {
         context = InstrumentationRegistry.getTargetContext();
         locationService = new LocationService();
-        intent = new Intent(context,LocationService.class);
+        intent = new Intent(context, LocationService.class);
     }
 
     @Test
@@ -38,8 +39,9 @@ public class LocationServiceTest {
         assertTrue(LocationService.isServiceStarted());
     }
 
-    @Test @Ignore
-    public void onDestory() throws Exception{
+    @Test
+    @Ignore
+    public void onDestory() throws Exception {
         context.stopService(intent);
         assertTrue(!LocationService.isServiceStarted());
     }

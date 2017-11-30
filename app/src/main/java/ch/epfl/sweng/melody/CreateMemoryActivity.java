@@ -59,8 +59,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     private VideoView videoView;
     private Spinner dropDown;
     private Button tagSubmit;
-    private List <String> tags = new ArrayList<>();
-    private List <String> selectedTags = new ArrayList<>();
+    private List<String> tags = new ArrayList<>();
+    private List<String> selectedTags = new ArrayList<>();
     private Bitmap picture;
     private EditText editText;
     private EditText newTag;
@@ -86,18 +86,16 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
 
         fetchTagsFromDatabase();
 
-        tagSubmit.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v){
+        tagSubmit.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
                 String addTag = newTag.getText().toString();
 
-                if(addTag.isEmpty()){
+                if (addTag.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Cannot add empty tag!", Toast.LENGTH_SHORT).show();
                     return;
-                }
-
-                else{
-                    for(int i = 0; i < tags.size(); ++i){
-                        if(tags.get(i).equals(addTag)){
+                } else {
+                    for (int i = 0; i < tags.size(); ++i) {
+                        if (tags.get(i).equals(addTag)) {
                             Toast.makeText(getApplicationContext(), "Tag already exists!", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -145,7 +143,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Uploading Memory...");
         progressDialog.show();
-        
+
         DatabaseHandler.uploadResource(resourceUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

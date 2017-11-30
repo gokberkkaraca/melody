@@ -31,7 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +45,12 @@ import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
+    private static CommentAdapter commentAdapter;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
     private String memoryId;
     private List<Comment> commentList;
     private RecyclerView recyclerView;
-    private static CommentAdapter commentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,14 +114,13 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         commentsContainer.addView(sendButton);
 
-        sendButton.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v){
+        sendButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
                 String commentText = editComment.getText().toString();
-                if(commentText.isEmpty()){
+                if (commentText.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Cannot add empty comment!", Toast.LENGTH_SHORT).show();
                     return;
-                }
-                else {
+                } else {
                     UserContactInfo sample_user = new UserContactInfo("commentUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
                     Comment newComment = new Comment(memoryId, sample_user, commentText);
                     addCommentToDatabase(newComment);
@@ -190,7 +188,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     });
                 }
 
-                if(memory.getVideoUrl() != null){
+                if (memory.getVideoUrl() != null) {
                     memoryImageOrVideo.setVisibility(View.VISIBLE);
                     memoryImage.setVisibility(View.INVISIBLE);
                     memoryVideo.setVisibility(View.VISIBLE);
@@ -234,8 +232,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                 commentList = new ArrayList<>(memory.getComments().values());
 
-                if(commentList.size() >  0)
-                {
+                if (commentList.size() > 0) {
                     recyclerView.setVisibility(View.VISIBLE);
                     commentAdapter = new CommentAdapter(commentList);
                     commentAdapter.notifyDataSetChanged();

@@ -8,28 +8,26 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.LruCache;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,8 +36,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
@@ -64,7 +64,14 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static boolean datePicked = false;
     private static Calendar calendar;
     private List<Memory> memoryList;
-    private RecyclerView recyclerView;
+    private static RecyclerView recyclerView;
+    public static final String EXTRA_GOINGTOREQUESTS = "ch.epfl.sweng.GOINGTOREQUESTS";
+    private static Parcelable recyclerViewState;
+    private static RecyclerView.LayoutManager mLayoutManager;
+
+    private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    private final int cacheSize = maxMemory / 8;
+    public static LruCache<String, Bitmap> mMemoryCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,15 +118,60 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
 
         setSupportActionBar(myToolbar);
-        myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),R.mipmap.menu));
+        myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.menu));
 
         memoryList = new ArrayList<>();
+
+        memoryAdapter = new MemoryAdapter(memoryList);
+        memoryAdapter.notifyDataSetChanged();
+
+        recyclerView = findViewById(R.id.memories_recyclerview);
+        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(memoryAdapter);
+
+        recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+
         if (MainActivity.getUser() != null) {
             startService(new Intent(this, FirebaseBackgroundService.class));
             startService(new Intent(this, LocationService.class));
         }
         PermissionUtils.accessLocationWithPermission(this);
         fetchMemoriesFromDatabase();
+
+        mMemoryCache = new LruCache<String, Bitmap>(cacheSize) { //caching the video thumbnail to not recompute them again
+            @Override
+            protected int sizeOf(String key, Bitmap bitmap) {
+                return bitmap.getByteCount() / 1024;
+            }
+        };
+
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+
+    }
+
+    public static void refreshPublicLayout() {
+        memoryAdapter.notifyDataSetChanged();
+    }
+
+    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+        if (getBitmapFromMemCache(key) == null) {
+            mMemoryCache.put(key, bitmap);
+        }
+    }
+
+    public static Bitmap getBitmapFromMemCache(String key) {
+        return mMemoryCache.get(key);
+    }
+
+
+    public static void saveRecyclerViewPosition() {
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+    }
+
+    public static void scrollViewToTop() {
+        mLayoutManager.scrollToPosition(0);
     }
 
     @Override
@@ -145,26 +197,28 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
+
                     if (memory.getLongId() > memoryStartTime) {
-                        memoryList.add(memory);
+                        if (isNewMemory(memory.getId())) {
+                            memoryList.add(memory);
+                            memoryAdapter.notifyDataSetChanged();
+                        }
                     }
+
                 }
-
-                memoryAdapter = new MemoryAdapter(memoryList);
-                memoryAdapter.notifyDataSetChanged();
-
-                recyclerView = findViewById(R.id.memories_recyclerview);
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                recyclerView.setLayoutManager(mLayoutManager);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(memoryAdapter);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
+    }
+
+    private boolean isNewMemory(String memoryId) {
+        for(Memory m : memoryList) {
+            if(memoryId.equals(m.getId()))
+                return false;
+        }
+        return true;
     }
 
     @Override
@@ -239,6 +293,43 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         MenuButtons.goToUserProfileActivity(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.time_changing_item:
+                showDatePickerDialog();
+                return true;
+
+            case R.id.see_friends_item :
+                intent = new Intent(this, FriendListActivity.class);
+                intent.putExtra(EXTRA_GOINGTOREQUESTS, "false");
+                this.startActivity(intent);
+                return true;
+
+            case R.id.friends_requests_item :
+                intent = new Intent(this, FriendListActivity.class);
+                intent.putExtra(EXTRA_GOINGTOREQUESTS, "true");
+                this.startActivity(intent);
+                return true;
+
+            case R.id.settings_item :
+                intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.public_toolbar_items, menu);
+        return true;
+    }
+
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -269,36 +360,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             }
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.time_changing_item:
-                showDatePickerDialog();
-                return true;
-
-            case R.id.see_friends_item :
-                intent = new Intent(this, FriendListActivity.class);
-                this.startActivity(intent);
-                return true;
-
-            case R.id.settings_item :
-                intent = new Intent(this, SettingsActivity.class);
-                this.startActivity(intent);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.public_toolbar_items, menu);
-        return true;
     }
 
 }

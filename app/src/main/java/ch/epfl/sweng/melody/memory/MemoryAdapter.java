@@ -21,16 +21,17 @@ import java.util.Locale;
 
 import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.MainActivity;
-import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.UserProfileActivity;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 
-import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERFRIENDS;
-import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERNAME;
-import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USERPIC;
+import static ch.epfl.sweng.melody.PublicMemoryActivity.addBitmapToMemoryCache;
+import static ch.epfl.sweng.melody.PublicMemoryActivity.getBitmapFromMemCache;
+import static ch.epfl.sweng.melody.PublicMemoryActivity.mMemoryCache;
+import static ch.epfl.sweng.melody.PublicMemoryActivity.saveRecyclerViewPosition;
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USER_ID;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesViewHolder> {
 
@@ -46,13 +47,11 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         MediaMetadataRetriever mediaMetadataRetriever = null;
         try {
             mediaMetadataRetriever = new MediaMetadataRetriever();
-                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
             bitmap = mediaMetadataRetriever.getFrameAtTime();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (mediaMetadataRetriever != null) {
                 mediaMetadataRetriever.release();
             }
@@ -93,7 +92,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                     holder.likeButton.setImageResource(R.mipmap.like_with);
                 }
 
-                DatabaseHandler.uploadMemory(memory);
+                DatabaseHandler.changeLikesListOfMemory(memory.getId(), memory.getLikes());
                 holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
             }
         });
@@ -117,9 +116,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
-                intent.putExtra(EXTRA_USERNAME, memory.getUser().getDisplayName());
-                intent.putExtra(EXTRA_USERPIC, memory.getUser().getProfilePhotoUrl());
-                intent.putExtra(EXTRA_USERFRIENDS, memory.getUser().getFriendsSize());
+                intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
                 v.getContext().startActivity(intent);
             }
         });
@@ -134,8 +131,13 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
             holder.typeOfMemory.setImageResource(R.mipmap.video);
             holder.memoryPic.setVisibility(View.VISIBLE);
-            //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(memory.getVideoUrl() , MediaStore.Video.Thumbnails.MICRO_KIND);
-            Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+            Bitmap thumbnail;
+            thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
+            if(thumbnail==null) {
+                if(mMemoryCache.size()>5) mMemoryCache.trimToSize(5);
+                thumbnail =retrieveVideoFrameFromVideo(memory.getVideoUrl());
+                addBitmapToMemoryCache(memory.getId(), thumbnail);
+            }
             holder.memoryPic.setImageBitmap(thumbnail);
         }
 
@@ -160,6 +162,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                     int pos = getAdapterPosition();
 
                     if (pos != RecyclerView.NO_POSITION) {
+                        saveRecyclerViewPosition();
                         Memory clickedMemory = memoryList.get(pos);
                         Intent intent = new Intent(v.getContext(), DetailedMemoryActivity.class);
                         intent.putExtra("memoryId", clickedMemory.getId());

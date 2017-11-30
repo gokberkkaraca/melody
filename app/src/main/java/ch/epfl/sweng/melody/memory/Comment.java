@@ -16,13 +16,14 @@ public class Comment {
     public Comment(String memoryId, UserContactInfo user, String content) {
         this.id = Long.toString(System.currentTimeMillis());
         this.memoryId = memoryId;
-        if(user != null)
+        if (user != null)
             this.user = user;
         this.content = content;
         this.time = Calendar.getInstance().getTime();
     }
 
-    public Comment() {}
+    public Comment() {
+    }
 
     public String getId() {
         return id;
@@ -33,7 +34,7 @@ public class Comment {
     }
 
     public UserContactInfo getUserContactInfo() {
-        if(user != null)
+        if (user != null)
             return user;
         else
             return new UserContactInfo("SampleUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");

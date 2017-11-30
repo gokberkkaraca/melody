@@ -15,7 +15,6 @@ import org.junit.Test;
 import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
@@ -80,11 +79,5 @@ public class ShowMapActivityTest {
                 // implement later on
             }
         }
-    }
-
-    @Test
-    public void canClickButtons() throws Exception {
-        onView(withId(R.id.aroundCurrentLocationButton)).perform(click());
-        onView(withId(R.id.aroundPickLocationButton)).perform(click());
     }
 }

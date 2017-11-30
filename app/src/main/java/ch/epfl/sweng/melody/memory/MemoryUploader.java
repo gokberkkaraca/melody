@@ -83,7 +83,9 @@ class MemoryUploader {
         return likes;
     }
 
-    public List<String> getTags() { return tags; }
+    public List<String> getTags() {
+        return tags;
+    }
 
     public Memory.MemoryType getMemoryType() {
         return memoryType;

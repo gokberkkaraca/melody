@@ -9,6 +9,7 @@ import java.util.Map;
 
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.user.UserContactInfo;
 
 
 public class Memory {
@@ -48,6 +49,10 @@ public class Memory {
         comments = new HashMap<>();
         likes = new ArrayList<>();
         tags = new ArrayList<>();
+    }
+
+    public boolean hasNotChanged(Memory memory) {
+        return getId().equals(memory.getId()) && getLikes().size()==memory.getLikes().size() && getComments().size()==memory.getComments().size();
     }
 
     public Long getLongId() {
@@ -172,7 +177,7 @@ public class Memory {
             return this;
         }
 
-        public MemoryBuilder tags(List<String> tags){
+        public MemoryBuilder tags(List<String> tags) {
             this.tags = tags;
             return this;
         }
