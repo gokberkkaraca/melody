@@ -126,8 +126,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 } else {
                     UserContactInfo sample_user = new UserContactInfo("commentUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
                     Comment newComment = new Comment(memoryId, sample_user, commentText);
-                    memory.getComments().put(memoryId, newComment);
-                    DatabaseHandler.uploadMemory(memory);
+                    DatabaseHandler.addComment(memoryId, newComment);
                     Toast.makeText(getApplicationContext(), "Comment added!", Toast.LENGTH_SHORT).show();
                 }
             }
