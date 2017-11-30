@@ -48,15 +48,15 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).child(DATABASE_FRIENDSHIP_REQUESTS_PATH).addChildEventListener(childEventListener);
     }
 
-    static void removeUserFriendRequestListener(String userId,ChildEventListener childEventListener){
+    static void removeUserFriendRequestListener(String userId, ChildEventListener childEventListener) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).child(DATABASE_FRIENDSHIP_REQUESTS_PATH).removeEventListener(childEventListener);
     }
 
-    static void getUserFriendList(String userId, ChildEventListener childEventListener){
+    static void getUserFriendList(String userId, ChildEventListener childEventListener) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).child(DATABASE_FRIENDS_PATH).addChildEventListener(childEventListener);
     }
 
-    static void removeUserFriendListListener(String userId, ChildEventListener childEventListener){
+    static void removeUserFriendListListener(String userId, ChildEventListener childEventListener) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).child(DATABASE_FRIENDS_PATH).removeEventListener(childEventListener);
     }
 

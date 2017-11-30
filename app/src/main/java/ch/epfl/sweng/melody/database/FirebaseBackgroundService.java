@@ -53,7 +53,7 @@ public class FirebaseBackgroundService extends Service {
         childEventListenerFriendRequest = getFriendRequestListener();
         DatabaseHandler.getUserFriendRequest(MainActivity.getUser().getId(), childEventListenerFriendRequest);
         childEventListenerFriendList = getFriendsListListener();
-        DatabaseHandler.getUserFriendList(MainActivity.getUser().getId(),childEventListenerFriendList);
+        DatabaseHandler.getUserFriendList(MainActivity.getUser().getId(), childEventListenerFriendList);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class FirebaseBackgroundService extends Service {
         isServiceStarted = false;
         DatabaseHandler.removeLatestMemoryListener(valueEventListenerMemory);
         DatabaseHandler.removeUserFriendRequestListener(MainActivity.getUser().getId(), childEventListenerFriendRequest);
-        DatabaseHandler.removeUserFriendListListener(MainActivity.getUser().getId(),childEventListenerFriendRequest);
+        DatabaseHandler.removeUserFriendListListener(MainActivity.getUser().getId(), childEventListenerFriendRequest);
     }
 
     private ChildEventListener getFriendRequestListener() {
@@ -71,7 +71,7 @@ public class FirebaseBackgroundService extends Service {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (friendRequestCounter < initialLoadFriendRequestNum) {
                     friendRequestCounter++;
-                }else {
+                } else {
                     UserContactInfo friendshipRequest = dataSnapshot.getValue(UserContactInfo.class);
                     String message = friendshipRequest.getDisplayName() + " send you a friend request just now!";
                     NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
@@ -101,13 +101,13 @@ public class FirebaseBackgroundService extends Service {
         return childEventListener;
     }
 
-    private ChildEventListener getFriendsListListener(){
+    private ChildEventListener getFriendsListListener() {
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (friendCounter < initialLoadFriendListNum) {
                     friendCounter++;
-                }else {
+                } else {
                     UserContactInfo friendshipRequest = dataSnapshot.getValue(UserContactInfo.class);
                     String message = friendshipRequest.getDisplayName() + " is your friend now!";
                     NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);

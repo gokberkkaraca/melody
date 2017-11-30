@@ -7,7 +7,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
 
 
-
 public class MelodyFirebaseMessagingService extends FirebaseMessagingService {
 
     /**

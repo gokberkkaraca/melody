@@ -151,7 +151,7 @@ public class Memory {
             this.user = user;
             this.text = text;
             this.serializableLocation = serializableLocation;
-            if(privacy == null)
+            if (privacy == null)
                 this.privacy = Privacy.PUBLIC;
             else
                 this.privacy = privacy;
