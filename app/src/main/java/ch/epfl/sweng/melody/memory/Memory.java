@@ -9,7 +9,6 @@ import java.util.Map;
 
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.user.UserContactInfo;
 
 
 public class Memory {

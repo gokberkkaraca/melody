@@ -18,8 +18,8 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.database.OnGetDataListener;
 import ch.epfl.sweng.melody.location.LocationService;
-import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class UserProfileActivity extends AppCompatActivity {
 

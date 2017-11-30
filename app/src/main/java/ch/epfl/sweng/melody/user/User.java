@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.memory.Memory;
 
 public class User implements Serializable {
