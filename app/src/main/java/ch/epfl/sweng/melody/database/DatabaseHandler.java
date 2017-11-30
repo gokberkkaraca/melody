@@ -34,11 +34,11 @@ public class DatabaseHandler {
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
     private static final StorageReference storageReference = FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
 
-    public static void addUser(User user) {
+    public static void uploadUser(User user) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getId()).setValue(user);
     }
 
-    public static void getUserInfo(String userId, ValueEventListener vel) {
+    public static void getUser(String userId, ValueEventListener vel) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addValueEventListener(vel);
     }
 
@@ -110,6 +110,6 @@ public class DatabaseHandler {
     /*
     public static void newFriendshipRequest(User sender, User receiver) {
         receiver.getFriendshipRequests().add(sender.getUserContactInfo());
-        addUser(receiver);
+        uploadUser(receiver);
     }*/
 }

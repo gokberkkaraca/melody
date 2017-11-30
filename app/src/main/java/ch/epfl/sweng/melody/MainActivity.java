@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 } else {
-                    DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
+                    DatabaseHandler.getUser(userId, new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             user = dataSnapshot.getValue(User.class);
