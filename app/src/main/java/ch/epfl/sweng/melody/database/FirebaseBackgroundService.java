@@ -54,7 +54,7 @@ public class FirebaseBackgroundService extends Service {
         super.onDestroy();
         isServiceStarted = false;
         DatabaseHandler.removeLatestMemoryListener(valueEventListenerMemory);
-        DatabaseHandler.getUserFriendRequest(MainActivity.getUser().getId(), childEventListenerFriendRequest);
+        DatabaseHandler.removeUserFriendRequestListener(MainActivity.getUser().getId(), childEventListenerFriendRequest);
     }
 
     private ChildEventListener getFriendRequestListener() {
