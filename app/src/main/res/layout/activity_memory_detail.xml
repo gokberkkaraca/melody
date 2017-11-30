@@ -24,7 +24,7 @@
         android:layout_marginBottom="18dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/include"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -89,7 +89,6 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginEnd="90dp"
-                android:layout_marginRight="90dp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/memoryLocation"
                 app:srcCompat="@android:drawable/btn_star_big_on"
@@ -110,8 +109,6 @@
                 android:layout_width="320dp"
                 android:layout_height="320dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:visibility="visible"
@@ -176,14 +173,27 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/tags_title"
+                android:layout_width="57dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-18dp"
+                android:text="@string/tags_title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/memoryText"
+                android:layout_marginLeft="41dp" />
+
+            <TextView
                 android:id="@+id/memoryText"
                 android:layout_width="314dp"
                 android:layout_height="97dp"
-                android:layout_marginTop="-1dp"
+                android:layout_marginTop="-20dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="18sp"
                 android:visibility="visible"
-                app:layout_constraintHorizontal_bias="0.494"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/memoryImageOrVideo"
@@ -194,33 +204,42 @@
                 android:layout_width="314dp"
                 android:layout_height="220dp"
                 android:layout_alignStart="@+id/memoryComments"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="18dp"
                 android:scrollbars="vertical"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/memoryText" />
+                app:layout_constraintTop_toBottomOf="@+id/tags_listView" />
 
             <LinearLayout
                 android:id="@+id/memoryComments"
                 android:layout_width="314dp"
                 android:layout_height="135dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/comments_recyclerView"
-                tools:layout_editor_absoluteX="51dp"
-                tools:layout_editor_absoluteY="821dp">
+                app:layout_constraintTop_toBottomOf="@+id/comments_recyclerView">
 
             </LinearLayout>
+
+            <ListView
+                android:id="@+id/tags_listView"
+                android:layout_width="252dp"
+                android:layout_height="75dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="-27dp"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tags_title"
+                tools:ignore="NestedScrolling" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

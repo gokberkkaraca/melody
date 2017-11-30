@@ -58,7 +58,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     private VideoView videoView;
     private Spinner dropDown;
     private List<String> tags = new ArrayList<>();
-    private List<String> selectedTags = new ArrayList<>();
+    private List<String> selectedTags = new ArrayList<String>();
     private Bitmap picture;
     private EditText editText;
     private EditText newTag;
@@ -82,6 +82,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
 
         fetchTagsFromDatabase();
+        selectedTags.add("sweng");
 
 // TODO: Implement UI dropdown that allows you to add new tag as well
 //        tagSubmit.setOnClickListener(new Button.OnClickListener() {
@@ -149,6 +150,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
             memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
+                    .tags(selectedTags)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
@@ -168,10 +170,12 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                 if (memoryType == Memory.MemoryType.PHOTO) {
                     memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .photo(url)
+                            .tags(selectedTags)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
                     memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .video(url)
+                            .tags(selectedTags)
                             .build();
                 }
                 DatabaseHandler.uploadMemory(memory);

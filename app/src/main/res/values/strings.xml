@@ -42,4 +42,5 @@
     <string name="refuse_friend_request">Refuse friend request</string>
     <string name="remove_friend">Remove friend</string>
     <string name="you_are_friends">You are now friends !</string>
+    <string name="tags_title">Tags:</string>
 </resources>
