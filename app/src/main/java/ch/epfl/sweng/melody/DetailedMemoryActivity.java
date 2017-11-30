@@ -70,7 +70,10 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         recyclerView.setVisibility(View.GONE);
 
         fetchMemoryFromDatabase();
+        setCommentsContainer();
+    }
 
+    private void setCommentsContainer() {
         LinearLayout commentsContainer = findViewById(R.id.memoryComments);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -123,7 +126,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 } else {
                     UserContactInfo sample_user = new UserContactInfo("commentUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
                     Comment newComment = new Comment(memoryId, sample_user, commentText);
-                    addCommentToDatabase(newComment);
+                    memory.getComments().put(memoryId, newComment);
+                    DatabaseHandler.uploadMemory(memory);
                     Toast.makeText(getApplicationContext(), "Comment added!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -133,10 +137,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         MenuButtons.goToPublicMemoryActivity(this);
-    }
-
-    private void addCommentToDatabase(Comment newComment) {
-        DatabaseHandler.addComment(memoryId, newComment);
     }
 
     private void fetchMemoryFromDatabase() {

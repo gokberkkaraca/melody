@@ -82,14 +82,6 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_TAGS_PATH).addValueEventListener(vel);
     }
 
-    public static void addComment(String memoryId, ch.epfl.sweng.melody.memory.Comment comment) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(memoryId).child("comments").push().setValue(comment);
-    }
-
-//    public static void getComments(String memoryId, ValueEventListener vel){
-//        databaseReference.child(DATABASE_MEMORIES_PATH).child(memoryId).child("comments").addValueEventListener(vel);
-//    }
-
     public static void uploadResource(Uri uri, Context context,
                                       OnSuccessListener onSuccessListener,
                                       OnFailureListener onFailureListener,
