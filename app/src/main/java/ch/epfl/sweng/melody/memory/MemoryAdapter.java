@@ -92,7 +92,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                     holder.likeButton.setImageResource(R.mipmap.like_with);
                 }
 
-                DatabaseHandler.changeLikesListOfMemory(memory.getId(), memory.getLikes());
+                DatabaseHandler.uploadMemory(memory);
                 holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
             }
         });
@@ -133,9 +133,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.memoryPic.setVisibility(View.VISIBLE);
             Bitmap thumbnail;
             thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
-            if(thumbnail==null) {
-                if(mMemoryCache.size()>5) mMemoryCache.trimToSize(5);
-                thumbnail =retrieveVideoFrameFromVideo(memory.getVideoUrl());
+            if (thumbnail == null) {
+                if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
+                thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
                 addBitmapToMemoryCache(memory.getId(), thumbnail);
             }
             holder.memoryPic.setImageBitmap(thumbnail);

@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:title="Theme"
-        android:summary="Select a theme color for the application."
-        android:key="themeColor"
         android:defaultValue="1"
         android:entries="@array/colorList"
-        android:entryValues="@array/colorListValues" />
+        android:entryValues="@array/colorListValues"
+        android:key="themeColor"
+        android:summary="Select a theme color for the application."
+        android:title="Theme" />
 
     <SwitchPreference
-        android:title="Notifications"
         android:defaultValue="true"
+        android:key="notifications"
         android:summary="Turn on/off notifications."
-        android:key="notifications" />
+        android:title="Notifications" />
 
     <ListPreference
-    android:title="Minimum radius"
-    android:summary="Select a minimum radius when searching for memories nearby you on the map."
-    android:key="minRadius"
-    android:defaultValue="1"
-    android:entries="@array/minRadiusList"
-    android:entryValues="@array/minRadiusListValues" />
+        android:defaultValue="1"
+        android:entries="@array/minRadiusList"
+        android:entryValues="@array/minRadiusListValues"
+        android:key="minRadius"
+        android:summary="Select a minimum radius when searching for memories nearby you on the map."
+        android:title="Minimum radius" />
 
     <ListPreference
-        android:title="Maximum radius"
-        android:summary="Select a maximum radius when searching for memories nearby you on the map."
-        android:key="maxRadius"
         android:defaultValue="100"
         android:entries="@array/maxRadiusList"
-        android:entryValues="@array/maxRadiusListValues" />
+        android:entryValues="@array/maxRadiusListValues"
+        android:key="maxRadius"
+        android:summary="Select a maximum radius when searching for memories nearby you on the map."
+        android:title="Maximum radius" />
 </PreferenceScreen>

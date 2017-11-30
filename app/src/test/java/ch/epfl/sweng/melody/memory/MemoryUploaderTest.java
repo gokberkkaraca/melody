@@ -20,10 +20,8 @@ import static org.mockito.Mockito.when;
 public class MemoryUploaderTest {
 
     private final String memoryId = UUID.randomUUID().toString();
-    private final String memoryAuthorId = UUID.randomUUID().toString();
-    private final String tagId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
-    private final String commentAuthorId = UUID.randomUUID().toString();
+
     User user;
     private MemoryUploader memoryUploader;
     private Memory memory;
@@ -58,7 +56,7 @@ public class MemoryUploaderTest {
         when(memory.getReminder()).thenReturn(true);
         when(memory.getPhotoUrl()).thenReturn(testPhotoUrl);
         when(memory.getVideoUrl()).thenReturn(testVideoUrl);
-        when(memory.getSerializableLocation()).thenReturn(new SerializableLocation(46.5197, 6.6323,"Lausanne"));
+        when(memory.getSerializableLocation()).thenReturn(new SerializableLocation(46.5197, 6.6323, "Lausanne"));
 
         memoryUploader = new MemoryUploader(memory);
     }

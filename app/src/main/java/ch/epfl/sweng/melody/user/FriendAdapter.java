@@ -66,9 +66,9 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendsVie
 
                     if (pos != RecyclerView.NO_POSITION) {
                         UserContactInfo clickedFriend = friendList.get(pos);
-                    Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
-                    intent.putExtra(EXTRA_USER_ID, clickedFriend.getUserId());
-                    v.getContext().startActivity(intent);
+                        Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                        intent.putExtra(EXTRA_USER_ID, clickedFriend.getUserId());
+                        v.getContext().startActivity(intent);
                     }
                 }
             });

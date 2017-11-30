@@ -20,18 +20,18 @@
             android:id="@+id/friends_toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/friends_list"
             android:layout_gravity="center"
+            android:text="@string/friends_list"
             android:textColor="@color/black"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friends_recyclerView"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize"
+        android:scrollbars="vertical" />
 
 </RelativeLayout>

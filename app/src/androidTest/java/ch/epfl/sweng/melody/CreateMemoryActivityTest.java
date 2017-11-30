@@ -160,6 +160,19 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
     }
 
+    @Test
+    public void selectMemoryPrivacyTest() throws Exception{
+        onView(withId(R.id.private_memory_button)).perform(click());
+        onView(withText("Memory is private!")).inRoot(toastMatcher).check(matches(isDisplayed()));
+        Thread.sleep(2000);
+        onView(withId(R.id.shared_memory_button)).perform(click());
+        onView(withText("Memory is shared!")).inRoot(toastMatcher).check(matches(isDisplayed()));
+        Thread.sleep(2000);
+        onView(withId(R.id.public_memory_button)).perform(click());
+        onView(withText("Memory is public!")).inRoot(toastMatcher).check(matches(isDisplayed()));
+        Thread.sleep(2000);
+    }
+
     public void sendPhotoMemoryTest() {
         onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());

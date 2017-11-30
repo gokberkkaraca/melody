@@ -36,10 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
@@ -58,20 +56,42 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
 public class PublicMemoryActivity extends AppCompatActivity implements DialogInterface.OnDismissListener { //extended FragmentActivity before
 
+    public static final String EXTRA_GOINGTOREQUESTS = "ch.epfl.sweng.GOINGTOREQUESTS";
+    public static LruCache<String, Bitmap> mMemoryCache;
     private static MemoryAdapter memoryAdapter;
     private static long memoryStartTime = 0L;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.FRANCE);
     private static boolean datePicked = false;
     private static Calendar calendar;
-    private List<Memory> memoryList;
     private static RecyclerView recyclerView;
-    public static final String EXTRA_GOINGTOREQUESTS = "ch.epfl.sweng.GOINGTOREQUESTS";
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
 
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
-    public static LruCache<String, Bitmap> mMemoryCache;
+    private List<Memory> memoryList;
+
+    public static void refreshPublicLayout() {
+        memoryAdapter.notifyDataSetChanged();
+    }
+
+    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+        if (getBitmapFromMemCache(key) == null) {
+            mMemoryCache.put(key, bitmap);
+        }
+    }
+
+    public static Bitmap getBitmapFromMemCache(String key) {
+        return mMemoryCache.get(key);
+    }
+
+    public static void saveRecyclerViewPosition() {
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+    }
+
+    public static void scrollViewToTop() {
+        mLayoutManager.scrollToPosition(0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +105,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
         myToolbar.setTitle("Melody");
 
-        switch (colorValue){
+        switch (colorValue) {
             case "1":
                 user.setThemeColor(User.ThemeColor.RED);
                 myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
@@ -151,29 +171,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     }
 
-    public static void refreshPublicLayout() {
-        memoryAdapter.notifyDataSetChanged();
-    }
-
-    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-        if (getBitmapFromMemCache(key) == null) {
-            mMemoryCache.put(key, bitmap);
-        }
-    }
-
-    public static Bitmap getBitmapFromMemCache(String key) {
-        return mMemoryCache.get(key);
-    }
-
-
-    public static void saveRecyclerViewPosition() {
-        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
-    }
-
-    public static void scrollViewToTop() {
-        mLayoutManager.scrollToPosition(0);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -209,13 +206,14 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
     }
 
     private boolean isNewMemory(String memoryId) {
-        for(Memory m : memoryList) {
-            if(memoryId.equals(m.getId()))
+        for (Memory m : memoryList) {
+            if (memoryId.equals(m.getId()))
                 return false;
         }
         return true;
@@ -242,7 +240,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        if(calendar != null) {
+        if (calendar != null) {
             setTitle("Melody - " + dateFormat.format(calendar.getTime()));
             recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
             memoryList = new ArrayList<>();
@@ -301,19 +299,19 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 showDatePickerDialog();
                 return true;
 
-            case R.id.see_friends_item :
+            case R.id.see_friends_item:
                 intent = new Intent(this, FriendListActivity.class);
                 intent.putExtra(EXTRA_GOINGTOREQUESTS, "false");
                 this.startActivity(intent);
                 return true;
 
-            case R.id.friends_requests_item :
+            case R.id.friends_requests_item:
                 intent = new Intent(this, FriendListActivity.class);
                 intent.putExtra(EXTRA_GOINGTOREQUESTS, "true");
                 this.startActivity(intent);
                 return true;
 
-            case R.id.settings_item :
+            case R.id.settings_item:
                 intent = new Intent(this, SettingsActivity.class);
                 this.startActivity(intent);
                 return true;
