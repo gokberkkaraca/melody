@@ -21,10 +21,13 @@ public class FirebaseBackgroundService extends Service {
     private static boolean isServiceStarted;
     private static ValueEventListener valueEventListenerMemory;
     private static ChildEventListener childEventListenerFriendRequest;
+    private static ChildEventListener childEventListenerFriendList;
     private long memoryCounter;
-    private long friendRequestCounter;
     private long latestMemoryId;
-    private int initialLoadFriendRequest;
+    private long initialLoadFriendRequestNum;
+    private long friendRequestCounter;
+    private long initialLoadFriendListNum;
+    private long friendCounter;
 
     public static boolean isServiceStarted() {
         return isServiceStarted;
@@ -41,12 +44,16 @@ public class FirebaseBackgroundService extends Service {
         isServiceStarted = true;
         memoryCounter = 0;
         friendRequestCounter = 0;
+        friendCounter = 0;
         latestMemoryId = Long.MAX_VALUE;
-        initialLoadFriendRequest = MainActivity.getUser().getFriendshipListRequests().size();
+        initialLoadFriendRequestNum = MainActivity.getUser().getFriendshipListRequests().size();
+        initialLoadFriendListNum = MainActivity.getUser().getFriends().size();
         valueEventListenerMemory = getLastMemoryListener();
         DatabaseHandler.getLatestMemory(valueEventListenerMemory);
         childEventListenerFriendRequest = getFriendRequestListener();
         DatabaseHandler.getUserFriendRequest(MainActivity.getUser().getId(), childEventListenerFriendRequest);
+        childEventListenerFriendList = getFriendsListListener();
+        DatabaseHandler.getUserFriendList(MainActivity.getUser().getId(),childEventListenerFriendList);
     }
 
     @Override
@@ -55,18 +62,20 @@ public class FirebaseBackgroundService extends Service {
         isServiceStarted = false;
         DatabaseHandler.removeLatestMemoryListener(valueEventListenerMemory);
         DatabaseHandler.removeUserFriendRequestListener(MainActivity.getUser().getId(), childEventListenerFriendRequest);
+        DatabaseHandler.removeUserFriendListListener(MainActivity.getUser().getId(),childEventListenerFriendRequest);
     }
 
     private ChildEventListener getFriendRequestListener() {
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (friendRequestCounter >= initialLoadFriendRequest) {
+                if (friendRequestCounter < initialLoadFriendRequestNum) {
+                    friendRequestCounter++;
+                }else {
                     UserContactInfo friendshipRequest = dataSnapshot.getValue(UserContactInfo.class);
                     String message = friendshipRequest.getDisplayName() + " send you a friend request just now!";
                     NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
                 }
-                friendRequestCounter++;
             }
 
             @Override
@@ -90,6 +99,43 @@ public class FirebaseBackgroundService extends Service {
             }
         };
         return childEventListener;
+    }
+
+    private ChildEventListener getFriendsListListener(){
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (friendCounter < initialLoadFriendListNum) {
+                    friendCounter++;
+                }else {
+                    UserContactInfo friendshipRequest = dataSnapshot.getValue(UserContactInfo.class);
+                    String message = friendshipRequest.getDisplayName() + " is your friend now!";
+                    NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        return childEventListener;
+
     }
 
     private ValueEventListener getLastMemoryListener() {

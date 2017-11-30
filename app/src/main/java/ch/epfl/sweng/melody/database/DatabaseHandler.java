@@ -28,6 +28,7 @@ public class DatabaseHandler {
     private static final String DATABASE_TAGS_PATH = "tags";
     private static final String DATABASE_COMMENTS_PATH = "comments";
     private static final String DATABASE_FRIENDSHIP_REQUESTS_PATH = "friendshipRequests";
+    private static final String DATABASE_FRIENDS_PATH = "friends";
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
     private static final StorageReference storageReference = FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
 
@@ -43,12 +44,20 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addValueEventListener(vel);
     }
 
-    public static void getUserFriendRequest(String userId, ChildEventListener childEventListener) {
+    static void getUserFriendRequest(String userId, ChildEventListener childEventListener) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).child(DATABASE_FRIENDSHIP_REQUESTS_PATH).addChildEventListener(childEventListener);
     }
 
-    public static void removeUserFriendRequestListener(String userId,ChildEventListener childEventListener){
+    static void removeUserFriendRequestListener(String userId,ChildEventListener childEventListener){
         databaseReference.child(DATABASE_USERS_PATH).child(userId).child(DATABASE_FRIENDSHIP_REQUESTS_PATH).removeEventListener(childEventListener);
+    }
+
+    static void getUserFriendList(String userId, ChildEventListener childEventListener){
+        databaseReference.child(DATABASE_USERS_PATH).child(userId).child(DATABASE_FRIENDS_PATH).addChildEventListener(childEventListener);
+    }
+
+    static void removeUserFriendListListener(String userId, ChildEventListener childEventListener){
+        databaseReference.child(DATABASE_USERS_PATH).child(userId).child(DATABASE_FRIENDS_PATH).removeEventListener(childEventListener);
     }
 
     /**
@@ -73,11 +82,11 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).addListenerForSingleValueEvent(vel);
     }
 
-    public static void getLatestMemory(ValueEventListener valueEventListener) {
+    static void getLatestMemory(ValueEventListener valueEventListener) {
         databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).addValueEventListener(valueEventListener);
     }
 
-    public static void removeLatestMemoryListener(ValueEventListener valueEventListener) {
+    static void removeLatestMemoryListener(ValueEventListener valueEventListener) {
         if (valueEventListener != null) {
             databaseReference.child(DATABASE_MEMORIES_PATH).limitToFirst(1).removeEventListener(valueEventListener);
         }
