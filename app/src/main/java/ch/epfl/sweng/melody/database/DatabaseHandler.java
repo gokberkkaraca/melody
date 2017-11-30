@@ -34,38 +34,11 @@ public class DatabaseHandler {
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
     private static final StorageReference storageReference = FirebaseStorage.getInstance(FIREBASE_STORAGE_URL).getReference();
 
-    public static void addUser(User user) {
+    public static void uploadUser(User user) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getId()).setValue(user);
     }
 
-    public static void changeLikesListOfMemory(String id, List<User> likes) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).child("likes").setValue(likes);
-    }
-
-    public static void changeFriendsOfUser(String id, Map<String, UserContactInfo> friends) {
-        databaseReference.child(DATABASE_USERS_PATH).child(id).child("friends").setValue(friends);
-    }
-
-    public static void changeFriendsRequestsOfUser(String id, Map<String, UserContactInfo> friendshipRequests) {
-        databaseReference.child(DATABASE_USERS_PATH).child(id).child("friendshipRequests").setValue(friendshipRequests);
-    }
-
-    public static void getUserFromId(String userId, final OnGetDataListener listener) { //used to get user for user activity
-        listener.onStart();
-        databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listener.onSuccess(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                listener.onFailed(databaseError);
-            }
-        });
-    }
-
-    public static void getUserInfo(String userId, ValueEventListener vel) {
+    public static void getUser(String userId, ValueEventListener vel) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addValueEventListener(vel);
     }
 
@@ -137,6 +110,6 @@ public class DatabaseHandler {
     /*
     public static void newFriendshipRequest(User sender, User receiver) {
         receiver.getFriendshipRequests().add(sender.getUserContactInfo());
-        addUser(receiver);
+        uploadUser(receiver);
     }*/
 }

@@ -11,12 +11,12 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
-import ch.epfl.sweng.melody.database.OnGetDataListener;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
@@ -49,21 +49,19 @@ public class UserProfileActivity extends AppCompatActivity {
         if (userId == null || userId.equals(MainActivity.getUser().getId())) {
             currentUser = MainActivity.getUser();
             prepareActivityWithUser();
-        } else {
+        }
+        else {
             isMyself = false;
-            DatabaseHandler.getUserFromId(userId, new OnGetDataListener() {
+            DatabaseHandler.getUser(userId, new ValueEventListener() {
                 @Override
-                public void onStart() {
-                }
-
-                @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
+                public void onDataChange(DataSnapshot dataSnapshot) {
                     currentUser = dataSnapshot.getValue(User.class);
                     prepareActivityWithUser();
                 }
 
                 @Override
-                public void onFailed(DatabaseError databaseError) {
+                public void onCancelled(DatabaseError databaseError) {
+
                 }
             });
         }
@@ -93,22 +91,22 @@ public class UserProfileActivity extends AppCompatActivity {
     public void removeFriend(View v) {
         MainActivity.getUser().removeFriend(currentUser);
         currentUser.removeFriend(MainActivity.getUser());
-        DatabaseHandler.changeFriendsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriends());
-        DatabaseHandler.changeFriendsOfUser(currentUser.getId(), currentUser.getFriends());
+        DatabaseHandler.uploadUser(MainActivity.getUser());
+        DatabaseHandler.uploadUser(currentUser);
         findViewById(R.id.removeFriend).setVisibility(View.GONE);
         findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
     }
 
     public void removeFriendRequest(View v) {
         currentUser.rejectFriendshipRequest(MainActivity.getUser());
-        DatabaseHandler.changeFriendsRequestsOfUser(currentUser.getId(), currentUser.getFriendshipRequests());
+        DatabaseHandler.uploadUser(currentUser);
         findViewById(R.id.removeFriendShipRequest).setVisibility(View.GONE);
         findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
     }
 
     public void refuseFriendRequest(View v) {
         MainActivity.getUser().rejectFriendshipRequest(currentUser);
-        DatabaseHandler.changeFriendsRequestsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriendshipRequests());
+        DatabaseHandler.uploadUser(MainActivity.getUser());
         findViewById(R.id.refuseFriendRequest).setVisibility(View.GONE);
         findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
     }
@@ -117,9 +115,8 @@ public class UserProfileActivity extends AppCompatActivity {
         currentUser.addFriend(MainActivity.getUser());
         MainActivity.getUser().addFriend(currentUser);
         MainActivity.getUser().rejectFriendshipRequest(currentUser);
-        DatabaseHandler.changeFriendsRequestsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriendshipRequests());
-        DatabaseHandler.changeFriendsOfUser(currentUser.getId(), currentUser.getFriends());
-        DatabaseHandler.changeFriendsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriends());
+        DatabaseHandler.uploadUser(currentUser);
+        DatabaseHandler.uploadUser(MainActivity.getUser());
         findViewById(R.id.confirmFriendRequest).setVisibility(View.GONE);
         //findViewById(R.id.youAreFriends).setVisibility(View.VISIBLE);
         findViewById(R.id.removeFriend).setVisibility(View.VISIBLE);
@@ -127,7 +124,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public void sendFriendRequest(View v) {
         currentUser.addFriendshipRequest(MainActivity.getUser());
-        DatabaseHandler.changeFriendsRequestsOfUser(currentUser.getId(), currentUser.getFriendshipRequests());
+        DatabaseHandler.uploadUser(currentUser);
         findViewById(R.id.sendFriendRequest).setVisibility(View.GONE);
         findViewById(R.id.removeFriendShipRequest).setVisibility(View.VISIBLE);
     }
