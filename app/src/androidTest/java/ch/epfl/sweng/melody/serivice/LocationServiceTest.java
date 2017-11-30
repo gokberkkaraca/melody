@@ -12,9 +12,6 @@ import ch.epfl.sweng.melody.location.LocationService;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by maxwell on 22.11.17.
- */
 
 public class LocationServiceTest {
     private Context context;

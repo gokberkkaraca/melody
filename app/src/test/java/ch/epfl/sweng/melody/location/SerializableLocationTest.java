@@ -8,9 +8,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-/**
- * Created by maxwell on 15.11.17.
- */
 public class SerializableLocationTest {
     private final double DELTA = 10e-5;
     private android.location.Location andLocation;

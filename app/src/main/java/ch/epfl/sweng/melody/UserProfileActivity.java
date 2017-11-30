@@ -49,8 +49,7 @@ public class UserProfileActivity extends AppCompatActivity {
         if (userId == null || userId.equals(MainActivity.getUser().getId())) {
             currentUser = MainActivity.getUser();
             prepareActivityWithUser();
-        }
-        else {
+        } else {
             isMyself = false;
             DatabaseHandler.getUser(userId, new ValueEventListener() {
                 @Override

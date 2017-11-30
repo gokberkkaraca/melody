@@ -14,9 +14,6 @@ import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by maxwell on 02.11.17.
- */
 @RunWith(AndroidJUnit4.class)
 public class FirebaseBackgroundServiceTest {
     private Context context;

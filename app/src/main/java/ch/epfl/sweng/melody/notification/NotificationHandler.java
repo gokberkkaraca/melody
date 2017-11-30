@@ -13,10 +13,6 @@ import android.support.v4.app.NotificationCompat;
 import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.R;
 
-/**
- * Created by maxwell on 02.11.17.
- */
-
 public class NotificationHandler {
     private static final int NOTIFICATION_CODE = 10;
 
