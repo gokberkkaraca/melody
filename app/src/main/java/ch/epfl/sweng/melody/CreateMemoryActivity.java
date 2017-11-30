@@ -84,6 +84,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
 
         fetchTagsFromDatabase();
 
+// TODO: Implement UI dropdown that allows you to add new tag as well
 //        tagSubmit.setOnClickListener(new Button.OnClickListener() {
 //            public void onClick(View v) {
 //                String addTag = newTag.getText().toString();
