@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
@@ -50,20 +51,16 @@ public class UserProfileActivity extends AppCompatActivity {
             currentUser = MainActivity.getUser();
             prepareActivityWithUser();
         } else {
-            isMyself = false;
-            DatabaseHandler.getUserFromId(userId, new OnGetDataListener() {
+            DatabaseHandler.getUserInfo(userId, new ValueEventListener() {
                 @Override
-                public void onStart() {
-                }
-
-                @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
+                public void onDataChange(DataSnapshot dataSnapshot) {
                     currentUser = dataSnapshot.getValue(User.class);
                     prepareActivityWithUser();
                 }
 
                 @Override
-                public void onFailed(DatabaseError databaseError) {
+                public void onCancelled(DatabaseError databaseError) {
+
                 }
             });
         }

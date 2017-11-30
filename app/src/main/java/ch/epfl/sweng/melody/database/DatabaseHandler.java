@@ -50,21 +50,6 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_USERS_PATH).child(id).child("friendshipRequests").setValue(friendshipRequests);
     }
 
-    public static void getUserFromId(String userId, final OnGetDataListener listener) { //used to get user for user activity
-        listener.onStart();
-        databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listener.onSuccess(dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                listener.onFailed(databaseError);
-            }
-        });
-    }
-
     public static void getUserInfo(String userId, ValueEventListener vel) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addValueEventListener(vel);
     }
