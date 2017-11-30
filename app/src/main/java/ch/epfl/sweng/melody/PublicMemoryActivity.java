@@ -195,7 +195,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                     Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
 
-                    if (memory.getLongId() > memoryStartTime) {
+                    if (memory.getLongId() > memoryStartTime && (memory.getPrivacy() == Memory.Privacy.PUBLIC || memory.getPrivacy() == Memory.Privacy.SHARED)) {
                         if (isNewMemory(memory.getId())) {
                             memoryList.add(memory);
                             memoryAdapter.notifyDataSetChanged();
