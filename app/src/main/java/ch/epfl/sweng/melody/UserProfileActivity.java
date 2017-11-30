@@ -90,8 +90,8 @@ public class UserProfileActivity extends AppCompatActivity {
     public void removeFriend(View v) {
         MainActivity.getUser().removeFriend(currentUser);
         currentUser.removeFriend(MainActivity.getUser());
-        DatabaseHandler.changeFriendsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriends());
-        DatabaseHandler.changeFriendsOfUser(currentUser.getId(), currentUser.getFriends());
+        DatabaseHandler.addUser(MainActivity.getUser());
+        DatabaseHandler.addUser(currentUser);
         findViewById(R.id.removeFriend).setVisibility(View.GONE);
         findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
     }
@@ -115,8 +115,8 @@ public class UserProfileActivity extends AppCompatActivity {
         MainActivity.getUser().addFriend(currentUser);
         MainActivity.getUser().rejectFriendshipRequest(currentUser);
         DatabaseHandler.changeFriendsRequestsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriendshipRequests());
-        DatabaseHandler.changeFriendsOfUser(currentUser.getId(), currentUser.getFriends());
-        DatabaseHandler.changeFriendsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriends());
+        DatabaseHandler.addUser(currentUser);
+        DatabaseHandler.addUser(MainActivity.getUser());
         findViewById(R.id.confirmFriendRequest).setVisibility(View.GONE);
         //findViewById(R.id.youAreFriends).setVisibility(View.VISIBLE);
         findViewById(R.id.removeFriend).setVisibility(View.VISIBLE);
