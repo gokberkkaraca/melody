@@ -19,10 +19,9 @@ import static ch.epfl.sweng.melody.PublicMemoryActivity.EXTRA_GOINGTOREQUESTS;
 
 public class FriendListActivity extends AppCompatActivity {
 
+    DividerItemDecoration dividerItemDecoration;
     private RecyclerView friendsRecyclerView;
     private FriendAdapter friendAdapter;
-    DividerItemDecoration dividerItemDecoration;
-
     private List<UserContactInfo> friendsToDisplay = MainActivity.getUser().getListFriends();
 
     @Override

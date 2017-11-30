@@ -51,7 +51,7 @@ public class Memory {
     }
 
     public boolean hasNotChanged(Memory memory) {
-        return getId().equals(memory.getId()) && getLikes().size()==memory.getLikes().size() && getComments().size()==memory.getComments().size();
+        return getId().equals(memory.getId()) && getLikes().size() == memory.getLikes().size() && getComments().size() == memory.getComments().size();
     }
 
     public Long getLongId() {

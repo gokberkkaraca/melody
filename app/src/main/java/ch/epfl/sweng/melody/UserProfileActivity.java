@@ -53,7 +53,8 @@ public class UserProfileActivity extends AppCompatActivity {
             isMyself = false;
             DatabaseHandler.getUserFromId(userId, new OnGetDataListener() {
                 @Override
-                public void onStart() {}
+                public void onStart() {
+                }
 
                 @Override
                 public void onSuccess(DataSnapshot dataSnapshot) {
@@ -62,17 +63,18 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailed(DatabaseError databaseError) {}
+                public void onFailed(DatabaseError databaseError) {
+                }
             });
         }
     }
 
     private void prepareActivityWithUser() {
-        ((TextView)findViewById(R.id.username)).setText(currentUser.getDisplayName());
-        ((TextView)findViewById(R.id.friends)).setText(currentUser.getFriendsSize());
-        new GoogleProfilePictureAsync((ImageView)findViewById(R.id.profilePicView), Uri.parse(currentUser.getProfilePhotoUrl())).execute();
+        ((TextView) findViewById(R.id.username)).setText(currentUser.getDisplayName());
+        ((TextView) findViewById(R.id.friends)).setText(currentUser.getFriendsSize());
+        new GoogleProfilePictureAsync((ImageView) findViewById(R.id.profilePicView), Uri.parse(currentUser.getProfilePhotoUrl())).execute();
 
-        if(!isMyself) {
+        if (!isMyself) {
             if (MainActivity.getUser().isFriendWith(currentUser)) {
                 findViewById(R.id.removeFriend).setVisibility(View.VISIBLE);
             } else if (MainActivity.getUser().sentFriendshipRequestTo(currentUser)) {
