@@ -66,6 +66,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     private EditText newTag;
     private Uri resourceUri;
     private Memory.MemoryType memoryType;
+    private Memory.Privacy memoryPrivacy = Memory.Privacy.PUBLIC;
     private String memoryDescription;
     private Memory memory;
     private SerializableLocation serializableLocation = new SerializableLocation();
@@ -125,6 +126,23 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         DialogUtils.pickPhotoDialog(this);
     }
 
+    public void makeMemoryPrivate(View view){
+        memoryPrivacy = Memory.Privacy.PRIVATE;
+        Toast.makeText(getApplicationContext(), "Memory is private!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void makeMemoryPublic(View view){
+        memoryPrivacy = Memory.Privacy.PUBLIC;
+        Toast.makeText(getApplicationContext(), "Memory is public!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void makeMemoryShared(View view){
+        memoryPrivacy = Memory.Privacy.SHARED;
+        Toast.makeText(getApplicationContext(), "Memory is shared!", Toast.LENGTH_SHORT).show();
+    }
+
+
     public void sendMemory(View view) {
         memoryDescription = editText.getText().toString();
         if (memoryDescription.isEmpty()) {
@@ -133,7 +151,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
+            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
@@ -151,11 +169,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .photo(url)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .video(url)
                             .build();
                 }
@@ -299,5 +317,4 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             e.printStackTrace();
         }
     }
-//    }
 }

@@ -20,10 +20,8 @@ import static org.mockito.Mockito.when;
 public class MemoryUploaderTest {
 
     private final String memoryId = UUID.randomUUID().toString();
-    private final String memoryAuthorId = UUID.randomUUID().toString();
-    private final String tagId = UUID.randomUUID().toString();
     private final String commentId = UUID.randomUUID().toString();
-    private final String commentAuthorId = UUID.randomUUID().toString();
+
     User user;
     private MemoryUploader memoryUploader;
     private Memory memory;

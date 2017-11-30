@@ -144,8 +144,8 @@
         android:layout_height="80dp"
         android:background="@null"
         android:onClick="sendMemory"
-        app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintBottom_toBottomOf="@+id/take_photos"
+        app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:srcCompat="@mipmap/send_memory"
         tools:ignore="ContentDescription" />
 
@@ -153,22 +153,24 @@
         android:id="@+id/private_memory_button"
         android:layout_width="38dp"
         android:layout_height="44dp"
-        app:srcCompat="@android:drawable/ic_lock_lock"
-        app:layout_constraintLeft_toRightOf="@+id/add_privacy"
         android:layout_marginStart="27dp"
         android:layout_marginTop="12dp"
         android:contentDescription="@string/select_privacy"
-        app:layout_constraintTop_toBottomOf="@+id/new_tag_content" />
+        android:onClick="makeMemoryPrivate"
+        app:layout_constraintLeft_toRightOf="@+id/add_privacy"
+        app:layout_constraintTop_toBottomOf="@+id/new_tag_content"
+        app:srcCompat="@android:drawable/ic_lock_lock" />
 
     <ImageButton
         android:id="@+id/public_memory_button"
         android:layout_width="38dp"
         android:layout_height="44dp"
         android:layout_marginStart="27dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="13dp"
+        android:contentDescription="@string/select_privacy"
+        android:onClick="makeMemoryPublic"
         app:layout_constraintLeft_toRightOf="@+id/private_memory_button"
         app:layout_constraintTop_toBottomOf="@+id/new_tag_content"
-        android:contentDescription="@string/select_privacy"
         app:srcCompat="@mipmap/public_memory" />
 
     <ImageButton
@@ -178,6 +180,7 @@
         android:layout_marginStart="27dp"
         android:layout_marginTop="22dp"
         android:contentDescription="@string/select_privacy"
+        android:onClick="makeMemoryShared"
         app:layout_constraintLeft_toRightOf="@+id/public_memory_button"
         app:layout_constraintTop_toBottomOf="@+id/submit_tag"
         app:srcCompat="?attr/actionModeShareDrawable" />
