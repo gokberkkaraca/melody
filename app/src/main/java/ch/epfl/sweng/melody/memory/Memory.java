@@ -145,13 +145,16 @@ public class Memory {
         private String videoUrl;
         private String thumbnailUrl;
 
-        public MemoryBuilder(User user, String text, SerializableLocation serializableLocation) {
+        public MemoryBuilder(User user, String text, SerializableLocation serializableLocation, Privacy privacy) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());
             this.time = Calendar.getInstance().getTime();
             this.user = user;
             this.text = text;
             this.serializableLocation = serializableLocation;
-            this.privacy = Privacy.PUBLIC;
+            if(privacy == null)
+                this.privacy = Privacy.PUBLIC;
+            else
+                this.privacy = privacy;
             this.reminder = true;
             this.memoryType = MemoryType.TEXT;
             this.comments = new HashMap<>();

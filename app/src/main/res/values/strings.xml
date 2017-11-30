@@ -32,10 +32,9 @@
     <string name="stop">STOP</string>
     <string name="pause">PAUSE</string>
     <string name="play">PLAY</string>
-    <string name="sample_tag">sample tag</string>
     <string name="select_tag">Select tags:</string>
-    <string name="add_tag">Add tag:</string>
     <string name="commentAuthorPic">Comment Author Picture</string>
+    <string name="select_privacy">Select Privacy:</string>
     <string name="friends_requests">Friends Requests</string>
     <string name="my_friends_requests">My Friends Requests</string>
     <string name="remove_friend_request">Remove friend request</string>
