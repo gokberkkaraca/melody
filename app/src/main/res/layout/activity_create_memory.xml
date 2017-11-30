@@ -61,19 +61,6 @@
         android:layout_marginTop="-2dp"
         app:layout_constraintHorizontal_bias="0.483" />
 
-    <TextView
-        android:id="@+id/add_tag"
-        android:layout_width="81dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="40dp"
-        android:paddingBottom="2dp"
-        android:text="@string/add_tag"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="26dp"
-        app:layout_constraintTop_toBottomOf="@+id/select_tags" />
-
 
     <TextView
         android:id="@+id/add_privacy"
@@ -82,39 +69,11 @@
         android:text="@string/select_privacy"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="37dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_tag"
         android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <EditText
-        android:id="@+id/new_tag_content"
-        android:layout_width="105dp"
-        android:layout_height="39dp"
-        android:ems="10"
-        android:hint="@string/sample_tag"
-        android:inputType="textMultiLine"
-        android:lines="1"
-        android:maxLines="2"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toRightOf="@+id/add_tag"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="23dp"
-        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown" />
-
-    <Button
-        android:id="@+id/submit_tag"
-        android:layout_width="88dp"
-        android:layout_height="39dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/submit"
-        android:textSize="12sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/new_tag_content"
-        app:layout_constraintHorizontal_bias="0.652"
-        android:layout_marginTop="23dp"
-        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/select_tags" />
 
     <ImageButton
         android:id="@+id/take_photos"
@@ -174,9 +133,10 @@
         android:onClick="makeMemoryPrivate"
         android:visibility="visible"
         app:srcCompat="@android:drawable/ic_lock_lock"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown"
         app:layout_constraintLeft_toRightOf="@+id/add_privacy"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/new_tag_content" />
+        android:layout_marginLeft="8dp" />
 
     <ImageButton
         android:id="@+id/public_memory_button"
@@ -188,8 +148,9 @@
         android:visibility="visible"
         app:layout_constraintLeft_toRightOf="@+id/private_memory_button"
         app:srcCompat="@mipmap/public_memory"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/new_tag_content" />
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="9dp"
+        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown" />
 
     <ImageButton
         android:id="@+id/shared_memory_button"
@@ -201,10 +162,11 @@
         android:visibility="visible"
         app:srcCompat="?attr/actionModeShareDrawable"
         app:layout_constraintLeft_toRightOf="@+id/public_memory_button"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/new_tag_content"
         android:layout_marginEnd="8dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginTop="9dp"
+        app:layout_constraintTop_toBottomOf="@+id/tags_dropdown" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
