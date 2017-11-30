@@ -6,9 +6,6 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
-/**
- * Created by maxwell on 22.11.17.
- */
 
 public class LocationListenerSubject implements LocationListener {
 

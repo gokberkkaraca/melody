@@ -15,9 +15,6 @@ import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 
-/**
- * Created by maxwell on 02.11.17.
- */
 
 public class FirebaseBackgroundService extends Service {
     @RestrictTo(RestrictTo.Scope.TESTS)

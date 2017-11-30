@@ -15,9 +15,6 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
 
-/**
- * Created by maxwell on 22.11.17.
- */
 
 public class LocationService extends Service implements LocationObserver {
     @RestrictTo(RestrictTo.Scope.TESTS)

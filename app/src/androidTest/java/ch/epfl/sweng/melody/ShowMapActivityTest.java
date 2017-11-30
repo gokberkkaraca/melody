@@ -17,9 +17,6 @@ import java.util.Random;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by maxwell on 15.11.17.
- */
 
 public class ShowMapActivityTest {
     @Rule

@@ -15,10 +15,6 @@ import ch.epfl.sweng.melody.location.LocationListenerSubject;
 import static android.content.Context.LOCATION_SERVICE;
 
 
-/**
- * Created by maxwell on 16.11.17.
- */
-
 public class PermissionUtils {
     public static final int REQUEST_PHOTO_GALLERY = 1;
     public static final int REQUEST_PHOTO_CAMERA = 2;

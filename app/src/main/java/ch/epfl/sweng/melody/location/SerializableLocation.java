@@ -2,9 +2,6 @@ package ch.epfl.sweng.melody.location;
 
 import java.io.Serializable;
 
-/**
- * Created by maxwell on 15.11.17.
- */
 
 public class SerializableLocation implements Serializable {
     private double longitude;
