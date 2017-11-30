@@ -7,6 +7,7 @@ import android.webkit.MimeTypeMap;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,8 +19,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 import java.util.Map;
-
-import org.w3c.dom.Comment;
 
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
@@ -83,6 +82,10 @@ public class DatabaseHandler {
         if (valueEventListener != null) {
             databaseReference.child(DATABASE_MEMORIES_PATH).removeEventListener(valueEventListener);
         }
+    }
+
+    public static void getUserFriendRequest(String userId, ChildEventListener childEventListener) {
+        databaseReference.child(DATABASE_USERS_PATH).child(userId).child("friendshipRequests").addChildEventListener(childEventListener);
     }
 
     public static void getMemory(String id, ValueEventListener vel) {
