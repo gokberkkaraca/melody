@@ -56,7 +56,7 @@ public class MemoryUploaderTest {
         when(memory.getReminder()).thenReturn(true);
         when(memory.getPhotoUrl()).thenReturn(testPhotoUrl);
         when(memory.getVideoUrl()).thenReturn(testVideoUrl);
-        when(memory.getSerializableLocation()).thenReturn(new SerializableLocation(46.5197, 6.6323,"Lausanne"));
+        when(memory.getSerializableLocation()).thenReturn(new SerializableLocation(46.5197, 6.6323, "Lausanne"));
 
         memoryUploader = new MemoryUploader(memory);
     }

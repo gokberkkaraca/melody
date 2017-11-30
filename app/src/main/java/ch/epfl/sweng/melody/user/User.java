@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.memory.Memory;
 
 public class User implements Serializable {
@@ -28,6 +27,7 @@ public class User implements Serializable {
     private int minRadius;
     private int maxRadius;
     private boolean notificationsOn;
+
     public User(GoogleSignInAccount googleSignInAccount) {
         if (googleSignInAccount != null) {
             this.id = encodeEmailForId(googleSignInAccount.getEmail());
@@ -77,17 +77,25 @@ public class User implements Serializable {
         return email;
     }
 
-    public String getFriendsSize() { return (friends == null) ? "0" : Integer.toString(friends.size()); }
+    public String getFriendsSize() {
+        return (friends == null) ? "0" : Integer.toString(friends.size());
+    }
 
     public List<Memory> getMemories() {
         return memories;
     }
 
-    public List<UserContactInfo> getListFriends() {return new ArrayList<UserContactInfo>(friends.values()); }
+    public List<UserContactInfo> getListFriends() {
+        return new ArrayList<UserContactInfo>(friends.values());
+    }
 
-    public Map<String, UserContactInfo> getFriends() { return friends; }
+    public Map<String, UserContactInfo> getFriends() {
+        return friends;
+    }
 
-    public List<UserContactInfo> getFriendshipListRequests() { return new ArrayList<UserContactInfo>(friendshipRequests.values()); }
+    public List<UserContactInfo> getFriendshipListRequests() {
+        return new ArrayList<UserContactInfo>(friendshipRequests.values());
+    }
 
     public Map<String, UserContactInfo> getFriendshipRequests() {
         return friendshipRequests;
@@ -145,11 +153,17 @@ public class User implements Serializable {
         return email.replace('.', ',');
     }
 
-    public boolean isFriendWith(User otherUser) { return friends.containsKey(otherUser.getId()); }
+    public boolean isFriendWith(User otherUser) {
+        return friends.containsKey(otherUser.getId());
+    }
 
-    public boolean sentFriendshipRequestTo(User otherUser) { return otherUser.getFriendshipRequests().containsKey(this.getId()); }
+    public boolean sentFriendshipRequestTo(User otherUser) {
+        return otherUser.getFriendshipRequests().containsKey(this.getId());
+    }
 
-    public boolean gotFriendshipRequestFrom(User otherUser) { return friendshipRequests.containsKey(otherUser.getId());}
+    public boolean gotFriendshipRequestFrom(User otherUser) {
+        return friendshipRequests.containsKey(otherUser.getId());
+    }
 
     public void removeFriend(User otherUser) {
         if (friends.containsKey(otherUser.getId())) {

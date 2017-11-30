@@ -100,45 +100,45 @@ public class UserTest {
     }
 
     @Test
-    public void getThemeColor () throws Exception {
+    public void getThemeColor() throws Exception {
         assertEquals(user.getThemeColor(), User.ThemeColor.BLACK);
     }
 
     @Test
-    public void getMinRadius () throws Exception {
+    public void getMinRadius() throws Exception {
         assertEquals(user.getMinRadius(), 1);
     }
 
     @Test
-    public void getMaxRadius () throws Exception {
+    public void getMaxRadius() throws Exception {
         assertEquals(user.getMaxRadius(), 100);
     }
 
     @Test
-    public void getNotificationsOn () throws Exception {
+    public void getNotificationsOn() throws Exception {
         assertEquals(user.getNotificationsOn(), true);
     }
 
     @Test
-    public void setThemeColor () throws Exception {
+    public void setThemeColor() throws Exception {
         user.setThemeColor(User.ThemeColor.RED);
         assertEquals(user.getThemeColor(), User.ThemeColor.RED);
     }
 
     @Test
-    public void setMinRadius () throws Exception {
+    public void setMinRadius() throws Exception {
         user.setMinRadius(2);
         assertEquals(user.getMinRadius(), 2);
     }
 
     @Test
-    public void setMaxRadius () throws Exception {
+    public void setMaxRadius() throws Exception {
         user.setMaxRadius(50);
         assertEquals(user.getMaxRadius(), 50);
     }
 
     @Test
-    public void setNotificationsOn () throws Exception {
+    public void setNotificationsOn() throws Exception {
         user.setNotificationsOn(false);
         assertEquals(user.getNotificationsOn(), false);
     }
@@ -159,21 +159,21 @@ public class UserTest {
         assertThat(userContactInfo.getUserId(), is(user.getId()));
     }
 
-    @Test (expected = IllegalStateException.class)
+    @Test(expected = IllegalStateException.class)
     public void addFriend() throws Exception {
         user.addFriend(otherUser);
         assertThat(user.getFriends().size(), is(1));
         user.addFriend(otherUser);
     }
 
-    @Test (expected = IllegalStateException.class)
+    @Test(expected = IllegalStateException.class)
     public void addFriendshipRequest() throws Exception {
         user.addFriendshipRequest(otherUser);
         assertThat(user.getFriendshipListRequests().size(), is(1));
         user.addFriendshipRequest(otherUser);
     }
 
-    @Test (expected = IllegalStateException.class)
+    @Test(expected = IllegalStateException.class)
     public void removeFriend() throws Exception {
         user.addFriend(otherUser);
         user.removeFriend(otherUser);
@@ -181,8 +181,8 @@ public class UserTest {
         user.removeFriend(otherUser);
     }
 
-    @Test (expected = IllegalStateException.class)
-    public void acceptFriendshipRequest(){
+    @Test(expected = IllegalStateException.class)
+    public void acceptFriendshipRequest() {
         user.getFriendshipRequests().put(otherUser.getId(), otherUser.getUserContactInfo());
         user.acceptFriendshipRequest(otherUser);
         assertThat(user.getFriends().size(), is(1));
@@ -190,8 +190,8 @@ public class UserTest {
         user.acceptFriendshipRequest(otherUser);
     }
 
-    @Test (expected = IllegalStateException.class)
-    public void rejectFriendshipRequest(){
+    @Test(expected = IllegalStateException.class)
+    public void rejectFriendshipRequest() {
         user.getFriendshipRequests().put(otherUser.getId(), otherUser.getUserContactInfo());
         user.rejectFriendshipRequest(otherUser);
         assertThat(user.getFriends().size(), is(0));

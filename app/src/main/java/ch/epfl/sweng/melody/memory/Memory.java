@@ -9,7 +9,6 @@ import java.util.Map;
 
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.user.UserContactInfo;
 
 
 public class Memory {
@@ -52,7 +51,7 @@ public class Memory {
     }
 
     public boolean hasNotChanged(Memory memory) {
-        return getId().equals(memory.getId()) && getLikes().size()==memory.getLikes().size() && getComments().size()==memory.getComments().size();
+        return getId().equals(memory.getId()) && getLikes().size() == memory.getLikes().size() && getComments().size() == memory.getComments().size();
     }
 
     public Long getLongId() {
