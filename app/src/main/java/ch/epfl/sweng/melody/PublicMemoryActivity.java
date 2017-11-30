@@ -193,7 +193,8 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private boolean isFriendsMemory(String memoryAuthorId) {
         Map<String, UserContactInfo> Friends = user.getFriends();
         for (UserContactInfo friend : Friends.values()) {
-            if(friend.getUserId() == memoryAuthorId)
+            String friendUserId = friend.getUserId();
+            if(friendUserId.equals(memoryAuthorId))
                 return true;
         }
         return false;
