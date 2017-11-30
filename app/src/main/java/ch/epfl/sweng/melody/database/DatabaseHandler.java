@@ -19,8 +19,6 @@ import com.google.firebase.storage.StorageReference;
 import java.util.List;
 import java.util.Map;
 
-import org.w3c.dom.Comment;
-
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
