@@ -92,7 +92,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                     holder.likeButton.setImageResource(R.mipmap.like_with);
                 }
 
-                DatabaseHandler.changeLikesListOfMemory(memory.getId(), memory.getLikes());
+                DatabaseHandler.uploadMemory(memory);
                 holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
             }
         });
