@@ -98,14 +98,14 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public void removeFriendRequest(View v) {
         currentUser.rejectFriendshipRequest(MainActivity.getUser());
-        DatabaseHandler.changeFriendsRequestsOfUser(currentUser.getId(), currentUser.getFriendshipRequests());
+        DatabaseHandler.addUser(currentUser);
         findViewById(R.id.removeFriendShipRequest).setVisibility(View.GONE);
         findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
     }
 
     public void refuseFriendRequest(View v) {
         MainActivity.getUser().rejectFriendshipRequest(currentUser);
-        DatabaseHandler.changeFriendsRequestsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriendshipRequests());
+        DatabaseHandler.addUser(MainActivity.getUser());
         findViewById(R.id.refuseFriendRequest).setVisibility(View.GONE);
         findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
     }
@@ -114,7 +114,6 @@ public class UserProfileActivity extends AppCompatActivity {
         currentUser.addFriend(MainActivity.getUser());
         MainActivity.getUser().addFriend(currentUser);
         MainActivity.getUser().rejectFriendshipRequest(currentUser);
-        DatabaseHandler.changeFriendsRequestsOfUser(MainActivity.getUser().getId(), MainActivity.getUser().getFriendshipRequests());
         DatabaseHandler.addUser(currentUser);
         DatabaseHandler.addUser(MainActivity.getUser());
         findViewById(R.id.confirmFriendRequest).setVisibility(View.GONE);
@@ -124,7 +123,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public void sendFriendRequest(View v) {
         currentUser.addFriendshipRequest(MainActivity.getUser());
-        DatabaseHandler.changeFriendsRequestsOfUser(currentUser.getId(), currentUser.getFriendshipRequests());
+        DatabaseHandler.addUser(currentUser);
         findViewById(R.id.sendFriendRequest).setVisibility(View.GONE);
         findViewById(R.id.removeFriendShipRequest).setVisibility(View.VISIBLE);
     }

@@ -38,10 +38,6 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getId()).setValue(user);
     }
 
-    public static void changeFriendsRequestsOfUser(String id, Map<String, UserContactInfo> friendshipRequests) {
-        databaseReference.child(DATABASE_USERS_PATH).child(id).child("friendshipRequests").setValue(friendshipRequests);
-    }
-
     public static void getUserInfo(String userId, ValueEventListener vel) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addValueEventListener(vel);
     }
