@@ -58,7 +58,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     private ImageView imageView;
     private VideoView videoView;
     private Spinner dropDown;
-    private Button tagSubmit;
     private List<String> tags = new ArrayList<>();
     private List<String> selectedTags = new ArrayList<>();
     private Bitmap picture;
@@ -66,6 +65,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     private EditText newTag;
     private Uri resourceUri;
     private Memory.MemoryType memoryType;
+    private Memory.Privacy memoryPrivacy = Memory.Privacy.PUBLIC;
     private String memoryDescription;
     private Memory memory;
     private SerializableLocation serializableLocation = new SerializableLocation();
@@ -78,34 +78,33 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
-        newTag = findViewById(R.id.new_tag_content);
         dropDown = findViewById(R.id.tags_dropdown);
-        tagSubmit = findViewById(R.id.submit_tag);
         address = findViewById(R.id.address);
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
 
         fetchTagsFromDatabase();
 
-        tagSubmit.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                String addTag = newTag.getText().toString();
-
-                if (addTag.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Cannot add empty tag!", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    for (int i = 0; i < tags.size(); ++i) {
-                        if (tags.get(i).equals(addTag)) {
-                            Toast.makeText(getApplicationContext(), "Tag already exists!", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                    addTagToDatabase(addTag);
-                    selectedTags.add(addTag);
-                    fetchTagsFromDatabase();
-                }
-            }
-        });
+// TODO: Implement UI dropdown that allows you to add new tag as well
+//        tagSubmit.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//                String addTag = newTag.getText().toString();
+//
+//                if (addTag.isEmpty()) {
+//                    Toast.makeText(getApplicationContext(), "Cannot add empty tag!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                } else {
+//                    for (int i = 0; i < tags.size(); ++i) {
+//                        if (tags.get(i).equals(addTag)) {
+//                            Toast.makeText(getApplicationContext(), "Tag already exists!", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                    }
+//                    addTagToDatabase(addTag);
+//                    selectedTags.add(addTag);
+//                    fetchTagsFromDatabase();
+//                }
+//            }
+//        });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tags);
         dropDown.setAdapter(adapter);
@@ -125,6 +124,23 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         DialogUtils.pickPhotoDialog(this);
     }
 
+    public void makeMemoryPrivate(View view){
+        memoryPrivacy = Memory.Privacy.PRIVATE;
+        Toast.makeText(getApplicationContext(), "Memory is private!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void makeMemoryPublic(View view){
+        memoryPrivacy = Memory.Privacy.PUBLIC;
+        Toast.makeText(getApplicationContext(), "Memory is public!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void makeMemoryShared(View view){
+        memoryPrivacy = Memory.Privacy.SHARED;
+        Toast.makeText(getApplicationContext(), "Memory is shared!", Toast.LENGTH_SHORT).show();
+    }
+
+
     public void sendMemory(View view) {
         memoryDescription = editText.getText().toString();
         if (memoryDescription.isEmpty()) {
@@ -133,7 +149,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
+            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
@@ -151,11 +167,11 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .photo(url)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .video(url)
                             .build();
                 }
@@ -299,5 +315,4 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             e.printStackTrace();
         }
     }
-//    }
 }
