@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -124,18 +123,18 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         DialogUtils.pickPhotoDialog(this);
     }
 
-    public void makeMemoryPrivate(View view){
+    public void makeMemoryPrivate(View view) {
         memoryPrivacy = Memory.Privacy.PRIVATE;
         Toast.makeText(getApplicationContext(), "Memory is private!", Toast.LENGTH_SHORT).show();
 
     }
 
-    public void makeMemoryPublic(View view){
+    public void makeMemoryPublic(View view) {
         memoryPrivacy = Memory.Privacy.PUBLIC;
         Toast.makeText(getApplicationContext(), "Memory is public!", Toast.LENGTH_SHORT).show();
     }
 
-    public void makeMemoryShared(View view){
+    public void makeMemoryShared(View view) {
         memoryPrivacy = Memory.Privacy.SHARED;
         Toast.makeText(getApplicationContext(), "Memory is shared!", Toast.LENGTH_SHORT).show();
     }

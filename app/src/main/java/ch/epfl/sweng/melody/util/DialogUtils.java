@@ -19,9 +19,6 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
 
-/**
- * Created by maxwell on 16.11.17.
- */
 
 public class DialogUtils {
 
