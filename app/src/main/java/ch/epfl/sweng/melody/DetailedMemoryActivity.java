@@ -16,12 +16,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -41,6 +42,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Comment;
 import ch.epfl.sweng.melody.memory.CommentAdapter;
 import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
@@ -50,7 +52,11 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     private Memory memory;
     private String memoryId;
     private List<Comment> commentList;
-    private RecyclerView recyclerView;
+    private static List<String> tagsList;
+    private RecyclerView commentsRecyclerView;
+    private ListView tagsListView;
+    private ArrayAdapter adapter;
+    private static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,18 +65,25 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_memory_detail);
         memoryId = getIntent().getStringExtra("memoryId");
 
+        user = MainActivity.getUser();
+
         TextView memoryText = findViewById(R.id.memoryText);
 
         RelativeLayout videoSpace = findViewById(R.id.memoryImageOrVideo);
 
-        recyclerView = findViewById(R.id.comments_recyclerView);
+        commentsRecyclerView = findViewById(R.id.comments_recyclerView);
+        tagsListView = findViewById(R.id.tags_listView);
 
         memoryText.setVisibility(View.GONE);
         videoSpace.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
+        commentsRecyclerView.setVisibility(View.GONE);
 
         fetchMemoryFromDatabase();
         setCommentsContainer();
+
+        tagsList = new ArrayList<String>();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tagsList);
+        tagsListView.setAdapter(adapter);
     }
 
     private void setCommentsContainer() {
@@ -124,8 +137,10 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Cannot add empty comment!", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    UserContactInfo sample_user = new UserContactInfo("commentUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
-                    Comment newComment = new Comment(memoryId, sample_user, commentText);
+                    UserContactInfo currentUser = new UserContactInfo(user.getId(), user.getDisplayName(), user.getProfilePhotoUrl(), user.getEmail());
+                    Comment newComment = new Comment(memoryId, currentUser, commentText);
+                    TextView memoryText = findViewById(R.id.memoryText);
+                    memoryText.setText(currentUser.getDisplayName());
                     DatabaseHandler.addComment(memoryId, newComment);
                     Toast.makeText(getApplicationContext(), "Comment added!", Toast.LENGTH_SHORT).show();
                 }
@@ -145,8 +160,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
 
-                ScrollView parentScroll = findViewById(R.id.parentScroll);
-
                 RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
 
                 ImageView memoryImage = findViewById(R.id.memoryPicture);
@@ -154,6 +167,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 final TextView memoryText = findViewById(R.id.memoryText);
 
                 final VideoView memoryVideo = findViewById(R.id.memoryVideo);
+
+                TextView tagsTitle = findViewById(R.id.tags_title);
 
                 TextView date = findViewById(R.id.memoryDate);
                 date.setText(format.format(memory.getTime()));
@@ -164,7 +179,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 Button playVideo = findViewById(R.id.play_button);
                 Button pauseVideo = findViewById(R.id.pause_button);
                 Button stopVideo = findViewById(R.id.stop_button);
-
 
                 if (memory.getPhotoUrl() != null) {
                     memoryImageOrVideo.setVisibility(View.VISIBLE);
@@ -232,14 +246,23 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 commentList = new ArrayList<>(memory.getComments().values());
 
                 if (commentList.size() > 0) {
-                    recyclerView.setVisibility(View.VISIBLE);
+                    commentsRecyclerView.setVisibility(View.VISIBLE);
                     commentAdapter = new CommentAdapter(commentList);
                     commentAdapter.notifyDataSetChanged();
 
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(commentAdapter);
+                    commentsRecyclerView.setLayoutManager(mLayoutManager);
+                    commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                    commentsRecyclerView.setAdapter(commentAdapter);
+                }
+
+                if(memory.getTags().size() > 0) {
+                    tagsTitle.setVisibility(View.VISIBLE);
+                    tagsListView.setVisibility(View.VISIBLE);
+                    adapter.clear();
+                    tagsList = memory.getTags();
+                    adapter.addAll(tagsList);
+                    adapter.notifyDataSetChanged();
                 }
             }
 

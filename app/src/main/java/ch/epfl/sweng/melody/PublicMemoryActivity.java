@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
@@ -46,6 +47,7 @@ import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
@@ -66,6 +68,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static RecyclerView recyclerView;
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
+    private static User user;
 
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
@@ -99,7 +102,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         setContentView(R.layout.activity_public_memory);
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        User user = MainActivity.getUser();
+        user = MainActivity.getUser();
         String colorValue = sharedPref.getString("themeColor", "RED");
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
@@ -187,6 +190,17 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         }
     }
 
+    private boolean isFriendsMemory(String memoryAuthorId) {
+        Map<String, UserContactInfo> Friends = user.getFriends();
+        for (UserContactInfo friend : Friends.values()) {
+            String friendUserId = friend.getUserId();
+            if(friendUserId.equals(memoryAuthorId))
+                return true;
+        }
+        return false;
+    }
+
+
     private void fetchMemoriesFromDatabase() {
         DatabaseHandler.getAllMemories(new ValueEventListener() {
             @Override
@@ -197,8 +211,15 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
                     if (memory.getLongId() > memoryStartTime) {
                         if (isNewMemory(memory.getId())) {
-                            memoryList.add(memory);
-                            memoryAdapter.notifyDataSetChanged();
+                            if(memory.getPrivacy() == Memory.Privacy.PUBLIC){
+                                memoryList.add(memory);
+                                memoryAdapter.notifyDataSetChanged();
+                            }
+
+                            else if(memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())){
+                                memoryList.add(memory);
+                                memoryAdapter.notifyDataSetChanged();
+                            }
                         }
                     }
 
