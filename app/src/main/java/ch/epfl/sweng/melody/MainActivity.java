@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -20,6 +21,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static User user;
     private final Handler mHandler = new Handler();
+    private static FirebaseAuth firebaseAuth;
+
+    public static FirebaseAuth initializeFirebaseAuth(){
+        if(firebaseAuth==null){
+            firebaseAuth = FirebaseAuth.getInstance();
+        }
+        return firebaseAuth;
+    }
 
     public static User getUser() {
         return user;

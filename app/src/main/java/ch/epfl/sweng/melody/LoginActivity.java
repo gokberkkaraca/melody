@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import ch.epfl.sweng.melody.account.GoogleAccount;
@@ -38,7 +37,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
-    private FirebaseAuth firebaseAuth;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressBar progressBar;
@@ -47,7 +45,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        firebaseAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_login);
 
         // Button listeners
@@ -101,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressBar.setVisibility(View.VISIBLE);
 
         //authenticate user
-        firebaseAuth.signInWithEmailAndPassword(email, password)
+        MainActivity.initializeFirebaseAuth().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -182,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void firebaseAuthWithGoogle(final GoogleSignInAccount googleAccount) {
         String idToken = googleAccount.getIdToken();
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        firebaseAuth.signInWithCredential(credential)
+        MainActivity.initializeFirebaseAuth().signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

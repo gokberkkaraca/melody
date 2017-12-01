@@ -11,11 +11,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText inputEmail;
-    private FirebaseAuth firebaseAuth;
     private ProgressBar progressBar;
 
     @Override
@@ -27,7 +25,6 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         findViewById(R.id.reset_password_button).setOnClickListener(this);
         findViewById(R.id.go_back_button).setOnClickListener(this);
 
-        firebaseAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -50,7 +47,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        firebaseAuth.sendPasswordResetEmail(email)
+        MainActivity.initializeFirebaseAuth().sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
