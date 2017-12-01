@@ -55,4 +55,6 @@
     <string name="hint_new_email">New Email</string>
     <string name="forgot_password_msg">We just need your registered Email to sent you password reset instructions.</string>
     <string name="tags_title">Tags:</string>
+
+    <string name="web_client_id">90372047742-46j4klcbiheuec6q73gbicrvubn2oetd.apps.googleusercontent.com</string>
 </resources>

@@ -7,6 +7,8 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import ch.epfl.sweng.melody.R;
+
 
 public class GoogleAccount {
 
@@ -18,7 +20,7 @@ public class GoogleAccount {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestProfile()
-                .requestId()
+                .requestIdToken(context.getResources().getString(R.string.web_client_id))
                 .build();
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the

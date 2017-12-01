@@ -21,8 +21,10 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.account.LoginStatusHandler;
@@ -169,15 +171,37 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount GOOGLE_ACCOUNT = result.getSignInAccount();
             assert GOOGLE_ACCOUNT != null;
-            MainActivity.setUser(new User(GOOGLE_ACCOUNT));
-
-            DatabaseHandler.uploadUser(MainActivity.getUser());
-            LoginStatusHandler.setUserId(this, MainActivity.getUser().getId());
-            MenuButtons.goToPublicMemoryActivity(this);
+            firebaseAuthWithGoogle(GOOGLE_ACCOUNT);
         }
         // Logout
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient);
         }
+    }
+
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount googleAccount) {
+        String idToken = googleAccount.getIdToken();
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithCredential" + task.getException().getMessage());
+                            task.getException().printStackTrace();
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Login successful",
+                                    Toast.LENGTH_SHORT).show();
+                            MainActivity.setUser(new User(googleAccount));
+                            DatabaseHandler.uploadUser(MainActivity.getUser());
+                            LoginStatusHandler.setUserId(LoginActivity.this, MainActivity.getUser().getId());
+                            MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
+                            finish();
+                        }
+                    }
+                });
     }
 }
