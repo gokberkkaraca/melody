@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -43,6 +42,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Comment;
 import ch.epfl.sweng.melody.memory.CommentAdapter;
 import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
@@ -56,6 +56,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     private RecyclerView commentsRecyclerView;
     private ListView tagsListView;
     private ArrayAdapter adapter;
+    private static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_memory_detail);
         memoryId = getIntent().getStringExtra("memoryId");
+
+        user = MainActivity.getUser();
 
         TextView memoryText = findViewById(R.id.memoryText);
 
@@ -134,8 +137,10 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Cannot add empty comment!", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    UserContactInfo sample_user = new UserContactInfo("commentUser1", "SampleUser", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
-                    Comment newComment = new Comment(memoryId, sample_user, commentText);
+                    UserContactInfo currentUser = new UserContactInfo(user.getId(), user.getDisplayName(), user.getProfilePhotoUrl(), user.getEmail());
+                    Comment newComment = new Comment(memoryId, currentUser, commentText);
+                    TextView memoryText = findViewById(R.id.memoryText);
+                    memoryText.setText(currentUser.getDisplayName());
                     DatabaseHandler.addComment(memoryId, newComment);
                     Toast.makeText(getApplicationContext(), "Comment added!", Toast.LENGTH_SHORT).show();
                 }
@@ -251,11 +256,12 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     commentsRecyclerView.setAdapter(commentAdapter);
                 }
 
-                if(memory.getTags().size() > 0){
+                if(memory.getTags().size() > 0) {
                     tagsTitle.setVisibility(View.VISIBLE);
                     tagsListView.setVisibility(View.VISIBLE);
+                    adapter.clear();
                     tagsList = memory.getTags();
-                    adapter.add(tagsList);
+                    adapter.addAll(tagsList);
                     adapter.notifyDataSetChanged();
                 }
             }
