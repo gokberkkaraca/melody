@@ -29,6 +29,6 @@ public class LoginActivityTest {
 
     @Test
     public void CanGoToSignUp() {
-        onView(withId(R.id.sign_up_button)).perform(click());
+        onView(withId(R.id.create_new_account_button)).perform(click());
     }
 }

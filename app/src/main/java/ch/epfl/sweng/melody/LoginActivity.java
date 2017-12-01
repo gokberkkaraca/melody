@@ -37,8 +37,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth firebaseAuth;
-    private EditText inputEmail, inputPassword;
-    //private ProgressBar progressBar;
+    private EditText inputEmail;
+    private EditText inputPassword;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -48,16 +49,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
 
         // Button listeners
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_up_button).setOnClickListener(this);
+        findViewById(R.id.google_login_button).setOnClickListener(this);
+        findViewById(R.id.create_new_account_button).setOnClickListener(this);
         findViewById(R.id.login_button).setOnClickListener(this);
+        findViewById(R.id.forgot_password_button).setOnClickListener(this);
 
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        //progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.login_processbar);
 
         // Set the dimensions of the sign-in button.
-        SignInButton signInButton = findViewById(R.id.sign_in_button);
+        SignInButton signInButton = findViewById(R.id.google_login_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
 
         GoogleAccount.signIn(this);
@@ -66,20 +68,21 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
+            case R.id.google_login_button:
                 googleSignIn();
                 break;
-            case R.id.sign_up_button:
+            case R.id.create_new_account_button:
                 signUp();
                 break;
             case R.id.login_button:
                 login();
                 break;
-
+            case R.id.forgot_password_button:
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
         }
     }
 
-    private void login(){
+    private void login() {
         String email = inputEmail.getText().toString();
         final String password = inputPassword.getText().toString();
 
@@ -93,17 +96,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             return;
         }
 
-        //progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
         //authenticate user
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        //progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         if (!task.isSuccessful()) {
                             // there was an error
                             if (password.length() < 6) {
