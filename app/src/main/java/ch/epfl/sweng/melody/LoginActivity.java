@@ -26,7 +26,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import ch.epfl.sweng.melody.account.GoogleAccount;
-import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
@@ -111,8 +110,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Intent intent = new Intent(LoginActivity.this, PublicMemoryActivity.class);
-                            startActivity(intent);
+                            MainActivity.setUser(MainActivity.initializeFirebaseAuth().getCurrentUser());
+                            DatabaseHandler.uploadUser(MainActivity.getUser());
+                            MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
                             finish();
                         }
                     }
@@ -192,9 +192,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         } else {
                             Toast.makeText(LoginActivity.this, "Login successful",
                                     Toast.LENGTH_SHORT).show();
-                            MainActivity.setUser(new User(googleAccount));
+                            MainActivity.setUser(MainActivity.initializeFirebaseAuth().getCurrentUser());
                             DatabaseHandler.uploadUser(MainActivity.getUser());
-                            LoginStatusHandler.setUserId(LoginActivity.this, MainActivity.getUser().getId());
                             MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
                             finish();
                         }

@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody.user;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,18 +29,15 @@ public class User implements Serializable {
     private int maxRadius;
     private boolean notificationsOn;
 
-    public User(GoogleSignInAccount googleSignInAccount) {
-        if (googleSignInAccount != null) {
-            this.id = encodeEmailForId(googleSignInAccount.getEmail());
-            this.displayName = googleSignInAccount.getDisplayName();
-            this.email = googleSignInAccount.getEmail();
-            assert email != null;
-
+    public User(FirebaseUser firebaseUser){
+        if(firebaseUser!=null){
+            this.id = encodeEmailForId(firebaseUser.getEmail());
+            this.displayName = firebaseUser.getDisplayName();
+            this.email = firebaseUser.getEmail();
             profilePhotoUrl = defaultProfilePhotoUrl;
-            if (googleSignInAccount.getPhotoUrl() != null)
-                this.profilePhotoUrl = googleSignInAccount.getPhotoUrl().toString();
+            if (firebaseUser.getPhotoUrl() != null)
+                this.profilePhotoUrl = firebaseUser.getPhotoUrl().toString();
         }
-
         memories = new ArrayList<>();
         friends = new HashMap<>();
         friendshipRequests = new HashMap<>();

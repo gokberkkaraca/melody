@@ -6,11 +6,11 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static User user;
     private final Handler mHandler = new Handler();
-    private static FirebaseAuth firebaseAuth;
+    private static FirebaseAuth firebaseAuth=null;
 
     public static FirebaseAuth initializeFirebaseAuth(){
         if(firebaseAuth==null){
@@ -34,27 +34,24 @@ public class MainActivity extends AppCompatActivity {
         return user;
     }
 
-    public static void setUser(User user) {
-        MainActivity.user = user;
+    public static void setUser(FirebaseUser firebaseUser) {
+        MainActivity.user = new User(firebaseUser);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         final int timer = 250;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                String userId = LoginStatusHandler.getUserId(MainActivity.this);
-
-                if (userId.length() == 0) {
+                if(initializeFirebaseAuth().getCurrentUser()==null){
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
-                } else {
-                    DatabaseHandler.getUser(userId, new ValueEventListener() {
+                }else {
+                    user = new User(initializeFirebaseAuth().getCurrentUser());
+                    DatabaseHandler.getUser(MainActivity.getUser().getId(), new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             user = dataSnapshot.getValue(User.class);
