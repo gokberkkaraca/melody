@@ -57,4 +57,5 @@
     <string name="tags_title">Tags:</string>
 
     <string name="web_client_id">90372047742-46j4klcbiheuec6q73gbicrvubn2oetd.apps.googleusercontent.com</string>
+    <string name="create_display_name">Nick Name</string>
 </resources>

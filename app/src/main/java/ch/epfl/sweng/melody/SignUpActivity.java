@@ -13,11 +13,14 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText inputEmail;
     private EditText inputPassword;
+    private EditText inputDisplayName;
     private ProgressBar progressBar;
 
     @Override
@@ -30,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.already_have_account_login_button).setOnClickListener(this);
         inputEmail = (EditText) findViewById(R.id.create_new_email);
         inputPassword = (EditText) findViewById(R.id.create_new_password);
+        inputDisplayName = (EditText) findViewById(R.id.create_display_name);
         progressBar = (ProgressBar) findViewById(R.id.sign_up_processbar);
     }
 
@@ -54,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void emailPasswordsSignUp() {
         String email = inputEmail.getText().toString().trim();
         String password = inputPassword.getText().toString().trim();
+        final String displayname = inputDisplayName.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -62,6 +67,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         if (TextUtils.isEmpty(password)) {
             Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(displayname)){
+            Toast.makeText(getApplicationContext(), "Enter your nickname!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -81,6 +91,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(SignUpActivity.this, "Create your melody account successfully!", Toast.LENGTH_SHORT).show();
+                            FirebaseUser firebaseUser = MainActivity.initializeFirebaseAuth().getCurrentUser();
+                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(displayname).build();
+                            firebaseUser.updateProfile(profileChangeRequest);
                             startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                             finish();
                         }
