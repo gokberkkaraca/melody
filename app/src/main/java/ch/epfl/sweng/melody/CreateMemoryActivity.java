@@ -328,6 +328,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     private void onVideoFromCameraResult(Intent data) {
         videoView.setVisibility(View.VISIBLE);
         imageView.setVisibility(View.GONE);
+        resourceUri = data.getData();
+        memoryType = Memory.MemoryType.VIDEO;
         videoView.setVideoURI(data.getData());
         videoView.start();
     }
