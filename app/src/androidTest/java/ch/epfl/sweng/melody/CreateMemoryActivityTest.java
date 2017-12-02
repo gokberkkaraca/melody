@@ -173,6 +173,7 @@ public class CreateMemoryActivityTest {
         Thread.sleep(2000);
     }
 
+    @Test
     public void sendPhotoMemoryTest() {
         onView(withId(R.id.display_chosen_photo)).check(matches(not(viewMatcher.hasDrawable())));
         onView(withId(R.id.take_photos)).perform(click());
