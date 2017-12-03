@@ -58,4 +58,7 @@
     <string name="create_display_name">Nick Name</string>
     <string name="email_is_empty">Enter email address!</string>
     <string name="passwords_is_empty">Enter password!</string>
+    <string name="reset_password_empty">Enter your registered email!</string>
+    <string name="send_reset_password_email">We have sent you instructions to reset your password!</string>
+    <string name="fail_send_rest_password_email">Failed to send reset email!</string>
 </resources>
