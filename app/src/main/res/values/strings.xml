@@ -54,7 +54,7 @@
     <string name="forgot_password_msg">We just need your registered Email to sent you password reset instructions.</string>
     <string name="tags_title">Tags:</string>
 
-    <string name="web_client_id">90372047742&#8211;46j4klcbiheuec6q73gbicrvubn2oetd.apps.googleusercontent.com</string>
+    <string name="web_client_id">90372047742-46j4klcbiheuec6q73gbicrvubn2oetd.apps.googleusercontent.com</string>
     <string name="create_display_name">Nick Name</string>
     <string name="email_is_empty">Enter email address!</string>
     <string name="password_is_empty">Enter password!</string>
