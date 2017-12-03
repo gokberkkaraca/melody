@@ -2,14 +2,11 @@ package ch.epfl.sweng.melody;
 
 import android.net.Uri;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;

@@ -8,30 +8,21 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Root;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.VideoView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sweng.melody.matcherUtil.ToastMatcher;
+import ch.epfl.sweng.melody.matcherUtil.ViewMatcher;
 import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
@@ -160,7 +151,7 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    public void selectMemoryPrivacyTest() throws Exception{
+    public void selectMemoryPrivacyTest() throws Exception {
         onView(withId(R.id.private_memory_button)).perform(click());
         onView(withText("Memory is private!")).inRoot(toastMatcher).check(matches(isDisplayed()));
         Thread.sleep(2000);
@@ -227,56 +218,6 @@ public class CreateMemoryActivityTest {
         Intent intent = new Intent();
         intent.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
-    }
-
-    private class ToastMatcher extends TypeSafeMatcher<Root> {
-        @Override
-        public void describeTo(Description description) {
-            description.appendText("is toast");
-        }
-
-        @Override
-        public boolean matchesSafely(Root root) {
-            int type = root.getWindowLayoutParams().get().type;
-            if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
-                IBinder windowToken = root.getDecorView().getWindowToken();
-                IBinder appToken = root.getDecorView().getApplicationWindowToken();
-                if (windowToken == appToken) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    private class ViewMatcher {
-        private BoundedMatcher<View, ImageView> hasDrawable() {
-            return new BoundedMatcher<View, ImageView>(ImageView.class) {
-                @Override
-                public void describeTo(Description description) {
-                    description.appendText("has drawable");
-                }
-
-                @Override
-                public boolean matchesSafely(ImageView imageView) {
-                    return imageView.getDrawable() != null;
-                }
-            };
-        }
-
-        private BoundedMatcher<View, VideoView> hasVideo() {
-            return new BoundedMatcher<View, VideoView>(VideoView.class) {
-                @Override
-                protected boolean matchesSafely(VideoView item) {
-                    return item.isPlaying();
-                }
-
-                @Override
-                public void describeTo(Description description) {
-                    description.appendText("has video");
-                }
-            };
-        }
     }
 
 }
