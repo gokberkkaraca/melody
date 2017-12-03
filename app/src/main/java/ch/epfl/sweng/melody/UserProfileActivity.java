@@ -1,5 +1,7 @@
 package ch.epfl.sweng.melody;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -93,12 +96,23 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void removeFriend(View v) {
-        MainActivity.getUser().removeFriend(currentUser);
-        currentUser.removeFriend(MainActivity.getUser());
-        DatabaseHandler.uploadUser(MainActivity.getUser());
-        DatabaseHandler.uploadUser(currentUser);
-        findViewById(R.id.removeFriend).setVisibility(View.GONE);
-        findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
+        new AlertDialog.Builder(this)
+                .setTitle("Remove Friend ?")
+                .setMessage("Are you sure you want to remove this friend ?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MainActivity.getUser().removeFriend(currentUser);
+                        currentUser.removeFriend(MainActivity.getUser());
+                        DatabaseHandler.uploadUser(MainActivity.getUser());
+                        DatabaseHandler.uploadUser(currentUser);
+                        findViewById(R.id.removeFriend).setVisibility(View.GONE);
+                        findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Friend removed", Toast.LENGTH_LONG).show();
+                    }
+                }).create().show();
+
     }
 
     public void removeFriendRequest(View v) {

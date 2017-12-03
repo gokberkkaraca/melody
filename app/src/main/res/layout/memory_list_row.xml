@@ -12,7 +12,8 @@
         android:layout_gravity="center"
         card_view:cardBackgroundColor="@color/colorPublicActivityBackrgound"
         card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="3dp"
+        card_view:cardElevation="4dp"
+        card_view:cardPreventCornerOverlap="false"
         card_view:cardUseCompatPadding="true">
 
 

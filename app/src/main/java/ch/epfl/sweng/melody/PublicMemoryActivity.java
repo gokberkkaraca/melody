@@ -28,7 +28,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -73,10 +75,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
     private List<Memory> memoryList;
-
-    public static void refreshPublicLayout() {
-        memoryAdapter.notifyDataSetChanged();
-    }
 
     public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
@@ -162,6 +160,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         }
         PermissionUtils.accessLocationWithPermission(this);
         fetchMemoriesFromDatabase();
+        createMemoriesListener();
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) { //caching the video thumbnail to not recompute them again
             @Override
@@ -194,10 +193,9 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         Map<String, UserContactInfo> Friends = user.getFriends();
         for (UserContactInfo friend : Friends.values()) {
             String friendUserId = friend.getUserId();
-            if (friendUserId.equals(memoryAuthorId))
+            if(friendUserId.equals(memoryAuthorId))
                 return true;
         }
-
         return false;
     }
 
@@ -210,7 +208,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
 
     private void fetchMemoriesFromDatabase() {
-        DatabaseHandler.getAllMemories(new ValueEventListener() {
+        DatabaseHandler.getAllMemoriesWithSingleListener(new ValueEventListener() {  //Listener is only used on fetching
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
@@ -221,7 +219,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                         if (isNewMemory(memory.getId())) {
                             if (memory.getPrivacy() == Memory.Privacy.PUBLIC) {
                                 memoryList.add(memory);
-                                memoryAdapter.notifyDataSetChanged();
+                                memoryAdapter.notifyDataSetChanged(); //memoryAdapter.notifyItemInserted(memoryList.size() - 1);
                             }
                             else if (isOwnMemory(memory.getUser().getId())){
                                 memoryList.add(memory);
@@ -242,6 +240,54 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             }
         });
     }
+
+    private void createMemoriesListener() {
+        DatabaseHandler.setCustomListenerToMemories(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Memory memory = dataSnapshot.getValue(Memory.class);
+                assert memory != null;
+
+                if (memory.getLongId() > memoryStartTime) {
+                    if(memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()) )){
+                        memoryList.add(memory);
+                        memoryAdapter.notifyItemInserted(memoryList.size() - 1); //Toast.makeText(getApplicationContext(), "New memories have been uploaded", Toast.LENGTH_LONG).show();
+                        //does not work because recyclerview keeps adding new memories at the bottom
+                    }
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Memory memory = dataSnapshot.getValue(Memory.class);
+                assert memory != null;
+                int position = memoryList.indexOf(memory);
+                if (position != -1) {
+                    memoryList.set(position, memory);
+                    memoryAdapter.notifyItemChanged(position);
+                };
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Memory memory = dataSnapshot.getValue(Memory.class);
+                assert memory != null;
+                int position = memoryList.indexOf(memory);
+                if (position != -1) {
+                    memoryList.remove(position);
+                    memoryAdapter.notifyItemRemoved(position);
+                };
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+//--------------------------
 
     private boolean isNewMemory(String memoryId) {
         for (Memory m : memoryList) {

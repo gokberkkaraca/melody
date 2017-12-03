@@ -1,6 +1,8 @@
 package ch.epfl.sweng.melody;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -84,6 +86,23 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         tagsList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tagsList);
         tagsListView.setAdapter(adapter);
+
+    }
+
+    public void removeMemory(final View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Remove Memory ?")
+                .setMessage("Are you sure you want to remove this memory?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MenuButtons.goToPublicMemoryActivity(view.getContext());
+                        DatabaseHandler.removeMemory(memoryId);
+                        Toast.makeText(getApplicationContext(), "Memory will be removed", Toast.LENGTH_LONG).show();
+                    }
+                }).create().show();
+
     }
 
     private void setCommentsContainer() {
@@ -160,109 +179,116 @@ public class DetailedMemoryActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
 
-                RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
+                if(memory != null) {
 
-                ImageView memoryImage = findViewById(R.id.memoryPicture);
+                    RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
 
-                final TextView memoryText = findViewById(R.id.memoryText);
+                    ImageView memoryImage = findViewById(R.id.memoryPicture);
 
-                final VideoView memoryVideo = findViewById(R.id.memoryVideo);
+                    final TextView memoryText = findViewById(R.id.memoryText);
 
-                TextView tagsTitle = findViewById(R.id.tags_title);
+                    final VideoView memoryVideo = findViewById(R.id.memoryVideo);
 
-                TextView date = findViewById(R.id.memoryDate);
-                date.setText(format.format(memory.getTime()));
+                    TextView tagsTitle = findViewById(R.id.tags_title);
 
-                TextView location = findViewById(R.id.memoryLocation);
-                location.setText(memory.getSerializableLocation().getLocationName());
+                    TextView date = findViewById(R.id.memoryDate);
+                    date.setText(format.format(memory.getTime()));
 
-                Button playVideo = findViewById(R.id.play_button);
-                Button pauseVideo = findViewById(R.id.pause_button);
-                Button stopVideo = findViewById(R.id.stop_button);
+                    TextView location = findViewById(R.id.memoryLocation);
+                    location.setText(memory.getSerializableLocation().getLocationName());
 
-                if (memory.getPhotoUrl() != null) {
-                    memoryImageOrVideo.setVisibility(View.VISIBLE);
-                    memoryVideo.setVisibility(View.INVISIBLE);
-                    memoryImage.setVisibility(View.VISIBLE);
-                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
-                }
+                    Button playVideo = findViewById(R.id.play_button);
+                    Button pauseVideo = findViewById(R.id.pause_button);
+                    Button stopVideo = findViewById(R.id.stop_button);
 
-                if (memory.getText() != null) {
-                    memoryText.setVisibility(View.VISIBLE);
-                    memoryText.setText(memory.getText());
-                    memoryText.setMovementMethod(new ScrollingMovementMethod());
-                    memoryText.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            v.performClick();
-                            v.getParent().requestDisallowInterceptTouchEvent(true);
-                            return false;
-                        }
-                    });
-                }
+                    if (memory.getPhotoUrl() != null) {
+                        memoryImageOrVideo.setVisibility(View.VISIBLE);
+                        memoryVideo.setVisibility(View.INVISIBLE);
+                        memoryImage.setVisibility(View.VISIBLE);
+                        Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
+                    }
 
-                if (memory.getVideoUrl() != null) {
-                    memoryImageOrVideo.setVisibility(View.VISIBLE);
-                    memoryImage.setVisibility(View.INVISIBLE);
-                    memoryVideo.setVisibility(View.VISIBLE);
-                    playVideo.setVisibility(View.VISIBLE);
-                    pauseVideo.setVisibility(View.VISIBLE);
-                    stopVideo.setVisibility(View.VISIBLE);
+                    if (memory.getText() != null) {
+                        memoryText.setVisibility(View.VISIBLE);
+                        memoryText.setText(memory.getText());
+                        memoryText.setMovementMethod(new ScrollingMovementMethod());
+                        memoryText.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                v.performClick();
+                                v.getParent().requestDisallowInterceptTouchEvent(true);
+                                return false;
+                            }
+                        });
+                    }
 
-                    memoryVideo.setVideoPath(memory.getVideoUrl());
+                    if (memory.getVideoUrl() != null) {
+                        memoryImageOrVideo.setVisibility(View.VISIBLE);
+                        memoryImage.setVisibility(View.INVISIBLE);
+                        memoryVideo.setVisibility(View.VISIBLE);
+                        playVideo.setVisibility(View.VISIBLE);
+                        pauseVideo.setVisibility(View.VISIBLE);
+                        stopVideo.setVisibility(View.VISIBLE);
 
-                    playVideo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View vw) {
-                            memoryVideo.start();
-                        }
-                    });
+                        memoryVideo.setVideoPath(memory.getVideoUrl());
 
-                    pauseVideo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View vw) {
-                            memoryVideo.pause();
-                        }
-                    });
+                        playVideo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View vw) {
+                                memoryVideo.start();
+                            }
+                        });
 
-                    stopVideo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View vw) {
-                            memoryVideo.seekTo(0);
-                        }
-                    });
+                        pauseVideo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View vw) {
+                                memoryVideo.pause();
+                            }
+                        });
 
-                }
+                        stopVideo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View vw) {
+                                memoryVideo.seekTo(0);
+                            }
+                        });
 
-                TextView author = findViewById(R.id.memoryAuthor);
-                author.setText(memory.getUser().getDisplayName());
+                    }
 
-                ImageView authorPic = findViewById(R.id.memoryAuthorPic);
-                new GoogleProfilePictureAsync(authorPic, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
+                    TextView author = findViewById(R.id.memoryAuthor);
+                    author.setText(memory.getUser().getDisplayName());
 
-                TextView likeNumber = findViewById(R.id.likeNumber);
-                likeNumber.setText(memory.getLikes().size() + "");
+                    ImageView authorPic = findViewById(R.id.memoryAuthorPic);
+                    new GoogleProfilePictureAsync(authorPic, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
 
-                commentList = new ArrayList<>(memory.getComments().values());
+                    TextView likeNumber = findViewById(R.id.likeNumber);
+                    likeNumber.setText(memory.getLikes().size() + "");
 
-                if (commentList.size() > 0) {
-                    commentsRecyclerView.setVisibility(View.VISIBLE);
-                    commentAdapter = new CommentAdapter(commentList);
-                    commentAdapter.notifyDataSetChanged();
+                    if(memory.getUser().equals(MainActivity.getUser()))
+                        findViewById(R.id.removeMemory).setVisibility(View.VISIBLE);
 
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    commentsRecyclerView.setLayoutManager(mLayoutManager);
-                    commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                    commentsRecyclerView.setAdapter(commentAdapter);
-                }
+                    commentList = new ArrayList<>(memory.getComments().values());
 
-                if (memory.getTags().size() > 0) {
-                    tagsTitle.setVisibility(View.VISIBLE);
-                    tagsListView.setVisibility(View.VISIBLE);
-                    adapter.clear();
-                    tagsList = memory.getTags();
-                    adapter.addAll(tagsList);
-                    adapter.notifyDataSetChanged();
+                    if (commentList.size() > 0) {
+                        commentsRecyclerView.setVisibility(View.VISIBLE);
+                        commentAdapter = new CommentAdapter(commentList);
+                        commentAdapter.notifyDataSetChanged();
+
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        commentsRecyclerView.setLayoutManager(mLayoutManager);
+                        commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                        commentsRecyclerView.setAdapter(commentAdapter);
+                    }
+
+                    if (memory.getTags().size() > 0) {
+                        tagsTitle.setVisibility(View.VISIBLE);
+                        tagsListView.setVisibility(View.VISIBLE);
+                        adapter.clear();
+                        tagsList = memory.getTags();
+                        adapter.addAll(tagsList);
+                        adapter.notifyDataSetChanged();
+                    }
+
                 }
             }
 

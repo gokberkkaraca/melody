@@ -64,6 +64,11 @@ public class Memory {
         return longId;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass().equals(Memory.class) && this.id.equals(((Memory) obj).getId());
+    }
+
     public String getId() {
         return id;
     }
