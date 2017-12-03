@@ -100,7 +100,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         MenuButtons.goToPublicMemoryActivity(view.getContext());
                         DatabaseHandler.removeMemory(memoryId);
-                        Toast.makeText(getApplicationContext(), "Memory will be removed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Removing Memory..", Toast.LENGTH_LONG).show();
                     }
                 }).create().show();
 

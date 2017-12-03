@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,6 +35,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -179,6 +182,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                             .video(url)
                             .tags(selectedTags)
                             .build();
+                    //createAndAddThumbnail(resourceUri);
                 }
                 DatabaseHandler.uploadMemory(memory);
                 MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
@@ -274,25 +278,28 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             } catch (IOException e) {
                 e.printStackTrace();// this one is not good and need to be discussed
             }
-        }
+        // }
         videoView.setVisibility(View.GONE);
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageBitmap(picture);
-        resourceUri = data.getData();
+        if (data != null) resourceUri = data.getData();
         memoryType = Memory.MemoryType.PHOTO;
+        }
     }
 
     private void onPhotoFromCameraResult(Intent data) {
-        videoView.setVisibility(View.GONE);
-        imageView.setVisibility(View.VISIBLE);
-        assert data.getExtras() != null;
-        picture = (Bitmap) data.getExtras().get("data");
-        imageView.setImageBitmap(picture);
-        memoryType = Memory.MemoryType.PHOTO;
-        resourceUri = saveResultToFile("/images", "png");
+        if (data != null) {
+            videoView.setVisibility(View.GONE);
+            imageView.setVisibility(View.VISIBLE);
+            assert data.getExtras() != null;
+            picture = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(picture);
+            memoryType = Memory.MemoryType.PHOTO;
+            resourceUri = saveResultToFile("/images", "png", picture);
+        }
     }
 
-    private Uri saveResultToFile(String targetFolder, String resourceType) {
+    private Uri saveResultToFile(String targetFolder, String resourceType, Bitmap pic) {
 
         Uri resultUri = null;
 
@@ -303,7 +310,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         File file = new File(targetDir, filename);
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            picture.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            pic.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
             resultUri = Uri.fromFile(file);
         } catch (IOException exception) {
@@ -314,22 +321,64 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         return resultUri;
     }
 
+
+    private void createAndAddThumbnail(Uri uri) {
+        Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.getPath());
+        //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(uri.getPath(), MediaStore.Video.Thumbnails.MINI_KIND);
+        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail);
+        if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
+        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
+                memory.setThumbnailUrl(thumbnailUrl);
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {}
+        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
+        });
+    }
+
+    private Bitmap retrieveVideoFrameFromVideo(String videoPath) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            bitmap = mediaMetadataRetriever.getFrameAtTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
+        return bitmap;
+    }
+
     private void onVideoFromGalleryResult(Intent data) {
-        videoView.setVisibility(View.VISIBLE);
-        imageView.setVisibility(View.GONE);
-        resourceUri = data.getData();
-        memoryType = Memory.MemoryType.VIDEO;
-        videoView.setVideoURI(data.getData());
-        videoView.start();
+        if(data != null) {
+            videoView.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.GONE);
+            resourceUri = data.getData();
+            memoryType = Memory.MemoryType.VIDEO;
+            videoView.setVideoURI(data.getData());
+            videoView.start();
+        }
     }
 
     private void onVideoFromCameraResult(Intent data) {
-        videoView.setVisibility(View.VISIBLE);
-        imageView.setVisibility(View.GONE);
-        resourceUri = data.getData();
-        memoryType = Memory.MemoryType.VIDEO;
-        videoView.setVideoURI(data.getData());
-        videoView.start();
+        if(data != null) {
+            videoView.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.GONE);
+            resourceUri = data.getData();
+            memoryType = Memory.MemoryType.VIDEO;
+            videoView.setVideoURI(data.getData());
+            videoView.start();
+        }
     }
 
     @Override

@@ -5,13 +5,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -21,6 +27,7 @@ import java.util.Locale;
 
 import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.MainActivity;
+import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.UserProfileActivity;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
@@ -42,7 +49,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         this.memoryList = memoryList;
     }
 
-    private static Bitmap retrieveVideoFrameFromVideo(String videoPath) {
+    private static Bitmap retrieveVideoFrameFromVideo(String videoPath) {  //delete this if sending thumbnails in createactivity works
         Bitmap bitmap = null;
         MediaMetadataRetriever mediaMetadataRetriever = null;
         try {
@@ -132,16 +139,39 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.typeOfMemory.setImageResource(R.mipmap.video);
             holder.memoryPic.setVisibility(View.VISIBLE);
             Bitmap thumbnail;
-            thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
-            if (thumbnail == null) {
-                if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
-                thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
-                addBitmapToMemoryCache(memory.getId(), thumbnail);
+            if(memory.getPhotoUrl()==null) {
+                thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
+                if (thumbnail == null) {
+                    if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
+                    thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+                    addBitmapToMemoryCache(memory.getId(), thumbnail);
+                }
+                holder.memoryPic.setImageBitmap(thumbnail);
+            } else {
+                Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
             }
-            holder.memoryPic.setImageBitmap(thumbnail);
+
         }
 
     }
+/*
+    private void createAndAddThumbnail() {
+        Bitmap thumbnail = retrieveVideoFrameFromVideo(resourceUri.toString());
+        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail);
+        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
+                memory.setThumbnailUrl(thumbnailUrl);
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {}
+        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
+        });
+    }*/
 
     @Override
     public int getItemCount() {
