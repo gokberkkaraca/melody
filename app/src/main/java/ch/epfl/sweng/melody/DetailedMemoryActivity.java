@@ -48,15 +48,15 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
     private static CommentAdapter commentAdapter;
+    private static List<String> tagsList;
+    private static User user;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
     private String memoryId;
     private List<Comment> commentList;
-    private static List<String> tagsList;
     private RecyclerView commentsRecyclerView;
     private ListView tagsListView;
     private ArrayAdapter adapter;
-    private static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,7 +256,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     commentsRecyclerView.setAdapter(commentAdapter);
                 }
 
-                if(memory.getTags().size() > 0) {
+                if (memory.getTags().size() > 0) {
                     tagsTitle.setVisibility(View.VISIBLE);
                     tagsListView.setVisibility(View.VISIBLE);
                     adapter.clear();

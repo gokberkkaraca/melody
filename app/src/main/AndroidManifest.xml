@@ -73,6 +73,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.epfl.sweng.melody.PublicMemoryActivity" />
         </activity>
+        <activity android:name=".ResetPasswordActivity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,6 @@
 package ch.epfl.sweng.melody.user;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,13 +25,12 @@ public class UserTest {
     @Before
     public void setUp() throws Exception {
 
-        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-        when(googleSignInAccount.getId()).thenReturn("jiacheng.xu@epfl.ch");
-        when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
-        when(googleSignInAccount.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
-        user = new User(googleSignInAccount);
+        final FirebaseUser firebaseUser = mock(FirebaseUser.class);
+        when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
+        when(firebaseUser.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
+        user = new User(firebaseUser);
 
-        otherUser = new User(googleSignInAccount);
+        otherUser = new User(firebaseUser);
     }
 
     @Test

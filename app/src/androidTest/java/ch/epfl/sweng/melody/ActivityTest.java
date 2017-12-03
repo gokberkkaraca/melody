@@ -2,13 +2,11 @@ package ch.epfl.sweng.melody;
 
 import android.net.Uri;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -26,15 +24,12 @@ abstract public class ActivityTest {
 
     @Before
     public void setUp() {
-        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-        when(googleSignInAccount.getId()).thenReturn("QWERTYU");
-        when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
-        when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
-        when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
-        when(googleSignInAccount.getEmail()).thenReturn("xjcmaxwell@163.com");
+        final FirebaseUser firebaseUser = mock(FirebaseUser.class);
+        when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
+        when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
         String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
-        when(googleSignInAccount.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
-        MainActivity.setUser(new User(googleSignInAccount));
+        when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
+        MainActivity.setUser(firebaseUser);
     }
 
     /******************************************************

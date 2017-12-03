@@ -194,7 +194,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         Map<String, UserContactInfo> Friends = user.getFriends();
         for (UserContactInfo friend : Friends.values()) {
             String friendUserId = friend.getUserId();
-            if(friendUserId.equals(memoryAuthorId))
+            if (friendUserId.equals(memoryAuthorId))
                 return true;
         }
         return false;
@@ -211,12 +211,10 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
                     if (memory.getLongId() > memoryStartTime) {
                         if (isNewMemory(memory.getId())) {
-                            if(memory.getPrivacy() == Memory.Privacy.PUBLIC){
+                            if (memory.getPrivacy() == Memory.Privacy.PUBLIC) {
                                 memoryList.add(memory);
                                 memoryAdapter.notifyDataSetChanged();
-                            }
-
-                            else if(memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())){
+                            } else if (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())) {
                                 memoryList.add(memory);
                                 memoryAdapter.notifyDataSetChanged();
                             }

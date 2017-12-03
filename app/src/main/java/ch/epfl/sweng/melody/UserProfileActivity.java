@@ -14,7 +14,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
-import ch.epfl.sweng.melody.account.LoginStatusHandler;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
@@ -134,7 +133,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void logOut(View view) {
-        LoginStatusHandler.clearUserId(this);
+        MainActivity.initializeFirebaseAuth().signOut();
         stopService(new Intent(this, FirebaseBackgroundService.class));
         stopService(new Intent(this, LocationService.class));
         Intent intent = new Intent(this, LoginActivity.class);

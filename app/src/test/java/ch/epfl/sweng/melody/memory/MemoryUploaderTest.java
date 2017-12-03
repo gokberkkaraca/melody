@@ -2,6 +2,7 @@ package ch.epfl.sweng.melody.memory;
 
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,13 +30,10 @@ public class MemoryUploaderTest {
     @Before
     public void setUp() {
 
-        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-        when(googleSignInAccount.getId()).thenReturn("jiacheng.xu@epfl.ch");
-        when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
-        when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
-        when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
-        when(googleSignInAccount.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
-        user = new User(googleSignInAccount);
+        final FirebaseUser firebaseUser = mock(FirebaseUser.class);
+        when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
+        when(firebaseUser.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
+        user = new User(firebaseUser);
 
         final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/tests%2F1508935737477.mp4?alt=media&token=5a33aae6-a8c6-46c1-9add-181b0ef258c3";
         final String testPhotoUrl = "https://firebasestorage.googleapis.com/v0/b/firebase-melody.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=0492b3f5-7e97-4c87-a3b3-f7602eb94abc";
