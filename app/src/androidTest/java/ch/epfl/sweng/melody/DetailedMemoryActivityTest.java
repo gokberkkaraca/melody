@@ -23,7 +23,7 @@ public class DetailedMemoryActivityTest extends ActivityTest {
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
                     Intent intent = new Intent(targetContext, DetailedMemoryActivity.class);
-                    intent.putExtra("memoryId", "9223370525377518830");
+                    intent.putExtra("memoryId", "9223370524547128149");
                     return intent;
                 }
             };

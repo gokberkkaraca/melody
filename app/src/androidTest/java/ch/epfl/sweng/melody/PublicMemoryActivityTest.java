@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,15 +31,12 @@ public class PublicMemoryActivityTest extends ActivityTest {
                 protected Intent getActivityIntent() {
 
                     User user;
-                    final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-                    when(googleSignInAccount.getId()).thenReturn("QWERTYU");
-                    when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
-                    when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
-                    when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
-                    when(googleSignInAccount.getEmail()).thenReturn("xjcmaxwell@163.com");
+                    final FirebaseUser firebaseUser = mock(FirebaseUser.class);
+                    when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
+                    when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
                     String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
-                    when(googleSignInAccount.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
-                    user = new User(googleSignInAccount);
+                    when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
+                    user = new User(firebaseUser);
 
                     Context targetContext = getInstrumentation()
                             .getTargetContext();

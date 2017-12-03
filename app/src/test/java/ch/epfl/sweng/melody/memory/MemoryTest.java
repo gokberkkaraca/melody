@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody.memory;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,13 +37,10 @@ public class MemoryTest {
 
     @Before
     public void createMemory() {
-        final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-        when(googleSignInAccount.getId()).thenReturn("jiacheng.xu@epfl.ch");
-        when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
-        when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
-        when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
-        when(googleSignInAccount.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
-        user = new User(googleSignInAccount);
+        final FirebaseUser firebaseUser = mock(FirebaseUser.class);
+        when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
+        when(firebaseUser.getEmail()).thenReturn("jiacheng.xu@epfl.ch");
+        user = new User(firebaseUser);
 
         final Comment comment = mock(Comment.class);
         final UserContactInfo sample_user = mock(UserContactInfo.class);

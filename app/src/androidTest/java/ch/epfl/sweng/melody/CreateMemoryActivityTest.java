@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.VideoView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -60,14 +62,11 @@ public class CreateMemoryActivityTest {
                 @Override
                 protected Intent getActivityIntent() {
                     User user;
-                    final GoogleSignInAccount googleSignInAccount = mock(GoogleSignInAccount.class);
-                    when(googleSignInAccount.getId()).thenReturn("QWERTYU");
-                    when(googleSignInAccount.getGivenName()).thenReturn("Jiacheng");
-                    when(googleSignInAccount.getFamilyName()).thenReturn("Xu");
-                    when(googleSignInAccount.getDisplayName()).thenReturn("Jiacheng Xu");
-                    when(googleSignInAccount.getEmail()).thenReturn("xjcmaxwell@163.com");
-                    when(googleSignInAccount.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
-                    user = new User(googleSignInAccount);
+                    final FirebaseUser firebaseUser = mock(FirebaseUser.class);
+                    when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
+                    when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
+                    when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
+                    user = new User(firebaseUser);
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
                     Intent intent = new Intent(targetContext, CreateMemoryActivity.class);
