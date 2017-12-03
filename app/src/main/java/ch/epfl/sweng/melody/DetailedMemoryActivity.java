@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -261,7 +262,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     ImageView authorPic = findViewById(R.id.memoryAuthorPic);
                     new GoogleProfilePictureAsync(authorPic, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
 
-                    TextView likeNumber = findViewById(R.id.likeNumber);
+                    final TextView likeNumber = findViewById(R.id.likeNumber);
                     likeNumber.setText(memory.getLikes().size() + "");
 
                     if(memory.getUser().equals(MainActivity.getUser()))
@@ -288,6 +289,24 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                         adapter.addAll(tagsList);
                         adapter.notifyDataSetChanged();
                     }
+
+                    final ImageButton likeButton = findViewById(R.id.likeButtonDetailed);
+                    likeButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (memory.getLikes().contains(MainActivity.getUser())) {
+                                memory.getLikes().remove(MainActivity.getUser());
+                                likeButton.setImageResource(R.mipmap.like_without);
+                            }
+                            else {
+                                memory.getLikes().add(MainActivity.getUser());
+                                likeButton.setImageResource(R.mipmap.like_with);
+                            }
+
+                            DatabaseHandler.uploadMemory(memory);
+                            likeNumber.setText(String.valueOf(memory.getLikes().size()));
+                        }
+                    });
 
                 }
             }

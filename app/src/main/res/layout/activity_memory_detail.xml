@@ -116,14 +116,14 @@
                 app:layout_constraintLeft_toLeftOf="@+id/memoryAuthorPic"
                 app:layout_constraintTop_toBottomOf="@+id/memoryAuthorPic" />
 
-            <ImageView
-                android:id="@+id/likes"
+            <ImageButton
+                android:id="@+id/likeButtonDetailed"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginEnd="90dp"
+                android:src="@mipmap/like_without"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/memoryLocation"
-                app:srcCompat="@android:drawable/btn_star_big_on"
                 tools:ignore="ContentDescription,MissingConstraints,RtlHardcoded" />
 
             <TextView
