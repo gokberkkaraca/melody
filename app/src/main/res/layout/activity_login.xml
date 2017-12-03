@@ -49,10 +49,8 @@
         android:id="@+id/login_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
         android:contentDescription="@string/content_description"
-        android:text="@string/login_button"
-        android:textColor="@android:color/black" />
+        android:text="@string/login_button" />
 
     <Button
         android:id="@+id/create_new_account_button"
