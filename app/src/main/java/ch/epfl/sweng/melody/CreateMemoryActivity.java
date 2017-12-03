@@ -30,7 +30,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -301,7 +300,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         File targetDir = new File(this.getCacheDir().toString() + targetFolder);
         targetDir.mkdirs();
 
-        String filename = UUID.randomUUID().toString().substring(0,8) + "." + resourceType;
+        String filename = UUID.randomUUID().toString().substring(0, 8) + "." + resourceType;
         File file = new File(targetDir, filename);
         try {
             FileOutputStream fos = new FileOutputStream(file);

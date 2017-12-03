@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), R.string.passwords_is_empty, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.password_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
 

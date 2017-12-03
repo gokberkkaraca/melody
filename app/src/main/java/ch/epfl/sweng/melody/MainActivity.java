@@ -20,11 +20,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String USER_INFO = "USER";
 
     private static User user;
+    private static FirebaseAuth firebaseAuth = null;
     private final Handler mHandler = new Handler();
-    private static FirebaseAuth firebaseAuth=null;
 
-    public static FirebaseAuth initializeFirebaseAuth(){
-        if(firebaseAuth==null){
+    public static FirebaseAuth initializeFirebaseAuth() {
+        if (firebaseAuth == null) {
             firebaseAuth = FirebaseAuth.getInstance();
         }
         return firebaseAuth;
@@ -46,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(initializeFirebaseAuth().getCurrentUser()==null){
+                if (initializeFirebaseAuth().getCurrentUser() == null) {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     user = new User(initializeFirebaseAuth().getCurrentUser());
                     DatabaseHandler.getUser(MainActivity.getUser().getId(), new ValueEventListener() {
                         @Override

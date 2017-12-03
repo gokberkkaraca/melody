@@ -1,6 +1,5 @@
 package ch.epfl.sweng.melody.user;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
@@ -29,8 +28,8 @@ public class User implements Serializable {
     private int maxRadius;
     private boolean notificationsOn;
 
-    public User(FirebaseUser firebaseUser){
-        if(firebaseUser!=null){
+    public User(FirebaseUser firebaseUser) {
+        if (firebaseUser != null) {
             this.id = encodeEmailForId(firebaseUser.getEmail());
             this.displayName = firebaseUser.getDisplayName();
             this.email = firebaseUser.getEmail();

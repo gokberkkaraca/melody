@@ -61,22 +61,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         final String displayname = inputDisplayName.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.email_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(displayname)){
-            Toast.makeText(getApplicationContext(), "Enter your nickname!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.password_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (password.length() < 6) {
-            Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.minimum_password, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(displayname)) {
+            Toast.makeText(getApplicationContext(), R.string.nickname_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
 

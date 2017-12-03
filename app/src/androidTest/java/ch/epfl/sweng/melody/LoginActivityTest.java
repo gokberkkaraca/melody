@@ -38,7 +38,7 @@ public class LoginActivityTest {
     public void logInWithInvalidPasswordTest() {
         onView(withId(R.id.email)).perform(typeText("jiacheng.xu@epfl.ch")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
-        onView(withText(R.string.passwords_is_empty)).inRoot(toastMatcher).check(matches(isDisplayed()));
+        onView(withText(R.string.password_is_empty)).inRoot(toastMatcher).check(matches(isDisplayed()));
         onView(withId(R.id.password)).perform(typeText("hello")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
     }
