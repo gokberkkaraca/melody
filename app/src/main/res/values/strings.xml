@@ -56,4 +56,6 @@
 
     <string name="web_client_id">90372047742&#8211;46j4klcbiheuec6q73gbicrvubn2oetd.apps.googleusercontent.com</string>
     <string name="create_display_name">Nick Name</string>
+    <string name="email_is_empty">Enter email address!</string>
+    <string name="passwords_is_empty">Enter password!</string>
 </resources>

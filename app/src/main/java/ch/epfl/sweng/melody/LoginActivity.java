@@ -27,7 +27,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 import static ch.epfl.sweng.melody.account.GoogleAccount.mGoogleApiClient;
@@ -85,12 +84,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         final String password = inputPassword.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.email_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.passwords_is_empty, Toast.LENGTH_SHORT).show();
             return;
         }
 

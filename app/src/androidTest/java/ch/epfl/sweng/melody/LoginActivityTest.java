@@ -27,7 +27,7 @@ public class LoginActivityTest {
     private ToastMatcher toastMatcher = new ToastMatcher();
 
     @Test
-    public void testCanLogIn() throws Exception {
+    public void canLogInTest() throws Exception {
         onView(withId(R.id.email)).perform(typeText("jiacheng.xu@epfl.ch")).perform(closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("helloworld")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
@@ -35,18 +35,30 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void LogInWithInvalidPassword() {
+    public void logInWithInvalidPasswordTest() {
         onView(withId(R.id.email)).perform(typeText("jiacheng.xu@epfl.ch")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
-        onView(withText("Enter password!")).inRoot(toastMatcher).check(matches(isDisplayed()));
+        onView(withText(R.string.passwords_is_empty)).inRoot(toastMatcher).check(matches(isDisplayed()));
         onView(withId(R.id.password)).perform(typeText("hello")).perform(closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(click());
     }
 
     @Test
-    public void CanGoToSignUp() {
+    public void goToSignUpTest() {
         onView(withId(R.id.create_new_account_button)).perform(click());
     }
+
+    @Test
+    public void goToForgotPasswordsTest() {
+        onView(withId(R.id.forgot_password_button)).perform(click());
+    }
+
+    @Test
+    public void invalidEmailTest() {
+        onView(withId(R.id.login_button)).perform(click());
+        onView(withText(R.string.email_is_empty)).inRoot(toastMatcher).check(matches(isDisplayed()));
+    }
+
 }
 
 
