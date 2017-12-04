@@ -81,7 +81,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        MainActivity.initializeFirebaseAuth().createUserWithEmailAndPassword(email, password)
+        MainActivity.getFirebaseAuthInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -91,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(SignUpActivity.this, "Create your melody account successfully!", Toast.LENGTH_SHORT).show();
-                            FirebaseUser firebaseUser = MainActivity.initializeFirebaseAuth().getCurrentUser();
+                            FirebaseUser firebaseUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
                             UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(displayname).build();
                             firebaseUser.updateProfile(profileChangeRequest);
                             startActivity(new Intent(SignUpActivity.this, LoginActivity.class));

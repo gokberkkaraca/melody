@@ -47,7 +47,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        MainActivity.initializeFirebaseAuth().sendPasswordResetEmail(email)
+        MainActivity.getFirebaseAuthInstance().sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

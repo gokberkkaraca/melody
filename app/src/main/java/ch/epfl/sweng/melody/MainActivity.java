@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private static FirebaseAuth firebaseAuth = null;
     private final Handler mHandler = new Handler();
 
-    public static FirebaseAuth initializeFirebaseAuth() {
+    public static FirebaseAuth getFirebaseAuthInstance() {
         if (firebaseAuth == null) {
             firebaseAuth = FirebaseAuth.getInstance();
         }
@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (initializeFirebaseAuth().getCurrentUser() == null) {
+                if (getFirebaseAuthInstance().getCurrentUser() == null) {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 } else {
-                    user = new User(initializeFirebaseAuth().getCurrentUser());
+                    user = new User(getFirebaseAuthInstance().getCurrentUser());
                     DatabaseHandler.getUser(MainActivity.getUser().getId(), new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
