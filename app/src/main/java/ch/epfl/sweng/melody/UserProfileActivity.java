@@ -32,6 +32,9 @@ import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
+import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
+import static ch.epfl.sweng.melody.util.FetchingUtils.fetchMemoriesFromDatabase;
+
 public class UserProfileActivity extends AppCompatActivity {
 
     public static final String EXTRA_USER_ID = "ch.epfl.sweng.USERID";
@@ -46,16 +49,14 @@ public class UserProfileActivity extends AppCompatActivity {
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
     private List<Memory> memoryList; //not the same as the one in the public activity !
+    private static long memoryStartTime = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        TextView username = findViewById(R.id.username);
-        ImageView profilePicView = findViewById(R.id.profilePicView);
-        TextView friends = findViewById(R.id.friends);
-        Button logout = findViewById(R.id.log_out);
+
         Button sendFriendRequest = findViewById(R.id.sendFriendRequest);
         edit = findViewById(R.id.edit_userInfo);
         bio = findViewById(R.id.user_bio);
@@ -80,6 +81,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
             recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
 
+            fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime);
+            createMemoriesListener(memoryList, memoryAdapter, memoryStartTime);
+
+            recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
         }
     }
 
