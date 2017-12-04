@@ -108,37 +108,39 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
         myToolbar.setTitle("Melody");
 
-        switch (colorValue) {
-            case "1":
-                user.setThemeColor(User.ThemeColor.RED);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
-                break;
-            case "2":
-                user.setThemeColor(User.ThemeColor.GREEN);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.green));
-                break;
-            case "3":
-                user.setThemeColor(User.ThemeColor.BLUELIGHT);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueLight));
-                break;
-            case "4":
-                user.setThemeColor(User.ThemeColor.BLUEDARK);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueDark));
-                break;
-            case "5":
-                user.setThemeColor(User.ThemeColor.BLACK);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black));
-                break;
-            default:
-                user.setThemeColor(User.ThemeColor.RED);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
+        if(user!=null) {
+            switch (colorValue) {
+                case "1":
+                    user.setThemeColor(User.ThemeColor.RED);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
+                    break;
+                case "2":
+                    user.setThemeColor(User.ThemeColor.GREEN);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.green));
+                    break;
+                case "3":
+                    user.setThemeColor(User.ThemeColor.BLUELIGHT);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueLight));
+                    break;
+                case "4":
+                    user.setThemeColor(User.ThemeColor.BLUEDARK);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueDark));
+                    break;
+                case "5":
+                    user.setThemeColor(User.ThemeColor.BLACK);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black));
+                    break;
+                default:
+                    user.setThemeColor(User.ThemeColor.RED);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
+            }
+            int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
+            user.setMinRadius(rMin);
+            int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
+            user.setMaxRadius(rMax);
+            boolean notificationsOn = sharedPref.getBoolean("notifications", true);
+            user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
         }
-        int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
-        user.setMinRadius(rMin);
-        int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
-        user.setMaxRadius(rMax);
-        boolean notificationsOn = sharedPref.getBoolean("notifications", true);
-        user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
 
         setSupportActionBar(myToolbar);
         myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.menu));
@@ -161,8 +163,9 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             startService(new Intent(this, LocationService.class));
         }
         PermissionUtils.accessLocationWithPermission(this);
-        fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime);
+        fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime, null);
         createMemoriesListener(memoryList, memoryAdapter, memoryStartTime);
+        memoryAdapter.notifyDataSetChanged();
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) { //caching the video thumbnail to not recompute them again
             @Override
@@ -201,6 +204,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         return false;
     }
 
+
     private boolean isOwnMemory(String memoryAuthorId) {
         if(user.getId().equals(memoryAuthorId))
             return true;
@@ -236,6 +240,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
                 }
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -289,7 +294,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             public void onCancelled(DatabaseError databaseError) {}
         });
     }
-//--------------------------
 
     private boolean isNewMemory(String memoryId) {
         for (Memory m : memoryList) {
@@ -324,7 +328,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             setTitle("Melody - " + dateFormat.format(calendar.getTime()));
             recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
             memoryList = new ArrayList<>();
-            fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime);
+            fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime, null);
         }
     }
 

@@ -12,19 +12,41 @@ import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 
 public class FetchingUtils {
 
-    public static void fetchMemoriesFromDatabase(final List<Memory> memoryList, final MemoryAdapter memoryAdapter, final long memoryStartTime) {
+    public static void fetchMemoriesFromDatabase(final List<Memory> memoryList, final MemoryAdapter memoryAdapter, final long memoryStartTime, final User user) {
         DatabaseHandler.getAllMemoriesWithSingleListener(new ValueEventListener() {  //Listener is only used on fetching
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                    Memory memory = memDataSnapshot.getValue(Memory.class);
-                    assert memory != null;
+                if(user == null) {
+                    for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                        Memory memory = memDataSnapshot.getValue(Memory.class);
+                        assert memory != null;
+                        if (memory.getLongId() > memoryStartTime) {
+                            if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()))) {
+                                memoryList.add(memory);
+                                //memoryAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                } else {
+                    for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
+                        Memory memory = memDataSnapshot.getValue(Memory.class);
+                        assert memory != null;
+                        if (memory.getUser().equals(user) && memory.getLongId() > memoryStartTime) {
+                            if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()))) {
+                                memoryList.add(memory);
+                                //memoryAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
 
-                    if (memory.getLongId() > memoryStartTime) {
+
+                    /*if (memory.getLongId() > memoryStartTime) {
                         if (isNewMemory(memory.getId(), memoryList)) {
                             if(memory.getPrivacy() == Memory.Privacy.PUBLIC){
                                 memoryList.add(memory);
@@ -36,9 +58,8 @@ public class FetchingUtils {
                                 memoryAdapter.notifyDataSetChanged();
                             }
                         }
-                    }
+                    }*/
 
-                }
             }
 
             @Override

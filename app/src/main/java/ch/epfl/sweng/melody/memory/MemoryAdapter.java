@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,7 +84,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         holder.time.setText(format.format(memory.getTime()));
         holder.description.setText(memory.getText());
-        holder.location.setText(memory.getSerializableLocation().getLocationName());
+        holder.locationPic.setText(memory.getSerializableLocation().getLocationName());
+        holder.locationText.setText(memory.getSerializableLocation().getLocationName());
         holder.likesNumberPublic.setText(String.valueOf(memory.getLikes().size()));
         holder.commentsNumberPublic.setText(String.valueOf(memory.getComments().size()));
 
@@ -131,16 +134,19 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         if (memory.getMemoryType() == Memory.MemoryType.TEXT) {
             holder.typeOfMemory.setImageResource(R.mipmap.text_type);
-            holder.memoryPic.setVisibility(View.GONE);
+            holder.picLayout.setVisibility(View.GONE);
+            holder.locationText.setVisibility(View.VISIBLE);
         } else if (memory.getMemoryType() == Memory.MemoryType.PHOTO) {
             holder.typeOfMemory.setImageResource(R.mipmap.photo_type);
-            holder.memoryPic.setVisibility(View.VISIBLE); //RecyclerView tries to recycle the views so we have to be sure the views and the pictures are set again if we have to display them again !!
+            holder.picLayout.setVisibility(View.VISIBLE);
+            holder.locationText.setVisibility(View.GONE);
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
             holder.typeOfMemory.setImageResource(R.mipmap.video);
-            holder.memoryPic.setVisibility(View.VISIBLE);
+            holder.picLayout.setVisibility(View.VISIBLE);
+            holder.locationText.setVisibility(View.GONE);
             Bitmap thumbnail;
-            if(memory.getPhotoUrl()==null) {
+            //if(memory.getPhotoUrl()==null) {
                 thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
                 if (thumbnail == null) {
                     if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
@@ -150,9 +156,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
                 holder.memoryPic.setImageBitmap(thumbnail);
                 //CreateMemoryActivity.uploadThumbnail(memory.getId(), thumbnail, getView);
-            } else {
-                Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
-            }
+            //} else {
+            //    Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
+            //}
 
         }
 
@@ -182,8 +188,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
     }
 
     class MemoriesViewHolder extends RecyclerView.ViewHolder {
-        final TextView author, time, description, location, likesNumberPublic, commentsNumberPublic;
+        final TextView author, time, description, locationPic, locationText, likesNumberPublic, commentsNumberPublic;
         final ImageView authorPic, memoryPic, likeButton, typeOfMemory, hashOfMemory;
+        final RelativeLayout picLayout;
 
 
         MemoriesViewHolder(View view) {
@@ -207,7 +214,8 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             author = view.findViewById(R.id.author);
             time = view.findViewById(R.id.time);
             description = view.findViewById(R.id.description);
-            location = view.findViewById(R.id.location);
+            locationPic = view.findViewById(R.id.locationPic);
+            locationText = view.findViewById(R.id.locationText);
             authorPic = view.findViewById(R.id.authorPic);
             memoryPic = view.findViewById(R.id.memoryPic);
             typeOfMemory = view.findViewById(R.id.typeOfMemory);
@@ -215,6 +223,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             likesNumberPublic = view.findViewById(R.id.likesNumberPublic);
             commentsNumberPublic = view.findViewById(R.id.commentsNumberPublic);
             hashOfMemory = view.findViewById(R.id.hashOfMemory);
+            picLayout = view.findViewById(R.id.picLayout);
         }
     }
 

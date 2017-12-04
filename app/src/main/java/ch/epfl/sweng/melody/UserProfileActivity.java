@@ -44,12 +44,12 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView edit;
     private TextView bio;
 
-    private static RecyclerView recyclerView;
-    private static MemoryAdapter memoryAdapter;
-    private static Parcelable recyclerViewState;
-    private static RecyclerView.LayoutManager mLayoutManager;
-    private List<Memory> memoryList; //not the same as the one in the public activity !
-    private static long memoryStartTime = 0L;
+    private static RecyclerView recyclerViewDetail;
+    private static MemoryAdapter memoryAdapterDetail;
+    private static Parcelable recyclerViewStateDetail;
+    private static RecyclerView.LayoutManager mLayoutManagerDetail;
+    private List<Memory> memoryListDetail; //not the same as the one in the public activity !
+    private static long memoryStartTimeDetail = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,25 +66,25 @@ public class UserProfileActivity extends AppCompatActivity {
 
         getUserFromServer(userId);
 
-        if(isMyself || MainActivity.getUser().isFriendWith(currentUser)) {
+        if(isMyself || (currentUser != null && MainActivity.getUser().isFriendWith(currentUser))) {
 
-            memoryList = new ArrayList<>();
+            memoryListDetail = new ArrayList<>();
 
-            memoryAdapter = new MemoryAdapter(memoryList);
-            memoryAdapter.notifyDataSetChanged();
+            memoryAdapterDetail = new MemoryAdapter(memoryListDetail);
+            memoryAdapterDetail.notifyDataSetChanged();
 
-            recyclerView = findViewById(R.id.user_recyclerview);
-            mLayoutManager = new LinearLayoutManager(getApplicationContext());
-            recyclerView.setLayoutManager(mLayoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(memoryAdapter);
+            recyclerViewDetail = findViewById(R.id.user_recyclerview);
+            mLayoutManagerDetail = new LinearLayoutManager(getApplicationContext());
+            recyclerViewDetail.setLayoutManager(mLayoutManagerDetail);
+            recyclerViewDetail.setItemAnimator(new DefaultItemAnimator());
+            recyclerViewDetail.setAdapter(memoryAdapterDetail);
 
-            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+            recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
 
-            fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime);
-            createMemoriesListener(memoryList, memoryAdapter, memoryStartTime);
+            fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
+            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail);
 
-            recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+            recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
         }
     }
 
