@@ -5,7 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,10 +20,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
+import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
@@ -31,6 +40,12 @@ public class UserProfileActivity extends AppCompatActivity {
     private Boolean isMyself = true;
     private TextView edit;
     private TextView bio;
+
+    private static RecyclerView recyclerView;
+    private static MemoryAdapter memoryAdapter;
+    private static Parcelable recyclerViewState;
+    private static RecyclerView.LayoutManager mLayoutManager;
+    private List<Memory> memoryList; //not the same as the one in the public activity !
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +64,23 @@ public class UserProfileActivity extends AppCompatActivity {
         String userId = intent.getStringExtra(EXTRA_USER_ID);
 
         getUserFromServer(userId);
+
+        if(isMyself || MainActivity.getUser().isFriendWith(currentUser)) {
+
+            memoryList = new ArrayList<>();
+
+            memoryAdapter = new MemoryAdapter(memoryList);
+            memoryAdapter.notifyDataSetChanged();
+
+            recyclerView = findViewById(R.id.user_recyclerview);
+            mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(memoryAdapter);
+
+            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewState);
+
+        }
     }
 
     private void getUserFromServer(String userId) {

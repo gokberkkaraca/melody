@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import ch.epfl.sweng.melody.CreateMemoryActivity;
 import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.PublicMemoryActivity;
@@ -146,7 +147,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                     thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
                     addBitmapToMemoryCache(memory.getId(), thumbnail);
                 }
+                thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
                 holder.memoryPic.setImageBitmap(thumbnail);
+                //CreateMemoryActivity.uploadThumbnail(memory.getId(), thumbnail, getView);
             } else {
                 Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
             }

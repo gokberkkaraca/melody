@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -295,15 +296,15 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             picture = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(picture);
             memoryType = Memory.MemoryType.PHOTO;
-            resourceUri = saveResultToFile("/images", "png", picture);
+            resourceUri = saveResultToFile("/images", "png", picture, this);
         }
     }
 
-    private Uri saveResultToFile(String targetFolder, String resourceType, Bitmap pic) {
+    public static Uri saveResultToFile(String targetFolder, String resourceType, Bitmap pic, Context context) {
 
         Uri resultUri = null;
 
-        File targetDir = new File(this.getCacheDir().toString() + targetFolder);
+        File targetDir = new File(context.getCacheDir().toString() + targetFolder); //File targetDir = new File(this.getCacheDir().toString() + targetFolder);
         targetDir.mkdirs();
 
         String filename = UUID.randomUUID().toString().substring(0, 8) + "." + resourceType;
@@ -315,23 +316,19 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             resultUri = Uri.fromFile(file);
         } catch (IOException exception) {
             exception.printStackTrace();
-            Toast.makeText(this, "Error occurred while choosing resource from camera", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Error occurred while choosing resource from camera", Toast.LENGTH_LONG).show();
         }
 
         return resultUri;
     }
 
-
-    private void createAndAddThumbnail(Uri uri) {
-        Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.getPath());
-        //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(uri.getPath(), MediaStore.Video.Thumbnails.MINI_KIND);
-        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail);
-        if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
-        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+    public static void uploadThumbnail(final String memoryId, Bitmap thumbnail, Context context) {
+        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, context);
+        DatabaseHandler.uploadResource(thumbnailUri, context, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
-                memory.setThumbnailUrl(thumbnailUrl);
+                DatabaseHandler.setMemoryThumbnail(memoryId, thumbnailUrl);
             }
         }, new OnFailureListener() {
             @Override
@@ -341,6 +338,27 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
         });
     }
+
+    private void createAndAddThumbnail(Uri uri) {
+        //Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.getPath());
+        //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(uri.getPath(), MediaStore.Video.Thumbnails.MINI_KIND);
+        Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, this);
+        if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
+        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        @Override
+        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
+            memory.setThumbnailUrl(thumbnailUrl);
+        }
+    }, new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {}
+    }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+        @Override
+        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
+    });
+}
 
     private Bitmap retrieveVideoFrameFromVideo(String videoPath) {
         Bitmap bitmap = null;

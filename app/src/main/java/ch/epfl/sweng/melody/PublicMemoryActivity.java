@@ -54,6 +54,8 @@ import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
+import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
+import static ch.epfl.sweng.melody.util.FetchingUtils.fetchMemoriesFromDatabase;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
@@ -159,8 +161,8 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             startService(new Intent(this, LocationService.class));
         }
         PermissionUtils.accessLocationWithPermission(this);
-        fetchMemoriesFromDatabase();
-        createMemoriesListener();
+        fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime);
+        createMemoriesListener(memoryList, memoryAdapter, memoryStartTime);
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) { //caching the video thumbnail to not recompute them again
             @Override
@@ -322,7 +324,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             setTitle("Melody - " + dateFormat.format(calendar.getTime()));
             recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
             memoryList = new ArrayList<>();
-            fetchMemoriesFromDatabase();
+            fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime);
         }
     }
 

@@ -68,6 +68,7 @@
                     android:id="@+id/privacyOfMemory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:src="@mipmap/public_memory"
@@ -77,6 +78,7 @@
                     android:id="@+id/hashOfMemory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="3dp"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/privacyOfMemory"
                     android:src="@mipmap/hash_with"
@@ -84,27 +86,48 @@
 
             </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/memoryPic"
+            <RelativeLayout
+                android:id="@+id/picLayout"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:scaleType="centerCrop"
-                tools:ignore="ContentDescription" />
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/memoryPic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="bottom"
+                    android:background="@color/whiteBackground"
+                    android:orientation="vertical"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true">
+
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/serializableLocation"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="14dp">
+                android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/serializableLocation"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/description"
@@ -120,7 +143,7 @@
 
                 <TextView
                     android:id="@+id/commentsNumberPublic"
-                    android:layout_width="40dp"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="end"
@@ -137,7 +160,7 @@
 
                 <TextView
                     android:id="@+id/likesNumberPublic"
-                    android:layout_width="40dp"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="end"

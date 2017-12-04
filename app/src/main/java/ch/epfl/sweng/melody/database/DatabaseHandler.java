@@ -66,10 +66,9 @@ public class DatabaseHandler {
      * Memories related database methods
      */
 
-    /*
     public static void setMemoryThumbnail(String id, String thumbnailUrl) {  //we save the thumbnail in the photo because videos do not use it
         databaseReference.child(DATABASE_MEMORIES_PATH).child(id).child("photoUrl").setValue(thumbnailUrl);
-    }*/
+    }
 
     public static void setCustomListenerToMemories(ChildEventListener childEventListener) {
         databaseReference.child(DATABASE_MEMORIES_PATH).addChildEventListener(childEventListener);
