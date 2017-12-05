@@ -203,6 +203,61 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         });
     }
 
+    public static void uploadThumbnail(final String memoryId, Bitmap thumbnail, Context context) {
+        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, context);
+        DatabaseHandler.uploadResource(thumbnailUri, context, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
+                DatabaseHandler.setMemoryThumbnail(memoryId, thumbnailUrl);
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {}
+        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
+        });
+    }
+
+    private void createAndAddThumbnail(Uri uri) {
+        //Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.getPath());
+        //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(uri.getPath(), MediaStore.Video.Thumbnails.MINI_KIND);
+        Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, this);
+        if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
+        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
+                memory.setThumbnailUrl(thumbnailUrl);
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {}
+        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
+        });
+    }
+
+    private Bitmap retrieveVideoFrameFromVideo(String videoPath) {
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            bitmap = mediaMetadataRetriever.getFrameAtTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
+        return bitmap;
+    }
+
     public void fetchTagsFromDatabase() {
         DatabaseHandler.getAllTags(new ValueEventListener() {
             @Override
@@ -320,61 +375,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         }
 
         return resultUri;
-    }
-
-    public static void uploadThumbnail(final String memoryId, Bitmap thumbnail, Context context) {
-        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, context);
-        DatabaseHandler.uploadResource(thumbnailUri, context, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
-                DatabaseHandler.setMemoryThumbnail(memoryId, thumbnailUrl);
-            }
-        }, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {}
-        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
-        });
-    }
-
-    private void createAndAddThumbnail(Uri uri) {
-        //Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.getPath());
-        //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(uri.getPath(), MediaStore.Video.Thumbnails.MINI_KIND);
-        Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
-        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, this);
-        if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
-        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-        @Override
-        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-            String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
-            memory.setThumbnailUrl(thumbnailUrl);
-        }
-    }, new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {}
-    }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-        @Override
-        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
-    });
-}
-
-    private Bitmap retrieveVideoFrameFromVideo(String videoPath) {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = null;
-        try {
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-            bitmap = mediaMetadataRetriever.getFrameAtTime();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (mediaMetadataRetriever != null) {
-                mediaMetadataRetriever.release();
-            }
-        }
-        return bitmap;
     }
 
     private void onVideoFromGalleryResult(Intent data) {
