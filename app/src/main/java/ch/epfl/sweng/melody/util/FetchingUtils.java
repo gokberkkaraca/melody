@@ -17,7 +17,7 @@ import ch.epfl.sweng.melody.user.UserContactInfo;
 
 public class FetchingUtils {
 
-    public static void fetchMemoriesFromDatabase(final List<Memory> memoryList, final MemoryAdapter memoryAdapter, final long memoryStartTime, final User user) {
+    public static void fetchMemoriesFromDatabase(final List<Memory> memList, final MemoryAdapter memAdapter, final long memoryStartTime, final User user) {
         DatabaseHandler.getAllMemoriesWithSingleListener(new ValueEventListener() {  //Listener is only used on fetching
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -27,7 +27,7 @@ public class FetchingUtils {
                         assert memory != null;
                         if (memory.getLongId() > memoryStartTime) {
                             if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()))) {
-                                memoryList.add(memory);
+                                memList.add(memory);
                                 //memoryAdapter.notifyDataSetChanged();
                             }
                         }
@@ -37,10 +37,8 @@ public class FetchingUtils {
                         Memory memory = memDataSnapshot.getValue(Memory.class);
                         assert memory != null;
                         if (memory.getUser().equals(user) && memory.getLongId() > memoryStartTime) {
-                            if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()))) {
-                                memoryList.add(memory);
+                                memList.add(memory);
                                 //memoryAdapter.notifyDataSetChanged();
-                            }
                         }
                     }
                 }
@@ -68,31 +66,37 @@ public class FetchingUtils {
         });
     }
 
-    public static void createMemoriesListener(final List<Memory> memoryList, final MemoryAdapter memoryAdapter, final long memoryStartTime) {
+    public static void createMemoriesListener(final List<Memory> memList, final MemoryAdapter memAdapter, final long memoryStartTime, final User user) {
         DatabaseHandler.setCustomListenerToMemories(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
                 assert memory != null;
 
-                if (memory.getLongId() > memoryStartTime) {
-                    if(memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()) )){
-                        memoryList.add(memory);
-                        memoryAdapter.notifyItemInserted(memoryList.size() - 1); //Toast.makeText(getApplicationContext(), "New memories have been uploaded", Toast.LENGTH_LONG).show();
-                        //does not work because recyclerview keeps adding new memories at the bottom
+                if (user == null) {
+                    if (memory.getLongId() > memoryStartTime) {
+                        if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()))) {
+                            memList.add(memory);
+                            memAdapter.notifyItemInserted(memList.size() - 1); //Toast.makeText(getApplicationContext(), "New memories have been uploaded", Toast.LENGTH_LONG).show();
+                            //does not work because recyclerview keeps adding new memories at the bottom
+                        }
+                    }
+                } else {
+                    if (memory.getUser().equals(user) && memory.getLongId() > memoryStartTime) {
+                        memList.add(memory);
+                        memAdapter.notifyItemInserted(memList.size() - 1);
                     }
                 }
-
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
                 assert memory != null;
-                int position = memoryList.indexOf(memory);
+                int position = memList.indexOf(memory);
                 if (position != -1) {
-                    memoryList.set(position, memory);
-                    memoryAdapter.notifyItemChanged(position);
+                    memList.set(position, memory);
+                    memAdapter.notifyItemChanged(position);
                 };
             }
 
@@ -100,10 +104,10 @@ public class FetchingUtils {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Memory memory = dataSnapshot.getValue(Memory.class);
                 assert memory != null;
-                int position = memoryList.indexOf(memory);
+                int position = memList.indexOf(memory);
                 if (position != -1) {
-                    memoryList.remove(position);
-                    memoryAdapter.notifyItemRemoved(position);
+                    memList.remove(position);
+                    memAdapter.notifyItemRemoved(position);
                 };
             }
 

@@ -56,6 +56,7 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        PublicMemoryActivity.insidePublicActivity = false;
 
         Button sendFriendRequest = findViewById(R.id.sendFriendRequest);
         edit = findViewById(R.id.edit_userInfo);
@@ -81,8 +82,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
             recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
 
-            fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
-            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail);
+            //fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
+            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
+                                                                                                            //anything should change because
 
             recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
         }

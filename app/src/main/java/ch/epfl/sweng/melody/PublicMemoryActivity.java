@@ -63,6 +63,7 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 public class PublicMemoryActivity extends AppCompatActivity implements DialogInterface.OnDismissListener { //extended FragmentActivity before
 
     public static final String EXTRA_GOINGTOREQUESTS = "ch.epfl.sweng.GOINGTOREQUESTS";
+    public static boolean insidePublicActivity;
     public static LruCache<String, Bitmap> mMemoryCache;
     private static MemoryAdapter memoryAdapter;
     private static long memoryStartTime = 0L;
@@ -100,6 +101,8 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
+
+        insidePublicActivity = true;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         user = MainActivity.getUser();
@@ -164,7 +167,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         }
         PermissionUtils.accessLocationWithPermission(this);
         fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime, null);
-        createMemoriesListener(memoryList, memoryAdapter, memoryStartTime);
+        createMemoriesListener(memoryList, memoryAdapter, memoryStartTime, null);
         memoryAdapter.notifyDataSetChanged();
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) { //caching the video thumbnail to not recompute them again
