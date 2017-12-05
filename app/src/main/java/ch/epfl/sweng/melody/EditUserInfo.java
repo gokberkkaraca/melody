@@ -36,7 +36,6 @@ public class EditUserInfo extends AppCompatActivity {
 
         displayName.setHint(user.getDisplayName());
         displayName.setTextColor(Color.GRAY);
-        user.setDisplayName(displayName.getText().toString());
     }
 
 
@@ -46,7 +45,7 @@ public class EditUserInfo extends AppCompatActivity {
 
     public void changeUserProfile (View view) {
         String name = displayName.getText().toString();
-        if (TextUtils.isEmpty(name)) {
+        if (!TextUtils.isEmpty(name)) {
             user.setDisplayName(displayName.getText().toString());
         }
 
