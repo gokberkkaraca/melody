@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressBar.setVisibility(View.VISIBLE);
 
         //authenticate user
-        MainActivity.initializeFirebaseAuth().signInWithEmailAndPassword(email, password)
+        MainActivity.getFirebaseAuthInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            MainActivity.setUser(MainActivity.initializeFirebaseAuth().getCurrentUser());
+                            MainActivity.setUser(MainActivity.getFirebaseAuthInstance().getCurrentUser());
                             DatabaseHandler.uploadUser(MainActivity.getUser());
                             MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
                             finish();
@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void firebaseAuthWithGoogle(final GoogleSignInAccount googleAccount) {
         String idToken = googleAccount.getIdToken();
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        MainActivity.initializeFirebaseAuth().signInWithCredential(credential)
+        MainActivity.getFirebaseAuthInstance().signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -191,7 +191,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         } else {
                             Toast.makeText(LoginActivity.this, "Login successful",
                                     Toast.LENGTH_SHORT).show();
-                            MainActivity.setUser(MainActivity.initializeFirebaseAuth().getCurrentUser());
+                            MainActivity.setUser(MainActivity.getFirebaseAuthInstance().getCurrentUser());
                             DatabaseHandler.uploadUser(MainActivity.getUser());
                             MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
                             finish();

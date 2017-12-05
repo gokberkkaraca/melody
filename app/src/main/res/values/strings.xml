@@ -51,7 +51,7 @@
     <string name="forgot_password">Forgot your password?</string>
     <string name="reset_password">Reset Password</string>
     <string name="go_back"><![CDATA[<< Back]]></string>
-    <string name="forgot_password_msg">We just need your registered Email to sent you password reset instructions.</string>
+    <string name="forgot_password_msg">We just need your registered Email to send you password reset instructions.</string>
     <string name="tags_title">Tags:</string>
 
     <!--Don't fix the follow lint!-->

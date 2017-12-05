@@ -133,7 +133,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void logOut(View view) {
-        MainActivity.initializeFirebaseAuth().signOut();
+        MainActivity.getFirebaseAuthInstance().signOut();
         stopService(new Intent(this, FirebaseBackgroundService.class));
         stopService(new Intent(this, LocationService.class));
         Intent intent = new Intent(this, LoginActivity.class);
