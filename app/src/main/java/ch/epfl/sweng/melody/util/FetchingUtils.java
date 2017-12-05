@@ -42,22 +42,6 @@ public class FetchingUtils {
                         }
                     }
                 }
-
-
-                    /*if (memory.getLongId() > memoryStartTime) {
-                        if (isNewMemory(memory.getId(), memoryList)) {
-                            if(memory.getPrivacy() == Memory.Privacy.PUBLIC){
-                                memoryList.add(memory);
-                                memoryAdapter.notifyItemInserted(memoryList.size() - 1); //was memoryAdapter.notifyDataSetChanged();
-                            }
-
-                            else if(memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())){
-                                memoryList.add(memory);
-                                memoryAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    }*/
-
             }
 
             @Override
@@ -77,8 +61,7 @@ public class FetchingUtils {
                     if (memory.getLongId() > memoryStartTime) {
                         if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()))) {
                             memList.add(memory);
-                            memAdapter.notifyItemInserted(memList.size() - 1); //Toast.makeText(getApplicationContext(), "New memories have been uploaded", Toast.LENGTH_LONG).show();
-                            //does not work because recyclerview keeps adding new memories at the bottom
+                            memAdapter.notifyItemInserted(memList.size() - 1);
                         }
                     }
                 } else {

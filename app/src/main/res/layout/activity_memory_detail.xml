@@ -72,15 +72,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/memoryAuthor"
                 tools:ignore="RtlHardcoded" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/removeMemory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/remove"
                 android:onClick="removeMemory"
                 android:visibility="gone"
+                android:src="@mipmap/delete"
+                android:background="@android:color/transparent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="0dp"
+                app:layout_constraintHorizontal_bias="0.96"
+                android:layout_marginLeft="8dp" />
 
             <TextView
                 android:id="@+id/memoryLocation"
@@ -100,6 +105,7 @@
                 android:layout_height="22dp"
                 android:layout_marginEnd="90dp"
                 android:src="@mipmap/like_without"
+                android:background="@android:color/transparent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/memoryLocation"
                 tools:ignore="ContentDescription,MissingConstraints,RtlHardcoded" />

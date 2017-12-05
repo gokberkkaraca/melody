@@ -166,7 +166,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             startService(new Intent(this, LocationService.class));
         }
         PermissionUtils.accessLocationWithPermission(this);
-        fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime, null);
         createMemoriesListener(memoryList, memoryAdapter, memoryStartTime, null);
         memoryAdapter.notifyDataSetChanged();
 
@@ -329,11 +328,9 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     public void onDismiss(DialogInterface dialog) {
         if (calendar != null) {
             setTitle("Melody - " + dateFormat.format(calendar.getTime()));
-            recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
-            //memoryList = new ArrayList<>();
+            recyclerView.removeAllViews();
             memoryList.clear();
             memoryAdapter.notifyDataSetChanged();
-            //fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime, null);
             createMemoriesListener(memoryList, memoryAdapter, memoryStartTime, null);
         }
     }
