@@ -141,6 +141,11 @@ public class UserProfileActivity extends AppCompatActivity {
         finish();
     }
 
+    public void editUserInfo (View view){
+        Intent intent = new Intent(this, EditUserInfo.class);
+        startActivity(intent);
+    }
+
     /*************************************************
      ******************* Menu Buttons ****************
      *************************************************/

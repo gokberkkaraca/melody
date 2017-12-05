@@ -146,6 +146,10 @@ public class User implements Serializable {
         notificationsOn = b;
     }
 
+    public void setDisplayName (String s) {
+        displayName = s;
+    }
+
     private String encodeEmailForId(String email) {
         return email.replace('.', ',');
     }

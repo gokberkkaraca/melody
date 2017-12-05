@@ -64,4 +64,10 @@
     <string name="reset_password_empty">Enter your registered email!</string>
     <string name="send_reset_password_email">We have sent you instructions to reset your password!</string>
     <string name="fail_send_rest_password_email">Failed to send reset email!</string>
+    <string name="edit"><u>Edit</u></string>
+    <string name="edit_user_name">Edit user name</string>
+    <string name="change_user_profile">Change user profile</string>
+    <string name="save">Save</string>
+    <string name="change_profile_photo">Change profile photo</string>
+    <string name="change_biography">Change biography</string>
 </resources>
