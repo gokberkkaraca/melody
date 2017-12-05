@@ -197,7 +197,15 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             if (friendUserId.equals(memoryAuthorId))
                 return true;
         }
+
         return false;
+    }
+
+    private boolean isOwnMemory(String memoryAuthorId) {
+        if(user.getId().equals(memoryAuthorId))
+            return true;
+        else
+            return false;
     }
 
 
@@ -214,7 +222,12 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                             if (memory.getPrivacy() == Memory.Privacy.PUBLIC) {
                                 memoryList.add(memory);
                                 memoryAdapter.notifyDataSetChanged();
-                            } else if (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())) {
+                            }
+                            else if (isOwnMemory(memory.getUser().getId())){
+                                memoryList.add(memory);
+                                memoryAdapter.notifyDataSetChanged();
+                            }
+                            else if (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())) {
                                 memoryList.add(memory);
                                 memoryAdapter.notifyDataSetChanged();
                             }
