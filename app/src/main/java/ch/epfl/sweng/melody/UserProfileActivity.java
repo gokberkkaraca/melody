@@ -33,7 +33,6 @@ import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
-import static ch.epfl.sweng.melody.util.FetchingUtils.fetchMemoriesFromDatabase;
 
 public class UserProfileActivity extends AppCompatActivity {
 

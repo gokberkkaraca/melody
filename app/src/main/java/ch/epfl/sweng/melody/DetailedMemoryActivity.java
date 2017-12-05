@@ -64,6 +64,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     private RecyclerView commentsRecyclerView;
     private ListView tagsListView;
     private ArrayAdapter adapter;
+    private ImageView authorPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         commentsRecyclerView = findViewById(R.id.comments_recyclerView);
         tagsListView = findViewById(R.id.tags_listView);
+        authorPic = findViewById(R.id.memoryAuthorPic);
 
         memoryText.setVisibility(View.GONE);
         videoSpace.setVisibility(View.GONE);
@@ -91,6 +93,15 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         tagsList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tagsList);
         tagsListView.setAdapter(adapter);
+
+        authorPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
@@ -113,7 +124,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Removing Memory..", Toast.LENGTH_SHORT).show();
                     }
                 }).create().show();
-
     }
 
     private void setCommentsContainer() {

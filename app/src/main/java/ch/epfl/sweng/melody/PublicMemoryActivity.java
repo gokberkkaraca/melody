@@ -55,7 +55,6 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
-import static ch.epfl.sweng.melody.util.FetchingUtils.fetchMemoriesFromDatabase;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;

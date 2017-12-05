@@ -17,39 +17,6 @@ import ch.epfl.sweng.melody.user.UserContactInfo;
 
 public class FetchingUtils {
 
-    public static void fetchMemoriesFromDatabase(final List<Memory> memList, final MemoryAdapter memAdapter, final long memoryStartTime, final User user) {
-        DatabaseHandler.getAllMemoriesWithSingleListener(new ValueEventListener() {  //Listener is only used on fetching
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(user == null) {
-                    for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                        Memory memory = memDataSnapshot.getValue(Memory.class);
-                        assert memory != null;
-                        if (memory.getLongId() > memoryStartTime) {
-                            if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()))) {
-                                memList.add(memory);
-                                //memoryAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-                } else {
-                    for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                        Memory memory = memDataSnapshot.getValue(Memory.class);
-                        assert memory != null;
-                        if (memory.getUser().equals(user) && memory.getLongId() > memoryStartTime) {
-                                memList.add(memory);
-                                //memoryAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
-
     public static void createMemoriesListener(final List<Memory> memList, final MemoryAdapter memAdapter, final long memoryStartTime, final User user) {
         DatabaseHandler.setCustomListenerToMemories(new ChildEventListener() {
             @Override
