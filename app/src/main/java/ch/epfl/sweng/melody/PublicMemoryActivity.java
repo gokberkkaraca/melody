@@ -330,8 +330,11 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         if (calendar != null) {
             setTitle("Melody - " + dateFormat.format(calendar.getTime()));
             recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
-            memoryList = new ArrayList<>();
-            fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime, null);
+            //memoryList = new ArrayList<>();
+            memoryList.clear();
+            memoryAdapter.notifyDataSetChanged();
+            //fetchMemoriesFromDatabase(memoryList, memoryAdapter, memoryStartTime, null);
+            createMemoriesListener(memoryList, memoryAdapter, memoryStartTime, null);
         }
     }
 
