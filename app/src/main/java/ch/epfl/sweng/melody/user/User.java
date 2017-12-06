@@ -27,6 +27,8 @@ public class User implements Serializable {
     private int minRadius;
     private int maxRadius;
     private boolean notificationsOn;
+    private String biography;
+    private String backgroundPhotoUrl;
 
     public User(FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
@@ -47,6 +49,8 @@ public class User implements Serializable {
         minRadius = 1;
         maxRadius = 100;
         notificationsOn = true;
+        biography = "";
+        backgroundPhotoUrl = defaultProfilePhotoUrl;
     }
 
     // Empty constructor is needed for database connection, for friend too
@@ -60,6 +64,8 @@ public class User implements Serializable {
         minRadius = 1;
         maxRadius = 100;
         notificationsOn = true;
+        biography = "";
+        backgroundPhotoUrl = defaultProfilePhotoUrl;
     }
 
     public String getId() {
@@ -144,6 +150,30 @@ public class User implements Serializable {
 
     public void setNotificationsOn(boolean b) {
         notificationsOn = b;
+    }
+
+    public String getBiography () {
+        return biography;
+    }
+
+    public void setBiograhy (String s) {
+        this.biography = s;
+    }
+
+    public void setDisplayName (String s) {
+        this.displayName = s;
+    }
+
+    public void setProfilePhotoUrl (String s) {
+        this.profilePhotoUrl = s;
+    }
+
+    public String getBackgroundPhotoUrl () {
+        return backgroundPhotoUrl;
+    }
+
+    public void setBackgroundPhotoUrl (String s) {
+        this.backgroundPhotoUrl = s;
     }
 
     private String encodeEmailForId(String email) {

@@ -118,7 +118,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         MenuButtons.goToPublicMemoryActivity(this);
     }
 
-
     public void pickVideoDialog(View view) {
         DialogUtils.pickVideoDialog(this);
     }

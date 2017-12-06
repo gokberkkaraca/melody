@@ -26,6 +26,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private static User currentUser;
     private Boolean isMyself = true;
+    private TextView edit;
+    private TextView bio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public class UserProfileActivity extends AppCompatActivity {
         TextView friends = findViewById(R.id.friends);
         Button logout = findViewById(R.id.log_out);
         Button sendFriendRequest = findViewById(R.id.sendFriendRequest);
+        edit = findViewById(R.id.edit_userInfo);
+        bio = findViewById(R.id.user_bio);
 
         Intent intent = getIntent();
         String userId = intent.getStringExtra(EXTRA_USER_ID);
@@ -50,6 +54,7 @@ public class UserProfileActivity extends AppCompatActivity {
             prepareActivityWithUser();
         } else {
             isMyself = false;
+            edit.setVisibility(View.GONE);
             DatabaseHandler.getUser(userId, new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -66,6 +71,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void prepareActivityWithUser() {
+        bio.setText(currentUser.getBiography());
         ((TextView) findViewById(R.id.username)).setText(currentUser.getDisplayName());
         ((TextView) findViewById(R.id.friends)).setText(currentUser.getFriendsSize());
         new GoogleProfilePictureAsync((ImageView) findViewById(R.id.profilePicView), Uri.parse(currentUser.getProfilePhotoUrl())).execute();
@@ -139,6 +145,11 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void editUserInfo (View view){
+        Intent intent = new Intent(this, EditUserInfoActivity.class);
+        startActivity(intent);
     }
 
     /*************************************************
