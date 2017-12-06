@@ -47,13 +47,14 @@ public class EditUserInfoActivity extends AppCompatActivity {
     private Uri profileUri;
     private ImageView profileImage;
     private Bitmap picture;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_info);
 
-        User user = MainActivity.getUser();
+        user = MainActivity.getUser();
         setTitle("");
         Toolbar editToorbar = (Toolbar) findViewById(R.id.edit_toolbar);
         setSupportActionBar(editToorbar);
