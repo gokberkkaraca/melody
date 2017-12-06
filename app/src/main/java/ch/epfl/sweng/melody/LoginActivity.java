@@ -23,10 +23,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
 import static ch.epfl.sweng.melody.account.GoogleAccount.mGoogleApiClient;
@@ -109,10 +114,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            MainActivity.setUser(MainActivity.getFirebaseAuthInstance().getCurrentUser());
-                            DatabaseHandler.uploadUser(MainActivity.getUser());
-                            MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
-                            finish();
+                            getUserFromFirebaseAuth();
                         }
                     }
                 });
@@ -191,12 +193,35 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         } else {
                             Toast.makeText(LoginActivity.this, "Login successful",
                                     Toast.LENGTH_SHORT).show();
-                            MainActivity.setUser(MainActivity.getFirebaseAuthInstance().getCurrentUser());
-                            DatabaseHandler.uploadUser(MainActivity.getUser());
-                            MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
-                            finish();
+                            getUserFromFirebaseAuth();
                         }
                     }
                 });
+    }
+
+    private void getUserFromFirebaseAuth() {
+        final FirebaseUser currentUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
+        String currentUserId = currentUser.getEmail().replace('.', ',');
+        DatabaseHandler.getUser(currentUserId, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                if (user == null) {
+                    User newUser = new User(currentUser);
+                    DatabaseHandler.uploadUser(newUser);
+                    MainActivity.setUser(newUser);
+                } else {
+                    MainActivity.setUser(user);
+                }
+                MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
+                finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }
