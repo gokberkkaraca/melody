@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         return user;
     }
 
-    public static void setUser(FirebaseUser firebaseUser) {
-        MainActivity.user = new User(firebaseUser);
+    public static void setUser(User user) {
+        MainActivity.user = user;
     }
 
     @Override
