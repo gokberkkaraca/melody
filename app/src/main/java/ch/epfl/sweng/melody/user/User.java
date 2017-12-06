@@ -239,7 +239,7 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return obj.getClass().equals(User.class) && this.id.equals(((User) obj).getId());
+        return obj != null && obj.getClass().equals(User.class) && this.id.equals(((User) obj).getId());
     }
 
     public enum ThemeColor {RED, GREEN, BLUELIGHT, BLUEDARK, BLACK}

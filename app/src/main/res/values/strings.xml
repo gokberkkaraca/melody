@@ -5,10 +5,7 @@
     <string name="submit">SUBMIT</string>
     <string name="country_city">Country, city</string>
     <string name="username">Username</string>
-    <string name="followings">Followings</string>
-    <string name="followers">Followers</string>
     <string name="friends">Friends</string>
-    <string name="_500">500</string>
     <string name="_220">220</string>
     <string name="log_out">Log out</string>
     <string name="author">Author</string>

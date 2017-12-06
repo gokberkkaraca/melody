@@ -73,65 +73,9 @@
         android:layout_below="@+id/relativeLayout"
         android:layout_marginTop="8dp"
         android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:gravity="center">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/followersText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/followers"
-                android:textColor="#000"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/followers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/_220"
-                android:textColor="#000" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/followingText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/followings"
-                android:textColor="#000"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/followings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/_500"
-                android:textColor="#000" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/friendsText"
@@ -150,7 +94,41 @@
                 android:layout_gravity="center"
                 android:text="@string/_220"
                 android:textColor="#000" />
-        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:gravity="end"
+        android:id="@+id/linearLayout3">
+
+        <Button
+            android:id="@+id/log_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:onClick="logOut"
+            android:text="@string/log_out"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include
+            layout="@layout/menu_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
@@ -158,10 +136,11 @@
         android:id="@+id/showMemoriesLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout2"
-        android:layout_marginTop="8dp"
         android:orientation="vertical"
-        android:textColor="#000">
+        android:textColor="#000"
+        android:layout_above="@+id/linearLayout3">
 
         <TextView
             android:id="@+id/youAreFriends"
@@ -213,38 +192,11 @@
             android:text="@string/remove_friend"
             android:visibility="gone" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignParentStart="true"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/log_out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="20dp"
-            android:onClick="logOut"
-            android:text="@string/log_out"
-            android:visibility="gone" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <include
-            layout="@layout/menu_layout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/user_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

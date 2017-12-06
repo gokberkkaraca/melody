@@ -1,12 +1,15 @@
 package ch.epfl.sweng.melody;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,6 +36,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -179,6 +183,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                             .video(url)
                             .tags(selectedTags)
                             .build();
+                    //createAndAddThumbnail(resourceUri);    //this should create and upload the thumbnail of the memory and store it in the photoUrl which is not used for video
+                                                             // but since it fails to create the frame, this method fails
                 }
                 DatabaseHandler.uploadMemory(memory);
                 MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
@@ -197,6 +203,46 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             }
         });
     }
+
+    //These methods will create the thumbnail and upload it to the server but there is still a bug
+
+    /*
+    private void createAndAddThumbnail(Uri uri) {
+        Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.toString());
+        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, this);
+        if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
+        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
+                memory.setThumbnailUrl(thumbnailUrl);
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {}
+        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
+        });
+    }
+
+    private Bitmap retrieveVideoFrameFromVideo(String videoPath) {      // This always return null, I don't understand why
+        Bitmap bitmap = null;
+        MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            bitmap = mediaMetadataRetriever.getFrameAtTime();
+            //bitmap = mediaMetadataRetriever.getFrameAtTime(100000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
+        return bitmap;
+    }*/
 
     public void fetchTagsFromDatabase() {
         DatabaseHandler.getAllTags(new ValueEventListener() {
@@ -274,62 +320,69 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             } catch (IOException e) {
                 e.printStackTrace();// this one is not good and need to be discussed
             }
-        }
+        // }
         videoView.setVisibility(View.GONE);
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageBitmap(picture);
-        resourceUri = data.getData();
+        if (data != null) resourceUri = data.getData();
         memoryType = Memory.MemoryType.PHOTO;
+        }
     }
 
     private void onPhotoFromCameraResult(Intent data) {
-        videoView.setVisibility(View.GONE);
-        imageView.setVisibility(View.VISIBLE);
-        assert data.getExtras() != null;
-        picture = (Bitmap) data.getExtras().get("data");
-        imageView.setImageBitmap(picture);
-        memoryType = Memory.MemoryType.PHOTO;
-        resourceUri = saveResultToFile("/images", "png");
+        if (data != null) {
+            videoView.setVisibility(View.GONE);
+            imageView.setVisibility(View.VISIBLE);
+            assert data.getExtras() != null;
+            picture = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(picture);
+            memoryType = Memory.MemoryType.PHOTO;
+            resourceUri = saveResultToFile("/images", "png", picture, this);
+        }
     }
 
-    private Uri saveResultToFile(String targetFolder, String resourceType) {
+    public static Uri saveResultToFile(String targetFolder, String resourceType, Bitmap pic, Context context) {
 
         Uri resultUri = null;
 
-        File targetDir = new File(this.getCacheDir().toString() + targetFolder);
+        File targetDir = new File(context.getCacheDir().toString() + targetFolder); //File targetDir = new File(this.getCacheDir().toString() + targetFolder);
         targetDir.mkdirs();
 
         String filename = UUID.randomUUID().toString().substring(0, 8) + "." + resourceType;
         File file = new File(targetDir, filename);
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            picture.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            pic.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
             resultUri = Uri.fromFile(file);
         } catch (IOException exception) {
             exception.printStackTrace();
-            Toast.makeText(this, "Error occurred while choosing resource from camera", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Error occurred while choosing resource from camera", Toast.LENGTH_LONG).show();
         }
 
         return resultUri;
     }
 
     private void onVideoFromGalleryResult(Intent data) {
-        videoView.setVisibility(View.VISIBLE);
-        imageView.setVisibility(View.GONE);
-        resourceUri = data.getData();
-        memoryType = Memory.MemoryType.VIDEO;
-        videoView.setVideoURI(data.getData());
-        videoView.start();
+        if(data != null) {
+            videoView.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.GONE);
+            resourceUri = data.getData();
+            memoryType = Memory.MemoryType.VIDEO;
+            videoView.setVideoURI(data.getData());
+            videoView.start();
+        }
     }
 
     private void onVideoFromCameraResult(Intent data) {
-        videoView.setVisibility(View.VISIBLE);
-        imageView.setVisibility(View.GONE);
-        resourceUri = data.getData();
-        memoryType = Memory.MemoryType.VIDEO;
-        videoView.setVideoURI(data.getData());
-        videoView.start();
+        if(data != null) {
+            videoView.setVisibility(View.VISIBLE);
+            imageView.setVisibility(View.GONE);
+            resourceUri = data.getData();
+            memoryType = Memory.MemoryType.VIDEO;
+            videoView.setVideoURI(data.getData());
+            videoView.start();
+        }
     }
 
     @Override

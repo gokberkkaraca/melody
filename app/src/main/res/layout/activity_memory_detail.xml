@@ -72,6 +72,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/memoryAuthor"
                 tools:ignore="RtlHardcoded" />
 
+            <ImageButton
+                android:id="@+id/removeMemory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="removeMemory"
+                android:visibility="gone"
+                android:src="@mipmap/delete"
+                android:background="@android:color/transparent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="-4dp"
+                app:layout_constraintHorizontal_bias="0.976"
+                android:layout_marginStart="8dp" />
+
             <TextView
                 android:id="@+id/memoryLocation"
                 android:layout_width="200dp"
@@ -84,14 +99,15 @@
                 app:layout_constraintLeft_toLeftOf="@+id/memoryAuthorPic"
                 app:layout_constraintTop_toBottomOf="@+id/memoryAuthorPic" />
 
-            <ImageView
-                android:id="@+id/likes"
+            <ImageButton
+                android:id="@+id/likeButtonDetailed"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginEnd="90dp"
+                android:src="@mipmap/like_without"
+                android:background="@android:color/transparent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/memoryLocation"
-                app:srcCompat="@android:drawable/btn_star_big_on"
                 tools:ignore="ContentDescription,MissingConstraints,RtlHardcoded" />
 
             <TextView
@@ -100,7 +116,7 @@
                 android:layout_height="20dp"
                 android:ems="10"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/likes"
+                app:layout_constraintLeft_toRightOf="@+id/likeButtonDetailed"
                 app:layout_constraintTop_toTopOf="@+id/memoryLocation"
                 tools:ignore="MissingConstraints,RtlHardcoded" />
 
@@ -127,7 +143,6 @@
                     android:visibility="visible"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:srcCompat="@mipmap/photo"
                     tools:ignore="ContentDescription" />
 
                 <VideoView
@@ -219,6 +234,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:paddingBottom="18dp"
                 android:orientation="vertical"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintLeft_toLeftOf="parent"

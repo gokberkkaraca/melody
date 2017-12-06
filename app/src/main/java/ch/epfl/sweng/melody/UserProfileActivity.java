@@ -1,24 +1,38 @@
 package ch.epfl.sweng.melody;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
+import ch.epfl.sweng.melody.memory.Memory;
+import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.MenuButtons;
+
+import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -29,15 +43,20 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView edit;
     private TextView bio;
 
+    private static RecyclerView recyclerViewDetail;
+    private static MemoryAdapter memoryAdapterDetail;
+    private static Parcelable recyclerViewStateDetail;
+    private static RecyclerView.LayoutManager mLayoutManagerDetail;
+    private List<Memory> memoryListDetail; //not the same as the one in the public activity !
+    private static long memoryStartTimeDetail = 0L;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        TextView username = findViewById(R.id.username);
-        ImageView profilePicView = findViewById(R.id.profilePicView);
-        TextView friends = findViewById(R.id.friends);
-        Button logout = findViewById(R.id.log_out);
+        PublicMemoryActivity.insidePublicActivity = false;
+
         Button sendFriendRequest = findViewById(R.id.sendFriendRequest);
         edit = findViewById(R.id.edit_userInfo);
         bio = findViewById(R.id.user_bio);
@@ -46,6 +65,28 @@ public class UserProfileActivity extends AppCompatActivity {
         String userId = intent.getStringExtra(EXTRA_USER_ID);
 
         getUserFromServer(userId);
+
+        if(isMyself || (currentUser != null && MainActivity.getUser().isFriendWith(currentUser))) {
+
+            memoryListDetail = new ArrayList<>();
+
+            memoryAdapterDetail = new MemoryAdapter(memoryListDetail);
+            memoryAdapterDetail.notifyDataSetChanged();
+
+            recyclerViewDetail = findViewById(R.id.user_recyclerview);
+            mLayoutManagerDetail = new LinearLayoutManager(getApplicationContext());
+            recyclerViewDetail.setLayoutManager(mLayoutManagerDetail);
+            recyclerViewDetail.setItemAnimator(new DefaultItemAnimator());
+            recyclerViewDetail.setAdapter(memoryAdapterDetail);
+
+            recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
+
+            //fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
+            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
+                                                                                                            //anything should change because
+
+            recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
+        }
     }
 
     private void getUserFromServer(String userId) {
@@ -93,12 +134,23 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void removeFriend(View v) {
-        MainActivity.getUser().removeFriend(currentUser);
-        currentUser.removeFriend(MainActivity.getUser());
-        DatabaseHandler.uploadUser(MainActivity.getUser());
-        DatabaseHandler.uploadUser(currentUser);
-        findViewById(R.id.removeFriend).setVisibility(View.GONE);
-        findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
+        new AlertDialog.Builder(this)
+                .setTitle("Remove Friend ?")
+                .setMessage("Are you sure you want to remove this friend ?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        MainActivity.getUser().removeFriend(currentUser);
+                        currentUser.removeFriend(MainActivity.getUser());
+                        DatabaseHandler.uploadUser(MainActivity.getUser());
+                        DatabaseHandler.uploadUser(currentUser);
+                        findViewById(R.id.removeFriend).setVisibility(View.GONE);
+                        findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Friend removed", Toast.LENGTH_LONG).show();
+                    }
+                }).create().show();
+
     }
 
     public void removeFriendRequest(View v) {

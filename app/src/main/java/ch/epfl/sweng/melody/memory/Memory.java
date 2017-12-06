@@ -64,6 +64,15 @@ public class Memory {
         return longId;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj.getClass().equals(Memory.class) && this.id.equals(((Memory) obj).getId());
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.photoUrl = thumbnailUrl;
+    }
+
     public String getId() {
         return id;
     }
@@ -143,7 +152,6 @@ public class Memory {
         private MemoryType memoryType;
         private String photoUrl;
         private String videoUrl;
-        private String thumbnailUrl;
 
         public MemoryBuilder(User user, String text, SerializableLocation serializableLocation, Privacy privacy) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());

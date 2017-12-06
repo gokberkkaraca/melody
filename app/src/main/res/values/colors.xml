@@ -11,4 +11,5 @@
     <color name="blueLight">#7cdbf9</color>
     <color name="blueDark">#17246d</color>
     <color name="whiteForMap">#D0FFFFFF</color>
+    <color name="whiteBackground">#8888</color>
 </resources>

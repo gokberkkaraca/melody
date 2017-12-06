@@ -23,7 +23,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layoutAnimation="@anim/layout_animation_fall_down"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"

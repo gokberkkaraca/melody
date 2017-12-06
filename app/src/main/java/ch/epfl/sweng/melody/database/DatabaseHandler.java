@@ -4,10 +4,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -63,6 +65,18 @@ public class DatabaseHandler {
     /**
      * Memories related database methods
      */
+
+    public static void setMemoryThumbnail(String id, String thumbnailUrl) {  //we save the thumbnail in the photo because videos do not use it
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).child("photoUrl").setValue(thumbnailUrl);
+    }
+
+    public static void setCustomListenerToMemories(ChildEventListener childEventListener) {
+        databaseReference.child(DATABASE_MEMORIES_PATH).addChildEventListener(childEventListener);
+    }
+
+    public static void removeMemory(String id) {
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).removeValue();  //add a completion listener ?
+    }
 
     public static void getMemory(String id, ValueEventListener vel) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(id).addValueEventListener(vel);

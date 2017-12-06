@@ -9,6 +9,8 @@ import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.ShowMapActivity;
 import ch.epfl.sweng.melody.UserProfileActivity;
 
+import static ch.epfl.sweng.melody.PublicMemoryActivity.scrollViewToTop;
+
 public class MenuButtons {
     public static void goToPublicMemoryActivity(Context context) {
         goToActivity(context, PublicMemoryActivity.class);

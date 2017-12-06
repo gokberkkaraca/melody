@@ -234,4 +234,12 @@ public class UserTest {
         user.rejectFriendshipRequest(otherUser);
     }
 
+    public void confirmFriend() {
+        user.getFriendshipRequests().put(otherUser.getId(), otherUser.getUserContactInfo());
+        user.rejectFriendshipRequest(otherUser);
+        assertThat(user.getFriends().size(), is(0));
+        assertThat(user.getFriendshipRequests().size(), is(0));
+        user.rejectFriendshipRequest(otherUser);
+    }
+
 }

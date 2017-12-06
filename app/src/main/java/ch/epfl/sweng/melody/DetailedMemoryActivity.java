@@ -1,6 +1,9 @@
 package ch.epfl.sweng.melody;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -19,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -46,6 +50,9 @@ import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.MenuButtons;
 
+import static ch.epfl.sweng.melody.PublicMemoryActivity.insidePublicActivity;
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USER_ID;
+
 public class DetailedMemoryActivity extends AppCompatActivity {
     private static CommentAdapter commentAdapter;
     private static List<String> tagsList;
@@ -57,6 +64,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     private RecyclerView commentsRecyclerView;
     private ListView tagsListView;
     private ArrayAdapter adapter;
+    private ImageView authorPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +74,12 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         memoryId = getIntent().getStringExtra("memoryId");
 
         user = MainActivity.getUser();
-
         TextView memoryText = findViewById(R.id.memoryText);
-
         RelativeLayout videoSpace = findViewById(R.id.memoryImageOrVideo);
 
         commentsRecyclerView = findViewById(R.id.comments_recyclerView);
         tagsListView = findViewById(R.id.tags_listView);
+        authorPic = findViewById(R.id.memoryAuthorPic);
 
         memoryText.setVisibility(View.GONE);
         videoSpace.setVisibility(View.GONE);
@@ -84,6 +91,37 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         tagsList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tagsList);
         tagsListView.setAdapter(adapter);
+
+        authorPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
+                v.getContext().startActivity(intent);
+            }
+        });
+
+    }
+
+    public void removeMemory(final View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Remove Memory ?")
+                .setMessage("Are you sure you want to remove this memory?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        if(insidePublicActivity)
+                            MenuButtons.goToPublicMemoryActivity(view.getContext());
+                        else {
+                            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+                            intent.putExtra(EXTRA_USER_ID, MainActivity.getUser().getId());
+                            view.getContext().startActivity(intent);
+                        }
+                        DatabaseHandler.removeMemory(memoryId);
+                        Toast.makeText(getApplicationContext(), "Removing Memory..", Toast.LENGTH_SHORT).show();
+                    }
+                }).create().show();
     }
 
     private void setCommentsContainer() {
@@ -160,109 +198,134 @@ public class DetailedMemoryActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
 
-                RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
+                if(memory != null) {
 
-                ImageView memoryImage = findViewById(R.id.memoryPicture);
+                    RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
 
-                final TextView memoryText = findViewById(R.id.memoryText);
+                    ImageView memoryImage = findViewById(R.id.memoryPicture);
 
-                final VideoView memoryVideo = findViewById(R.id.memoryVideo);
+                    final TextView memoryText = findViewById(R.id.memoryText);
 
-                TextView tagsTitle = findViewById(R.id.tags_title);
+                    final VideoView memoryVideo = findViewById(R.id.memoryVideo);
 
-                TextView date = findViewById(R.id.memoryDate);
-                date.setText(format.format(memory.getTime()));
+                    TextView tagsTitle = findViewById(R.id.tags_title);
 
-                TextView location = findViewById(R.id.memoryLocation);
-                location.setText(memory.getSerializableLocation().getLocationName());
+                    TextView date = findViewById(R.id.memoryDate);
+                    date.setText(format.format(memory.getTime()));
 
-                Button playVideo = findViewById(R.id.play_button);
-                Button pauseVideo = findViewById(R.id.pause_button);
-                Button stopVideo = findViewById(R.id.stop_button);
+                    TextView location = findViewById(R.id.memoryLocation);
+                    location.setText(memory.getSerializableLocation().getLocationName());
 
-                if (memory.getPhotoUrl() != null) {
-                    memoryImageOrVideo.setVisibility(View.VISIBLE);
-                    memoryVideo.setVisibility(View.INVISIBLE);
-                    memoryImage.setVisibility(View.VISIBLE);
-                    Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
-                }
+                    Button playVideo = findViewById(R.id.play_button);
+                    Button pauseVideo = findViewById(R.id.pause_button);
+                    Button stopVideo = findViewById(R.id.stop_button);
 
-                if (memory.getText() != null) {
-                    memoryText.setVisibility(View.VISIBLE);
-                    memoryText.setText(memory.getText());
-                    memoryText.setMovementMethod(new ScrollingMovementMethod());
-                    memoryText.setOnTouchListener(new View.OnTouchListener() {
+                    if (memory.getPhotoUrl() != null) {
+                        memoryImageOrVideo.setVisibility(View.VISIBLE);
+                        memoryVideo.setVisibility(View.INVISIBLE);
+                        memoryImage.setVisibility(View.VISIBLE);
+                        Picasso.with(getApplicationContext()).load(memory.getPhotoUrl()).into(memoryImage);
+                    }
+
+                    if (memory.getText() != null) {
+                        memoryText.setVisibility(View.VISIBLE);
+                        memoryText.setText(memory.getText());
+                        memoryText.setMovementMethod(new ScrollingMovementMethod());
+                        memoryText.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                v.performClick();
+                                v.getParent().requestDisallowInterceptTouchEvent(true);
+                                return false;
+                            }
+                        });
+                    }
+
+                    if (memory.getVideoUrl() != null) {
+                        memoryImageOrVideo.setVisibility(View.VISIBLE);
+                        memoryImage.setVisibility(View.INVISIBLE);
+                        memoryVideo.setVisibility(View.VISIBLE);
+                        playVideo.setVisibility(View.VISIBLE);
+                        pauseVideo.setVisibility(View.VISIBLE);
+                        stopVideo.setVisibility(View.VISIBLE);
+
+                        memoryVideo.setVideoPath(memory.getVideoUrl());
+
+                        playVideo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View vw) {
+                                memoryVideo.start();
+                            }
+                        });
+
+                        pauseVideo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View vw) {
+                                memoryVideo.pause();
+                            }
+                        });
+
+                        stopVideo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View vw) {
+                                memoryVideo.seekTo(0);
+                            }
+                        });
+
+                    }
+
+                    TextView author = findViewById(R.id.memoryAuthor);
+                    author.setText(memory.getUser().getDisplayName());
+
+                    ImageView authorPic = findViewById(R.id.memoryAuthorPic);
+                    new GoogleProfilePictureAsync(authorPic, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
+
+                    final TextView likeNumber = findViewById(R.id.likeNumber);
+                    likeNumber.setText(memory.getLikes().size() + "");
+
+                    if(memory.getUser().equals(MainActivity.getUser()))
+                        findViewById(R.id.removeMemory).setVisibility(View.VISIBLE);
+
+                    commentList = new ArrayList<>(memory.getComments().values());
+
+                    if (commentList.size() > 0) {
+                        commentsRecyclerView.setVisibility(View.VISIBLE);
+                        commentAdapter = new CommentAdapter(commentList);
+                        commentAdapter.notifyDataSetChanged();
+
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        commentsRecyclerView.setLayoutManager(mLayoutManager);
+                        commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                        commentsRecyclerView.setAdapter(commentAdapter);
+                    }
+
+                    if (memory.getTags().size() > 0) {
+                        tagsTitle.setVisibility(View.VISIBLE);
+                        tagsListView.setVisibility(View.VISIBLE);
+                        adapter.clear();
+                        tagsList = memory.getTags();
+                        adapter.addAll(tagsList);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    final ImageButton likeButton = findViewById(R.id.likeButtonDetailed);
+                    likeButton.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            v.performClick();
-                            v.getParent().requestDisallowInterceptTouchEvent(true);
-                            return false;
+                        public void onClick(View v) {
+                            if (memory.getLikes().contains(MainActivity.getUser())) {
+                                memory.getLikes().remove(MainActivity.getUser());
+                                likeButton.setImageResource(R.mipmap.like_without);
+                            }
+                            else {
+                                memory.getLikes().add(MainActivity.getUser());
+                                likeButton.setImageResource(R.mipmap.like_with);
+                            }
+
+                            DatabaseHandler.uploadMemory(memory);
+                            likeNumber.setText(String.valueOf(memory.getLikes().size()));
                         }
                     });
-                }
 
-                if (memory.getVideoUrl() != null) {
-                    memoryImageOrVideo.setVisibility(View.VISIBLE);
-                    memoryImage.setVisibility(View.INVISIBLE);
-                    memoryVideo.setVisibility(View.VISIBLE);
-                    playVideo.setVisibility(View.VISIBLE);
-                    pauseVideo.setVisibility(View.VISIBLE);
-                    stopVideo.setVisibility(View.VISIBLE);
-
-                    memoryVideo.setVideoPath(memory.getVideoUrl());
-
-                    playVideo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View vw) {
-                            memoryVideo.start();
-                        }
-                    });
-
-                    pauseVideo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View vw) {
-                            memoryVideo.pause();
-                        }
-                    });
-
-                    stopVideo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View vw) {
-                            memoryVideo.seekTo(0);
-                        }
-                    });
-
-                }
-
-                TextView author = findViewById(R.id.memoryAuthor);
-                author.setText(memory.getUser().getDisplayName());
-
-                ImageView authorPic = findViewById(R.id.memoryAuthorPic);
-                new GoogleProfilePictureAsync(authorPic, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
-
-                TextView likeNumber = findViewById(R.id.likeNumber);
-                likeNumber.setText(memory.getLikes().size() + "");
-
-                commentList = new ArrayList<>(memory.getComments().values());
-
-                if (commentList.size() > 0) {
-                    commentsRecyclerView.setVisibility(View.VISIBLE);
-                    commentAdapter = new CommentAdapter(commentList);
-                    commentAdapter.notifyDataSetChanged();
-
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    commentsRecyclerView.setLayoutManager(mLayoutManager);
-                    commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                    commentsRecyclerView.setAdapter(commentAdapter);
-                }
-
-                if (memory.getTags().size() > 0) {
-                    tagsTitle.setVisibility(View.VISIBLE);
-                    tagsListView.setVisibility(View.VISIBLE);
-                    adapter.clear();
-                    tagsList = memory.getTags();
-                    adapter.addAll(tagsList);
-                    adapter.notifyDataSetChanged();
                 }
             }
 

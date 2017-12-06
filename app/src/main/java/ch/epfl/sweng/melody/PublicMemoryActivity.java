@@ -29,29 +29,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
+import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
 import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
@@ -59,6 +53,7 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 public class PublicMemoryActivity extends AppCompatActivity implements DialogInterface.OnDismissListener { //extended FragmentActivity before
 
     public static final String EXTRA_GOINGTOREQUESTS = "ch.epfl.sweng.GOINGTOREQUESTS";
+    public static boolean insidePublicActivity;
     public static LruCache<String, Bitmap> mMemoryCache;
     private static MemoryAdapter memoryAdapter;
     private static long memoryStartTime = 0L;
@@ -73,10 +68,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
     private List<Memory> memoryList;
-
-    public static void refreshPublicLayout() {
-        memoryAdapter.notifyDataSetChanged();
-    }
 
     public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
@@ -101,6 +92,8 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_public_memory);
 
+        insidePublicActivity = true;
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         user = MainActivity.getUser();
         String colorValue = sharedPref.getString("themeColor", "RED");
@@ -108,37 +101,39 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
         myToolbar.setTitle("Melody");
 
-        switch (colorValue) {
-            case "1":
-                user.setThemeColor(User.ThemeColor.RED);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
-                break;
-            case "2":
-                user.setThemeColor(User.ThemeColor.GREEN);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.green));
-                break;
-            case "3":
-                user.setThemeColor(User.ThemeColor.BLUELIGHT);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueLight));
-                break;
-            case "4":
-                user.setThemeColor(User.ThemeColor.BLUEDARK);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueDark));
-                break;
-            case "5":
-                user.setThemeColor(User.ThemeColor.BLACK);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black));
-                break;
-            default:
-                user.setThemeColor(User.ThemeColor.RED);
-                myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
+        if(user!=null) {
+            switch (colorValue) {
+                case "1":
+                    user.setThemeColor(User.ThemeColor.RED);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
+                    break;
+                case "2":
+                    user.setThemeColor(User.ThemeColor.GREEN);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.green));
+                    break;
+                case "3":
+                    user.setThemeColor(User.ThemeColor.BLUELIGHT);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueLight));
+                    break;
+                case "4":
+                    user.setThemeColor(User.ThemeColor.BLUEDARK);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueDark));
+                    break;
+                case "5":
+                    user.setThemeColor(User.ThemeColor.BLACK);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black));
+                    break;
+                default:
+                    user.setThemeColor(User.ThemeColor.RED);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
+            }
+            int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
+            user.setMinRadius(rMin);
+            int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
+            user.setMaxRadius(rMax);
+            boolean notificationsOn = sharedPref.getBoolean("notifications", true);
+            user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
         }
-        int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
-        user.setMinRadius(rMin);
-        int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
-        user.setMaxRadius(rMax);
-        boolean notificationsOn = sharedPref.getBoolean("notifications", true);
-        user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
 
         setSupportActionBar(myToolbar);
         myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.menu));
@@ -161,7 +156,8 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             startService(new Intent(this, LocationService.class));
         }
         PermissionUtils.accessLocationWithPermission(this);
-        fetchMemoriesFromDatabase();
+        createMemoriesListener(memoryList, memoryAdapter, memoryStartTime, null);
+        memoryAdapter.notifyDataSetChanged();
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) { //caching the video thumbnail to not recompute them again
             @Override
@@ -190,67 +186,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         }
     }
 
-    private boolean isFriendsMemory(String memoryAuthorId) {
-        Map<String, UserContactInfo> Friends = user.getFriends();
-        for (UserContactInfo friend : Friends.values()) {
-            String friendUserId = friend.getUserId();
-            if (friendUserId.equals(memoryAuthorId))
-                return true;
-        }
-
-        return false;
-    }
-
-    private boolean isOwnMemory(String memoryAuthorId) {
-        if(user.getId().equals(memoryAuthorId))
-            return true;
-        else
-            return false;
-    }
-
-
-    private void fetchMemoriesFromDatabase() {
-        DatabaseHandler.getAllMemories(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                    Memory memory = memDataSnapshot.getValue(Memory.class);
-                    assert memory != null;
-
-                    if (memory.getLongId() > memoryStartTime) {
-                        if (isNewMemory(memory.getId())) {
-                            if (memory.getPrivacy() == Memory.Privacy.PUBLIC) {
-                                memoryList.add(memory);
-                                memoryAdapter.notifyDataSetChanged();
-                            }
-                            else if (isOwnMemory(memory.getUser().getId())){
-                                memoryList.add(memory);
-                                memoryAdapter.notifyDataSetChanged();
-                            }
-                            else if (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())) {
-                                memoryList.add(memory);
-                                memoryAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
-
-    private boolean isNewMemory(String memoryId) {
-        for (Memory m : memoryList) {
-            if (memoryId.equals(m.getId()))
-                return false;
-        }
-        return true;
-    }
-
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -265,7 +200,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 }).create().show();
     }
 
-    public void showDatePickerDialog() { //deleted View v because was unused
+    public void showDatePickerDialog() {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
@@ -274,9 +209,10 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     public void onDismiss(DialogInterface dialog) {
         if (calendar != null) {
             setTitle("Melody - " + dateFormat.format(calendar.getTime()));
-            recyclerView.removeAllViews();  //good way to do it ? Maybe add conditions to prevent reloading
-            memoryList = new ArrayList<>();
-            fetchMemoriesFromDatabase();
+            recyclerView.removeAllViews();
+            memoryList.clear();
+            memoryAdapter.notifyDataSetChanged();
+            createMemoriesListener(memoryList, memoryAdapter, memoryStartTime, null);
         }
     }
 
