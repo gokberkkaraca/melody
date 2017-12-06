@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import ch.epfl.sweng.melody.user.User;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -29,7 +31,7 @@ abstract public class ActivityTest {
         when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
         String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
         when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
-        MainActivity.setUser(firebaseUser);
+        MainActivity.setUser(new User(firebaseUser));
     }
 
     /******************************************************
