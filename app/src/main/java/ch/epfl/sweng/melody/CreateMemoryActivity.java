@@ -204,6 +204,9 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         });
     }
 
+    //These methods will create the thumbnail and upload it to the server but there is still a bug
+
+    /*
     private void createAndAddThumbnail(Uri uri) {
         Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.toString());
         Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, this);
@@ -239,7 +242,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             }
         }
         return bitmap;
-    }
+    }*/
 
     public void fetchTagsFromDatabase() {
         DatabaseHandler.getAllTags(new ValueEventListener() {
