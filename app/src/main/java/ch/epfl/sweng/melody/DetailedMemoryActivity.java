@@ -74,9 +74,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         memoryId = getIntent().getStringExtra("memoryId");
 
         user = MainActivity.getUser();
-
         TextView memoryText = findViewById(R.id.memoryText);
-
         RelativeLayout videoSpace = findViewById(R.id.memoryImageOrVideo);
 
         commentsRecyclerView = findViewById(R.id.comments_recyclerView);
