@@ -186,7 +186,7 @@ public class EditUserInfo extends AppCompatActivity {
                     MainActivity.getUser().setProfilePhotoUrl(url.toString());
                     DatabaseHandler.uploadUser(MainActivity.getUser());
                     MenuButtons.goToUserProfileActivity(EditUserInfo.this);
-                    FirebaseUser firebaseUser = MainActivity.initializeFirebaseAuth().getCurrentUser();
+                    FirebaseUser firebaseUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                             .setPhotoUri(url)
                             .build();
@@ -205,7 +205,7 @@ public class EditUserInfo extends AppCompatActivity {
         }
 
         uploadUser(MainActivity.getUser());
-        FirebaseUser firebaseUser = MainActivity.initializeFirebaseAuth().getCurrentUser();
+        FirebaseUser firebaseUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
         UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
                 .build();
