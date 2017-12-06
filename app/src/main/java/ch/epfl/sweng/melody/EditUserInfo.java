@@ -48,21 +48,18 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromGallery;
 
 public class EditUserInfo extends AppCompatActivity {
-    private User user;
     private EditText displayName;
     private EditText userBio;
     private Uri profileUri;
-    private Uri backgroundUri;
     private ImageView profileImage;
-    private ImageView backgroundImage;
     private Bitmap picture;
-    private Uri resourceUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_info);
 
+        User user = MainActivity.getUser();
         setTitle("");
         Toolbar editToorbar = (Toolbar) findViewById(R.id.edit_toolbar);
         setSupportActionBar(editToorbar);
@@ -70,11 +67,9 @@ public class EditUserInfo extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        user = MainActivity.getUser();
         displayName = findViewById(R.id.change_display_name);
         userBio = findViewById(R.id.change_user_bio);
         profileImage = findViewById(R.id.profile_image);
-        backgroundImage = findViewById(R.id.background_image);
 
         displayName.setHint(user.getDisplayName());
         displayName.setHintTextColor(Color.GRAY);
@@ -87,14 +82,6 @@ public class EditUserInfo extends AppCompatActivity {
         }
 
         Picasso.with(getApplicationContext()).load(user.getProfilePhotoUrl()).into(profileImage);
-        Picasso.with(getApplicationContext()).load(user.getBackgroundPhotoUrl()).into(backgroundImage);
-    }
-
-
-    public void changeBackgroundImage (View view) {
-        picture=null;
-        DialogUtils.pickPhotoDialog(this);
-        backgroundImage.setImageBitmap(picture);
     }
 
     public void changeProfileImage (View view) {
@@ -142,14 +129,15 @@ public class EditUserInfo extends AppCompatActivity {
                 e.printStackTrace();// this one is not good and need to be discussed
             }
         }
-        resourceUri = data.getData();
-//        return picture;
+        profileUri = data.getData();
+        profileImage.setImageBitmap(picture);
     }
 
     private void onPhotoFromCameraResult(Intent data) {
         assert data.getExtras() != null;
         picture = (Bitmap) data.getExtras().get("data");
-        resourceUri = saveResultToFile("/images", "png");
+        profileUri = saveResultToFile("/images", "png");
+        profileImage.setImageBitmap(picture);
     }
 
     private Uri saveResultToFile(String targetFolder, String resourceType) {
@@ -178,14 +166,14 @@ public class EditUserInfo extends AppCompatActivity {
         String name = displayName.getText().toString();
         String bio = userBio.getText().toString();
         if (!TextUtils.isEmpty(name)) {
-            user.setDisplayName(name);
+            MainActivity.getUser().setDisplayName(name);
         }
         if (!TextUtils.isEmpty(bio)) {
-            if(bio.length() > 500){
+            if(bio.length() > 300){
                 Toast.makeText(getApplicationContext(), R.string.bio_too_long, Toast.LENGTH_SHORT).show();
                 return;
             }else {
-                user.setBiograhy(bio);
+                MainActivity.getUser().setBiograhy(bio);
             }
         }
 
@@ -194,10 +182,15 @@ public class EditUserInfo extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(getApplicationContext(), "User profile saved!", Toast.LENGTH_SHORT).show();
-                    String url = taskSnapshot.getDownloadUrl().toString();
-                    user.setProfilePhotoUrl(url);
-                    DatabaseHandler.uploadUser(user);
+                    Uri url = taskSnapshot.getDownloadUrl();
+                    MainActivity.getUser().setProfilePhotoUrl(url.toString());
+                    DatabaseHandler.uploadUser(MainActivity.getUser());
                     MenuButtons.goToUserProfileActivity(EditUserInfo.this);
+                    FirebaseUser firebaseUser = MainActivity.initializeFirebaseAuth().getCurrentUser();
+                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(url)
+                            .build();
+                    firebaseUser.updateProfile(profileChangeRequest);
                 }
             }, new OnFailureListener() {
                 @Override
@@ -211,12 +204,13 @@ public class EditUserInfo extends AppCompatActivity {
             });
         }
 
-        uploadUser(user);
+        uploadUser(MainActivity.getUser());
         FirebaseUser firebaseUser = MainActivity.initializeFirebaseAuth().getCurrentUser();
         UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                .setDisplayName(name).setPhotoUri(profileUri)
+                .setDisplayName(name)
                 .build();
         firebaseUser.updateProfile(profileChangeRequest);
+
         Intent intent = new Intent(this, UserProfileActivity.class);
         startActivity(intent);
     }
