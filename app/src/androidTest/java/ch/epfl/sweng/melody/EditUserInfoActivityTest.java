@@ -116,9 +116,9 @@ public class EditUserInfoActivityTest {
     }
 
     @Test
-    public void sendPhotoMemoryTest() {
+    public void saveUserInfoTest() {
         onView(withId(R.id.change_display_name)).perform(typeText("name"));
-        onView(withId(R.id.change_user_bio)).perform(typeText("bio"));
+        onView(withId(R.id.change_user_bio)).perform(typeText("biography"));
         onView(withId(R.id.profile_image)).check(matches(viewMatcher.hasDrawable()));
         onView(withId(R.id.profile_image)).perform(click());
         onView(withText(ALBUM)).perform(click());
