@@ -205,7 +205,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     }
 
     private void createAndAddThumbnail(Uri uri) {
-        Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.getPath());
+        Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.toString());
         Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, this);
         if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
         DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -228,8 +228,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         MediaMetadataRetriever mediaMetadataRetriever = null;
         try {
             mediaMetadataRetriever = new MediaMetadataRetriever();
-            //mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-            mediaMetadataRetriever.setDataSource(videoPath);
+            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
             bitmap = mediaMetadataRetriever.getFrameAtTime();
             //bitmap = mediaMetadataRetriever.getFrameAtTime(100000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
         } catch (Exception e) {

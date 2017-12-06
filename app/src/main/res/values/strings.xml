@@ -5,10 +5,7 @@
     <string name="submit">SUBMIT</string>
     <string name="country_city">Country, city</string>
     <string name="username">Username</string>
-    <string name="followings">Followings</string>
-    <string name="followers">Followers</string>
     <string name="friends">Friends</string>
-    <string name="_500">500</string>
     <string name="_220">220</string>
     <string name="log_out">Log out</string>
     <string name="author">Author</string>
@@ -53,7 +50,6 @@
     <string name="go_back"><![CDATA[<< Back]]></string>
     <string name="forgot_password_msg">We just need your registered Email to send you password reset instructions.</string>
     <string name="tags_title">Tags:</string>
-    <string name="remove">Remove</string>
 
     <!--Don't fix the follow lint!-->
     <string name="web_client_id">90372047742-46j4klcbiheuec6q73gbicrvubn2oetd.apps.googleusercontent.com</string>
