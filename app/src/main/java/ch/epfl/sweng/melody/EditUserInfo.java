@@ -17,6 +17,7 @@ import ch.epfl.sweng.melody.util.DialogUtils;
 public class EditUserInfo extends AppCompatActivity {
     User user;
     EditText displayName;
+    EditText userBio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +33,11 @@ public class EditUserInfo extends AppCompatActivity {
 
         user = MainActivity.getUser();
         displayName = findViewById(R.id.change_display_name);
+        userBio = findViewById(R.id.change_user_bio);
 
-
-        displayName.setHint(user.getDisplayName());
+        displayName.setText(user.getDisplayName());
         displayName.setTextColor(Color.GRAY);
+        userBio.setText(user.getBiography());
     }
 
 
@@ -45,8 +47,17 @@ public class EditUserInfo extends AppCompatActivity {
 
     public void changeUserProfile (View view) {
         String name = displayName.getText().toString();
+        String bio = userBio.getText().toString();
         if (!TextUtils.isEmpty(name)) {
-            user.setDisplayName(displayName.getText().toString());
+            user.setDisplayName(name);
+        }
+        if (!TextUtils.isEmpty(bio)) {
+            if(bio.length() > 500){
+                Toast.makeText(getApplicationContext(), R.string.bio_too_long, Toast.LENGTH_SHORT).show();
+                return;
+            }else {
+                user.setBiograhy(bio);
+            }
         }
 
         Intent intent = new Intent(this, UserProfileActivity.class);

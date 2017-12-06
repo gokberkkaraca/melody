@@ -70,4 +70,5 @@
     <string name="save">Save</string>
     <string name="change_profile_photo">Change profile photo</string>
     <string name="change_biography">Change biography</string>
+    <string name="bio_too_long">Your biography is too long</string>
 </resources>
