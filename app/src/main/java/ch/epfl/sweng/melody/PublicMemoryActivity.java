@@ -28,28 +28,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.Toast;
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.database.FirebaseBackgroundService;
 import ch.epfl.sweng.melody.location.LocationService;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
 import ch.epfl.sweng.melody.util.PermissionUtils;
@@ -195,115 +186,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         }
     }
 
-    private boolean isFriendsMemory(String memoryAuthorId) {
-        Map<String, UserContactInfo> Friends = user.getFriends();
-        for (UserContactInfo friend : Friends.values()) {
-            String friendUserId = friend.getUserId();
-            if(friendUserId.equals(memoryAuthorId))
-                return true;
-        }
-        return false;
-    }
-
-
-    private boolean isOwnMemory(String memoryAuthorId) {
-        if(user.getId().equals(memoryAuthorId))
-            return true;
-        else
-            return false;
-    }
-
-
-    private void fetchMemoriesFromDatabase() {
-        DatabaseHandler.getAllMemoriesWithSingleListener(new ValueEventListener() {  //Listener is only used on fetching
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                    Memory memory = memDataSnapshot.getValue(Memory.class);
-                    assert memory != null;
-
-                    if (memory.getLongId() > memoryStartTime) {
-                        if (isNewMemory(memory.getId())) {
-                            if (memory.getPrivacy() == Memory.Privacy.PUBLIC) {
-                                memoryList.add(memory);
-                                memoryAdapter.notifyDataSetChanged(); //memoryAdapter.notifyItemInserted(memoryList.size() - 1);
-                            }
-                            else if (isOwnMemory(memory.getUser().getId())){
-                                memoryList.add(memory);
-                                memoryAdapter.notifyDataSetChanged();
-                            }
-                            else if (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())) {
-                                memoryList.add(memory);
-                                memoryAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    }
-
-                }
-            }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }
-
-    private void createMemoriesListener() {
-        DatabaseHandler.setCustomListenerToMemories(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Memory memory = dataSnapshot.getValue(Memory.class);
-                assert memory != null;
-
-                if (memory.getLongId() > memoryStartTime) {
-                    if(memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId()) )){
-                        memoryList.add(memory);
-                        memoryAdapter.notifyItemInserted(memoryList.size() - 1); //Toast.makeText(getApplicationContext(), "New memories have been uploaded", Toast.LENGTH_LONG).show();
-                        //does not work because recyclerview keeps adding new memories at the bottom
-                    }
-                }
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Memory memory = dataSnapshot.getValue(Memory.class);
-                assert memory != null;
-                int position = memoryList.indexOf(memory);
-                if (position != -1) {
-                    memoryList.set(position, memory);
-                    memoryAdapter.notifyItemChanged(position);
-                };
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Memory memory = dataSnapshot.getValue(Memory.class);
-                assert memory != null;
-                int position = memoryList.indexOf(memory);
-                if (position != -1) {
-                    memoryList.remove(position);
-                    memoryAdapter.notifyItemRemoved(position);
-                };
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
-
-    private boolean isNewMemory(String memoryId) {
-        for (Memory m : memoryList) {
-            if (memoryId.equals(m.getId()))
-                return false;
-        }
-        return true;
-    }
-
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
@@ -318,7 +200,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 }).create().show();
     }
 
-    public void showDatePickerDialog() { //deleted View v because was unused
+    public void showDatePickerDialog() {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }

@@ -79,12 +79,4 @@ public class FetchingUtils {
         return false;
     }
 
-    private static boolean isNewMemory(String memoryId, List<Memory> memoryList) {
-        for (Memory m : memoryList) {
-            if (memoryId.equals(m.getId()))
-                return false;
-        }
-        return true;
-    }
-
 }
