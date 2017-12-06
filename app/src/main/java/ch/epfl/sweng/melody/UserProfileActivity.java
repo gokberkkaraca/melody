@@ -148,7 +148,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void editUserInfo (View view){
-        Intent intent = new Intent(this, EditUserInfo.class);
+        Intent intent = new Intent(this, EditUserInfoActivity.class);
         startActivity(intent);
     }
 

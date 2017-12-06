@@ -74,7 +74,7 @@
                 android:value="ch.epfl.sweng.melody.PublicMemoryActivity" />
         </activity>
         <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".EditUserInfo"
+        <activity android:name=".EditUserInfoActivity"
             android:parentActivityName=".UserProfileActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

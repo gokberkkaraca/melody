@@ -5,11 +5,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,7 +21,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -32,7 +31,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.DialogUtils;
 import ch.epfl.sweng.melody.util.MenuButtons;
@@ -40,14 +38,10 @@ import ch.epfl.sweng.melody.util.MenuButtons;
 import static ch.epfl.sweng.melody.database.DatabaseHandler.uploadUser;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_CAMERA;
-import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_VIDEO_GALLERY;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromCamera;
 import static ch.epfl.sweng.melody.util.PermissionUtils.photoFromGallery;
-import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromCamera;
-import static ch.epfl.sweng.melody.util.PermissionUtils.videoFromGallery;
 
-public class EditUserInfo extends AppCompatActivity {
+public class EditUserInfoActivity extends AppCompatActivity {
     private EditText displayName;
     private EditText userBio;
     private Uri profileUri;
@@ -185,7 +179,7 @@ public class EditUserInfo extends AppCompatActivity {
                     Uri url = taskSnapshot.getDownloadUrl();
                     MainActivity.getUser().setProfilePhotoUrl(url.toString());
                     DatabaseHandler.uploadUser(MainActivity.getUser());
-                    MenuButtons.goToUserProfileActivity(EditUserInfo.this);
+                    MenuButtons.goToUserProfileActivity(EditUserInfoActivity.this);
                     FirebaseUser firebaseUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                             .setPhotoUri(url)
