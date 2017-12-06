@@ -76,9 +76,15 @@ public class EditUserInfo extends AppCompatActivity {
         profileImage = findViewById(R.id.profile_image);
         backgroundImage = findViewById(R.id.background_image);
 
-        displayName.setText(user.getDisplayName());
-        displayName.setTextColor(Color.GRAY);
-        userBio.setText(user.getBiography());
+        displayName.setHint(user.getDisplayName());
+        displayName.setHintTextColor(Color.GRAY);
+        String bio = user.getBiography();
+        if(bio.isEmpty()){
+            userBio.setHint(R.string.describe_yourself);
+            userBio.setHintTextColor(Color.GRAY);
+        } else {
+            userBio.setText(bio);
+        }
 
         Picasso.with(getApplicationContext()).load(user.getProfilePhotoUrl()).into(profileImage);
         Picasso.with(getApplicationContext()).load(user.getBackgroundPhotoUrl()).into(backgroundImage);

@@ -72,4 +72,5 @@
     <string name="change_biography">Change biography</string>
     <string name="bio_too_long">Your biography is too long</string>
     <string name="change_background_photo">Change background photo</string>
+    <string name="describe_yourself">Describe yourself</string>
 </resources>
