@@ -183,7 +183,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                             .video(url)
                             .tags(selectedTags)
                             .build();
-                    //createAndAddThumbnail(resourceUri);
+                    //createAndAddThumbnail(resourceUri);    //this should create and upload the thumbnail of the memory and store it in the photoUrl which is not used for video
+                                                             // but since it fails to create the frame, this method fails
                 }
                 DatabaseHandler.uploadMemory(memory);
                 MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
@@ -203,27 +204,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         });
     }
 
-    public static void uploadThumbnail(final String memoryId, Bitmap thumbnail, Context context) {
-        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, context);
-        DatabaseHandler.uploadResource(thumbnailUri, context, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
-                DatabaseHandler.setMemoryThumbnail(memoryId, thumbnailUrl);
-            }
-        }, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {}
-        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
-        });
-    }
-
     private void createAndAddThumbnail(Uri uri) {
-        //Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.getPath());
-        //Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(uri.getPath(), MediaStore.Video.Thumbnails.MINI_KIND);
-        Bitmap thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+        Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.getPath());
         Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, this);
         if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
         DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -241,13 +223,15 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         });
     }
 
-    private Bitmap retrieveVideoFrameFromVideo(String videoPath) {
+    private Bitmap retrieveVideoFrameFromVideo(String videoPath) {      // This always return null, I don't understand why
         Bitmap bitmap = null;
         MediaMetadataRetriever mediaMetadataRetriever = null;
         try {
             mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            //mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
+            mediaMetadataRetriever.setDataSource(videoPath);
             bitmap = mediaMetadataRetriever.getFrameAtTime();
+            //bitmap = mediaMetadataRetriever.getFrameAtTime(100000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

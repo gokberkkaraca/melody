@@ -100,6 +100,7 @@
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
+                    android:id="@+id/locationBackground"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="bottom"

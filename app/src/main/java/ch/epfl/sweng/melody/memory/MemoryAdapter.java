@@ -3,6 +3,7 @@ package ch.epfl.sweng.melody.memory;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -140,13 +141,14 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.typeOfMemory.setImageResource(R.mipmap.photo_type);
             holder.picLayout.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.GONE);
+            if(memory.getSerializableLocation().getLocationName()==null) holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
             holder.typeOfMemory.setImageResource(R.mipmap.video);
             holder.picLayout.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.GONE);
+            if(memory.getSerializableLocation().getLocationName()==null) holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
             Bitmap thumbnail;
-            //if(memory.getPhotoUrl()==null) {
                 thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
                 if (thumbnail == null) {
                     if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
@@ -155,32 +157,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 }
                 thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
                 holder.memoryPic.setImageBitmap(thumbnail);
-                //CreateMemoryActivity.uploadThumbnail(memory.getId(), thumbnail, getView);
-            //} else {
-            //    Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
-            //}
-
         }
 
     }
-/*
-    private void createAndAddThumbnail() {
-        Bitmap thumbnail = retrieveVideoFrameFromVideo(resourceUri.toString());
-        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail);
-        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
-                memory.setThumbnailUrl(thumbnailUrl);
-            }
-        }, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {}
-        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
-        });
-    }*/
 
     @Override
     public int getItemCount() {
@@ -191,6 +170,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
         final TextView author, time, description, locationPic, locationText, likesNumberPublic, commentsNumberPublic;
         final ImageView authorPic, memoryPic, likeButton, typeOfMemory, hashOfMemory;
         final RelativeLayout picLayout;
+        final LinearLayout locationBackground;
 
 
         MemoriesViewHolder(View view) {
@@ -224,6 +204,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             commentsNumberPublic = view.findViewById(R.id.commentsNumberPublic);
             hashOfMemory = view.findViewById(R.id.hashOfMemory);
             picLayout = view.findViewById(R.id.picLayout);
+            locationBackground = view.findViewById(R.id.locationBackground);
         }
     }
 
