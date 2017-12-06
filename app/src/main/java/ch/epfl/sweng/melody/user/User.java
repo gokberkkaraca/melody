@@ -164,6 +164,18 @@ public class User implements Serializable {
         this.displayName = s;
     }
 
+    public void setProfilePhotoUrl (String s) {
+        this.profilePhotoUrl = s;
+    }
+
+    public String getBackgroundPhotoUrl () {
+        return backgroundPhotoUrl;
+    }
+
+    public void setBackgroundPhotoUrl (String s) {
+        this.backgroundPhotoUrl = s;
+    }
+
     private String encodeEmailForId(String email) {
         return email.replace('.', ',');
     }

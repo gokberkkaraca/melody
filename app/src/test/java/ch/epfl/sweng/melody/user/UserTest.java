@@ -155,6 +155,23 @@ public class UserTest {
     }
 
     @Test
+    public void setProfilePhotoUrl () {
+        user.setProfilePhotoUrl(defaultProfilePhotoUrl);
+        assertEquals(user.getProfilePhotoUrl(), defaultProfilePhotoUrl);
+    }
+
+    @Test
+    public void  getBackgroundPhotoUrl () {
+        assertEquals(user.getBackgroundPhotoUrl(), defaultProfilePhotoUrl);
+    }
+
+    @Test
+    public void setBackgroundPhotoUrl () {
+        user.setBackgroundPhotoUrl(defaultProfilePhotoUrl);
+        assertEquals(user.getBackgroundPhotoUrl(), defaultProfilePhotoUrl);
+    }
+
+    @Test
     public void setDisplayName () {
         String name = "Pikachu";
         user.setDisplayName(name);
