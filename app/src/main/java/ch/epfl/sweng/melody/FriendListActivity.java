@@ -32,12 +32,12 @@ public class FriendListActivity extends AppCompatActivity {
     private FriendAdapter userAdapter;
     private List<UserContactInfo> allUsers;
     private List<UserContactInfo> usersToDisplay;
+    private boolean isFriends = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
-
 
         Intent intent = getIntent();
         String isRequestsExtra = intent.getStringExtra(EXTRA_GOINGTOREQUESTS);
@@ -47,27 +47,8 @@ public class FriendListActivity extends AppCompatActivity {
         if (isRequests) {
             usersToDisplay = MainActivity.getUser().getFriendshipListRequests();
             ((TextView) findViewById(R.id.friends_toolbar_title)).setText(R.string.my_friends_requests);
-        } else {
-            usersToDisplay = new ArrayList<>();
-            DatabaseHandler.getAllUsers(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot userDataSnapshot : dataSnapshot.getChildren()) {
-                        User user = userDataSnapshot.getValue(User.class);
-                        assert user != null;
-                        usersToDisplay.add(user.getUserContactInfo());
-                    }
-                    userAdapter = new FriendAdapter(usersToDisplay);
-                    usersRecyclerView.setAdapter(userAdapter);
-                    allUsers = new ArrayList<>(usersToDisplay);
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+        } else if (isFriends) {
+            usersToDisplay = MainActivity.getUser().getListFriends();
         }
 
         setTitle("");
