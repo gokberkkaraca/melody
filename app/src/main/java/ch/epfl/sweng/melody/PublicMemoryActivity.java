@@ -101,7 +101,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
         myToolbar.setTitle("Melody");
 
-        if(user!=null) {
+        if (user != null) {
             switch (colorValue) {
                 case "1":
                     user.setThemeColor(User.ThemeColor.RED);

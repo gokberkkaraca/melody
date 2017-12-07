@@ -69,7 +69,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         displayName.setHint(user.getDisplayName());
         displayName.setHintTextColor(Color.GRAY);
         String bio = user.getBiography();
-        if(bio.isEmpty()){
+        if (bio.isEmpty()) {
             userBio.setHint(R.string.describe_yourself);
             userBio.setHintTextColor(Color.GRAY);
         } else {
@@ -79,8 +79,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
         Picasso.with(getApplicationContext()).load(user.getProfilePhotoUrl()).into(profileImage);
     }
 
-    public void changeProfileImage (View view) {
-        picture=null;
+    public void changeProfileImage(View view) {
+        picture = null;
         DialogUtils.pickPhotoDialog(this);
         profileImage.setImageBitmap(picture);
     }
@@ -157,17 +157,17 @@ public class EditUserInfoActivity extends AppCompatActivity {
         return resultUri;
     }
 
-    public void changeUserProfile (View view) {
+    public void changeUserProfile(View view) {
         String name = displayName.getText().toString();
         String bio = userBio.getText().toString();
         if (!TextUtils.isEmpty(name)) {
             MainActivity.getUser().setDisplayName(name);
         }
         if (!TextUtils.isEmpty(bio)) {
-            if(bio.length() > 300){
+            if (bio.length() > 300) {
                 Toast.makeText(getApplicationContext(), R.string.bio_too_long, Toast.LENGTH_SHORT).show();
                 return;
-            }else {
+            } else {
                 MainActivity.getUser().setBiograhy(bio);
             }
         }

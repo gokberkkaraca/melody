@@ -3,7 +3,6 @@ package ch.epfl.sweng.melody.util;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,8 @@ public class FetchingUtils {
                 if (position != -1) {
                     memList.set(position, memory);
                     memAdapter.notifyItemChanged(position);
-                };
+                }
+                ;
             }
 
             @Override
@@ -58,14 +58,17 @@ public class FetchingUtils {
                 if (position != -1) {
                     memList.remove(position);
                     memAdapter.notifyItemRemoved(position);
-                };
+                }
+                ;
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
     }
 
@@ -73,7 +76,7 @@ public class FetchingUtils {
         Map<String, UserContactInfo> Friends = MainActivity.getUser().getFriends();
         for (UserContactInfo friend : Friends.values()) {
             String friendUserId = friend.getUserId();
-            if(friendUserId.equals(memoryAuthorId))
+            if (friendUserId.equals(memoryAuthorId))
                 return true;
         }
         return false;

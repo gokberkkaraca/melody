@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.UploadTask;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -28,10 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import ch.epfl.sweng.melody.CreateMemoryActivity;
 import ch.epfl.sweng.melody.DetailedMemoryActivity;
 import ch.epfl.sweng.melody.MainActivity;
-import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.UserProfileActivity;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
@@ -119,17 +114,28 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.hashOfMemory.setImageResource(R.mipmap.hash_without);
         }
 
-        final User user = memory.getUser();
-        holder.author.setText(user.getDisplayName());
-        new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
-
-
-        holder.authorPic.setOnClickListener(new View.OnClickListener() {
+        DatabaseHandler.getUser(memory.getUser().getId(), new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
-                intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
-                v.getContext().startActivity(intent);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                holder.author.setText(user.getDisplayName());
+                new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
+
+
+                holder.authorPic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                        intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
+                        v.getContext().startActivity(intent);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -141,22 +147,24 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.typeOfMemory.setImageResource(R.mipmap.photo_type);
             holder.picLayout.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.GONE);
-            if(memory.getSerializableLocation().getLocationName()==null) holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
+            if (memory.getSerializableLocation().getLocationName() == null)
+                holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
             holder.typeOfMemory.setImageResource(R.mipmap.video);
             holder.picLayout.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.GONE);
-            if(memory.getSerializableLocation().getLocationName()==null) holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
+            if (memory.getSerializableLocation().getLocationName() == null)
+                holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
             Bitmap thumbnail;
-                thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
-                if (thumbnail == null) {
-                    if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
-                    thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
-                    addBitmapToMemoryCache(memory.getId(), thumbnail);
-                }
+            thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
+            if (thumbnail == null) {
+                if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
                 thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
-                holder.memoryPic.setImageBitmap(thumbnail);
+                addBitmapToMemoryCache(memory.getId(), thumbnail);
+            }
+            thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+            holder.memoryPic.setImageBitmap(thumbnail);
         }
 
     }
