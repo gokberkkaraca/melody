@@ -68,9 +68,9 @@
                     android:id="@+id/privacyOfMemory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
+                    android:padding="3dp"
                     android:src="@mipmap/public_memory"
                     tools:ignore="ContentDescription" />
 
@@ -78,9 +78,9 @@
                     android:id="@+id/hashOfMemory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/privacyOfMemory"
+                    android:padding="3dp"
                     android:src="@mipmap/hash_with"
                     tools:ignore="ContentDescription" />
 
@@ -103,11 +103,11 @@
                     android:id="@+id/locationBackground"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:gravity="bottom"
-                    android:background="@color/whiteBackground"
-                    android:orientation="vertical"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true">
+                    android:layout_alignParentStart="true"
+                    android:background="@color/whiteBackground"
+                    android:gravity="bottom"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/locationPic"
@@ -135,8 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
                     android:text="@string/serializableLocation"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/description"
