@@ -26,7 +26,7 @@ public class FetchingUtils {
 
                 if (user == null) {
                     if (memory.getLongId() > memoryStartTime) {
-                        if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && (isFriendsMemory(memory.getUser().getId()) || memory.getUser().equals(MainActivity.getUser())))) {
+                        if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())) || memory.getUser().equals(MainActivity.getUser())) {
                             memList.add(memory);
                             memAdapter.notifyItemInserted(memList.size() - 1);
                         }
