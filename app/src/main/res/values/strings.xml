@@ -69,4 +69,6 @@
     <string name="change_biography">Change biography</string>
     <string name="bio_too_long">Your biography is too long</string>
     <string name="describe_yourself">Describe yourself</string>
+    <string name="friends_switch">Friends</string>
+    <string name="search_users">Search Users</string>
 </resources>

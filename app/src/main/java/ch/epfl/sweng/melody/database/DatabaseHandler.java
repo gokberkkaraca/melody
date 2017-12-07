@@ -47,7 +47,7 @@ public class DatabaseHandler {
     }
 
     public static void getAllUsers(ValueEventListener vel) {
-        databaseReference.child(DATABASE_USERS_PATH).addValueEventListener(vel);
+        databaseReference.child(DATABASE_USERS_PATH).addListenerForSingleValueEvent(vel);
     }
 
     static void getUserFriendRequest(String userId, ChildEventListener childEventListener) {
