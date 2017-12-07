@@ -39,16 +39,15 @@ public class UserProfileActivity extends AppCompatActivity {
     public static final String EXTRA_USER_ID = "ch.epfl.sweng.USERID";
 
     private static User currentUser;
-    private Boolean isMyself = true;
-    private TextView edit;
-    private TextView bio;
-
     private static RecyclerView recyclerViewDetail;
     private static MemoryAdapter memoryAdapterDetail;
     private static Parcelable recyclerViewStateDetail;
     private static RecyclerView.LayoutManager mLayoutManagerDetail;
-    private List<Memory> memoryListDetail; //not the same as the one in the public activity !
     private static long memoryStartTimeDetail = 0L;
+    private Boolean isMyself = true;
+    private TextView edit;
+    private TextView bio;
+    private List<Memory> memoryListDetail; //not the same as the one in the public activity !
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         getUserFromServer(userId);
 
-        if(isMyself || (currentUser != null && MainActivity.getUser().isFriendWith(currentUser))) {
+        if (isMyself || (currentUser != null && MainActivity.getUser().isFriendWith(currentUser))) {
 
             memoryListDetail = new ArrayList<>();
 
@@ -83,7 +82,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
             //fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
             createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
-                                                                                                            //anything should change because
+            //anything should change because
 
             recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
         }
@@ -199,7 +198,7 @@ public class UserProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    public void editUserInfo (View view){
+    public void editUserInfo(View view) {
         Intent intent = new Intent(this, EditUserInfoActivity.class);
         startActivity(intent);
     }

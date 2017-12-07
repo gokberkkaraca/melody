@@ -76,6 +76,10 @@ public class User implements Serializable {
         return displayName;
     }
 
+    public void setDisplayName(String s) {
+        this.displayName = s;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -116,6 +120,10 @@ public class User implements Serializable {
         return profilePhotoUrl;
     }
 
+    public void setProfilePhotoUrl(String s) {
+        this.profilePhotoUrl = s;
+    }
+
     public String getDefaultProfilePhotoUrl() {
         return defaultProfilePhotoUrl;
     }
@@ -152,27 +160,19 @@ public class User implements Serializable {
         notificationsOn = b;
     }
 
-    public String getBiography () {
+    public String getBiography() {
         return biography;
     }
 
-    public void setBiograhy (String s) {
+    public void setBiograhy(String s) {
         this.biography = s;
     }
 
-    public void setDisplayName (String s) {
-        this.displayName = s;
-    }
-
-    public void setProfilePhotoUrl (String s) {
-        this.profilePhotoUrl = s;
-    }
-
-    public String getBackgroundPhotoUrl () {
+    public String getBackgroundPhotoUrl() {
         return backgroundPhotoUrl;
     }
 
-    public void setBackgroundPhotoUrl (String s) {
+    public void setBackgroundPhotoUrl(String s) {
         this.backgroundPhotoUrl = s;
     }
 

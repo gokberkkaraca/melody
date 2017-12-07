@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.SearchView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -46,12 +45,10 @@ public class FriendListActivity extends AppCompatActivity {
             allFriends = null;
             friendsToDisplay = MainActivity.getUser().getFriendshipListRequests();
             ((TextView) findViewById(R.id.friends_toolbar_title)).setText(R.string.my_friends_requests);
-        }
-        else if(userList.equals("friends")) {
+        } else if (userList.equals("friends")) {
             allFriends = MainActivity.getUser().getListFriends();
             friendsToDisplay = MainActivity.getUser().getListFriends();
-        }
-        else {
+        } else {
             allFriends = new ArrayList<>();
             friendsToDisplay = new ArrayList<>();
             DatabaseHandler.getAllUsers(new ValueEventListener() {

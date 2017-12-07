@@ -8,8 +8,6 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -36,7 +34,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -75,6 +72,28 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     private String memoryDescription;
     private Memory memory;
     private SerializableLocation serializableLocation = new SerializableLocation();
+
+    public static Uri saveResultToFile(String targetFolder, String resourceType, Bitmap pic, Context context) {
+
+        Uri resultUri = null;
+
+        File targetDir = new File(context.getCacheDir().toString() + targetFolder); //File targetDir = new File(this.getCacheDir().toString() + targetFolder);
+        targetDir.mkdirs();
+
+        String filename = UUID.randomUUID().toString().substring(0, 8) + "." + resourceType;
+        File file = new File(targetDir, filename);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            pic.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.close();
+            resultUri = Uri.fromFile(file);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            Toast.makeText(context, "Error occurred while choosing resource from camera", Toast.LENGTH_LONG).show();
+        }
+
+        return resultUri;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,64 +165,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         Toast.makeText(getApplicationContext(), "Memory is shared!", Toast.LENGTH_SHORT).show();
     }
 
-
-    public void sendMemory(View view) {
-        memoryDescription = editText.getText().toString();
-        if (memoryDescription.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Say something!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (resourceUri == null) {
-            memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
-                    .tags(selectedTags)
-                    .build();
-            DatabaseHandler.uploadMemory(memory);
-            Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
-            MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
-            return;
-        }
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading Memory...");
-        progressDialog.show();
-
-        DatabaseHandler.uploadResource(resourceUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
-                String url = taskSnapshot.getDownloadUrl().toString();
-                if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
-                            .photo(url)
-                            .tags(selectedTags)
-                            .build();
-                } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
-                            .video(url)
-                            .tags(selectedTags)
-                            .build();
-                    //createAndAddThumbnail(resourceUri);    //this should create and upload the thumbnail of the memory and store it in the photoUrl which is not used for video
-                                                             // but since it fails to create the frame, this method fails
-                }
-                DatabaseHandler.uploadMemory(memory);
-                MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
-            }
-        }, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                progressDialog.setMessage("Uploaded " + (int) progress + "%");
-            }
-        });
-    }
-
     //These methods will create the thumbnail and upload it to the server but there is still a bug
 
     /*
@@ -243,6 +204,63 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         }
         return bitmap;
     }*/
+
+    public void sendMemory(View view) {
+        memoryDescription = editText.getText().toString();
+        if (memoryDescription.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Say something!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (resourceUri == null) {
+            memoryType = Memory.MemoryType.TEXT;
+            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
+                    .tags(selectedTags)
+                    .build();
+            DatabaseHandler.uploadMemory(memory);
+            Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
+            MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
+            return;
+        }
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading Memory...");
+        progressDialog.show();
+
+        DatabaseHandler.uploadResource(resourceUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
+                String url = taskSnapshot.getDownloadUrl().toString();
+                if (memoryType == Memory.MemoryType.PHOTO) {
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
+                            .photo(url)
+                            .tags(selectedTags)
+                            .build();
+                } else if (memoryType == Memory.MemoryType.VIDEO) {
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
+                            .video(url)
+                            .tags(selectedTags)
+                            .build();
+                    //createAndAddThumbnail(resourceUri);    //this should create and upload the thumbnail of the memory and store it in the photoUrl which is not used for video
+                    // but since it fails to create the frame, this method fails
+                }
+                DatabaseHandler.uploadMemory(memory);
+                MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
+            }
+        }, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                progressDialog.setMessage("Uploaded " + (int) progress + "%");
+            }
+        });
+    }
 
     public void fetchTagsFromDatabase() {
         DatabaseHandler.getAllTags(new ValueEventListener() {
@@ -320,12 +338,12 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
             } catch (IOException e) {
                 e.printStackTrace();// this one is not good and need to be discussed
             }
-        // }
-        videoView.setVisibility(View.GONE);
-        imageView.setVisibility(View.VISIBLE);
-        imageView.setImageBitmap(picture);
-        if (data != null) resourceUri = data.getData();
-        memoryType = Memory.MemoryType.PHOTO;
+            // }
+            videoView.setVisibility(View.GONE);
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setImageBitmap(picture);
+            if (data != null) resourceUri = data.getData();
+            memoryType = Memory.MemoryType.PHOTO;
         }
     }
 
@@ -341,30 +359,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         }
     }
 
-    public static Uri saveResultToFile(String targetFolder, String resourceType, Bitmap pic, Context context) {
-
-        Uri resultUri = null;
-
-        File targetDir = new File(context.getCacheDir().toString() + targetFolder); //File targetDir = new File(this.getCacheDir().toString() + targetFolder);
-        targetDir.mkdirs();
-
-        String filename = UUID.randomUUID().toString().substring(0, 8) + "." + resourceType;
-        File file = new File(targetDir, filename);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            pic.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-            resultUri = Uri.fromFile(file);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            Toast.makeText(context, "Error occurred while choosing resource from camera", Toast.LENGTH_LONG).show();
-        }
-
-        return resultUri;
-    }
-
     private void onVideoFromGalleryResult(Intent data) {
-        if(data != null) {
+        if (data != null) {
             videoView.setVisibility(View.VISIBLE);
             imageView.setVisibility(View.GONE);
             resourceUri = data.getData();
@@ -375,7 +371,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     }
 
     private void onVideoFromCameraResult(Intent data) {
-        if(data != null) {
+        if (data != null) {
             videoView.setVisibility(View.VISIBLE);
             imageView.setVisibility(View.GONE);
             resourceUri = data.getData();
