@@ -25,27 +25,7 @@ public class PublicMemoryActivityTest extends ActivityTest {
 
     @Rule
     public final IntentsTestRule<PublicMemoryActivity> publicMemoryActivityIntentsTestRule =
-            new IntentsTestRule<PublicMemoryActivity>(PublicMemoryActivity.class, false, true) {
-                @Override
-                protected Intent getActivityIntent() {
-
-                    User user;
-                    final FirebaseUser firebaseUser = mock(FirebaseUser.class);
-                    when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
-                    when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
-                    String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
-                    when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
-                    user = new User(firebaseUser);
-
-                    Context targetContext = getInstrumentation()
-                            .getTargetContext();
-                    Intent intent = new Intent(targetContext, PublicMemoryActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("USER", user);
-                    intent.putExtras(bundle);
-                    return intent;
-                }
-            };
+            new IntentsTestRule<PublicMemoryActivity>(PublicMemoryActivity.class, false, true);
 
     @Test
     public void datePickerWorks() throws Exception {
