@@ -84,19 +84,12 @@ public class FriendListActivity extends AppCompatActivity {
     public void filter(String text) {
 
         friendsToDisplay.clear();
-
-        if (text.isEmpty()){
-            friendsToDisplay.addAll(allFriends);
+        for (UserContactInfo friend : allFriends) {
+            if (friend.getDisplayName().contains(text))
+                friendsToDisplay.add(friend);
+            else if (friend.getEmail().contains(text))
+                friendsToDisplay.add(friend);
         }
-        else {
-            for (UserContactInfo friend : allFriends) {
-                if (friend.getDisplayName().contains(text))
-                    friendsToDisplay.add(friend);
-                else if (friend.getEmail().contains(text))
-                    friendsToDisplay.add(friend);
-            }
-        }
-
         friendAdapter.notifyDataSetChanged();
     }
 }
