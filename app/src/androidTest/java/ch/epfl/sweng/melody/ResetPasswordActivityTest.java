@@ -39,7 +39,7 @@ public class ResetPasswordActivityTest {
 
     @Test
     public void sendValidResetPasswordEmailTest() throws Exception {
-        onView(withId(R.id.reset_email)).perform(typeText("xjcmaxwell@163.com")).perform(closeSoftKeyboard());
+        onView(withId(R.id.reset_email)).perform(typeText("itcompiles.melody@gmail.com")).perform(closeSoftKeyboard());
         onView(withId(R.id.reset_password_button)).perform(click());
         Thread.sleep(1500);
         onView(withText(R.string.send_reset_password_email)).inRoot(toastMatcher).check(matches(isDisplayed()));
