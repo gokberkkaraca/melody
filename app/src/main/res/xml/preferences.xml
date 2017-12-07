@@ -16,6 +16,14 @@
         android:title="Notifications" />
 
     <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/checkLocationList"
+        android:entryValues="@array/checkLocationValues"
+        android:key="checkLocationTime"
+        android:summary="Select a period for when your location is checked."
+        android:title="Time period" />
+
+    <ListPreference
         android:defaultValue="1"
         android:entries="@array/minRadiusList"
         android:entryValues="@array/minRadiusListValues"
