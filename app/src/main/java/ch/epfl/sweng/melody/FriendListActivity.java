@@ -75,21 +75,28 @@ public class FriendListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                filter(newText);
                 return false;
             }
         });
     }
 
     public void filter(String text) {
+
         friendsToDisplay.clear();
-        for (UserContactInfo friend : allFriends) {
-            if(text.equals(friend.getDisplayName()))
-                friendsToDisplay.add(friend);
-            if(text.equals(friend.getEmail()))
-                friendsToDisplay.add(friend);
+
+        if (text.isEmpty()){
+            friendsToDisplay.addAll(allFriends);
         }
+        else {
+            for (UserContactInfo friend : allFriends) {
+                if (friend.getDisplayName().contains(text))
+                    friendsToDisplay.add(friend);
+                else if (friend.getEmail().contains(text))
+                    friendsToDisplay.add(friend);
+            }
+        }
+
         friendAdapter.notifyDataSetChanged();
     }
-
-
 }
