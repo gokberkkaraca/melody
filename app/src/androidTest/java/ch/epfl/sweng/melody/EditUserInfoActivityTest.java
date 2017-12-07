@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.rule.ActivityTestRule;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -46,8 +45,8 @@ public class EditUserInfoActivityTest {
 
     private final String biography = "";
     @Rule
-    public final ActivityTestRule<EditUserInfoActivity> editUserInfoActivityIntentsTestRule =
-            new ActivityTestRule<>(EditUserInfoActivity.class);
+    public final IntentsTestRule<EditUserInfoActivity> editUserInfoActivityIntentsTestRule =
+            new IntentsTestRule<>(EditUserInfoActivity.class);
 
     private final String CAMERA = "Camera";
     private final String CANCEL = "Cancel";
