@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.melody.matcherUtil.ToastMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -66,5 +67,10 @@ public class SignUpActivityTest {
         onView(withId(R.id.create_new_password)).perform(typeText("hellojiacheng")).perform(closeSoftKeyboard());
         onView(withId(R.id.create_display_name)).perform(typeText("kebab")).perform(closeSoftKeyboard());
         onView(withId(R.id.register_button)).perform(click());
+    }
+
+    @Test
+    public void onBackPressedTest(){
+        pressBack();
     }
 }
