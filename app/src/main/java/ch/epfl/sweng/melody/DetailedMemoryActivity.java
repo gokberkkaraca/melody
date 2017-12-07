@@ -111,7 +111,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface arg0, int arg1) {
-                        if(insidePublicActivity)
+                        if (insidePublicActivity)
                             MenuButtons.goToPublicMemoryActivity(view.getContext());
                         else {
                             Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
@@ -198,7 +198,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 memory = dataSnapshot.getValue(Memory.class);
 
-                if(memory != null) {
+                if (memory != null) {
 
                     RelativeLayout memoryImageOrVideo = findViewById(R.id.memoryImageOrVideo);
 
@@ -283,7 +283,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     final TextView likeNumber = findViewById(R.id.likeNumber);
                     likeNumber.setText(memory.getLikes().size() + "");
 
-                    if(memory.getUser().equals(MainActivity.getUser()))
+                    if (memory.getUser().equals(MainActivity.getUser()))
                         findViewById(R.id.removeMemory).setVisibility(View.VISIBLE);
 
                     commentList = new ArrayList<>(memory.getComments().values());
@@ -315,8 +315,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                             if (memory.getLikes().contains(MainActivity.getUser())) {
                                 memory.getLikes().remove(MainActivity.getUser());
                                 likeButton.setImageResource(R.mipmap.like_without);
-                            }
-                            else {
+                            } else {
                                 memory.getLikes().add(MainActivity.getUser());
                                 likeButton.setImageResource(R.mipmap.like_with);
                             }

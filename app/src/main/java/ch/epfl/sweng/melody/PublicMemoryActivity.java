@@ -52,7 +52,7 @@ import static ch.epfl.sweng.melody.util.PermissionUtils.locationManager;
 
 public class PublicMemoryActivity extends AppCompatActivity implements DialogInterface.OnDismissListener { //extended FragmentActivity before
 
-    public static final String EXTRA_GOINGTOREQUESTS = "ch.epfl.sweng.GOINGTOREQUESTS";
+    public static final String EXTRA_GOING_TO_USER_LIST = "ch.epfl.sweng.GOING_TO_USER_LISTS";
     public static boolean insidePublicActivity;
     public static LruCache<String, Bitmap> mMemoryCache;
     private static MemoryAdapter memoryAdapter;
@@ -101,7 +101,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
         myToolbar.setTitle("Melody");
 
-        if(user!=null) {
+        if (user != null) {
             switch (colorValue) {
                 case "1":
                     user.setThemeColor(User.ThemeColor.RED);
@@ -267,15 +267,21 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 showDatePickerDialog();
                 return true;
 
+            case R.id.user_search_item:
+                intent = new Intent(this, FriendListActivity.class);
+                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "all");
+                this.startActivity(intent);
+                return true;
+
             case R.id.see_friends_item:
                 intent = new Intent(this, FriendListActivity.class);
-                intent.putExtra(EXTRA_GOINGTOREQUESTS, "false");
+                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "friends");
                 this.startActivity(intent);
                 return true;
 
             case R.id.friends_requests_item:
                 intent = new Intent(this, FriendListActivity.class);
-                intent.putExtra(EXTRA_GOINGTOREQUESTS, "true");
+                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "requests");
                 this.startActivity(intent);
                 return true;
 

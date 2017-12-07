@@ -6,6 +6,10 @@
         android:title="@string/time_changing"></item>
 
     <item
+        android:id="@+id/user_search_item"
+        android:title="@string/search_users"></item>
+
+    <item
         android:id="@+id/see_friends_item"
         android:title="@string/show_friends"></item>
 

@@ -26,11 +26,11 @@
             android:id="@+id/edit_userInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/profilePicView"
-            android:layout_toEndOf="@+id/profilePicView"
-            android:layout_marginStart="20dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/profilePicView"
             android:onClick="editUserInfo"
             android:text="@string/edit"
             android:textColor="@color/blueDark"
@@ -55,14 +55,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/username"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="20dp"
-            android:maxLines="4"
-            android:layout_marginEnd="20dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:maxLines="4"
             android:textColor="@color/black"
-            android:textSize="14sp"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
@@ -73,38 +73,38 @@
         android:layout_below="@+id/relativeLayout"
         android:layout_marginTop="8dp"
         android:baselineAligned="false"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/friendsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/friends"
-                android:textColor="#000"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/friendsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/friends"
+            android:textColor="#000"
+            android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/friends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/_220"
-                android:textColor="#000" />
+        <TextView
+            android:id="@+id/friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/_220"
+            android:textColor="#000" />
 
     </LinearLayout>
 
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/linearLayout"
         android:layout_alignParentStart="true"
-        android:gravity="end"
-        android:id="@+id/linearLayout3">
+        android:gravity="end">
 
         <Button
             android:id="@+id/log_out"
@@ -136,11 +136,11 @@
         android:id="@+id/showMemoriesLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout3"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout2"
         android:orientation="vertical"
-        android:textColor="#000"
-        android:layout_above="@+id/linearLayout3">
+        android:textColor="#000">
 
         <TextView
             android:id="@+id/youAreFriends"
@@ -195,8 +195,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 
