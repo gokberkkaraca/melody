@@ -33,9 +33,6 @@ public class PublicMemoryActivityTest extends ActivityTest {
         Thread.sleep(2000);
         onView(withText("Time travel")).perform(click());
         onView(withText("OK")).perform(click());
-        //SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());    We no longer have this button
-        //Date currtTime = Calendar.getInstance().getTime();
-        //onView(withId(R.id.dateButton)).check(matches(withText(dateFormat.format(currtTime))));
     }
 
     @Test
