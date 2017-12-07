@@ -38,6 +38,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
