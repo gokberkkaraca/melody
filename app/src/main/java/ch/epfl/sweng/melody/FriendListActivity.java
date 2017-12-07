@@ -8,6 +8,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class FriendListActivity extends AppCompatActivity {
     DividerItemDecoration dividerItemDecoration;
     private RecyclerView friendsRecyclerView;
     private FriendAdapter friendAdapter;
+    private List<UserContactInfo> allFriends = MainActivity.getUser().getListFriends();
     private List<UserContactInfo> friendsToDisplay = MainActivity.getUser().getListFriends();
 
     @Override
@@ -61,7 +63,33 @@ public class FriendListActivity extends AppCompatActivity {
 
         friendAdapter = new FriendAdapter(friendsToDisplay);
         friendsRecyclerView.setAdapter(friendAdapter);
+
+        SearchView simpleSearchView = findViewById(R.id.search_view);
+
+        simpleSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return false;
+            }
+        });
     }
 
+    public void filter(String text) {
 
+        friendsToDisplay.clear();
+        for (UserContactInfo friend : allFriends) {
+            if (friend.getDisplayName().contains(text))
+                friendsToDisplay.add(friend);
+            else if (friend.getEmail().contains(text))
+                friendsToDisplay.add(friend);
+        }
+        friendAdapter.notifyDataSetChanged();
+    }
 }
