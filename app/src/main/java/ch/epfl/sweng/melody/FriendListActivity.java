@@ -11,9 +11,16 @@ import android.support.v7.widget.Toolbar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.FriendAdapter;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 
 import static ch.epfl.sweng.melody.PublicMemoryActivity.EXTRA_GOINGTOREQUESTS;
@@ -23,14 +30,14 @@ public class FriendListActivity extends AppCompatActivity {
     DividerItemDecoration dividerItemDecoration;
     private RecyclerView friendsRecyclerView;
     private FriendAdapter friendAdapter;
-    private List<UserContactInfo> allFriends = MainActivity.getUser().getListFriends();
-    private List<UserContactInfo> friendsToDisplay = MainActivity.getUser().getListFriends();
+    private List<UserContactInfo> allFriends;
+    private List<UserContactInfo> friendsToDisplay;
+    private boolean isOnlyFriends = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
-
 
         Intent intent = getIntent();
         String isRequestsExtra = intent.getStringExtra(EXTRA_GOINGTOREQUESTS);
@@ -38,22 +45,46 @@ public class FriendListActivity extends AppCompatActivity {
         Boolean isRequests = Boolean.valueOf(isRequestsExtra);
 
         if (isRequests) {
+            allFriends = null;
             friendsToDisplay = MainActivity.getUser().getFriendshipListRequests();
             ((TextView) findViewById(R.id.friends_toolbar_title)).setText(R.string.my_friends_requests);
-        } else {
+        }
+        else if(isOnlyFriends) {
+            allFriends = MainActivity.getUser().getListFriends();
             friendsToDisplay = MainActivity.getUser().getListFriends();
+        }
+        else {
+            allFriends = new ArrayList<>();
+            friendsToDisplay = new ArrayList<>();
+            DatabaseHandler.getAllUsers(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot userDataSnapshot : dataSnapshot.getChildren()) {
+                        User user = userDataSnapshot.getValue(User.class);
+                        assert user != null;
+                        friendsToDisplay.add(user.getUserContactInfo());
+                        allFriends.add(user.getUserContactInfo());
+                    }
+
+                    friendAdapter = new FriendAdapter(friendsToDisplay);
+                    friendsRecyclerView.setAdapter(friendAdapter);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
 
         setTitle("");
-        Toolbar friendToolbar = (Toolbar) findViewById(R.id.friends_toolbar);
+        Toolbar friendToolbar = findViewById(R.id.friends_toolbar);
         setSupportActionBar(friendToolbar);
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        friendsRecyclerView = (RecyclerView) findViewById(R.id.friends_recyclerView);
-
-        //friendsRecyclerView.setHasFixedSize(true); //improve performance but keep it ?
+        friendsRecyclerView = findViewById(R.id.friends_recyclerView);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         friendsRecyclerView.setLayoutManager(mLayoutManager);
