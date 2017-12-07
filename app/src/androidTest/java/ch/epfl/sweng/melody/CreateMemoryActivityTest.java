@@ -49,8 +49,8 @@ public class CreateMemoryActivityTest {
     private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/test%2F1511912988772.mp4?alt=media&token=63b36ece-25b4-4f6f-a664-095a95ce2562";
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
     @Rule
-    public final ActivityTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
-            new ActivityTestRule<>(CreateMemoryActivity.class);
+    public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
+            new IntentsTestRule<>(CreateMemoryActivity.class);
 
     private final String CAMERA = "Camera";
     private final String CANCEL = "Cancel";
