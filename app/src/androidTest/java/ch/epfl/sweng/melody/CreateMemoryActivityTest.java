@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -49,24 +50,8 @@ public class CreateMemoryActivityTest {
     private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
     @Rule
     public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
-            new IntentsTestRule<CreateMemoryActivity>(CreateMemoryActivity.class) {
-                @Override
-                protected Intent getActivityIntent() {
-                    User user;
-                    final FirebaseUser firebaseUser = mock(FirebaseUser.class);
-                    when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
-                    when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
-                    when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
-                    user = new User(firebaseUser);
-                    Context targetContext = InstrumentationRegistry.getInstrumentation()
-                            .getTargetContext();
-                    Intent intent = new Intent(targetContext, CreateMemoryActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("USER", user);
-                    intent.putExtras(bundle);
-                    return intent;
-                }
-            };
+            new IntentsTestRule<>(CreateMemoryActivity.class);
+
     private final String CAMERA = "Camera";
     private final String CANCEL = "Cancel";
     private final String ALBUM = "Choose from Album";
@@ -89,8 +74,6 @@ public class CreateMemoryActivityTest {
 
         toastMatcher = new ToastMatcher();
         viewMatcher = new ViewMatcher();
-
-
     }
 
 
