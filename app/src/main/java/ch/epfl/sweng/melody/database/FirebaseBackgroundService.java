@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
+import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 
 
@@ -143,22 +144,36 @@ public class FirebaseBackgroundService extends Service {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                    Memory memory = memDataSnapshot.getValue(Memory.class);
+                    final  Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
 
-                    boolean isNewMemory = memory.getLongId() < latestMemoryId;
-                    boolean isFirstLogin = latestMemoryId == Long.MAX_VALUE || memoryCounter == 0;
-                    boolean isUsersMemory = memory.getUser().getId().equals(MainActivity.getUser().getId());
+                    final boolean isNewMemory = memory.getLongId() < latestMemoryId;
+                    final boolean isFirstLogin = latestMemoryId == Long.MAX_VALUE || memoryCounter == 0;
+                    final boolean isUsersMemory = memory.getUser().getId().equals(MainActivity.getUser().getId());
+                    final boolean isNotPrivate = memory.getPrivacy()!= Memory.Privacy.PRIVATE;
+                    DatabaseHandler.getUser(memory.getUser().getId(), new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User user = dataSnapshot.getValue(User.class);
+                            boolean isFromFriend = user.isFriendWith(MainActivity.getUser());
+                            if (isNewMemory
+                                    && !isFirstLogin
+                                    && !isUsersMemory
+                                    && MainActivity.getUser().getNotificationsOn()
+                                    && isFromFriend
+                                    && isNotPrivate) {
+                                String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
+                                NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
+                            }
+                            latestMemoryId = memory.getLongId();
+                            memoryCounter++;
+                        }
 
-                    if (isNewMemory
-                            && !isFirstLogin
-                            && !isUsersMemory
-                            && MainActivity.getUser().getNotificationsOn()) {
-                        String message = memory.getUser().getDisplayName() + " uploaded a memory just now!";
-                        NotificationHandler.sendNotification(FirebaseBackgroundService.this, message);
-                    }
-                    latestMemoryId = memory.getLongId();
-                    memoryCounter++;
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
 
