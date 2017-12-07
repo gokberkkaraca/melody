@@ -66,6 +66,13 @@ public class PublicMemoryActivityTest extends ActivityTest {
     }
 
     @Test
+    public void openUserSearch() throws Exception {
+        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+        Thread.sleep(3000);
+        onView(withText("Search Users")).perform(click());
+    }
+
+    @Test
     public void openFriendRequestList() throws Exception {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         Thread.sleep(2000);
