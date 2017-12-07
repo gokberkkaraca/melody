@@ -69,7 +69,7 @@ public class PublicMemoryActivityTest extends ActivityTest {
     public void openUserSearch() throws Exception {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         Thread.sleep(3000);
-        onView(withText("SearchUsers")).perform(click());
+        onView(withText("Search Users")).perform(click());
     }
 
     @Test
