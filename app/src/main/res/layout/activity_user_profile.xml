@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/profilePicView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -43,11 +43,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/profilePicView"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="5dp"
             android:text="@string/username"
             android:textAlignment="center"
             android:textColor="#000"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -71,10 +71,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout"
-        android:layout_marginTop="8dp"
         android:baselineAligned="false"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
 
         <TextView
@@ -91,8 +90,9 @@
             android:id="@+id/friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
             android:layout_gravity="center"
-            android:text="@string/_220"
+            android:text=""
             android:textColor="#000" />
 
     </LinearLayout>
@@ -110,7 +110,7 @@
             android:id="@+id/log_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginEnd="20dp"
             android:onClick="logOut"
             android:text="@string/log_out"
@@ -195,7 +195,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"/>
 
     </LinearLayout>
 
