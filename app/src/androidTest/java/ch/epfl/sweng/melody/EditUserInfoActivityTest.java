@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.rule.ActivityTestRule;
 
 import com.google.firebase.auth.FirebaseUser;
 
@@ -45,29 +46,8 @@ public class EditUserInfoActivityTest {
 
     private final String biography = "";
     @Rule
-    public final IntentsTestRule<EditUserInfoActivity> editUserInfoActivityIntentsTestRule =
-            new IntentsTestRule<EditUserInfoActivity>(EditUserInfoActivity.class) {
-                @Override
-                protected Intent getActivityIntent() {
-                    User user;
-                    final FirebaseUser firebaseUser = mock(FirebaseUser.class);
-                    when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
-                    when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
-                    when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
-                    user = new User(firebaseUser);
-                    user.setDisplayName("sth");
-                    user.setBiograhy("sth");
-                    user.setProfilePhotoUrl(defaultProfilePhotoUrl);
-
-                    Context targetContext = InstrumentationRegistry.getInstrumentation()
-                            .getTargetContext();
-                    Intent intent = new Intent(targetContext, CreateMemoryActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("USER", user);
-                    intent.putExtras(bundle);
-                    return intent;
-                }
-            };
+    public final ActivityTestRule<EditUserInfoActivity> editUserInfoActivityIntentsTestRule =
+            new ActivityTestRule<>(EditUserInfoActivity.class);
 
     private final String CAMERA = "Camera";
     private final String CANCEL = "Cancel";
