@@ -11,16 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.FriendAdapter;
-import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
 
 import static ch.epfl.sweng.melody.PublicMemoryActivity.EXTRA_GOINGTOREQUESTS;
@@ -28,16 +21,16 @@ import static ch.epfl.sweng.melody.PublicMemoryActivity.EXTRA_GOINGTOREQUESTS;
 public class FriendListActivity extends AppCompatActivity {
 
     DividerItemDecoration dividerItemDecoration;
-    private RecyclerView usersRecyclerView;
-    private FriendAdapter userAdapter;
-    private List<UserContactInfo> allUsers;
-    private List<UserContactInfo> usersToDisplay;
-    private boolean isFriends = true;
+    private RecyclerView friendsRecyclerView;
+    private FriendAdapter friendAdapter;
+    private List<UserContactInfo> allFriends = MainActivity.getUser().getListFriends();
+    private List<UserContactInfo> friendsToDisplay = MainActivity.getUser().getListFriends();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
+
 
         Intent intent = getIntent();
         String isRequestsExtra = intent.getStringExtra(EXTRA_GOINGTOREQUESTS);
@@ -45,30 +38,31 @@ public class FriendListActivity extends AppCompatActivity {
         Boolean isRequests = Boolean.valueOf(isRequestsExtra);
 
         if (isRequests) {
-            usersToDisplay = MainActivity.getUser().getFriendshipListRequests();
+            friendsToDisplay = MainActivity.getUser().getFriendshipListRequests();
             ((TextView) findViewById(R.id.friends_toolbar_title)).setText(R.string.my_friends_requests);
-        } else if (isFriends) {
-            usersToDisplay = MainActivity.getUser().getListFriends();
+        } else {
+            friendsToDisplay = MainActivity.getUser().getListFriends();
         }
 
         setTitle("");
-        Toolbar friendToolbar = findViewById(R.id.friends_toolbar);
+        Toolbar friendToolbar = (Toolbar) findViewById(R.id.friends_toolbar);
         setSupportActionBar(friendToolbar);
 
         ActionBar ab = getSupportActionBar();
-        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        usersRecyclerView = findViewById(R.id.friends_recyclerView);
+        friendsRecyclerView = (RecyclerView) findViewById(R.id.friends_recyclerView);
+
+        //friendsRecyclerView.setHasFixedSize(true); //improve performance but keep it ?
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        usersRecyclerView.setLayoutManager(mLayoutManager);
+        friendsRecyclerView.setLayoutManager(mLayoutManager);
 
-        dividerItemDecoration = new DividerItemDecoration(usersRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
-        usersRecyclerView.addItemDecoration(dividerItemDecoration);
+        dividerItemDecoration = new DividerItemDecoration(friendsRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
+        friendsRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        userAdapter = new FriendAdapter(usersToDisplay);
-        usersRecyclerView.setAdapter(userAdapter);
+        friendAdapter = new FriendAdapter(friendsToDisplay);
+        friendsRecyclerView.setAdapter(friendAdapter);
 
         SearchView simpleSearchView = findViewById(R.id.search_view);
 
@@ -89,14 +83,13 @@ public class FriendListActivity extends AppCompatActivity {
 
     public void filter(String text) {
 
-        System.out.println(allUsers);
-        usersToDisplay.clear();
-        for (UserContactInfo user : allUsers) {
-            if (user.getDisplayName().contains(text))
-                usersToDisplay.add(user);
-            else if (user.getEmail().contains(text))
-                usersToDisplay.add(user);
+        friendsToDisplay.clear();
+        for (UserContactInfo friend : allFriends) {
+            if (friend.getDisplayName().contains(text))
+                friendsToDisplay.add(friend);
+            else if (friend.getEmail().contains(text))
+                friendsToDisplay.add(friend);
         }
-        userAdapter.notifyDataSetChanged();
+        friendAdapter.notifyDataSetChanged();
     }
 }
