@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -12,6 +13,7 @@ public class SettingsActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         //getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
