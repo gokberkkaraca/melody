@@ -18,8 +18,8 @@ public class NotificationHandler {
 
     public static void sendNotification(Context context, String message) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.app_logo);
-        int smallIcon = R.mipmap.app_logo;
+        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        int smallIcon = R.mipmap.ic_launcher;
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
