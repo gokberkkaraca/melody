@@ -96,7 +96,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
-                intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
+                intent.putExtra(EXTRA_USER_ID, memory.getUserId());
                 v.getContext().startActivity(intent);
             }
         });
@@ -274,17 +274,30 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                     }
 
-                    TextView author = findViewById(R.id.memoryAuthor);
-                    author.setText(memory.getUser().getDisplayName());
+                    final TextView author = findViewById(R.id.memoryAuthor);
 
-                    ImageView authorPic = findViewById(R.id.memoryAuthorPic);
-                    new GoogleProfilePictureAsync(authorPic, Uri.parse(memory.getUser().getProfilePhotoUrl())).execute();
+                    final ImageView authorPic = findViewById(R.id.memoryAuthorPic);
 
                     final TextView likeNumber = findViewById(R.id.likeNumber);
                     likeNumber.setText(memory.getLikes().size() + "");
 
-                    if (memory.getUser().equals(MainActivity.getUser()))
+                    if (memory.getUserId().equals(MainActivity.getUser().getId()))
                         findViewById(R.id.removeMemory).setVisibility(View.VISIBLE);
+
+                    DatabaseHandler.getUser(memory.getUserId(), new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User loadUser = dataSnapshot.getValue(User.class);
+                            assert loadUser!=null;
+                            author.setText(loadUser.getDisplayName());
+                            new GoogleProfilePictureAsync(authorPic, Uri.parse(loadUser.getProfilePhotoUrl())).execute();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
                     commentList = new ArrayList<>(memory.getComments().values());
 

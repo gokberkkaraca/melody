@@ -80,7 +80,7 @@ public class LocationService extends Service implements LocationObserver {
                             double DistanceToUser = memory.getSerializableLocation().
                                     distanceTo(new SerializableLocation(location.getLatitude(), location.getLongitude(), ""));
                             boolean isCloseToUser = DistanceToUser < DISTANCE_TO_USER;
-                            boolean isFromSameUser = memory.getUser().equals(MainActivity.getUser());
+                            boolean isFromSameUser = memory.getUserId().equals(MainActivity.getUser().getId());
                             if (isCloseToUser && isFromSameUser) {
                                 String message = "Welcome back to " + memory.getSerializableLocation().getLocationName() + " !";
                                 NotificationHandler.sendNotification(LocationService.this, message);

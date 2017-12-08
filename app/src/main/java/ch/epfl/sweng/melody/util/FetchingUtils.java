@@ -25,13 +25,13 @@ public class FetchingUtils {
 
                 if (user == null) {
                     if (memory.getLongId() > memoryStartTime) {
-                        if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUser().getId())) || memory.getUser().equals(MainActivity.getUser())) {
+                        if (memory.getPrivacy() == Memory.Privacy.PUBLIC || (memory.getPrivacy() == Memory.Privacy.SHARED && isFriendsMemory(memory.getUserId())) || memory.getUserId().equals(MainActivity.getUser().getId())) {
                             memList.add(memory);
                             memAdapter.notifyItemInserted(memList.size() - 1);
                         }
                     }
                 } else {
-                    if (memory.getUser().equals(user) && memory.getLongId() > memoryStartTime) {
+                    if (memory.getUserId().equals(user.getId()) && memory.getLongId() > memoryStartTime) {
                         memList.add(memory);
                         memAdapter.notifyItemInserted(memList.size() - 1);
                     }

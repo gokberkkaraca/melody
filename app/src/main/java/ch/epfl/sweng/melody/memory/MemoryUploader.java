@@ -9,7 +9,7 @@ import ch.epfl.sweng.melody.user.User;
 
 class MemoryUploader {
     final private String id;
-    final private User user;
+    final private String userId;
     final private Date time;
     final private SerializableLocation serializableLocation;
     final private String text;
@@ -24,7 +24,7 @@ class MemoryUploader {
 
     MemoryUploader(Memory memory) {
         id = memory.getId();
-        user = memory.getUser();
+        userId = memory.getUserId();
         time = memory.getTime();
         serializableLocation = memory.getSerializableLocation();
         text = memory.getText();
@@ -38,8 +38,8 @@ class MemoryUploader {
         tags = memory.getTags();
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
     public Date getTime() {

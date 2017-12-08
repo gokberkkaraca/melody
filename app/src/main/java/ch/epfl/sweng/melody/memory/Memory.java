@@ -13,7 +13,7 @@ import ch.epfl.sweng.melody.user.User;
 
 public class Memory {
     private String id;
-    private User user;
+    private String userId;
     private Date time;
     private SerializableLocation serializableLocation;
     private String text;
@@ -29,7 +29,7 @@ public class Memory {
     private Memory(MemoryBuilder memoryBuilder) {
         this.id = memoryBuilder.id;
         this.time = memoryBuilder.time;
-        this.user = memoryBuilder.user;
+        this.userId = memoryBuilder.userId;
         this.text = memoryBuilder.text;
         this.serializableLocation = memoryBuilder.serializableLocation;
         this.privacy = memoryBuilder.privacy;
@@ -77,8 +77,9 @@ public class Memory {
         return id;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+
+        return userId;
     }
 
     public Date getTime() {
@@ -139,7 +140,7 @@ public class Memory {
 
     public static class MemoryBuilder {
         private final String id;
-        private final User user;
+        private final String userId;
         private final Date time;
         private final SerializableLocation serializableLocation;
         private final String text;
@@ -153,10 +154,10 @@ public class Memory {
         private String photoUrl;
         private String videoUrl;
 
-        public MemoryBuilder(User user, String text, SerializableLocation serializableLocation, Privacy privacy) {
+        public MemoryBuilder(String userId, String text, SerializableLocation serializableLocation, Privacy privacy) {
             this.id = Long.toString(MAX_ID - System.currentTimeMillis());
             this.time = Calendar.getInstance().getTime();
-            this.user = user;
+            this.userId = userId;
             this.text = text;
             this.serializableLocation = serializableLocation;
             if (privacy == null)

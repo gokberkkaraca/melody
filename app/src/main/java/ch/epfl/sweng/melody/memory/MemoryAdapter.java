@@ -114,10 +114,11 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.hashOfMemory.setImageResource(R.mipmap.hash_without);
         }
 
-        DatabaseHandler.getUser(memory.getUser().getId(), new ValueEventListener() {
+        DatabaseHandler.getUser(memory.getUserId(), new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
+                assert user!=null;
                 holder.author.setText(user.getDisplayName());
                 new GoogleProfilePictureAsync(holder.authorPic, Uri.parse(user.getProfilePhotoUrl())).execute();
 
@@ -126,7 +127,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
-                        intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
+                        intent.putExtra(EXTRA_USER_ID, memory.getUserId());
                         v.getContext().startActivity(intent);
                     }
                 });

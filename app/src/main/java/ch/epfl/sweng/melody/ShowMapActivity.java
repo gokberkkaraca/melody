@@ -222,9 +222,9 @@ public class ShowMapActivity extends FragmentActivity
                                 final ViewGroup nullParent = null;
                                 View v = getLayoutInflater().inflate(R.layout.info_window_layout, nullParent);
 
-                                TextView userId = v.findViewById(R.id.userName);
-                                ImageView userPhoto = v.findViewById(R.id.userPhoto);
-                                TextView uploadTime = v.findViewById(R.id.uploadTime);
+                                final TextView userId = v.findViewById(R.id.userName);
+                                final ImageView userPhoto = v.findViewById(R.id.userPhoto);
+                                final TextView uploadTime = v.findViewById(R.id.uploadTime);
                                 TextView memoryText = v.findViewById(R.id.memoryText);
                                 ImageView memoryImage = v.findViewById(R.id.memoryImage);
                                 userId.setTextColor(Color.BLACK);
@@ -234,13 +234,26 @@ public class ShowMapActivity extends FragmentActivity
                                 memoryText.setTextColor(Color.BLACK);
                                 memoryText.setGravity(Gravity.START);
 
-                                Memory markerMemory = dataSnapshot.child(marker.getTitle()).getValue(Memory.class);
+                                final Memory markerMemory = dataSnapshot.child(marker.getTitle()).getValue(Memory.class);
                                 assert markerMemory != null;
 
-                                userId.setText(markerMemory.getUser().getDisplayName());
-                                uploadTime.setText(markerMemory.getTime().toString());
+                                DatabaseHandler.getUser(markerMemory.getUserId(), new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        User markerUser = dataSnapshot.getValue(User.class);
+                                        assert markerUser!=null;
 
-                                new GoogleProfilePictureAsync(userPhoto, Uri.parse(markerMemory.getUser().getProfilePhotoUrl())).execute();
+                                        userId.setText(markerUser.getDisplayName());
+                                        uploadTime.setText(markerMemory.getTime().toString());
+
+                                        new GoogleProfilePictureAsync(userPhoto, Uri.parse(markerUser.getProfilePhotoUrl())).execute();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
 
                                 String text = markerMemory.getText();
                                 if (text.length() > 60) {

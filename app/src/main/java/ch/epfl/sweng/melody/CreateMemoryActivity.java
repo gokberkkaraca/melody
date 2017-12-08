@@ -213,7 +213,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         }
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
-            memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
+            memory = new Memory.MemoryBuilder(MainActivity.getUser().getId(), memoryDescription, serializableLocation, memoryPrivacy)
                     .tags(selectedTags)
                     .build();
             DatabaseHandler.uploadMemory(memory);
@@ -232,12 +232,12 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                 Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
                 String url = taskSnapshot.getDownloadUrl().toString();
                 if (memoryType == Memory.MemoryType.PHOTO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser().getId(), memoryDescription, serializableLocation, memoryPrivacy)
                             .photo(url)
                             .tags(selectedTags)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
-                    memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
+                    memory = new Memory.MemoryBuilder(MainActivity.getUser().getId(), memoryDescription, serializableLocation, memoryPrivacy)
                             .video(url)
                             .tags(selectedTags)
                             .build();
