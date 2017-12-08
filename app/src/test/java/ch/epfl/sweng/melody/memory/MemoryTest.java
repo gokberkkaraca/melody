@@ -52,10 +52,10 @@ public class MemoryTest {
 
         memory = mock(Memory.class);
         when(memory.getId()).thenReturn(memoryId);
-        when(memory.getUser()).thenReturn(user);
+        when(memory.getUserId()).thenReturn(user.getId());
         when(memory.getTime()).thenReturn(time);
         when(memory.getReminder()).thenReturn(true);
-        memoryFromBuilder = new Memory.MemoryBuilder(user, text, serializableLocation, memoryPrivacy)
+        memoryFromBuilder = new Memory.MemoryBuilder(user.getId(), text, serializableLocation, memoryPrivacy)
                 .photo(testPhotoUrl)
                 .video(testVideoUrl)
                 .comments(Collections.singletonMap("123", comment))
@@ -74,7 +74,7 @@ public class MemoryTest {
 
     @Test
     public void getUser() throws Exception {
-        assertEquals(user, memory.getUser());
+        assertEquals(user.getId(), memory.getUserId());
     }
 
     @Test

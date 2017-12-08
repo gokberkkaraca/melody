@@ -46,7 +46,7 @@ public class MemoryUploaderTest {
 
         memory = mock(Memory.class);
         when(memory.getId()).thenReturn(memoryId);
-        when(memory.getUser()).thenReturn(user);
+        when(memory.getUserId()).thenReturn(user.getId());
         when(memory.getTime()).thenReturn(new Date());
         when(memory.getText()).thenReturn("Test text");
         when(memory.getComments()).thenReturn(Collections.singletonMap("123", comment));
@@ -61,7 +61,7 @@ public class MemoryUploaderTest {
 
     @Test
     public void getUser() throws Exception {
-        assertEquals(memoryUploader.getUser(), memory.getUser());
+        assertEquals(memoryUploader.getUserId(), memory.getUserId());
     }
 
     @Test
