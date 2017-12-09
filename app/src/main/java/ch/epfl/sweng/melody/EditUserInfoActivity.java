@@ -33,7 +33,7 @@ import java.util.UUID;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.DialogUtils;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 import static ch.epfl.sweng.melody.database.DatabaseHandler.uploadUser;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
@@ -180,7 +180,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     Uri url = taskSnapshot.getDownloadUrl();
                     MainActivity.getUser().setProfilePhotoUrl(url.toString());
                     DatabaseHandler.uploadUser(MainActivity.getUser());
-                    MenuButtons.goToUserProfileActivity(EditUserInfoActivity.this);
+                    NavigationHandler.goToUserProfileActivity(EditUserInfoActivity.this);
                     FirebaseUser firebaseUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                             .setPhotoUri(url)
@@ -212,7 +212,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        MenuButtons.goToUserProfileActivity(this);
+        NavigationHandler.goToUserProfileActivity(this);
     }
 
 }

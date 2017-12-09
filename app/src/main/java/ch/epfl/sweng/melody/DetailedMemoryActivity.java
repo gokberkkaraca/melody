@@ -48,7 +48,7 @@ import ch.epfl.sweng.melody.memory.CommentAdapter;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 import static ch.epfl.sweng.melody.PublicMemoryActivity.insidePublicActivity;
 import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USER_ID;
@@ -112,7 +112,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                     public void onClick(DialogInterface arg0, int arg1) {
                         if (insidePublicActivity)
-                            MenuButtons.goToPublicMemoryActivity(view.getContext());
+                            NavigationHandler.goToPublicMemoryActivity(view.getContext());
                         else {
                             Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
                             intent.putExtra(EXTRA_USER_ID, MainActivity.getUser().getId());
@@ -188,7 +188,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        MenuButtons.goToPublicMemoryActivity(this);
+        NavigationHandler.goToPublicMemoryActivity(this);
     }
 
     private void fetchMemoryFromDatabase() {
@@ -342,22 +342,22 @@ public class DetailedMemoryActivity extends AppCompatActivity {
      ******************* Menu Buttons ****************
      *************************************************/
     public void goToCreateMemoryActivity(View view) {
-        MenuButtons.goToCreateMemoryActivity(this);
+        NavigationHandler.goToCreateMemoryActivity(this);
     }
 
     public void goToPublicMemoryActivity(View view) {
-        MenuButtons.goToPublicMemoryActivity(this);
+        NavigationHandler.goToPublicMemoryActivity(this);
     }
 
     public void goToMapActivity(View view) {
-        MenuButtons.goToMapActivity(this);
+        NavigationHandler.goToMapActivity(this);
     }
 
     public void goToNotification(View view) {
-        MenuButtons.goToNotificationActivity(this);
+        NavigationHandler.goToNotificationActivity(this);
     }
 
     public void goToUser(View view) {
-        MenuButtons.goToUserProfileActivity(this);
+        NavigationHandler.goToUserProfileActivity(this);
     }
 }

@@ -8,8 +8,11 @@ import ch.epfl.sweng.melody.CreateMemoryActivity;
 import ch.epfl.sweng.melody.PublicMemoryActivity;
 import ch.epfl.sweng.melody.ShowMapActivity;
 import ch.epfl.sweng.melody.UserProfileActivity;
+import ch.epfl.sweng.melody.memory.Memory;
 
-public class MenuButtons {
+import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USER_ID;
+
+public class NavigationHandler {
     public static void goToPublicMemoryActivity(Context context) {
         goToActivity(context, PublicMemoryActivity.class);
     }

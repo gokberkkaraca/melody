@@ -44,7 +44,7 @@ import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.util.DialogUtils;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_CAMERA;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_PHOTO_GALLERY;
@@ -138,7 +138,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
 
     @Override
     public void onBackPressed() {
-        MenuButtons.goToPublicMemoryActivity(this);
+        NavigationHandler.goToPublicMemoryActivity(this);
     }
 
     public void pickVideoDialog(View view) {
@@ -218,7 +218,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
-            MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
+            NavigationHandler.goToPublicMemoryActivity(CreateMemoryActivity.this);
             return;
         }
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -245,7 +245,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                     // but since it fails to create the frame, this method fails
                 }
                 DatabaseHandler.uploadMemory(memory);
-                MenuButtons.goToPublicMemoryActivity(CreateMemoryActivity.this);
+                NavigationHandler.goToPublicMemoryActivity(CreateMemoryActivity.this);
             }
         }, new OnFailureListener() {
             @Override

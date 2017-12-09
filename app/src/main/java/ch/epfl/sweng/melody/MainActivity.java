@@ -12,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             user = dataSnapshot.getValue(User.class);
-                            MenuButtons.goToPublicMemoryActivity(MainActivity.this);
+                            NavigationHandler.goToPublicMemoryActivity(MainActivity.this);
                         }
 
                         @Override

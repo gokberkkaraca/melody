@@ -32,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 import static ch.epfl.sweng.melody.account.GoogleAccount.mGoogleApiClient;
 
@@ -213,7 +213,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 } else {
                     MainActivity.setUser(user);
                 }
-                MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
+                NavigationHandler.goToPublicMemoryActivity(LoginActivity.this);
                 finish();
             }
 
