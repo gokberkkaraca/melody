@@ -267,15 +267,15 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 return true;
 
             case R.id.user_search_item:
-                NavigationHandler.goToFriendListActivity(this,"all");
+                NavigationHandler.goToFriendListActivity(this, "all");
                 return true;
 
             case R.id.see_friends_item:
-                NavigationHandler.goToFriendListActivity(this,"friends");
+                NavigationHandler.goToFriendListActivity(this, "friends");
                 return true;
 
             case R.id.friends_requests_item:
-                NavigationHandler.goToFriendListActivity(this,"requests");
+                NavigationHandler.goToFriendListActivity(this, "requests");
                 return true;
 
             case R.id.settings_item:

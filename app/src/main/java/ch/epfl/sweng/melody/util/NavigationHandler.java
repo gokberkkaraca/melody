@@ -40,36 +40,36 @@ public class NavigationHandler {
         goToActivity(context, CreateMemoryActivity.class);
     }
 
-    public static void goToUserProfileActivityFromUserMemory(Context context, Memory memory){
+    public static void goToUserProfileActivityFromUserMemory(Context context, Memory memory) {
         Intent intent = new Intent(context, UserProfileActivity.class);
         intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
         context.startActivity(intent);
     }
 
-    public static void goToResetPasswordActivity(Context context){
+    public static void goToResetPasswordActivity(Context context) {
         goToActivity(context, ResetPasswordActivity.class);
     }
 
-    public static void goToLogInActivity(Context context){
+    public static void goToLogInActivity(Context context) {
         goToActivity(context, LoginActivity.class);
     }
 
-    public static void goToSignUpActivity(Context context){
+    public static void goToSignUpActivity(Context context) {
         goToActivity(context, SignUpActivity.class);
     }
 
-    public static void goToFriendListActivity(Context context,String listType){
+    public static void goToFriendListActivity(Context context, String listType) {
         Intent intent = new Intent(context, FriendListActivity.class);
         intent.putExtra(EXTRA_GOING_TO_USER_LIST, listType);
         context.startActivity(intent);
     }
 
-    public static void goToSettingsActivity(Context context){
+    public static void goToSettingsActivity(Context context) {
         goToActivity(context, SettingsActivity.class);
     }
 
-    public static void goToEditUserInfoActivity(Context context){
-        goToActivity(context ,EditUserInfoActivity.class);
+    public static void goToEditUserInfoActivity(Context context) {
+        goToActivity(context, EditUserInfoActivity.class);
     }
 
     private static void goToActivity(Context context, Class cls) {

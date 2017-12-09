@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signUp() {
-    NavigationHandler.goToSignUpActivity(this);
+        NavigationHandler.goToSignUpActivity(this);
     }
 
     private void googleSignIn() {

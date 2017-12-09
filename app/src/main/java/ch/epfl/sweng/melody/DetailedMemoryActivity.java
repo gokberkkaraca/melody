@@ -3,7 +3,6 @@ package ch.epfl.sweng.melody;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -51,7 +50,6 @@ import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.NavigationHandler;
 
 import static ch.epfl.sweng.melody.PublicMemoryActivity.insidePublicActivity;
-import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USER_ID;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
     private static CommentAdapter commentAdapter;
@@ -95,7 +93,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         authorPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NavigationHandler.goToUserProfileActivityFromUserMemory(v.getContext(),memory);
+                NavigationHandler.goToUserProfileActivityFromUserMemory(v.getContext(), memory);
             }
         });
 
@@ -112,7 +110,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                         if (insidePublicActivity)
                             NavigationHandler.goToPublicMemoryActivity(view.getContext());
                         else {
-                            NavigationHandler.goToUserProfileActivityFromUserMemory(view.getContext(),memory);
+                            NavigationHandler.goToUserProfileActivityFromUserMemory(view.getContext(), memory);
                         }
                         DatabaseHandler.removeMemory(memoryId);
                         Toast.makeText(getApplicationContext(), "Removing Memory..", Toast.LENGTH_SHORT).show();
