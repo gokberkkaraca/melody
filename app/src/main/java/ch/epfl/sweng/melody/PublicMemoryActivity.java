@@ -261,33 +261,25 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.time_changing_item:
                 showDatePickerDialog();
                 return true;
 
             case R.id.user_search_item:
-                intent = new Intent(this, FriendListActivity.class);
-                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "all");
-                this.startActivity(intent);
+                NavigationHandler.goToFriendListActivity(this,"all");
                 return true;
 
             case R.id.see_friends_item:
-                intent = new Intent(this, FriendListActivity.class);
-                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "friends");
-                this.startActivity(intent);
+                NavigationHandler.goToFriendListActivity(this,"friends");
                 return true;
 
             case R.id.friends_requests_item:
-                intent = new Intent(this, FriendListActivity.class);
-                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "requests");
-                this.startActivity(intent);
+                NavigationHandler.goToFriendListActivity(this,"requests");
                 return true;
 
             case R.id.settings_item:
-                intent = new Intent(this, SettingsActivity.class);
-                this.startActivity(intent);
+                NavigationHandler.goToSettingsActivity(this);
                 return true;
 
             default:

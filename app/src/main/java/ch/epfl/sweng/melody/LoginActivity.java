@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 login();
                 break;
             case R.id.forgot_password_button:
-                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                NavigationHandler.goToResetPasswordActivity(this);
         }
     }
 
@@ -135,9 +135,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signUp() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
-        finish();
+    NavigationHandler.goToSignUpActivity(this);
     }
 
     private void googleSignIn() {

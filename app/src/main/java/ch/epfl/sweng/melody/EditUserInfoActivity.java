@@ -206,8 +206,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                 .build();
         firebaseUser.updateProfile(profileChangeRequest);
 
-        Intent intent = new Intent(this, UserProfileActivity.class);
-        startActivity(intent);
+        NavigationHandler.goToUserProfileActivity(this);
     }
 
     @Override

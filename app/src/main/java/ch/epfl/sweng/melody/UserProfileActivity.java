@@ -193,14 +193,11 @@ public class UserProfileActivity extends AppCompatActivity {
         MainActivity.getFirebaseAuthInstance().signOut();
         stopService(new Intent(this, FirebaseBackgroundService.class));
         stopService(new Intent(this, LocationService.class));
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        NavigationHandler.goToLogInActivity(this);
     }
 
     public void editUserInfo(View view) {
-        Intent intent = new Intent(this, EditUserInfoActivity.class);
-        startActivity(intent);
+        NavigationHandler.goToEditUserInfoActivity(this);
     }
 
     /*************************************************

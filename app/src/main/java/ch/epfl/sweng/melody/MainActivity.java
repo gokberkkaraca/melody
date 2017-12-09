@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (getFirebaseAuthInstance().getCurrentUser() == null) {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    NavigationHandler.goToLogInActivity(MainActivity.this);
                 } else {
                     user = new User(getFirebaseAuthInstance().getCurrentUser());
                     DatabaseHandler.getUser(MainActivity.getUser().getId(), new ValueEventListener() {

@@ -95,9 +95,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         authorPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
-                intent.putExtra(EXTRA_USER_ID, memory.getUser().getId());
-                v.getContext().startActivity(intent);
+                NavigationHandler.goToUserProfileActivityFromUserMemory(v.getContext(),memory);
             }
         });
 
@@ -114,9 +112,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                         if (insidePublicActivity)
                             NavigationHandler.goToPublicMemoryActivity(view.getContext());
                         else {
-                            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-                            intent.putExtra(EXTRA_USER_ID, MainActivity.getUser().getId());
-                            view.getContext().startActivity(intent);
+                            NavigationHandler.goToUserProfileActivityFromUserMemory(view.getContext(),memory);
                         }
                         DatabaseHandler.removeMemory(memoryId);
                         Toast.makeText(getApplicationContext(), "Removing Memory..", Toast.LENGTH_SHORT).show();
