@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="6dp">
+
+        <include
+            layout="@layout/menu_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
@@ -63,7 +76,6 @@
             android:maxLines="4"
             android:textColor="@color/black"
             android:textSize="14sp" />
-
     </RelativeLayout>
 
     <LinearLayout
@@ -75,7 +87,6 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-
         <TextView
             android:id="@+id/friendsText"
             android:layout_width="wrap_content"
@@ -85,7 +96,6 @@
             android:textColor="#000"
             android:textStyle="bold" />
 
-
         <TextView
             android:id="@+id/friends"
             android:layout_width="wrap_content"
@@ -94,9 +104,7 @@
             android:layout_gravity="center"
             android:text=""
             android:textColor="#000" />
-
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -115,22 +123,6 @@
             android:onClick="logOut"
             android:text="@string/log_out"
             android:visibility="gone" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="6dp">
-
-        <include
-            layout="@layout/menu_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -198,8 +190,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"/>
-
     </LinearLayout>
-
-
 </RelativeLayout>
