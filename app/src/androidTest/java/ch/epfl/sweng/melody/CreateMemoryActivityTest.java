@@ -3,18 +3,13 @@ package ch.epfl.sweng.melody;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-
-import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -24,7 +19,6 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.melody.matcherUtil.ToastMatcher;
 import ch.epfl.sweng.melody.matcherUtil.ViewMatcher;
-import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -41,17 +35,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class CreateMemoryActivityTest {
-    private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/test%2F1511912988772.mp4?alt=media&token=63b36ece-25b4-4f6f-a664-095a95ce2562";
-    private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
     @Rule
     public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
             new IntentsTestRule<>(CreateMemoryActivity.class);
-
+    private final String testVideoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/test%2F1511912988772.mp4?alt=media&token=63b36ece-25b4-4f6f-a664-095a95ce2562";
+    private final String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
     private final String CAMERA = "Camera";
     private final String CANCEL = "Cancel";
     private final String ALBUM = "Choose from Album";
