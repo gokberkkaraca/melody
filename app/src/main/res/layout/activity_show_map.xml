@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="10dp"
             android:text="@string/ChooseRadius" />
 
         <SeekBar
@@ -34,7 +35,8 @@
             android:id="@+id/filter_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginBottom="10dp"/>
 
     </LinearLayout>
 
