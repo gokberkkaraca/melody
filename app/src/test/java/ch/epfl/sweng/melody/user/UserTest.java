@@ -23,7 +23,7 @@ public class UserTest {
     private User user, otherUser;
 
     @Before
-    public void setUp () throws Exception {
+    public void setUp() throws Exception {
 
         final FirebaseUser firebaseUser = mock(FirebaseUser.class);
         when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
@@ -34,157 +34,157 @@ public class UserTest {
     }
 
     @Test
-    public void getId () throws Exception {
+    public void getId() throws Exception {
         assertEquals(user.getId(), "jiacheng,xu@epfl,ch");
     }
 
     @Test
-    public void getDisplayName () throws Exception {
+    public void getDisplayName() throws Exception {
         assertEquals(user.getDisplayName(), "Jiacheng Xu");
     }
 
     @Test
-    public void getEmail () throws Exception {
+    public void getEmail() throws Exception {
         assertEquals(user.getEmail(), "jiacheng.xu@epfl.ch");
     }
 
     @Test
-    public void getMemories () throws Exception {
+    public void getMemories() throws Exception {
         assertEquals(user.getMemories(), new ArrayList<Memory>());
     }
 
     @Test
-    public void getFriends () throws Exception {
+    public void getFriends() throws Exception {
         assertEquals(user.getFriends(), new HashMap<String, UserContactInfo>());
     }
 
     @Test
-    public void getFriendsSize () throws Exception {
+    public void getFriendsSize() throws Exception {
         assertEquals(user.getFriendsSize(), "0");
     }
 
     @Test
-    public void getListFriends () throws Exception {
+    public void getListFriends() throws Exception {
         assertEquals(user.getListFriends(), new ArrayList<UserContactInfo>());
     }
 
     @Test
-    public void getFriendshipRequests () throws Exception {
+    public void getFriendshipRequests() throws Exception {
         assertEquals(user.getFriendshipRequests(), new HashMap<String, UserContactInfo>());
     }
 
     @Test
-    public void getFriendshipListRequests () throws Exception {
+    public void getFriendshipListRequests() throws Exception {
         assertEquals(user.getFriendshipListRequests(), new ArrayList<UserContactInfo>());
     }
 
     @Test
-    public void getFollowers () throws Exception {
+    public void getFollowers() throws Exception {
         assertEquals(user.getFollowers(), new ArrayList<User>());
     }
 
     @Test
-    public void getFollowings () throws Exception {
+    public void getFollowings() throws Exception {
         assertEquals(user.getFollowings(), new ArrayList<User>());
     }
 
     @Test
-    public void getProfilePhotoUrl () throws Exception {
+    public void getProfilePhotoUrl() throws Exception {
         assertEquals(user.getProfilePhotoUrl(), defaultProfilePhotoUrl);
     }
 
     @Test
-    public void getDefaultProfilePhotoURL () throws Exception {
+    public void getDefaultProfilePhotoURL() throws Exception {
         assertEquals(user.getDefaultProfilePhotoUrl(), defaultProfilePhotoUrl);
     }
 
     @Test
-    public void getThemeColor () throws Exception {
+    public void getThemeColor() throws Exception {
         assertEquals(user.getThemeColor(), User.ThemeColor.BLACK);
     }
 
     @Test
-    public void getMinRadius () throws Exception {
+    public void getMinRadius() throws Exception {
         assertEquals(user.getMinRadius(), 1);
     }
 
     @Test
-    public void getMaxRadius () throws Exception {
+    public void getMaxRadius() throws Exception {
         assertEquals(user.getMaxRadius(), 100);
     }
 
     @Test
-    public void getNotificationsOn () throws Exception {
+    public void getNotificationsOn() throws Exception {
         assertEquals(user.getNotificationsOn(), true);
     }
 
     @Test
-    public void setThemeColor () throws Exception {
+    public void setThemeColor() throws Exception {
         user.setThemeColor(User.ThemeColor.RED);
         assertEquals(user.getThemeColor(), User.ThemeColor.RED);
     }
 
     @Test
-    public void setMinRadius () throws Exception {
+    public void setMinRadius() throws Exception {
         user.setMinRadius(2);
         assertEquals(user.getMinRadius(), 2);
     }
 
     @Test
-    public void setMaxRadius () throws Exception {
+    public void setMaxRadius() throws Exception {
         user.setMaxRadius(50);
         assertEquals(user.getMaxRadius(), 50);
     }
 
     @Test
-    public void setNotificationsOn () throws Exception {
+    public void setNotificationsOn() throws Exception {
         user.setNotificationsOn(false);
         assertEquals(user.getNotificationsOn(), false);
     }
 
     @Test
-    public void getBiography () {
+    public void getBiography() {
         assertEquals(user.getBiography(), "");
     }
 
     @Test
-    public void setBiograhy () {
+    public void setBiograhy() {
         String bio = "A superhero";
         user.setBiograhy(bio);
         assertEquals(user.getBiography(), bio);
     }
 
     @Test
-    public void setProfilePhotoUrl () {
+    public void setProfilePhotoUrl() {
         user.setProfilePhotoUrl(defaultProfilePhotoUrl);
         assertEquals(user.getProfilePhotoUrl(), defaultProfilePhotoUrl);
     }
 
     @Test
-    public void  getBackgroundPhotoUrl () {
+    public void getBackgroundPhotoUrl() {
         assertEquals(user.getBackgroundPhotoUrl(), defaultProfilePhotoUrl);
     }
 
     @Test
-    public void setBackgroundPhotoUrl () {
+    public void setBackgroundPhotoUrl() {
         user.setBackgroundPhotoUrl(defaultProfilePhotoUrl);
         assertEquals(user.getBackgroundPhotoUrl(), defaultProfilePhotoUrl);
     }
 
     @Test
-    public void setDisplayName () {
+    public void setDisplayName() {
         String name = "Pikachu";
         user.setDisplayName(name);
         assertEquals(user.getDisplayName(), name);
     }
 
     @Test
-    public void emptyConstructor () throws Exception {
+    public void emptyConstructor() throws Exception {
         assertNotNull(new User());
     }
 
     @Test
-    public void getUserContactInfo () throws Exception {
+    public void getUserContactInfo() throws Exception {
         UserContactInfo userContactInfo = user.getUserContactInfo();
         UserContactInfo userContactInfo1 = user.getUserContactInfo();
         assertTrue(userContactInfo.equals(userContactInfo1));
@@ -209,7 +209,7 @@ public class UserTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void removeFriend () throws Exception {
+    public void removeFriend() throws Exception {
         user.addFriend(otherUser);
         user.removeFriend(otherUser);
         assertThat(user.getFriends().size(), is(0));
@@ -217,7 +217,7 @@ public class UserTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void acceptFriendshipRequest () {
+    public void acceptFriendshipRequest() {
         user.getFriendshipRequests().put(otherUser.getId(), otherUser.getUserContactInfo());
         user.acceptFriendshipRequest(otherUser);
         assertThat(user.getFriends().size(), is(1));
@@ -226,7 +226,7 @@ public class UserTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void rejectFriendshipRequest () {
+    public void rejectFriendshipRequest() {
         user.getFriendshipRequests().put(otherUser.getId(), otherUser.getUserContactInfo());
         user.rejectFriendshipRequest(otherUser);
         assertThat(user.getFriends().size(), is(0));

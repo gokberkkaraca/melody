@@ -144,13 +144,13 @@ public class FirebaseBackgroundService extends Service {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
-                    final  Memory memory = memDataSnapshot.getValue(Memory.class);
+                    final Memory memory = memDataSnapshot.getValue(Memory.class);
                     assert memory != null;
 
                     final boolean isNewMemory = memory.getLongId() < latestMemoryId;
                     final boolean isFirstLogin = latestMemoryId == Long.MAX_VALUE || memoryCounter == 0;
                     final boolean isUsersMemory = memory.getUser().getId().equals(MainActivity.getUser().getId());
-                    final boolean isNotPrivate = memory.getPrivacy()!= Memory.Privacy.PRIVATE;
+                    final boolean isNotPrivate = memory.getPrivacy() != Memory.Privacy.PRIVATE;
                     DatabaseHandler.getUser(memory.getUser().getId(), new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
