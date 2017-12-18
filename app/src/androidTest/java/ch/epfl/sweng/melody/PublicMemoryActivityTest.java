@@ -8,6 +8,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class PublicMemoryActivityTest extends ActivityTest {
         onView(withText("OK")).perform(click());
     }
 
-    @Test
+    @Test @Ignore
     public void openFriendsList() throws Exception {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         Thread.sleep(3000);
