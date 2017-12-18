@@ -28,21 +28,28 @@
 
     <TextView
         android:id="@+id/commentContent"
-        android:layout_width="match_parent"
+        android:layout_width="40dp"
         android:layout_height="match_parent"
         android:paddingBottom="10dp"
         android:paddingEnd="10dp"
         android:paddingStart="20dp"
         android:paddingTop="20dp"
         android:textAlignment="center"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:layout_weight="1.91" />
 
     <ImageButton
         android:id="@+id/removeComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_width="10dp"
+        android:layout_height="34dp"
+        android:layout_weight="0.37"
+        android:background="@android:color/transparent"
+        android:contentDescription="ContentDescription,MissingConstraints,RtlHardcoded"
         android:onClick="removeComment"
+        android:paddingBottom="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="0dp"
         app:srcCompat="@mipmap/delete" />
 
 </LinearLayout>
