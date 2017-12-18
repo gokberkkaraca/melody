@@ -26,12 +26,11 @@ public class LocationService extends Service implements LocationObserver {
     @RestrictTo(RestrictTo.Scope.TESTS)
     private static boolean isServiceStarted;
     SharedPreferences sharedPrefs = null;
-
+    Date lastTimestamp = new Date();
     private double DISTANCE_TO_USER = 5000;
     private double MIN_DISTANCE = 500;
     private long TIME_PERIOD = MILLISECONDS.convert(1, MINUTES);
     private SerializableLocation lastLocation = new SerializableLocation(0, 0, "FAKE");
-    Date lastTimestamp = new Date();
     private ValueEventListener valueEventListenerLocation;
 
     public static boolean isServiceStarted() {
@@ -69,7 +68,7 @@ public class LocationService extends Service implements LocationObserver {
 
         long timeDiff = currentTimeStamp.getTime() - lastTimestamp.getTime();
 
-        if(timeDiff >= TIME_PERIOD) {
+        if (timeDiff >= TIME_PERIOD) {
             if (newLocation.distanceTo(lastLocation) > MIN_DISTANCE && MainActivity.getUser().getNotificationsOn()) {
                 valueEventListenerLocation = new ValueEventListener() {
                     @Override
