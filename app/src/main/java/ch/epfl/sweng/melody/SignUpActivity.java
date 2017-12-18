@@ -99,6 +99,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             Toast.makeText(SignUpActivity.this, "Create your melody account successfully!", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
                             UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(displayname).build();
+                            assert firebaseUser != null;
                             firebaseUser.updateProfile(profileChangeRequest);
                             NavigationHandler.goToLogInActivity(SignUpActivity.this);
                         }

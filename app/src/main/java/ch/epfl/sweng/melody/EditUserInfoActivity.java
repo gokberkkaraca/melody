@@ -60,6 +60,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         setSupportActionBar(editToorbar);
 
         ActionBar ab = getSupportActionBar();
+        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
         displayName = findViewById(R.id.change_display_name);
@@ -124,6 +125,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                 e.printStackTrace();// this one is not good and need to be discussed
             }
         }
+        assert data != null;
         profileUri = data.getData();
         profileImage.setImageBitmap(picture);
     }
@@ -178,6 +180,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(getApplicationContext(), "User profile saved!", Toast.LENGTH_SHORT).show();
                     Uri url = taskSnapshot.getDownloadUrl();
+                    assert url != null;
                     MainActivity.getUser().setProfilePhotoUrl(url.toString());
                     DatabaseHandler.uploadUser(MainActivity.getUser());
                     NavigationHandler.goToUserProfileActivity(EditUserInfoActivity.this);
@@ -185,6 +188,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                             .setPhotoUri(url)
                             .build();
+                    assert firebaseUser != null;
                     firebaseUser.updateProfile(profileChangeRequest);
                 }
             }, new OnFailureListener() {
@@ -204,6 +208,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
                 .build();
+        assert firebaseUser != null;
         firebaseUser.updateProfile(profileChangeRequest);
 
         NavigationHandler.goToUserProfileActivity(this);

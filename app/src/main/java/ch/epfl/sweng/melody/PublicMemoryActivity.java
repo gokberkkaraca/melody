@@ -59,7 +59,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static long memoryStartTime = 0L;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.FRANCE);
     private static Calendar calendar;
-    private RecyclerView recyclerView;
+    private static RecyclerView recyclerView;
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
 
@@ -77,7 +77,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         return mMemoryCache.get(key);
     }
 
-    public void saveRecyclerViewPosition() {
+    public static void saveRecyclerViewPosition() {
         recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
     }
 
