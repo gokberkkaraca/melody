@@ -70,7 +70,7 @@ public class SignUpActivityTest {
     }
 
     @Test
-    public void onBackPressedTest(){
+    public void onBackPressedTest() {
         pressBack();
     }
 }

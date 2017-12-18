@@ -1,7 +1,6 @@
 package ch.epfl.sweng.melody.memory;
 
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
