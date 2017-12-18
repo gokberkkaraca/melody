@@ -60,7 +60,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     TextView address;
     private ImageView imageView;
     private VideoView videoView;
-    private Spinner dropDown;
     private List<String> tags = new ArrayList<>();
     private List<String> selectedTags = new ArrayList<String>();
     private Bitmap picture;
@@ -77,7 +76,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
 
         Uri resultUri = null;
 
-        File targetDir = new File(context.getCacheDir().toString() + targetFolder); //File targetDir = new File(this.getCacheDir().toString() + targetFolder);
+        File targetDir = new File(context.getCacheDir().toString() + targetFolder);
         targetDir.mkdirs();
 
         String filename = UUID.randomUUID().toString().substring(0, 8) + "." + resourceType;
@@ -103,7 +102,7 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
-        dropDown = findViewById(R.id.tags_dropdown);
+        Spinner dropDown = findViewById(R.id.tags_dropdown);
         address = findViewById(R.id.address);
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
 
