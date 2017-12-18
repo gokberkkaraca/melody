@@ -1,11 +1,12 @@
 package ch.epfl.sweng.melody;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -29,8 +30,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, PublicMemoryActivity.class);
-        this.startActivity(intent);
+        NavigationHandler.goToPublicMemoryActivity(this);
     }
 
     public static class SettingsFragment extends PreferenceFragment {

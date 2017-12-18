@@ -3,6 +3,7 @@ package ch.epfl.sweng.melody;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 
 import org.junit.Ignore;
+
 import org.junit.Rule;
 import org.junit.Test;
 

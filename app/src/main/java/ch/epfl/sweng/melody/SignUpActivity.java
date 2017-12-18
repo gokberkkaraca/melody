@@ -1,6 +1,5 @@
 package ch.epfl.sweng.melody;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,9 +41,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        NavigationHandler.goToLogInActivity(this);
     }
 
     @Override
@@ -55,8 +54,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.already_have_account_login_button:
-                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-                finish();
+                NavigationHandler.goToLogInActivity(SignUpActivity.this);
                 break;
             case R.id.register_button:
                 emailPasswordsSignUp();
@@ -102,8 +100,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             FirebaseUser firebaseUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
                             UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(displayname).build();
                             firebaseUser.updateProfile(profileChangeRequest);
-                            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-                            finish();
+                            NavigationHandler.goToLogInActivity(SignUpActivity.this);
                         }
                     }
                 });

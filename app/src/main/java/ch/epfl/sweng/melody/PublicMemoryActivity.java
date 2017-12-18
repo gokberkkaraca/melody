@@ -42,7 +42,7 @@ import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.memory.MemoryAdapter;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.DialogUtils;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 
 import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
@@ -240,54 +240,46 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
      ******************* Menu Buttons ****************
      *************************************************/
     public void goToCreateMemoryActivity(View view) {
-        MenuButtons.goToCreateMemoryActivity(this);
+        NavigationHandler.goToCreateMemoryActivity(this);
     }
 
     public void goToPublicMemoryActivity(View view) {
-        MenuButtons.goToPublicMemoryActivity(this);
+        NavigationHandler.goToPublicMemoryActivity(this);
     }
 
     public void goToMapActivity(View view) {
-        MenuButtons.goToMapActivity(this);
+        NavigationHandler.goToMapActivity(this);
     }
 
     public void goToNotification(View view) {
-        MenuButtons.goToNotificationActivity(this);
+        NavigationHandler.goToNotificationActivity(this);
     }
 
     public void goToUser(View view) {
-        MenuButtons.goToUserProfileActivity(this);
+        NavigationHandler.goToUserProfileActivity(this);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
         switch (item.getItemId()) {
             case R.id.time_changing_item:
                 showDatePickerDialog();
                 return true;
 
             case R.id.user_search_item:
-                intent = new Intent(this, FriendListActivity.class);
-                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "all");
-                this.startActivity(intent);
+                NavigationHandler.goToFriendListActivity(this, "all");
                 return true;
 
             case R.id.see_friends_item:
-                intent = new Intent(this, FriendListActivity.class);
-                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "friends");
-                this.startActivity(intent);
+                NavigationHandler.goToFriendListActivity(this, "friends");
                 return true;
 
             case R.id.friends_requests_item:
-                intent = new Intent(this, FriendListActivity.class);
-                intent.putExtra(EXTRA_GOING_TO_USER_LIST, "requests");
-                this.startActivity(intent);
+                NavigationHandler.goToFriendListActivity(this, "requests");
                 return true;
 
             case R.id.settings_item:
-                intent = new Intent(this, SettingsActivity.class);
-                this.startActivity(intent);
+                NavigationHandler.goToSettingsActivity(this);
                 return true;
 
             default:

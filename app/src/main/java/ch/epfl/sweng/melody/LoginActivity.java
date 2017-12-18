@@ -32,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 import static ch.epfl.sweng.melody.account.GoogleAccount.mGoogleApiClient;
 
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 login();
                 break;
             case R.id.forgot_password_button:
-                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                NavigationHandler.goToResetPasswordActivity(this);
         }
     }
 
@@ -135,9 +135,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signUp() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
-        finish();
+        NavigationHandler.goToSignUpActivity(this);
     }
 
     private void googleSignIn() {
@@ -213,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 } else {
                     MainActivity.setUser(user);
                 }
-                MenuButtons.goToPublicMemoryActivity(LoginActivity.this);
+                NavigationHandler.goToPublicMemoryActivity(LoginActivity.this);
                 finish();
             }
 

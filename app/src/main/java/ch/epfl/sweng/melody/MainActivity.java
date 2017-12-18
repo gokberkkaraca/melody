@@ -1,6 +1,5 @@
 package ch.epfl.sweng.melody;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,15 +45,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (getFirebaseAuthInstance().getCurrentUser() == null) {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    NavigationHandler.goToLogInActivity(MainActivity.this);
                 } else {
                     user = new User(getFirebaseAuthInstance().getCurrentUser());
                     DatabaseHandler.getUser(MainActivity.getUser().getId(), new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             user = dataSnapshot.getValue(User.class);
-                            MenuButtons.goToPublicMemoryActivity(MainActivity.this);
+                            NavigationHandler.goToPublicMemoryActivity(MainActivity.this);
                         }
 
                         @Override

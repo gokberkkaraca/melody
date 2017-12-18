@@ -36,7 +36,7 @@ import ch.epfl.sweng.melody.location.LocationObserver;
 import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.util.MenuButtons;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
 public class ShowMapActivity extends FragmentActivity
         implements
@@ -67,7 +67,7 @@ public class ShowMapActivity extends FragmentActivity
 
     @Override
     public void onBackPressed() {
-        MenuButtons.goToPublicMemoryActivity(this);
+        NavigationHandler.goToPublicMemoryActivity(this);
     }
 
     /**
