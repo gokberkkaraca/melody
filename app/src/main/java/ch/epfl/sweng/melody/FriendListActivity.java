@@ -41,35 +41,39 @@ public class FriendListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userList = intent.getStringExtra(EXTRA_GOING_TO_USER_LIST);
 
-        if (userList.equals("requests")) {
-            allFriends = null;
-            friendsToDisplay = MainActivity.getUser().getFriendshipListRequests();
-            ((TextView) findViewById(R.id.friends_toolbar_title)).setText(R.string.my_friends_requests);
-        } else if (userList.equals("friends")) {
-            allFriends = MainActivity.getUser().getListFriends();
-            friendsToDisplay = MainActivity.getUser().getListFriends();
-        } else {
-            allFriends = new ArrayList<>();
-            friendsToDisplay = new ArrayList<>();
-            DatabaseHandler.getAllUsers(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot userDataSnapshot : dataSnapshot.getChildren()) {
-                        User user = userDataSnapshot.getValue(User.class);
-                        assert user != null;
-                        friendsToDisplay.add(user.getUserContactInfo());
-                        allFriends.add(user.getUserContactInfo());
+        switch (userList) {
+            case "requests":
+                allFriends = null;
+                friendsToDisplay = MainActivity.getUser().getFriendshipListRequests();
+                ((TextView) findViewById(R.id.friends_toolbar_title)).setText(R.string.my_friends_requests);
+                break;
+            case "friends":
+                allFriends = MainActivity.getUser().getListFriends();
+                friendsToDisplay = MainActivity.getUser().getListFriends();
+                break;
+            default:
+                allFriends = new ArrayList<>();
+                friendsToDisplay = new ArrayList<>();
+                DatabaseHandler.getAllUsers(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot userDataSnapshot : dataSnapshot.getChildren()) {
+                            User user = userDataSnapshot.getValue(User.class);
+                            assert user != null;
+                            friendsToDisplay.add(user.getUserContactInfo());
+                            allFriends.add(user.getUserContactInfo());
+                        }
+
+                        friendAdapter = new FriendAdapter(friendsToDisplay);
+                        friendsRecyclerView.setAdapter(friendAdapter);
                     }
 
-                    friendAdapter = new FriendAdapter(friendsToDisplay);
-                    friendsRecyclerView.setAdapter(friendAdapter);
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+                    }
+                });
+                break;
         }
 
         setTitle("");
@@ -77,6 +81,7 @@ public class FriendListActivity extends AppCompatActivity {
         setSupportActionBar(friendToolbar);
 
         ActionBar ab = getSupportActionBar();
+        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
         friendsRecyclerView = findViewById(R.id.friends_recyclerView);

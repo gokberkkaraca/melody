@@ -39,15 +39,10 @@ public class UserProfileActivity extends AppCompatActivity {
     public static final String EXTRA_USER_ID = "ch.epfl.sweng.USERID";
 
     private static User currentUser;
-    private static RecyclerView recyclerViewDetail;
-    private static MemoryAdapter memoryAdapterDetail;
     private static Parcelable recyclerViewStateDetail;
-    private static RecyclerView.LayoutManager mLayoutManagerDetail;
-    private static long memoryStartTimeDetail = 0L;
     private Boolean isMyself = true;
     private TextView edit;
     private TextView bio;
-    private List<Memory> memoryListDetail; //not the same as the one in the public activity !
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +62,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
         if (isMyself || (currentUser != null && MainActivity.getUser().isFriendWith(currentUser))) {
 
-            memoryListDetail = new ArrayList<>();
+            List<Memory> memoryListDetail = new ArrayList<>();
 
-            memoryAdapterDetail = new MemoryAdapter(memoryListDetail);
+            MemoryAdapter memoryAdapterDetail = new MemoryAdapter(memoryListDetail);
             memoryAdapterDetail.notifyDataSetChanged();
 
-            recyclerViewDetail = findViewById(R.id.user_recyclerview);
-            mLayoutManagerDetail = new LinearLayoutManager(getApplicationContext());
+            RecyclerView recyclerViewDetail = findViewById(R.id.user_recyclerview);
+            RecyclerView.LayoutManager mLayoutManagerDetail = new LinearLayoutManager(getApplicationContext());
             recyclerViewDetail.setLayoutManager(mLayoutManagerDetail);
             recyclerViewDetail.setItemAnimator(new DefaultItemAnimator());
             recyclerViewDetail.setAdapter(memoryAdapterDetail);
@@ -81,6 +76,7 @@ public class UserProfileActivity extends AppCompatActivity {
             recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
 
             //fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
+            long memoryStartTimeDetail = 0L;
             createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
             //anything should change because
 

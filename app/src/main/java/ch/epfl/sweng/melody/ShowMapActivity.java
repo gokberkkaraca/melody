@@ -29,6 +29,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.LocationListenerSubject;
@@ -151,7 +153,7 @@ public class ShowMapActivity extends FragmentActivity
         seekBar.setThumb(thumb);
         seekBar.setProgress(user.getMinRadius());
         seekBar.setVisibility(View.VISIBLE);
-        seekBar.setPadding(50, 30, 50, 0);
+        seekBar.setPadding(50, 10, 50, 0);
         filterRadius = seekBar.getProgress();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -173,6 +175,10 @@ public class ShowMapActivity extends FragmentActivity
         });
     }
 
+    /**
+     * Take a text and resize it with a certain length, and keep the last word in the resized text
+     * a completed word.
+     */
     private String takeSubtext(String text, int length) {
         if (text.length() > length) {
             String reverse = new StringBuffer(text.substring(0, length)).reverse().toString();
@@ -222,36 +228,21 @@ public class ShowMapActivity extends FragmentActivity
                                 final ViewGroup nullParent = null;
                                 View v = getLayoutInflater().inflate(R.layout.info_window_layout, nullParent);
 
-                                TextView userId = v.findViewById(R.id.userName);
-                                ImageView userPhoto = v.findViewById(R.id.userPhoto);
-                                TextView uploadTime = v.findViewById(R.id.uploadTime);
-                                TextView memoryText = v.findViewById(R.id.memoryText);
-                                ImageView memoryImage = v.findViewById(R.id.memoryImage);
-                                userId.setTextColor(Color.BLACK);
-                                userId.setGravity(Gravity.START);
-                                userId.setTypeface(userId.getTypeface(), Typeface.BOLD);
-                                uploadTime.setTextColor(Color.GRAY);
-                                memoryText.setTextColor(Color.BLACK);
-                                memoryText.setGravity(Gravity.START);
-
                                 Memory markerMemory = dataSnapshot.child(marker.getTitle()).getValue(Memory.class);
                                 assert markerMemory != null;
 
-                                userId.setText(markerMemory.getUser().getDisplayName());
-                                uploadTime.setText(markerMemory.getTime().toString());
-
-                                new GoogleProfilePictureAsync(userPhoto, Uri.parse(markerMemory.getUser().getProfilePhotoUrl())).execute();
+                                ((TextView)v.findViewById(R.id.userName)).setText(markerMemory.getUser().getDisplayName());
+                                ((TextView)v.findViewById(R.id.uploadTime)).setText(markerMemory.getTime().toString());
 
                                 String text = markerMemory.getText();
                                 if (text.length() > 60) {
-                                    memoryText.setText(getString(R.string.briefText, takeSubtext(markerMemory.getText(), 60)));
+                                    ((TextView)v.findViewById(R.id.memoryText)).setText(getString(R.string.briefText, takeSubtext(markerMemory.getText(), 100)));
                                 } else {
-                                    memoryText.setText(text);
+                                    ((TextView)v.findViewById(R.id.memoryText)).setText(text);
                                 }
 
                                 if (markerMemory.getPhotoUrl() != null) {
-                                    userPhoto.setVisibility(View.VISIBLE);
-                                    Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into(memoryImage);
+                                    Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into((ImageView)v.findViewById(R.id.memoryImage));
                                 }
                                 return v;
                             }

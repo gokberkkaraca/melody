@@ -58,12 +58,10 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static MemoryAdapter memoryAdapter;
     private static long memoryStartTime = 0L;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.FRANCE);
-    private static boolean datePicked = false;
     private static Calendar calendar;
     private static RecyclerView recyclerView;
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
-    private static User user;
 
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
@@ -95,7 +93,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         insidePublicActivity = true;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        user = MainActivity.getUser();
+        User user = MainActivity.getUser();
         String colorValue = sharedPref.getString("themeColor", "RED");
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
@@ -297,6 +295,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar c = Calendar.getInstance();
@@ -309,7 +308,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            datePicked = true;
             calendar = Calendar.getInstance();
             calendar.set(year, month, day, 0, 0, 0);
             memoryStartTime = Long.MAX_VALUE - calendar.getTimeInMillis() - TimeUnit.DAYS.toMillis(1);

@@ -199,6 +199,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private void getUserFromFirebaseAuth() {
         final FirebaseUser currentUser = MainActivity.getFirebaseAuthInstance().getCurrentUser();
+        assert currentUser != null;
+        assert currentUser.getEmail() != null;
         String currentUserId = currentUser.getEmail().replace('.', ',');
         DatabaseHandler.getUser(currentUserId, new ValueEventListener() {
             @Override

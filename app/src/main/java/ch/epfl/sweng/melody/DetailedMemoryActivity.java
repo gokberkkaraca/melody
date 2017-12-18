@@ -62,7 +62,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     private RecyclerView commentsRecyclerView;
     private ListView tagsListView;
     private ArrayAdapter adapter;
-    private ImageView authorPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +76,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         commentsRecyclerView = findViewById(R.id.comments_recyclerView);
         tagsListView = findViewById(R.id.tags_listView);
-        authorPic = findViewById(R.id.memoryAuthorPic);
+        ImageView authorPic = findViewById(R.id.memoryAuthorPic);
 
         memoryText.setVisibility(View.GONE);
         videoSpace.setVisibility(View.GONE);
@@ -181,7 +180,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                 String commentText = editComment.getText().toString();
                 if (commentText.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Cannot add empty comment!", Toast.LENGTH_SHORT).show();
-                    return;
                 } else {
                     UserContactInfo currentUser = new UserContactInfo(user.getId(), user.getDisplayName(), user.getProfilePhotoUrl(), user.getEmail());
                     Comment newComment = new Comment(memoryId, currentUser, commentText);
