@@ -112,6 +112,16 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
         if (memory.getTags().isEmpty()) {
             holder.hashOfMemory.setImageResource(R.mipmap.hash_without);
+        } else {
+            holder.hashOfMemory.setImageResource(R.mipmap.hash_with);
+        }
+
+        if (memory.getPrivacy().equals(Memory.Privacy.PRIVATE)) {
+            holder.privacyOfMemory.setImageResource(R.mipmap.private_memory);
+        } else if (memory.getPrivacy().equals(Memory.Privacy.SHARED)) {
+            holder.privacyOfMemory.setImageResource(R.mipmap.shared_memory);
+        } else {
+            holder.privacyOfMemory.setImageResource(R.mipmap.public_memory);
         }
 
         DatabaseHandler.getUser(memory.getUser().getId(), new ValueEventListener() {
@@ -177,7 +187,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
 
     class MemoriesViewHolder extends RecyclerView.ViewHolder {
         final TextView author, time, description, locationPic, locationText, likesNumberPublic, commentsNumberPublic;
-        final ImageView authorPic, memoryPic, likeButton, typeOfMemory, hashOfMemory;
+        final ImageView authorPic, memoryPic, likeButton, typeOfMemory, hashOfMemory, privacyOfMemory;
         final RelativeLayout picLayout;
         final LinearLayout locationBackground;
 
@@ -214,6 +224,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             hashOfMemory = view.findViewById(R.id.hashOfMemory);
             picLayout = view.findViewById(R.id.picLayout);
             locationBackground = view.findViewById(R.id.locationBackground);
+            privacyOfMemory = view.findViewById(R.id.privacyOfMemory);
         }
     }
 
