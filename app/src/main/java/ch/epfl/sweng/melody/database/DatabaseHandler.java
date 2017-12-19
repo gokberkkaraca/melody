@@ -8,6 +8,8 @@ import android.webkit.MimeTypeMap;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -15,6 +17,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
+import ch.epfl.sweng.melody.memory.Comment;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 
@@ -68,10 +71,6 @@ public class DatabaseHandler {
      * Memories related database methods
      */
 
-    public static void setMemoryThumbnail(String id, String thumbnailUrl) {  //we save the thumbnail in the photo because videos do not use it
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).child("photoUrl").setValue(thumbnailUrl);
-    }
-
     public static void setCustomListenerToMemories(ChildEventListener childEventListener) {
         databaseReference.child(DATABASE_MEMORIES_PATH).addChildEventListener(childEventListener);
     }
@@ -121,7 +120,7 @@ public class DatabaseHandler {
     }
 
     public static void addComment(String memoryId, ch.epfl.sweng.melody.memory.Comment comment) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(memoryId).child(DATABASE_COMMENTS_PATH).push().setValue(comment);
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(memoryId).child(DATABASE_COMMENTS_PATH).child(comment.getId()).setValue(comment);
     }
 
     public static void uploadResource(Uri uri, Context context,
@@ -133,6 +132,24 @@ public class DatabaseHandler {
                 .addOnSuccessListener(onSuccessListener)
                 .addOnFailureListener(onFailureListener)
                 .addOnProgressListener(onProgressListener);
+    }
+
+    public static void removeComment(final Comment comment) {
+        getMemory(comment.getMemoryId(), new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Memory memory = dataSnapshot.getValue(Memory.class);
+                assert memory != null;
+                memory.getComments().remove(comment.getId());
+                databaseReference.child(DATABASE_MEMORIES_PATH).child(comment.getMemoryId()).child(DATABASE_COMMENTS_PATH).setValue(memory.getComments());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private static String getResourceExtension(Uri uri, Context context) {
