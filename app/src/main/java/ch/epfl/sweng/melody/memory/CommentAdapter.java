@@ -19,7 +19,7 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentsViewHolder> {
 
     private final List<Comment> commentList;
-    private View itemView;
+    private ViewGroup parent;
 
     public CommentAdapter(List<Comment> commentList) {
         this.commentList = commentList;
@@ -27,7 +27,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Comments
 
     @Override
     public CommentsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        itemView = LayoutInflater.from(parent.getContext())
+        this.parent = parent;
+        View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.comment_list_row, parent, false);
         return new CommentsViewHolder(itemView);
     }
@@ -48,6 +49,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Comments
         holder.removeCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.comment_list_row, parent, false);
                 itemView.setVisibility(View.GONE);
                 DatabaseHandler.removeComment(comment);
 

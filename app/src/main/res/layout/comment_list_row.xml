@@ -45,7 +45,6 @@
         android:layout_height="34dp"
         android:layout_weight="0.37"
         android:background="@android:color/transparent"
-        android:onClick="removeComment"
         android:paddingBottom="0dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
