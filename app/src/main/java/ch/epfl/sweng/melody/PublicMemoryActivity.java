@@ -264,7 +264,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     }
 
     public void goToNotification(View view) {
-        NavigationHandler.goToNotificationActivity(this);
+        NavigationHandler.goToFriendListActivity(this, "requests");
     }
 
     public void goToUser(View view) {
@@ -284,10 +284,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
             case R.id.see_friends_item:
                 NavigationHandler.goToFriendListActivity(this, "friends");
-                return true;
-
-            case R.id.friends_requests_item:
-                NavigationHandler.goToFriendListActivity(this, "requests");
                 return true;
 
             case R.id.settings_item:

@@ -3,21 +3,17 @@
 
     <item
         android:id="@+id/time_changing_item"
-        android:title="@string/time_changing"></item>
+        android:title="@string/time_changing" />
 
     <item
         android:id="@+id/user_search_item"
-        android:title="@string/search_users"></item>
+        android:title="@string/search_users" />
 
     <item
         android:id="@+id/see_friends_item"
-        android:title="@string/show_friends"></item>
-
-    <item
-        android:id="@+id/friends_requests_item"
-        android:title="@string/friends_requests"></item>
+        android:title="@string/show_friends" />
 
     <item
         android:id="@+id/settings_item"
-        android:title="@string/settings"></item>
+        android:title="@string/settings" />
 </menu>

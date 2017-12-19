@@ -29,7 +29,7 @@ public class NavigationHandler {
     }
 
     public static void goToNotificationActivity(Context context) {
-        // TODO this method will be linked to map page when it is implemented
+        goToActivity(context, FriendListActivity.class);
     }
 
     public static void goToUserProfileActivity(Context context) {
