@@ -65,9 +65,9 @@
         android:layout_height="25dp"
         android:layout_marginTop="15dp"
         android:text="@string/select_privacy"
+        android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="@+id/select_tags"
         app:layout_constraintTop_toBottomOf="@+id/select_tags" />
 
@@ -106,8 +106,8 @@
         android:background="@null"
         android:onClick="sendMemory"
         app:layout_constraintBottom_toBottomOf="@+id/take_photos"
-        app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintLeft_toRightOf="@+id/take_videos"
+        app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintTop_toTopOf="@+id/take_photos"
         app:srcCompat="@mipmap/send_memory"
         tools:ignore="ContentDescription" />
@@ -154,9 +154,9 @@
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:0.6"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintDimensionRatio="1:0.6"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintTop_toBottomOf="@+id/memory_description">
@@ -165,8 +165,8 @@
             android:id="@+id/display_chosen_video"
             android:layout_width="304dp"
             android:layout_height="304dp"
-            android:adjustViewBounds="true"
             android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
             android:background="@null"
             android:scaleType="fitXY"
             android:visibility="visible"

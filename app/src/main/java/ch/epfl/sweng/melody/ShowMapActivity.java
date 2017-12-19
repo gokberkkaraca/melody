@@ -226,18 +226,18 @@ public class ShowMapActivity extends FragmentActivity
                                 Memory markerMemory = dataSnapshot.child(marker.getTitle()).getValue(Memory.class);
                                 assert markerMemory != null;
 
-                                ((TextView)v.findViewById(R.id.userName)).setText(markerMemory.getUser().getDisplayName());
-                                ((TextView)v.findViewById(R.id.uploadTime)).setText(markerMemory.getTime().toString());
+                                ((TextView) v.findViewById(R.id.userName)).setText(markerMemory.getUser().getDisplayName());
+                                ((TextView) v.findViewById(R.id.uploadTime)).setText(markerMemory.getTime().toString());
 
                                 String text = markerMemory.getText();
                                 if (text.length() > 60) {
-                                    ((TextView)v.findViewById(R.id.memoryText)).setText(getString(R.string.briefText, takeSubtext(markerMemory.getText(), 100)));
+                                    ((TextView) v.findViewById(R.id.memoryText)).setText(getString(R.string.briefText, takeSubtext(markerMemory.getText(), 100)));
                                 } else {
-                                    ((TextView)v.findViewById(R.id.memoryText)).setText(text);
+                                    ((TextView) v.findViewById(R.id.memoryText)).setText(text);
                                 }
 
                                 if (markerMemory.getPhotoUrl() != null) {
-                                    Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into((ImageView)v.findViewById(R.id.memoryImage));
+                                    Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into((ImageView) v.findViewById(R.id.memoryImage));
                                 }
                                 return v;
                             }

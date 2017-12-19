@@ -31,13 +31,13 @@
         android:id="@+id/commentContent"
         android:layout_width="40dp"
         android:layout_height="match_parent"
+        android:layout_weight="1.91"
         android:paddingBottom="10dp"
         android:paddingEnd="10dp"
         android:paddingStart="20dp"
         android:paddingTop="20dp"
         android:textAlignment="center"
-        android:textColor="#000"
-        android:layout_weight="1.91" />
+        android:textColor="#000" />
 
     <ImageButton
         android:id="@+id/removeComment"
