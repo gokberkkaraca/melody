@@ -1,8 +1,5 @@
 package ch.epfl.sweng.melody.memory;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import ch.epfl.sweng.melody.DetailedMemoryActivity;
 
 import java.util.List;
 
@@ -20,8 +15,6 @@ import ch.epfl.sweng.melody.MainActivity;
 import ch.epfl.sweng.melody.R;
 import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
-import ch.epfl.sweng.melody.util.DialogUtils;
-import ch.epfl.sweng.melody.util.NavigationHandler;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentsViewHolder> {
 
