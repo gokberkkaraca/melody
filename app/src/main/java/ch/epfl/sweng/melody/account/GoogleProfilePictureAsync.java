@@ -22,14 +22,16 @@ public class GoogleProfilePictureAsync extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... params) {
 
+        Bitmap bitmap = null;
         try {
             URL ulr = new URL(uri.toString());
             InputStream inp = ulr.openConnection().getInputStream();
-            return BitmapFactory.decodeStream(inp);
+            bitmap = BitmapFactory.decodeStream(inp);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+
+        return bitmap;
     }
 
     protected void onPostExecute(Bitmap result) {
