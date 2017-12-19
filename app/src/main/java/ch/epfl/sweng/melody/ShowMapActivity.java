@@ -6,12 +6,10 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -31,9 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.location.LocationListenerSubject;
 import ch.epfl.sweng.melody.location.LocationObserver;
@@ -237,18 +232,18 @@ public class ShowMapActivity extends FragmentActivity
                                 Memory markerMemory = dataSnapshot.child(marker.getTitle()).getValue(Memory.class);
                                 assert markerMemory != null;
 
-                                ((TextView)v.findViewById(R.id.userName)).setText(markerMemory.getUser().getDisplayName());
-                                ((TextView)v.findViewById(R.id.uploadTime)).setText(markerMemory.getTime().toString());
+                                ((TextView) v.findViewById(R.id.userName)).setText(markerMemory.getUser().getDisplayName());
+                                ((TextView) v.findViewById(R.id.uploadTime)).setText(markerMemory.getTime().toString());
 
                                 String text = markerMemory.getText();
                                 if (text.length() > 60) {
-                                    ((TextView)v.findViewById(R.id.memoryText)).setText(getString(R.string.briefText, takeSubtext(markerMemory.getText(), 100)));
+                                    ((TextView) v.findViewById(R.id.memoryText)).setText(getString(R.string.briefText, takeSubtext(markerMemory.getText(), 100)));
                                 } else {
-                                    ((TextView)v.findViewById(R.id.memoryText)).setText(text);
+                                    ((TextView) v.findViewById(R.id.memoryText)).setText(text);
                                 }
 
                                 if (markerMemory.getPhotoUrl() != null) {
-                                    Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into((ImageView)v.findViewById(R.id.memoryImage));
+                                    Picasso.with(getApplicationContext()).load(markerMemory.getPhotoUrl()).into((ImageView) v.findViewById(R.id.memoryImage));
                                 }
                                 return v;
                             }
