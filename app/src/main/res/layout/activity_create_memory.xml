@@ -11,7 +11,7 @@
     <EditText
         android:id="@+id/memory_description"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="75dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
@@ -75,7 +75,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="30dp"
         android:background="@null"
         android:onClick="pickPhotoDialog"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -161,7 +161,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="280dp"
-        android:layout_height="220dp"
+        android:layout_height="200dp"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
