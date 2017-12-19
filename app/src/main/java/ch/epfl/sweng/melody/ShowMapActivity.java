@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -8,6 +9,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -39,6 +41,7 @@ import ch.epfl.sweng.melody.location.SerializableLocation;
 import ch.epfl.sweng.melody.memory.Memory;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.NavigationHandler;
+import ch.epfl.sweng.melody.util.UserPreferences;
 
 public class ShowMapActivity extends FragmentActivity
         implements
@@ -52,6 +55,7 @@ public class ShowMapActivity extends FragmentActivity
     private SerializableLocation filterOrigin = new SerializableLocation(0, 0, "origin point");
     private GoogleMap mMap;
     private OnLocationChangedListener onLocationChangedListener;
+    private int colorThemeValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class ShowMapActivity extends FragmentActivity
 
         seekbarConfig();
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
-
+        colorThemeValue = UserPreferences.colorThemeValue;
     }
 
     @Override
@@ -154,6 +158,8 @@ public class ShowMapActivity extends FragmentActivity
         seekBar.setProgress(user.getMinRadius());
         seekBar.setVisibility(View.VISIBLE);
         seekBar.setPadding(50, 10, 50, 0);
+        seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
+        seekBar.getThumb().setColorFilter(getResources().getColor(R.color.red), PorterDuff.Mode.SRC_ATOP);
         filterRadius = seekBar.getProgress();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
