@@ -160,8 +160,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="280dp"
+        android:layout_height="220dp"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
