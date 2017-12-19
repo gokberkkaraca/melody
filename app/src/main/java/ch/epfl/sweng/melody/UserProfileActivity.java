@@ -73,6 +73,8 @@ public class UserProfileActivity extends AppCompatActivity {
             recyclerViewDetail.setItemAnimator(new DefaultItemAnimator());
             recyclerViewDetail.setAdapter(memoryAdapterDetail);
 
+            recyclerViewDetail.setNestedScrollingEnabled(false); //delete this !!!
+
             recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
 
             //fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);

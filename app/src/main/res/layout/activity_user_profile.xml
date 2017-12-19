@@ -100,8 +100,8 @@
             android:id="@+id/friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginStart="50dp"
+            android:layout_gravity="center"
             android:text=""
             android:textColor="#000" />
     </LinearLayout>
@@ -125,70 +125,77 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/showMemoriesLayout"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/linearLayout3"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout2"
-        android:orientation="vertical"
-        android:textColor="#000">
+        android:layout_height="wrap_content"
+        >
 
-        <TextView
-            android:id="@+id/youAreFriends"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/you_are_friends"
-            android:textColor="@color/green"
-            android:textSize="22sp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/sendFriendRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="sendFriendRequest"
-            android:text="@string/friendRequest"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/removeFriendShipRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="removeFriendRequest"
-            android:text="@string/remove_friend_request"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/confirmFriendRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="confirmFriendRequest"
-            android:text="@string/confirm_friend_request"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/refuseFriendRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="refuseFriendRequest"
-            android:text="@string/refuse_friend_request"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/removeFriend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="removeFriend"
-            android:text="@string/remove_friend"
-            android:visibility="gone" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/user_recyclerview"
+        <LinearLayout
+            android:id="@+id/showMemoriesLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp" />
-    </LinearLayout>
+            android:layout_above="@+id/linearLayout3"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/linearLayout2"
+            android:orientation="vertical"
+            android:textColor="#000">
+
+            <TextView
+                android:id="@+id/youAreFriends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/you_are_friends"
+                android:textColor="@color/green"
+                android:textSize="22sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/sendFriendRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="sendFriendRequest"
+                android:text="@string/friendRequest"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/removeFriendShipRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="removeFriendRequest"
+                android:text="@string/remove_friend_request"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/confirmFriendRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="confirmFriendRequest"
+                android:text="@string/confirm_friend_request"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/refuseFriendRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="refuseFriendRequest"
+                android:text="@string/refuse_friend_request"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/removeFriend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="removeFriend"
+                android:text="@string/remove_friend"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"/>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>
