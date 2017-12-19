@@ -85,8 +85,8 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         fetchMemoryFromDatabase();
         setCommentsContainer();
 
-        tagsList = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tagsList);
+        tagsList = new ArrayList<>();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tagsList);
         tagsListView.setAdapter(adapter);
 
         authorPic.setOnClickListener(new View.OnClickListener() {
@@ -113,20 +113,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                         }
                         DatabaseHandler.removeMemory(memoryId);
                         Toast.makeText(getApplicationContext(), "Removing Memory..", Toast.LENGTH_SHORT).show();
-                    }
-                }).create().show();
-    }
-
-    public void removeComment(final View view) {
-        new AlertDialog.Builder(this)
-                .setTitle("Remove Comment?")
-                .setMessage("Are you sure you want to remove this comment?")
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface arg0, int arg1) {
-
-                        Toast.makeText(getApplicationContext(), "Removing Comment...", Toast.LENGTH_SHORT).show();
                     }
                 }).create().show();
     }
