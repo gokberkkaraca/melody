@@ -55,7 +55,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     public static final String EXTRA_GOING_TO_USER_LIST = "ch.epfl.sweng.GOING_TO_USER_LISTS";
     public static boolean insidePublicActivity;
-    public static LruCache<String, Bitmap> mMemoryCache;
     private static MemoryAdapter memoryAdapter;
     private static long memoryStartTime = 0L;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy", Locale.FRANCE);
@@ -63,42 +62,9 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static RecyclerView recyclerView;
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
-    private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-    private final int cacheSize = maxMemory / 8;
     private Toolbar myToolbar;
+
     private List<Memory> memoryList;
-
-    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-        if (getBitmapFromMemCache(key) == null) {
-            mMemoryCache.put(key, bitmap);
-        }
-    }
-
-    public static Bitmap getBitmapFromMemCache(String key) {
-        return mMemoryCache.get(key);
-    }
-
-    public static void saveRecyclerViewPosition() {
-        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
-    }
-
-    public static ColorCode getColorCode(String colorValue) {
-
-        switch (colorValue) {
-            case "1":
-                return new ColorCode(User.ThemeColor.RED, R.color.red);
-            case "2":
-                return new ColorCode(User.ThemeColor.GREEN, R.color.green);
-            case "3":
-                return new ColorCode(User.ThemeColor.BLUELIGHT, R.color.blueLight);
-            case "4":
-                return new ColorCode(User.ThemeColor.BLUEDARK, R.color.blueDark);
-            case "5":
-                return new ColorCode(User.ThemeColor.BLACK, R.color.black);
-            default:
-                return new ColorCode(User.ThemeColor.RED, R.color.red);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,13 +98,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         PermissionUtils.accessLocationWithPermission(this);
         createMemoriesListener(memoryList, memoryAdapter, memoryStartTime, null);
         memoryAdapter.notifyDataSetChanged();
-
-        mMemoryCache = new LruCache<String, Bitmap>(cacheSize) { //caching the video thumbnail to not recompute them again
-            @Override
-            protected int sizeOf(String key, Bitmap bitmap) {
-                return bitmap.getByteCount() / 1024;
-            }
-        };
 
         recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
 
