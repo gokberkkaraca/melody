@@ -160,6 +160,7 @@ public class UserProfileActivity extends AppCompatActivity {
         DatabaseHandler.uploadUser(MainActivity.getUser());
         findViewById(R.id.refuseFriendRequest).setVisibility(View.GONE);
         findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
+        findViewById(R.id.confirmFriendRequest).setVisibility(View.GONE);
     }
 
     public void confirmFriendRequest(View v) {
