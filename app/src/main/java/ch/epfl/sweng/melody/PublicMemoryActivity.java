@@ -62,28 +62,12 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static RecyclerView recyclerView;
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
+    private Toolbar myToolbar;
+    public static Integer colorThemeValue;
 
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
     private List<Memory> memoryList;
-
-    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-        if (getBitmapFromMemCache(key) == null) {
-            mMemoryCache.put(key, bitmap);
-        }
-    }
-
-    public static Bitmap getBitmapFromMemCache(String key) {
-        return mMemoryCache.get(key);
-    }
-
-    public static void saveRecyclerViewPosition() {
-        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
-    }
-
-    public static void scrollViewToTop() {
-        mLayoutManager.scrollToPosition(0);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,46 +76,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
         insidePublicActivity = true;
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        User user = MainActivity.getUser();
-        String colorValue = sharedPref.getString("themeColor", "RED");
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.public_toolbar);
-        myToolbar.setTitle("Melody");
-
-        if (user != null) {
-            switch (colorValue) {
-                case "1":
-                    user.setThemeColor(User.ThemeColor.RED);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
-                    break;
-                case "2":
-                    user.setThemeColor(User.ThemeColor.GREEN);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.green));
-                    break;
-                case "3":
-                    user.setThemeColor(User.ThemeColor.BLUELIGHT);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueLight));
-                    break;
-                case "4":
-                    user.setThemeColor(User.ThemeColor.BLUEDARK);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueDark));
-                    break;
-                case "5":
-                    user.setThemeColor(User.ThemeColor.BLACK);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black));
-                    break;
-                default:
-                    user.setThemeColor(User.ThemeColor.RED);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
-            }
-            int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
-            user.setMinRadius(rMin);
-            int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
-            user.setMaxRadius(rMax);
-            boolean notificationsOn = sharedPref.getBoolean("notifications", true);
-            user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
-        }
+        setUserPreference();
 
         setSupportActionBar(myToolbar);
         myToolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.menu));
@@ -166,6 +111,73 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
         recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
 
+    }
+
+    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+        if (getBitmapFromMemCache(key) == null) {
+            mMemoryCache.put(key, bitmap);
+        }
+    }
+
+    public static Bitmap getBitmapFromMemCache(String key) {
+        return mMemoryCache.get(key);
+    }
+
+    public static void saveRecyclerViewPosition() {
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+    }
+
+    public static void scrollViewToTop() {
+        mLayoutManager.scrollToPosition(0);
+    }
+
+    private void setUserPreference() {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        User user = MainActivity.getUser();
+        String colorValue = sharedPref.getString("themeColor", "RED");
+
+        myToolbar = findViewById(R.id.public_toolbar);
+        myToolbar.setTitle("Melody");
+
+        if (user != null) {
+            switch (colorValue) {
+                case "1":
+                    colorThemeValue = R.color.red;
+                    user.setThemeColor(User.ThemeColor.RED);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, colorThemeValue));
+                    break;
+                case "2":
+                    colorThemeValue = R.color.green;
+                    user.setThemeColor(User.ThemeColor.GREEN);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, colorThemeValue));
+                    break;
+                case "3":
+                    colorThemeValue = R.color.blueLight;
+                    user.setThemeColor(User.ThemeColor.BLUELIGHT);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, colorThemeValue));
+                    break;
+                case "4":
+                    colorThemeValue = R.color.blueDark;
+                    user.setThemeColor(User.ThemeColor.BLUEDARK);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, colorThemeValue));
+                    break;
+                case "5":
+                    colorThemeValue = R.color.black;
+                    user.setThemeColor(User.ThemeColor.BLACK);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, colorThemeValue));
+                    break;
+                default:
+                    colorThemeValue = R.color.red;
+                    user.setThemeColor(User.ThemeColor.RED);
+                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, colorThemeValue));
+            }
+            int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
+            user.setMinRadius(rMin);
+            int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
+            user.setMaxRadius(rMax);
+            boolean notificationsOn = sharedPref.getBoolean("notifications", true);
+            user.setNotificationsOn(sharedPref.getBoolean("notifications", notificationsOn));
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ch.epfl.sweng.melody;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -52,6 +53,7 @@ public class ShowMapActivity extends FragmentActivity
     private SerializableLocation filterOrigin = new SerializableLocation(0, 0, "origin point");
     private GoogleMap mMap;
     private OnLocationChangedListener onLocationChangedListener;
+    private int colorThemeValue = PublicMemoryActivity.colorThemeValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,6 @@ public class ShowMapActivity extends FragmentActivity
 
         seekbarConfig();
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
-
     }
 
     @Override
@@ -154,6 +155,9 @@ public class ShowMapActivity extends FragmentActivity
         seekBar.setProgress(user.getMinRadius());
         seekBar.setVisibility(View.VISIBLE);
         seekBar.setPadding(50, 10, 50, 0);
+        seekBar.getProgressDrawable().setColorFilter(colorThemeValue, PorterDuff.Mode.MULTIPLY);
+        seekBar.getThumb().setColorFilter(colorThemeValue, PorterDuff.Mode.SRC_ATOP);
+        seekBar.setBackgroundColor(colorThemeValue);
         filterRadius = seekBar.getProgress();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
