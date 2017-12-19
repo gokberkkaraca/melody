@@ -124,10 +124,6 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(memoryId).child(DATABASE_COMMENTS_PATH).push().setValue(comment);
     }
 
-//    public static void getComments(String memoryId, ValueEventListener vel){
-//        databaseReference.child(DATABASE_MEMORIES_PATH).child(memoryId).child("comments").addValueEventListener(vel);
-//    }
-
     public static void uploadResource(Uri uri, Context context,
                                       OnSuccessListener onSuccessListener,
                                       OnFailureListener onFailureListener,
@@ -144,10 +140,4 @@ public class DatabaseHandler {
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
-
-    /*
-    public static void newFriendshipRequest(User sender, User receiver) {
-        receiver.getFriendshipRequests().add(sender.getUserContactInfo());
-        uploadUser(receiver);
-    }*/
 }

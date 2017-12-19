@@ -36,7 +36,7 @@ public class Comment {
         if (userContactInfo != null)
             return userContactInfo;
         else
-            return new UserContactInfo("SampleUser1", "Sample User", "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/resources%2F1511445418787.jpg?alt=media&token=79ef569d-b65a-47b6-b1b9-3b32098153ff", "sample@gmail.com");
+            throw new NullPointerException();
     }
 
     public String getContent() {
