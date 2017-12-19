@@ -125,11 +125,6 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
         <LinearLayout
             android:id="@+id/showMemoriesLayout"
             android:layout_width="match_parent"
@@ -197,5 +192,4 @@
                 android:layout_marginTop="5dp"/>
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

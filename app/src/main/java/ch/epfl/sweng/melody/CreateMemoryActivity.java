@@ -126,46 +126,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         Toast.makeText(getApplicationContext(), "Memory is shared!", Toast.LENGTH_SHORT).show();
     }
 
-    //These methods will create the thumbnail and upload it to the server but there is still a bug
-
-    /*
-    private void createAndAddThumbnail(Uri uri) {
-        Bitmap thumbnail = retrieveVideoFrameFromVideo(uri.toString());
-        Uri thumbnailUri = saveResultToFile("/images", "png", thumbnail, this);
-        if(thumbnail==null) Toast.makeText(this, "Thumbnail is null", Toast.LENGTH_LONG).show();
-        DatabaseHandler.uploadResource(thumbnailUri, this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                String thumbnailUrl = taskSnapshot.getDownloadUrl().toString();
-                memory.setThumbnailUrl(thumbnailUrl);
-            }
-        }, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {}
-        }, new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {}
-        });
-    }
-
-    private Bitmap retrieveVideoFrameFromVideo(String videoPath) {      // This always return null, I don't understand why
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = null;
-        try {
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-            bitmap = mediaMetadataRetriever.getFrameAtTime();
-            //bitmap = mediaMetadataRetriever.getFrameAtTime(100000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (mediaMetadataRetriever != null) {
-                mediaMetadataRetriever.release();
-            }
-        }
-        return bitmap;
-    }*/
-
     public void sendMemory(View view) {
         memoryDescription = editText.getText().toString();
         if (memoryDescription.isEmpty()) {
