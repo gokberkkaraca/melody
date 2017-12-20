@@ -3,7 +3,6 @@ package ch.epfl.sweng.melody;
 
 import org.junit.Test;
 
-import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.notification.NotificationHandler;
 import ch.epfl.sweng.melody.util.FetchingUtils;
 import ch.epfl.sweng.melody.util.NavigationHandler;
@@ -19,6 +18,5 @@ public class CreateInstanceTest {
         NavigationHandler navigationHandler = new NavigationHandler();
         FetchingUtils fetchingUtils = new FetchingUtils();
         NotificationHandler notificationHandler = new NotificationHandler();
-        DatabaseHandler databaseHandler = new DatabaseHandler();
     }
 }
