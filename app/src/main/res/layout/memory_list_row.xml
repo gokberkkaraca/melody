@@ -51,6 +51,7 @@
                     android:layout_alignBottom="@+id/authorPic"
                     android:layout_toEndOf="@+id/authorPic"
                     android:src="@mipmap/photo_type"
+                    android:tint="@color/blueDark"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -71,6 +72,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
                     android:padding="3dp"
+                    android:tint="@color/blueDark"
                     android:src="@mipmap/public_memory"
                     tools:ignore="ContentDescription" />
 
@@ -81,6 +83,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_toStartOf="@+id/privacyOfMemory"
                     android:padding="3dp"
+                    android:tint="@color/blueDark"
                     android:src="@mipmap/hash_with"
                     tools:ignore="ContentDescription" />
 

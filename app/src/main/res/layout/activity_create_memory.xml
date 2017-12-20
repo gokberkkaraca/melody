@@ -18,7 +18,7 @@
         android:ems="10"
         android:hint="@string/hitforMemoryDescription"
         android:inputType="textMultiLine"
-        android:lines="3"
+        android:lines="4"
         android:maxLines="4"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -41,14 +41,13 @@
         android:id="@+id/select_tags"
         android:layout_width="115dp"
         android:layout_height="25dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:text="@string/select_tag"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
         app:layout_constraintTop_toBottomOf="@+id/address" />
-
 
     <Spinner
         android:id="@+id/tags_dropdown"
@@ -58,25 +57,25 @@
         app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintTop_toTopOf="@+id/select_tags" />
 
-
     <TextView
         android:id="@+id/add_privacy"
         android:layout_width="123dp"
         android:layout_height="25dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:text="@string/select_privacy"
-        android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="@+id/select_tags"
         app:layout_constraintTop_toBottomOf="@+id/select_tags" />
 
     <ImageButton
         android:id="@+id/take_photos"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
         android:background="@null"
         android:onClick="pickPhotoDialog"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,12 +83,13 @@
         app:layout_constraintStart_toStartOf="@+id/memory_description"
         app:layout_constraintTop_toBottomOf="@+id/add_privacy"
         app:srcCompat="@mipmap/photo"
+        android:tint="@color/red"
         tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/take_videos"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@null"
         android:onClick="pickVideoDialog"
         app:layout_constraintBottom_toBottomOf="@+id/take_photos"
@@ -97,42 +97,48 @@
         app:layout_constraintRight_toLeftOf="@+id/memory_send"
         app:layout_constraintTop_toTopOf="@+id/take_photos"
         app:srcCompat="@mipmap/video"
+        android:tint="@color/red"
         tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/memory_send"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@null"
         android:onClick="sendMemory"
         app:layout_constraintBottom_toBottomOf="@+id/take_photos"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/take_videos"
-        app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintTop_toTopOf="@+id/take_photos"
         app:srcCompat="@mipmap/send_memory"
+        android:tint="@color/red"
         tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/private_memory_button"
-        android:layout_width="38dp"
-        android:layout_height="44dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/select_privacy"
         android:onClick="makeMemoryPrivate"
         android:visibility="visible"
+        android:tint="@color/blueDark"
         app:layout_constraintLeft_toRightOf="@+id/add_privacy"
         app:layout_constraintRight_toLeftOf="@+id/shared_memory_button"
         app:layout_constraintTop_toBottomOf="@+id/tags_dropdown"
-        app:srcCompat="@android:drawable/ic_lock_lock" />
+        app:srcCompat="@mipmap/private_memory" />
 
     <ImageButton
         android:id="@+id/public_memory_button"
-        android:layout_width="38dp"
-        android:layout_height="44dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/select_privacy"
         android:onClick="makeMemoryPublic"
         android:visibility="visible"
+        android:tint="@color/blueDark"
         app:layout_constraintLeft_toRightOf="@+id/shared_memory_button"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tags_dropdown"
@@ -140,38 +146,37 @@
 
     <ImageButton
         android:id="@+id/shared_memory_button"
-        android:layout_width="38dp"
-        android:layout_height="44dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/select_privacy"
         android:onClick="makeMemoryShared"
         android:visibility="visible"
+        android:tint="@color/blueDark"
         app:layout_constraintLeft_toRightOf="@+id/private_memory_button"
         app:layout_constraintRight_toLeftOf="@+id/public_memory_button"
         app:layout_constraintTop_toBottomOf="@+id/tags_dropdown"
-        app:srcCompat="?attr/actionModeShareDrawable" />
+        app:srcCompat="@mipmap/shared_memory" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
+        android:layout_width="280dp"
+        android:layout_height="200dp"
         android:scaleType="fitCenter"
-        app:layout_constraintDimensionRatio="1:0.6"
+        android:adjustViewBounds="true"
         app:layout_constraintLeft_toLeftOf="@+id/memory_description"
         app:layout_constraintRight_toRightOf="@+id/memory_description"
         app:layout_constraintTop_toBottomOf="@+id/memory_description">
 
         <VideoView
             android:id="@+id/display_chosen_video"
-            android:layout_width="304dp"
-            android:layout_height="304dp"
-            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:layout_alignParentTop="true"
             android:background="@null"
-            android:scaleType="fitXY"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/display_chosen_photo"
-            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintLeft_toLeftOf="@+id/display_chosen_photo"
             app:layout_constraintRight_toRightOf="@+id/display_chosen_photo"
             app:layout_constraintTop_toTopOf="@+id/display_chosen_photo"
@@ -179,10 +184,10 @@
 
         <ImageView
             android:id="@+id/display_chosen_photo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

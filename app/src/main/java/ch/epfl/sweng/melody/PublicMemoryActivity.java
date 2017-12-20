@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -24,11 +25,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +51,7 @@ import ch.epfl.sweng.melody.util.NavigationHandler;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 import ch.epfl.sweng.melody.util.UserPreferences;
 
+import static ch.epfl.sweng.melody.R.layout.menu_layout;
 import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
@@ -264,7 +269,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     }
 
     public void goToNotification(View view) {
-        NavigationHandler.goToNotificationActivity(this);
+        NavigationHandler.goToFriendListActivity(this, "requests");
     }
 
     public void goToUser(View view) {
@@ -284,10 +289,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
             case R.id.see_friends_item:
                 NavigationHandler.goToFriendListActivity(this, "friends");
-                return true;
-
-            case R.id.friends_requests_item:
-                NavigationHandler.goToFriendListActivity(this, "requests");
                 return true;
 
             case R.id.settings_item:

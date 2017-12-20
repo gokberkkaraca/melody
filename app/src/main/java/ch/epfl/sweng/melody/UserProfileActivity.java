@@ -212,7 +212,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void goToNotification(View view) {
-        NavigationHandler.goToNotificationActivity(this);
+        NavigationHandler.goToFriendListActivity(this, "requests");
     }
 
     public void goToUser(View view) {
