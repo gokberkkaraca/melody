@@ -63,11 +63,42 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static RecyclerView recyclerView;
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
-    private Toolbar myToolbar;
-
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
+    private Toolbar myToolbar;
     private List<Memory> memoryList;
+
+    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+        if (getBitmapFromMemCache(key) == null) {
+            mMemoryCache.put(key, bitmap);
+        }
+    }
+
+    public static Bitmap getBitmapFromMemCache(String key) {
+        return mMemoryCache.get(key);
+    }
+
+    public static void saveRecyclerViewPosition() {
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+    }
+
+    public static ColorCode getColorCode(String colorValue) {
+
+        switch (colorValue) {
+            case "1":
+                return new ColorCode(User.ThemeColor.RED, R.color.red);
+            case "2":
+                return new ColorCode(User.ThemeColor.GREEN, R.color.green);
+            case "3":
+                return new ColorCode(User.ThemeColor.BLUELIGHT, R.color.blueLight);
+            case "4":
+                return new ColorCode(User.ThemeColor.BLUEDARK, R.color.blueDark);
+            case "5":
+                return new ColorCode(User.ThemeColor.BLACK, R.color.black);
+            default:
+                return new ColorCode(User.ThemeColor.RED, R.color.red);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,20 +142,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
         recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
 
-    }
-
-    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-        if (getBitmapFromMemCache(key) == null) {
-            mMemoryCache.put(key, bitmap);
-        }
-    }
-
-    public static Bitmap getBitmapFromMemCache(String key) {
-        return mMemoryCache.get(key);
-    }
-
-    public static void saveRecyclerViewPosition() {
-        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
     }
 
     private void setUserPreference() {
@@ -215,7 +232,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         }
     }
 
-
     /*************************************************
      ******************* Menu Buttons ****************
      *************************************************/
@@ -302,24 +318,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     }
 
-    public static ColorCode getColorCode(String colorValue) {
-
-        switch (colorValue) {
-            case "1":
-                return new ColorCode(User.ThemeColor.RED, R.color.red);
-            case "2":
-                return new ColorCode(User.ThemeColor.GREEN, R.color.green);
-            case "3":
-                return new ColorCode(User.ThemeColor.BLUELIGHT, R.color.blueLight);
-            case "4":
-                return new ColorCode(User.ThemeColor.BLUEDARK, R.color.blueDark);
-            case "5":
-                return new ColorCode(User.ThemeColor.BLACK, R.color.black);
-            default:
-                return new ColorCode(User.ThemeColor.RED, R.color.red);
-        }
-    }
-
     public static class ColorCode {
 
         private User.ThemeColor themeColor;
@@ -330,7 +328,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             this.themeColorValue = themeColorValue;
         }
 
-        protected User.ThemeColor getThemeColor(){
+        protected User.ThemeColor getThemeColor() {
             return themeColor;
         }
 

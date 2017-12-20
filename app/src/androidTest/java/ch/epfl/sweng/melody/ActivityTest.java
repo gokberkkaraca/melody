@@ -5,11 +5,9 @@ import android.net.Uri;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import ch.epfl.sweng.melody.user.User;
-import ch.epfl.sweng.melody.util.NavigationHandler;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
