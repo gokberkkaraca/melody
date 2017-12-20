@@ -60,11 +60,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
     TextView address;
     private ImageView imageView;
     private VideoView videoView;
-    private List<String> tags = new ArrayList<>();
-    private List<String> selectedTags = new ArrayList<String>();
     private Bitmap picture;
     private EditText editText;
-    private EditText newTag;
     private Uri resourceUri;
     private Memory.MemoryType memoryType;
     private Memory.Privacy memoryPrivacy = Memory.Privacy.PUBLIC;
@@ -102,37 +99,8 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         imageView = findViewById(R.id.display_chosen_photo);
         videoView = findViewById(R.id.display_chosen_video);
         editText = findViewById(R.id.memory_description);
-        Spinner dropDown = findViewById(R.id.tags_dropdown);
         address = findViewById(R.id.address);
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
-
-        fetchTagsFromDatabase();
-        selectedTags.add("sweng");
-
-// TODO: Implement UI dropdown that allows you to add new tag as well
-//        tagSubmit.setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View v) {
-//                String addTag = newTag.getText().toString();
-//
-//                if (addTag.isEmpty()) {
-//                    Toast.makeText(getApplicationContext(), "Cannot add empty tag!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else {
-//                    for (int i = 0; i < tags.size(); ++i) {
-//                        if (tags.get(i).equals(addTag)) {
-//                            Toast.makeText(getApplicationContext(), "Tag already exists!", Toast.LENGTH_SHORT).show();
-//                            return;
-//                        }
-//                    }
-//                    addTagToDatabase(addTag);
-//                    selectedTags.add(addTag);
-//                    fetchTagsFromDatabase();
-//                }
-//            }
-//        });
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, tags);
-        dropDown.setAdapter(adapter);
     }
 
     @Override
@@ -213,7 +181,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
         if (resourceUri == null) {
             memoryType = Memory.MemoryType.TEXT;
             memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
-                    .tags(selectedTags)
                     .build();
             DatabaseHandler.uploadMemory(memory);
             Toast.makeText(getApplicationContext(), "Memory uploaded!", Toast.LENGTH_SHORT).show();
@@ -233,12 +200,10 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                 if (memoryType == Memory.MemoryType.PHOTO) {
                     memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .photo(url)
-                            .tags(selectedTags)
                             .build();
                 } else if (memoryType == Memory.MemoryType.VIDEO) {
                     memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .video(url)
-                            .tags(selectedTags)
                             .build();
                     //createAndAddThumbnail(resourceUri);    //this should create and upload the thumbnail of the memory and store it in the photoUrl which is not used for video
                     // but since it fails to create the frame, this method fails
@@ -259,28 +224,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                 progressDialog.setMessage("Uploaded " + (int) progress + "%");
             }
         });
-    }
-
-    public void fetchTagsFromDatabase() {
-        DatabaseHandler.getAllTags(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot tagDataSnapshot : dataSnapshot.getChildren()) {
-                    String tag = tagDataSnapshot.getValue(String.class);
-                    assert tag != null;
-                    tags.add(tag);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed!");
-            }
-        });
-    }
-
-    public void addTagToDatabase(String newTag) {
-        DatabaseHandler.addTag(newTag);
     }
 
     @Override

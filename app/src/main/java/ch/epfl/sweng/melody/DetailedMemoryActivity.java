@@ -53,15 +53,12 @@ import static ch.epfl.sweng.melody.PublicMemoryActivity.insidePublicActivity;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
     private static CommentAdapter commentAdapter;
-    private static List<String> tagsList;
     private static User user;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
     private Memory memory;
     private String memoryId;
     private List<Comment> commentList;
     private RecyclerView commentsRecyclerView;
-    private ListView tagsListView;
-    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +72,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         RelativeLayout videoSpace = findViewById(R.id.memoryImageOrVideo);
 
         commentsRecyclerView = findViewById(R.id.comments_recyclerView);
-        tagsListView = findViewById(R.id.tags_listView);
         ImageView authorPic = findViewById(R.id.memoryAuthorPic);
 
         memoryText.setVisibility(View.GONE);
@@ -84,10 +80,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         fetchMemoryFromDatabase();
         setCommentsContainer();
-
-        tagsList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tagsList);
-        tagsListView.setAdapter(adapter);
 
         authorPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,8 +192,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
                     final VideoView memoryVideo = findViewById(R.id.memoryVideo);
 
-                    TextView tagsTitle = findViewById(R.id.tags_title);
-
                     TextView date = findViewById(R.id.memoryDate);
                     date.setText(format.format(memory.getTime()));
 
@@ -289,15 +279,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                         commentsRecyclerView.setLayoutManager(mLayoutManager);
                         commentsRecyclerView.setItemAnimator(new DefaultItemAnimator());
                         commentsRecyclerView.setAdapter(commentAdapter);
-                    }
-
-                    if (memory.getTags().size() > 0) {
-                        tagsTitle.setVisibility(View.VISIBLE);
-                        tagsListView.setVisibility(View.VISIBLE);
-                        adapter.clear();
-                        tagsList = memory.getTags();
-                        adapter.addAll(tagsList);
-                        adapter.notifyDataSetChanged();
                     }
 
                     final ImageButton likeButton = findViewById(R.id.likeButtonDetailed);

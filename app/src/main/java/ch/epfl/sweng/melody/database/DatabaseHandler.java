@@ -28,7 +28,6 @@ public class DatabaseHandler {
     private static final String STORAGE_IMAGES_PATH = "resources/";
     private static final String DATABASE_MEMORIES_PATH = "memories";
     private static final String DATABASE_USERS_PATH = "users";
-    private static final String DATABASE_TAGS_PATH = "tags";
     private static final String DATABASE_COMMENTS_PATH = "comments";
     private static final String DATABASE_FRIENDSHIP_REQUESTS_PATH = "friendshipRequests";
     private static final String DATABASE_FRIENDS_PATH = "friends";
@@ -109,14 +108,6 @@ public class DatabaseHandler {
 
     public static void uploadMemory(Memory memory) {
         databaseReference.child(DATABASE_MEMORIES_PATH).child(memory.getId()).setValue(memory.upload());
-    }
-
-    public static void addTag(String tag) {
-        databaseReference.child(DATABASE_TAGS_PATH).child(tag).setValue(tag);
-    }
-
-    public static void getAllTags(ValueEventListener vel) {
-        databaseReference.child(DATABASE_TAGS_PATH).addValueEventListener(vel);
     }
 
     public static void addComment(String memoryId, ch.epfl.sweng.melody.memory.Comment comment) {
