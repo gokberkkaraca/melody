@@ -159,7 +159,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
-            holder.typeOfMemory.setImageResource(R.mipmap.video);
+            holder.typeOfMemory.setImageResource(R.mipmap.video_type);
             holder.picLayout.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.GONE);
             if (memory.getSerializableLocation().getLocationName() == null)
