@@ -33,9 +33,6 @@ import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 
-import static ch.epfl.sweng.melody.PublicMemoryActivity.addBitmapToMemoryCache;
-import static ch.epfl.sweng.melody.PublicMemoryActivity.getBitmapFromMemCache;
-import static ch.epfl.sweng.melody.PublicMemoryActivity.mMemoryCache;
 import static ch.epfl.sweng.melody.PublicMemoryActivity.saveRecyclerViewPosition;
 import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USER_ID;
 
@@ -162,18 +159,12 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
                 holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
             Picasso.with(holder.itemView.getContext()).load(memory.getPhotoUrl()).into(holder.memoryPic);
         } else if (memory.getMemoryType() == Memory.MemoryType.VIDEO) {
-            holder.typeOfMemory.setImageResource(R.mipmap.video);
+            holder.typeOfMemory.setImageResource(R.mipmap.video_type);
             holder.picLayout.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.GONE);
             if (memory.getSerializableLocation().getLocationName() == null)
                 holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
             Bitmap thumbnail;
-            thumbnail = getBitmapFromMemCache(memory.getId());  //Storing the thumbnails is better than recomputing them everytime
-            if (thumbnail == null) {
-                if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
-                thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
-                addBitmapToMemoryCache(memory.getId(), thumbnail);
-            }
             thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
             holder.memoryPic.setImageBitmap(thumbnail);
         }
