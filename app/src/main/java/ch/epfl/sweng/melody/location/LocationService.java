@@ -25,11 +25,10 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 public class LocationService extends Service implements LocationObserver {
     @RestrictTo(RestrictTo.Scope.TESTS)
     private static boolean isServiceStarted;
-    SharedPreferences sharedPrefs = null;
     Date lastTimestamp = new Date();
     private double DISTANCE_TO_USER = 5000;
     private double MIN_DISTANCE = 500;
-    private long TIME_PERIOD = MILLISECONDS.convert(1, MINUTES);
+    private long TIME_PERIOD = MILLISECONDS.convert(0, MINUTES);
     private SerializableLocation lastLocation = new SerializableLocation(0, 0, "FAKE");
     private ValueEventListener valueEventListenerLocation;
 
@@ -46,10 +45,6 @@ public class LocationService extends Service implements LocationObserver {
     public void onCreate() {
         super.onCreate();
         isServiceStarted = true;
-//        TODO: Connect Preferences from Settings to LocationService
-//        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-//        MIN_DISTANCE = Double.parseDouble(sharedPrefs.getString("minRadius", "500"));
-//        TIME_PERIOD = sharedPrefs.getInt("checkLocationTime", 30);
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
     }
 
