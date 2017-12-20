@@ -302,7 +302,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     }
 
-    private static ColorCode getColorCode(String colorValue) {
+    public static ColorCode getColorCode(String colorValue) {
 
         switch (colorValue) {
             case "1":
@@ -320,7 +320,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         }
     }
 
-    protected static class ColorCode {
+    public static class ColorCode {
 
         private User.ThemeColor themeColor;
         private int themeColorValue;
