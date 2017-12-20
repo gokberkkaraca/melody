@@ -40,7 +40,6 @@ public class FriendListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String userList = intent.getStringExtra(EXTRA_GOING_TO_USER_LIST);
-        MainActivity.getUser().notify();
 
         switch (userList) {
             case "requests":
