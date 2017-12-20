@@ -50,27 +50,13 @@ public class Memory {
         tags = new ArrayList<>();
     }
 
-    public boolean hasNotChanged(Memory memory) {
-        return getId().equals(memory.getId()) && getLikes().size() == memory.getLikes().size() && getComments().size() == memory.getComments().size();
-    }
-
     public Long getLongId() {
-        long longId = 0L;
-        try {
-            longId = Long.parseLong(id);
-        } catch (NumberFormatException nfe) {
-            System.out.println("NumberFormatException: " + nfe.getMessage());
-        }
-        return longId;
+        return Long.valueOf(id);
     }
 
     @Override
     public boolean equals(Object obj) {
         return obj.getClass().equals(Memory.class) && this.id.equals(((Memory) obj).getId());
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.photoUrl = thumbnailUrl;
     }
 
     public String getId() {
