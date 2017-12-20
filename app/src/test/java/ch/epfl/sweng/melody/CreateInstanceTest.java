@@ -12,7 +12,7 @@ import ch.epfl.sweng.melody.util.UserPreferences;
 public class CreateInstanceTest {
 
     @Test
-    public void canCreateInstance(){
+    public void canCreateInstance() {
         UserPreferences userPreferences = new UserPreferences();
         PermissionUtils permissionUtils = new PermissionUtils();
         NavigationHandler navigationHandler = new NavigationHandler();
