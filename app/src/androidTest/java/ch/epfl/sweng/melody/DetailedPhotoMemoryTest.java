@@ -13,7 +13,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class DetailedMemoryActivityTest extends ActivityTest {
+public class DetailedPhotoMemoryTest extends ActivityTest {
 
     @Rule
     public final IntentsTestRule<DetailedMemoryActivity> memoryDetailActivityIntentsTestRule =
@@ -23,7 +23,7 @@ public class DetailedMemoryActivityTest extends ActivityTest {
                     Context targetContext = InstrumentationRegistry.getInstrumentation()
                             .getTargetContext();
                     Intent intent = new Intent(targetContext, DetailedMemoryActivity.class);
-                    intent.putExtra("memoryId", "9223370524547128149");
+                    intent.putExtra("memoryId", "9223370525978343766");
                     return intent;
                 }
             };
@@ -32,7 +32,6 @@ public class DetailedMemoryActivityTest extends ActivityTest {
     @Test
     public void getMemoryTest() throws Exception {
         Thread.sleep(5000);
-        onView(withId(R.id.memoryAuthor)).check(matches(withText("Jiacheng Xu")));
-        //onView(withId(R.id.memoryLocation)).check(matches(withText("Lausanne,Switzerland")));
+        onView(withId(R.id.memoryAuthor)).check(matches(withText("Black.R")));
     }
 }
