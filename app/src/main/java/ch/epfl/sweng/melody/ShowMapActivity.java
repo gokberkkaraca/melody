@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -47,7 +46,7 @@ public class ShowMapActivity extends FragmentActivity
     private int filterRadius = 0;
     private SerializableLocation currentLocation = new SerializableLocation(0, 0, "Current");
     private SerializableLocation filterOrigin = new SerializableLocation(0, 0, "origin point");
-    private SerializableLocation markerLocation = new SerializableLocation(0,0,"Marker");
+    private SerializableLocation markerLocation = new SerializableLocation(0, 0, "Marker");
     private GoogleMap mMap;
     private int colorThemeValue;
     private boolean isfirstTimeToUpdateLocation;
@@ -104,7 +103,7 @@ public class ShowMapActivity extends FragmentActivity
     @Override
     public void update(Location location) {
         updateLocation(currentLocation, location.getLongitude(), location.getLatitude());
-        if(isfirstTimeToUpdateLocation){
+        if (isfirstTimeToUpdateLocation) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 12.0f));
             updateLocation(filterOrigin, currentLocation.getLongitude(), currentLocation.getLatitude());
             isfirstTimeToUpdateLocation = false;
@@ -116,7 +115,7 @@ public class ShowMapActivity extends FragmentActivity
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         updateLocation(filterOrigin, latLng.longitude, latLng.latitude);
-        updateLocation(markerLocation,latLng.longitude,latLng.latitude);
+        updateLocation(markerLocation, latLng.longitude, latLng.latitude);
     }
 
     public void seekbarConfig() {
@@ -184,8 +183,8 @@ public class ShowMapActivity extends FragmentActivity
 
     private void filerMemoriesByLocation(final SerializableLocation location) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12.0f));
-        if(location.getLongitude()==markerLocation.getLongitude()&&location.getLatitude()==markerLocation.getLatitude()){
-            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        if (location.getLongitude() == markerLocation.getLongitude() && location.getLatitude() == markerLocation.getLatitude()) {
+            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         }
         DatabaseHandler.getAllMemories(new ValueEventListener() {
             @Override
