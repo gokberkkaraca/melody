@@ -34,13 +34,6 @@
         <activity android:name=".CreateMemoryActivity" />
         <activity android:name=".DetailedMemoryActivity" />
 
-        <service
-            android:name=".database.MelodyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
         <service android:name=".database.FirebaseBackgroundService" />
         <service android:name=".location.LocationService" />
 
