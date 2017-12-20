@@ -159,8 +159,6 @@ public class CreateMemoryActivity extends AppCompatActivity implements LocationO
                     memory = new Memory.MemoryBuilder(MainActivity.getUser(), memoryDescription, serializableLocation, memoryPrivacy)
                             .video(url)
                             .build();
-                    //createAndAddThumbnail(resourceUri);    //this should create and upload the thumbnail of the memory and store it in the photoUrl which is not used for video
-                    // but since it fails to create the frame, this method fails
                 }
                 DatabaseHandler.uploadMemory(memory);
                 NavigationHandler.goToPublicMemoryActivity(CreateMemoryActivity.this);

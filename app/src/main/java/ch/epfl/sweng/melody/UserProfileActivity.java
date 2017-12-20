@@ -73,14 +73,13 @@ public class UserProfileActivity extends AppCompatActivity {
             recyclerViewDetail.setItemAnimator(new DefaultItemAnimator());
             recyclerViewDetail.setAdapter(memoryAdapterDetail);
 
-            recyclerViewDetail.setNestedScrollingEnabled(false); //delete this !!!
+            recyclerViewDetail.setNestedScrollingEnabled(false);
 
             recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
 
-            //fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
             long memoryStartTimeDetail = 0L;
             createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
-            //anything should change because
+
 
             recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
         }
