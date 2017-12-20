@@ -8,6 +8,13 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 public class FriendListActivityAllTest {
 
     @Rule
@@ -26,5 +33,15 @@ public class FriendListActivityAllTest {
     @Test
     public void testCanPass() {
 
+    }
+
+    @Test
+    public void testCanSearchWithEmail() {
+        onView(withId(R.id.search_view)).perform(typeText("jiacheng.xu@epfl.ch")).perform(closeSoftKeyboard());
+    }
+
+    @Test
+    public void testCanSearchWithName() {
+        onView(withId(R.id.search_view)).perform(typeText("Kebab")).perform(closeSoftKeyboard());
     }
 }
