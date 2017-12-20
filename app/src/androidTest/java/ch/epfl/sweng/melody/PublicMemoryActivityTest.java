@@ -12,6 +12,8 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertTrue;
@@ -23,36 +25,30 @@ public class PublicMemoryActivityTest extends ActivityTest {
             new IntentsTestRule<PublicMemoryActivity>(PublicMemoryActivity.class, false, true);
 
     @Test
-    @Ignore
-    public void datePickerWorks() throws Exception {
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-        Thread.sleep(2000);
-        onView(withText("Time travel")).perform(click());
-        onView(withText("OK")).perform(click());
-    }
-
-    @Test
-    @Ignore
     public void openFriendsList() throws Exception {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         Thread.sleep(3000);
         onView(withText("Friends")).perform(click());
+        Thread.sleep(100);
+        intended(hasComponent(FriendListActivity.class.getName()));
     }
 
     @Test
-    @Ignore
     public void openUserSearch() throws Exception {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         Thread.sleep(3000);
         onView(withText("Search Users")).perform(click());
+        Thread.sleep(100);
+        intended(hasComponent(FriendListActivity.class.getName()));
     }
 
     @Test
-    @Ignore
-    public void openFriendRequestList() throws Exception {
+    public void openSettings() throws Exception {
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         Thread.sleep(2000);
-        onView(withText("Friends Requests")).perform(click());
+        onView(withText("Settings")).perform(click());
+        Thread.sleep(100);
+        intended(hasComponent(SettingsActivity.class.getName()));
     }
 
     @Test
