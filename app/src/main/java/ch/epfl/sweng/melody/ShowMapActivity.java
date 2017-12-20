@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -42,14 +43,14 @@ public class ShowMapActivity extends FragmentActivity
         OnMapReadyCallback,
         LocationObserver,
         GoogleMap.OnMyLocationButtonClickListener,
-        LocationSource,
         GoogleMap.OnMapLongClickListener {
     private int filterRadius = 0;
     private SerializableLocation currentLocation = new SerializableLocation(0, 0, "Current");
     private SerializableLocation filterOrigin = new SerializableLocation(0, 0, "origin point");
+    private SerializableLocation markerLocation = new SerializableLocation(0,0,"Marker");
     private GoogleMap mMap;
-    private OnLocationChangedListener onLocationChangedListener;
     private int colorThemeValue;
+    private boolean isfirstTimeToUpdateLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class ShowMapActivity extends FragmentActivity
         seekbarConfig();
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
         colorThemeValue = UserPreferences.colorThemeValue;
+        isfirstTimeToUpdateLocation = true;
     }
 
     @Override
@@ -88,46 +90,33 @@ public class ShowMapActivity extends FragmentActivity
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-        mMap.setLocationSource(this);
         mMap.setOnMapLongClickListener(this);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 12.0f));
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Location location = createLocation(currentLocation.getLongitude(), currentLocation.getLatitude(), "Go Back");
-        onLocationChangedListener.onLocationChanged(location);
+        mMap.clear();
         updateLocation(filterOrigin, currentLocation.getLongitude(), currentLocation.getLatitude());
         return false;
     }
 
     @Override
     public void update(Location location) {
-        if (onLocationChangedListener != null
-                && currentLocation.getLatitude() == filterOrigin.getLatitude()
-                && currentLocation.getLongitude() == filterOrigin.getLongitude()) {
-            onLocationChangedListener.onLocationChanged(location);
-            updateLocation(currentLocation, location.getLongitude(), location.getLatitude());
-            updateLocation(filterOrigin, location.getLongitude(), location.getLatitude());
+        updateLocation(currentLocation, location.getLongitude(), location.getLatitude());
+        if(isfirstTimeToUpdateLocation){
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 12.0f));
+            updateLocation(filterOrigin, currentLocation.getLongitude(), currentLocation.getLatitude());
+            isfirstTimeToUpdateLocation = false;
         }
-    }
-
-    @Override
-    public void activate(OnLocationChangedListener onLocationChangedListener) {
-        this.onLocationChangedListener = onLocationChangedListener;
-    }
-
-    @Override
-    public void deactivate() {
-        onLocationChangedListener = null;
     }
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        if (onLocationChangedListener != null) {
-            updateLocation(filterOrigin, latLng.longitude, latLng.latitude);
-            Location location = createLocation(latLng.longitude, latLng.latitude, "LongPressLocationProvider");
-            onLocationChangedListener.onLocationChanged(location);
-        }
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        updateLocation(filterOrigin, latLng.longitude, latLng.latitude);
+        updateLocation(markerLocation,latLng.longitude,latLng.latitude);
     }
 
     public void seekbarConfig() {
@@ -195,6 +184,9 @@ public class ShowMapActivity extends FragmentActivity
 
     private void filerMemoriesByLocation(final SerializableLocation location) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 12.0f));
+        if(location.getLongitude()==markerLocation.getLongitude()&&location.getLatitude()==markerLocation.getLatitude()){
+            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+        }
         DatabaseHandler.getAllMemories(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
@@ -262,13 +254,4 @@ public class ShowMapActivity extends FragmentActivity
         location.setLongitude(longitude);
         location.setLatitude(latitude);
     }
-
-    private Location createLocation(double longitude, double latitude, String provider) {
-        Location location = new Location(provider);
-        location.setLatitude(latitude);
-        location.setLongitude(longitude);
-        location.setAccuracy(100);
-        return location;
-    }
-
 }
