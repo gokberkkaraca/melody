@@ -75,7 +75,7 @@ public class DatabaseHandler {
     }
 
     public static void removeMemory(String id) {
-        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).removeValue();  //add a completion listener ?
+        databaseReference.child(DATABASE_MEMORIES_PATH).child(id).removeValue();
     }
 
     public static void getMemory(String id, ValueEventListener vel) {

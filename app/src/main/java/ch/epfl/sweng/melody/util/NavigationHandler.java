@@ -28,10 +28,6 @@ public class NavigationHandler {
         goToActivity(context, ShowMapActivity.class);
     }
 
-    public static void goToNotificationActivity(Context context) {
-        goToActivity(context, FriendListActivity.class);
-    }
-
     public static void goToUserProfileActivity(Context context) {
         goToActivity(context, UserProfileActivity.class);
     }

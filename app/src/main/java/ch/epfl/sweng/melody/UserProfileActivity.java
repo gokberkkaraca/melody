@@ -73,12 +73,13 @@ public class UserProfileActivity extends AppCompatActivity {
             recyclerViewDetail.setItemAnimator(new DefaultItemAnimator());
             recyclerViewDetail.setAdapter(memoryAdapterDetail);
 
+            recyclerViewDetail.setNestedScrollingEnabled(false);
+
             recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
 
-            //fetchMemoriesFromDatabase(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
             long memoryStartTimeDetail = 0L;
             createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
-            //anything should change because
+
 
             recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
         }
@@ -160,6 +161,7 @@ public class UserProfileActivity extends AppCompatActivity {
         DatabaseHandler.uploadUser(MainActivity.getUser());
         findViewById(R.id.refuseFriendRequest).setVisibility(View.GONE);
         findViewById(R.id.sendFriendRequest).setVisibility(View.VISIBLE);
+        findViewById(R.id.confirmFriendRequest).setVisibility(View.GONE);
     }
 
     public void confirmFriendRequest(View v) {
