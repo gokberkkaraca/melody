@@ -8,7 +8,7 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class FriendListActivityTest {
+public class FriendListActivityAllTest {
 
     @Rule
     public final IntentsTestRule<FriendListActivity> memoryDetailActivityIntentsTestRule =
