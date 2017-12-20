@@ -39,7 +39,7 @@ abstract public class ActivityTest {
     @Test
     public void goToPublicMemoryTest() throws Exception {
         onView(withId(R.id.home)).check(matches(allOf(isEnabled(), isClickable()))).perform(click());
-        Thread.sleep(150);
+        Thread.sleep(100);
         intended(hasComponent(PublicMemoryActivity.class.getName()));
     }
 
