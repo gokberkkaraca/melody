@@ -40,4 +40,13 @@ public class CommentTest {
         assertTrue(comment.getTime() != null);
     }
 
+    @Test
+    public void getUserContactInfoTest() {
+        assertTrue(comment.getUserContactInfo() == sample_user);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void createCommentWithNullUser() {
+        Comment comment = new Comment(memoryId, null, "Test comment");
+    }
 }

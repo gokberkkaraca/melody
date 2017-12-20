@@ -14,6 +14,10 @@ public class Comment {
     private String id;
 
     public Comment(String memoryId, UserContactInfo user, String content) {
+
+        if (user == null)
+            throw new IllegalArgumentException();
+
         this.id = Long.toString(System.currentTimeMillis());
         this.memoryId = memoryId;
         this.userContactInfo = user;
@@ -33,10 +37,7 @@ public class Comment {
     }
 
     public UserContactInfo getUserContactInfo() {
-        if (userContactInfo != null)
             return userContactInfo;
-        else
-            throw new NullPointerException();
     }
 
     public String getContent() {
