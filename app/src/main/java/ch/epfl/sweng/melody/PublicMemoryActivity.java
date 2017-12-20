@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -25,14 +23,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,7 +46,6 @@ import ch.epfl.sweng.melody.util.NavigationHandler;
 import ch.epfl.sweng.melody.util.PermissionUtils;
 import ch.epfl.sweng.melody.util.UserPreferences;
 
-import static ch.epfl.sweng.melody.R.layout.menu_layout;
 import static ch.epfl.sweng.melody.util.FetchingUtils.createMemoriesListener;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_GPS;
 import static ch.epfl.sweng.melody.util.PermissionUtils.REQUEST_LOCATION;
@@ -70,7 +64,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static Parcelable recyclerViewState;
     private static RecyclerView.LayoutManager mLayoutManager;
     private Toolbar myToolbar;
-//    public static Integer colorThemeValue;
 
     private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
     private final int cacheSize = maxMemory / 8;
@@ -134,10 +127,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
     }
 
-    public static void scrollViewToTop() {
-        mLayoutManager.scrollToPosition(0);
-    }
-
     private void setUserPreference() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         User user = MainActivity.getUser();
@@ -147,37 +136,11 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         myToolbar.setTitle("Melody");
 
         if (user != null) {
-            switch (colorValue) {
-                case "1":
-                    UserPreferences.colorThemeValue = R.color.red;
-                    user.setThemeColor(User.ThemeColor.RED);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
-                    break;
-                case "2":
-                    UserPreferences.colorThemeValue = R.color.green;
-                    user.setThemeColor(User.ThemeColor.GREEN);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.green));
-                    break;
-                case "3":
-                    UserPreferences.colorThemeValue = R.color.blueLight;
-                    user.setThemeColor(User.ThemeColor.BLUELIGHT);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueLight));
-                    break;
-                case "4":
-                    UserPreferences.colorThemeValue = R.color.blueDark;
-                    user.setThemeColor(User.ThemeColor.BLUEDARK);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.blueDark));
-                    break;
-                case "5":
-                    UserPreferences.colorThemeValue = R.color.black;
-                    user.setThemeColor(User.ThemeColor.BLACK);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.black));
-                    break;
-                default:
-                    UserPreferences.colorThemeValue = R.color.red;
-                    user.setThemeColor(User.ThemeColor.RED);
-                    myToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.red));
-            }
+            ColorCode colorCode = getColorCode(colorValue);
+            UserPreferences.colorThemeValue = colorCode.getThemeColorValue();
+            user.setThemeColor(colorCode.getThemeColor());
+            myToolbar.setTitleTextColor(ContextCompat.getColor(this, colorCode.getThemeColorValue()));
+
             int rMin = Integer.parseInt(sharedPref.getString("minRadius", "1"));
             user.setMinRadius(rMin);
             int rMax = Integer.parseInt(sharedPref.getString("maxRadius", "100"));
@@ -339,4 +302,40 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
 
     }
 
+    private static ColorCode getColorCode(String colorValue) {
+
+        switch (colorValue) {
+            case "1":
+                return new ColorCode(User.ThemeColor.RED, R.color.red);
+            case "2":
+                return new ColorCode(User.ThemeColor.GREEN, R.color.green);
+            case "3":
+                return new ColorCode(User.ThemeColor.BLUELIGHT, R.color.blueLight);
+            case "4":
+                return new ColorCode(User.ThemeColor.BLUEDARK, R.color.blueDark);
+            case "5":
+                return new ColorCode(User.ThemeColor.BLACK, R.color.black);
+            default:
+                return new ColorCode(User.ThemeColor.RED, R.color.red);
+        }
+    }
+
+    protected static class ColorCode {
+
+        private User.ThemeColor themeColor;
+        private int themeColorValue;
+
+        ColorCode(User.ThemeColor themeColor, int themeColorValue) {
+            this.themeColor = themeColor;
+            this.themeColorValue = themeColorValue;
+        }
+
+        protected User.ThemeColor getThemeColor(){
+            return themeColor;
+        }
+
+        protected int getThemeColorValue() {
+            return themeColorValue;
+        }
+    }
 }
