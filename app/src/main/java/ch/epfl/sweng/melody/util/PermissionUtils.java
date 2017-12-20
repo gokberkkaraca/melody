@@ -71,11 +71,7 @@ public class PermissionUtils {
             try {
                 locationManager = (LocationManager) activity.getSystemService(LOCATION_SERVICE);
                 LocationListenerSubject locationListener = LocationListenerSubject.getLocationListenerInstance();
-                try {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
