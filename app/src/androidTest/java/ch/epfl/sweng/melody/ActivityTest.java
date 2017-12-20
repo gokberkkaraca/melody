@@ -65,6 +65,7 @@ abstract public class ActivityTest {
         intended(hasComponent(ShowMapActivity.class.getName()));
     }
 
+    @Ignore
     @Test
     public void goToNotification() throws Exception {
         onView(withId(R.id.bell)).check(matches(allOf(isEnabled(), isClickable()))).perform(click());
