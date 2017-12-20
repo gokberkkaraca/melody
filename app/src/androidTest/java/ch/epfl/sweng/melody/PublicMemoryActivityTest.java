@@ -1,25 +1,15 @@
 package ch.epfl.sweng.melody;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-
-import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Rule;
 import org.junit.Test;
-
-import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class PublicMemoryActivityTest extends ActivityTest {
 
