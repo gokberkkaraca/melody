@@ -91,6 +91,7 @@ public class ShowMapActivity extends FragmentActivity
         }
         mMap.setOnMapLongClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 12.0f));
+        updateLocation(filterOrigin, currentLocation.getLongitude(), currentLocation.getLatitude());
     }
 
     @Override
