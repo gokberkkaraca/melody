@@ -191,6 +191,28 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         }
     }
 
+    public static ColorCode getColorCode(String colorValue) {
+
+        switch (colorValue) {
+            case "1":
+                return new ColorCode(User.ThemeColor.RED, R.color.red);
+            case "2":
+                return new ColorCode(User.ThemeColor.GREEN, R.color.green);
+            case "3":
+                return new ColorCode(User.ThemeColor.BLUELIGHT, R.color.blueLight);
+            case "4":
+                return new ColorCode(User.ThemeColor.BLUEDARK, R.color.blueDark);
+            case "5":
+                return new ColorCode(User.ThemeColor.BLACK, R.color.black);
+            default:
+                return new ColorCode(User.ThemeColor.RED, R.color.red);
+        }
+    }
+
+    public static void saveRecyclerViewPosition() {
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+    }
+
     /*************************************************
      ******************* Menu Buttons ****************
      *************************************************/
