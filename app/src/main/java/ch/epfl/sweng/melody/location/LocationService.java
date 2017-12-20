@@ -2,7 +2,6 @@ package ch.epfl.sweng.melody.location;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.IBinder;
 import android.support.annotation.RestrictTo;

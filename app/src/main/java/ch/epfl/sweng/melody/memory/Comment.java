@@ -37,7 +37,7 @@ public class Comment {
     }
 
     public UserContactInfo getUserContactInfo() {
-            return userContactInfo;
+        return userContactInfo;
     }
 
     public String getContent() {
