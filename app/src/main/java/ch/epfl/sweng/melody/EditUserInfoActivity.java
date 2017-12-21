@@ -133,30 +133,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
     private void onPhotoFromCameraResult(Intent data) {
         assert data.getExtras() != null;
         picture = (Bitmap) data.getExtras().get("data");
-        profileUri = saveResultToFile("/images", "png");
+        profileUri = CreateMemoryActivity.saveResultToFile("/images", "png",picture,this);
         profileImage.setImageBitmap(picture);
-    }
-
-    private Uri saveResultToFile(String targetFolder, String resourceType) {
-
-        Uri resultUri = null;
-
-        File targetDir = new File(this.getCacheDir().toString() + targetFolder);
-        targetDir.mkdirs();
-
-        String filename = UUID.randomUUID().toString().substring(0, 8) + "." + resourceType;
-        File file = new File(targetDir, filename);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            picture.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-            resultUri = Uri.fromFile(file);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            Toast.makeText(this, "Error occurred while choosing resource from camera", Toast.LENGTH_LONG).show();
-        }
-
-        return resultUri;
     }
 
     public void changeUserProfile(View view) {

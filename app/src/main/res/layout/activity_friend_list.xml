@@ -43,6 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/friends_toolbar"
-        android:iconifiedByDefault="false"/>
+        android:iconifiedByDefault="false" />
 
 </RelativeLayout>

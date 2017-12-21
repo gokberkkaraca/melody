@@ -50,9 +50,9 @@ import ch.epfl.sweng.melody.util.NavigationHandler;
 import static ch.epfl.sweng.melody.PublicMemoryActivity.insidePublicActivity;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
-    private CommentAdapter commentAdapter;
     private static User user;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
+    private CommentAdapter commentAdapter;
     private Memory memory;
     private String memoryId;
     private List<Comment> commentList;
@@ -137,7 +137,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         editComment.setLayoutParams(params);
         editComment.setHint(R.string.addCommentHint);
         editComment.setHintTextColor(Color.GRAY);
-        editComment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
+        editComment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f);
         editComment.setTypeface(commentTitle.getTypeface(), Typeface.ITALIC);
         editComment.setTextColor(Color.BLACK);
         editComment.setLayoutParams(params);
@@ -163,6 +163,10 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     memoryText.setText(currentUser.getDisplayName());
                     DatabaseHandler.addComment(memoryId, newComment);
                     Toast.makeText(getApplicationContext(), "Comment added!", Toast.LENGTH_SHORT).show();
+                    editComment.setText("");
+                    getWindow().setSoftInputMode(
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                    );
                 }
             }
         });

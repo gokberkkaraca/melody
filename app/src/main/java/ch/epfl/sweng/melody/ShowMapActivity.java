@@ -50,6 +50,7 @@ public class ShowMapActivity extends FragmentActivity
     private GoogleMap mMap;
     private int colorThemeValue;
     private boolean isfirstTimeToUpdateLocation;
+    private SeekBar seekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,12 @@ public class ShowMapActivity extends FragmentActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
+        seekBar = findViewById(R.id.seekBar);
         seekbarConfig();
         LocationListenerSubject.getLocationListenerInstance().registerObserver(this);
         colorThemeValue = UserPreferences.colorThemeValue;
         isfirstTimeToUpdateLocation = true;
+
     }
 
     @Override
@@ -71,15 +73,6 @@ public class ShowMapActivity extends FragmentActivity
         NavigationHandler.goToPublicMemoryActivity(this);
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Lausanne.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -98,6 +91,7 @@ public class ShowMapActivity extends FragmentActivity
     public boolean onMyLocationButtonClick() {
         mMap.clear();
         updateLocation(filterOrigin, currentLocation.getLongitude(), currentLocation.getLatitude());
+        seekBar.setProgress(0);
         return false;
     }
 
@@ -117,6 +111,7 @@ public class ShowMapActivity extends FragmentActivity
         mMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
         updateLocation(filterOrigin, latLng.longitude, latLng.latitude);
         updateLocation(markerLocation, latLng.longitude, latLng.latitude);
+        seekBar.setProgress(0);
     }
 
     public void seekbarConfig() {
@@ -131,7 +126,6 @@ public class ShowMapActivity extends FragmentActivity
         radiusValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
         radiusValue.setTextColor(Color.BLACK);
 
-        SeekBar seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(user.getMaxRadius());
         ShapeDrawable thumb = new ShapeDrawable(new OvalShape());
 
