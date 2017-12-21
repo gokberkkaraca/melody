@@ -137,7 +137,7 @@ public class DetailedMemoryActivity extends AppCompatActivity {
         editComment.setLayoutParams(params);
         editComment.setHint(R.string.addCommentHint);
         editComment.setHintTextColor(Color.GRAY);
-        editComment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
+        editComment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f);
         editComment.setTypeface(commentTitle.getTypeface(), Typeface.ITALIC);
         editComment.setTextColor(Color.BLACK);
         editComment.setLayoutParams(params);
@@ -163,6 +163,10 @@ public class DetailedMemoryActivity extends AppCompatActivity {
                     memoryText.setText(currentUser.getDisplayName());
                     DatabaseHandler.addComment(memoryId, newComment);
                     Toast.makeText(getApplicationContext(), "Comment added!", Toast.LENGTH_SHORT).show();
+                    editComment.setText("");
+                    getWindow().setSoftInputMode(
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                    );
                 }
             }
         });
