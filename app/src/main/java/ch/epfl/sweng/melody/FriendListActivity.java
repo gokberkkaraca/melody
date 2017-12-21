@@ -53,7 +53,6 @@ public class FriendListActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void displayActivity(String userList) {
@@ -86,7 +85,6 @@ public class FriendListActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-
                     }
                 });
                 break;
