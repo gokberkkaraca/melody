@@ -3,7 +3,6 @@ package ch.epfl.sweng.melody;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -45,6 +44,10 @@ public class UserProfileActivity extends AppCompatActivity {
     private TextView edit;
     private TextView bio;
 
+    public List<Memory> memoryListDetail;
+    public MemoryAdapter memoryAdapterDetail;
+    public long memoryStartTimeDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,36 +62,36 @@ public class UserProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userId = intent.getStringExtra(EXTRA_USER_ID);
 
+        memoryListDetail = new ArrayList<>();
+
+        memoryAdapterDetail = new MemoryAdapter(memoryListDetail);
+        memoryAdapterDetail.notifyDataSetChanged();
+
+        RecyclerView recyclerViewDetail = findViewById(R.id.user_recyclerview);
+        RecyclerView.LayoutManager mLayoutManagerDetail = new LinearLayoutManager(getApplicationContext());
+        recyclerViewDetail.setLayoutManager(mLayoutManagerDetail);
+        recyclerViewDetail.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewDetail.setAdapter(memoryAdapterDetail);
+
+        recyclerViewDetail.setNestedScrollingEnabled(false);
+
+        recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
+
+        memoryStartTimeDetail = 0L;
+
+        recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
+
         getUserFromServer(userId);
 
-        if (isMyself || (currentUser != null && MainActivity.getUser().isFriendWith(currentUser))) {
-
-            List<Memory> memoryListDetail = new ArrayList<>();
-
-            MemoryAdapter memoryAdapterDetail = new MemoryAdapter(memoryListDetail);
-            memoryAdapterDetail.notifyDataSetChanged();
-
-            RecyclerView recyclerViewDetail = findViewById(R.id.user_recyclerview);
-            RecyclerView.LayoutManager mLayoutManagerDetail = new LinearLayoutManager(getApplicationContext());
-            recyclerViewDetail.setLayoutManager(mLayoutManagerDetail);
-            recyclerViewDetail.setItemAnimator(new DefaultItemAnimator());
-            recyclerViewDetail.setAdapter(memoryAdapterDetail);
-
-            recyclerViewDetail.setNestedScrollingEnabled(false);
-
-            recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
-
-            long memoryStartTimeDetail = 0L;
-            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser); 
-
-            recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
-        }
     }
 
     private void getUserFromServer(String userId) {
         if (userId == null || userId.equals(MainActivity.getUser().getId())) {
             currentUser = MainActivity.getUser();
             prepareActivityWithUser();
+            if (isMyself || (currentUser != null && MainActivity.getUser().isFriendWith(currentUser))) {
+                createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
+            }
         } else {
             isMyself = false;
             edit.setVisibility(View.GONE);
@@ -97,6 +100,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentUser = dataSnapshot.getValue(User.class);
                     prepareActivityWithUser();
+                    if (isMyself || (currentUser != null && MainActivity.getUser().isFriendWith(currentUser))) {
+                        createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);
+                    }
                 }
 
                 @Override
