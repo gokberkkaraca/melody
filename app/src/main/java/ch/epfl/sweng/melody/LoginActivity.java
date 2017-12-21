@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import ch.epfl.sweng.melody.account.GoogleAccount;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
+import ch.epfl.sweng.melody.notification.NotificationHandler;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.util.NavigationHandler;
 
@@ -213,6 +214,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 } else {
                     MainActivity.setUser(user);
                 }
+                NotificationHandler.sendNotification(LoginActivity.this,"Welcome back! "+ user.getDisplayName() );
                 NavigationHandler.goToPublicMemoryActivity(LoginActivity.this);
                 finish();
             }
