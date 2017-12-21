@@ -50,9 +50,9 @@ import ch.epfl.sweng.melody.util.NavigationHandler;
 import static ch.epfl.sweng.melody.PublicMemoryActivity.insidePublicActivity;
 
 public class DetailedMemoryActivity extends AppCompatActivity {
-    private CommentAdapter commentAdapter;
     private static User user;
     private final SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.FRANCE);
+    private CommentAdapter commentAdapter;
     private Memory memory;
     private String memoryId;
     private List<Comment> commentList;
