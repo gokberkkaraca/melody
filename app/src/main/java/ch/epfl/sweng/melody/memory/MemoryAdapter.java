@@ -33,6 +33,9 @@ import ch.epfl.sweng.melody.account.GoogleProfilePictureAsync;
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
 
+import static ch.epfl.sweng.melody.PublicMemoryActivity.addBitmapToMemoryCache;
+import static ch.epfl.sweng.melody.PublicMemoryActivity.getBitmapFromMemCache;
+import static ch.epfl.sweng.melody.PublicMemoryActivity.mMemoryCache;
 import static ch.epfl.sweng.melody.PublicMemoryActivity.saveRecyclerViewPosition;
 import static ch.epfl.sweng.melody.UserProfileActivity.EXTRA_USER_ID;
 
@@ -165,6 +168,12 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             if (memory.getSerializableLocation().getLocationName() == null)
                 holder.locationBackground.setBackgroundColor(Color.TRANSPARENT);
             Bitmap thumbnail;
+            thumbnail = getBitmapFromMemCache(memory.getId());
+            if (thumbnail == null) {
+                if (mMemoryCache.size() > 5) mMemoryCache.trimToSize(5);
+                thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
+                addBitmapToMemoryCache(memory.getId(), thumbnail);
+            }
             thumbnail = retrieveVideoFrameFromVideo(memory.getVideoUrl());
             holder.memoryPic.setImageBitmap(thumbnail);
         }

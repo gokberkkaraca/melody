@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.LruCache;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -61,6 +63,9 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static RecyclerView recyclerView;
     private static Parcelable recyclerViewState;
     private Toolbar myToolbar;
+    private final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+    private final int cacheSize = maxMemory / 8;
+    public static LruCache<String, Bitmap> mMemoryCache;
 
     private List<Memory> memoryList;
 
@@ -80,6 +85,16 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
             default:
                 return new ColorCode(User.ThemeColor.RED, R.color.red);
         }
+    }
+
+    public static void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+        if (getBitmapFromMemCache(key) == null) {
+            mMemoryCache.put(key, bitmap);
+        }
+    }
+
+    public static Bitmap getBitmapFromMemCache(String key) {
+        return mMemoryCache.get(key);
     }
 
     public static void saveRecyclerViewPosition() {
@@ -121,6 +136,13 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         memoryAdapter.notifyDataSetChanged();
 
         recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+
+        mMemoryCache = new LruCache<String, Bitmap>(cacheSize) { //caching the video thumbnail to not recompute them again
+            @Override
+            protected int sizeOf(String key, Bitmap bitmap) {
+                return bitmap.getByteCount() / 1024;
+            }
+        };
 
     }
 
