@@ -22,7 +22,9 @@ import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.FriendAdapter;
 import ch.epfl.sweng.melody.user.User;
 import ch.epfl.sweng.melody.user.UserContactInfo;
+import ch.epfl.sweng.melody.util.NavigationHandler;
 
+import static ch.epfl.sweng.melody.MainActivity.getFirebaseAuthInstance;
 import static ch.epfl.sweng.melody.PublicMemoryActivity.EXTRA_GOING_TO_USER_LIST;
 
 public class FriendListActivity extends AppCompatActivity {
@@ -40,6 +42,21 @@ public class FriendListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String userList = intent.getStringExtra(EXTRA_GOING_TO_USER_LIST);
+
+        //--------------------
+        MainActivity.setUser(new User(getFirebaseAuthInstance().getCurrentUser()));
+//        DatabaseHandler.getUser(MainActivity.getUser().getId(), new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                MainActivity.setUser(dataSnapshot.getValue(User.class));
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+        //------------------
 
         switch (userList) {
             case "requests":
