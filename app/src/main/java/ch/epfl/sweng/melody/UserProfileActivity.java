@@ -81,7 +81,6 @@ public class UserProfileActivity extends AppCompatActivity {
             long memoryStartTimeDetail = 0L;
             createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
 
-
             recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
         }
     }

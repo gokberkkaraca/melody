@@ -6,7 +6,7 @@
     <string name="country_city">Country, city</string>
     <string name="username">Username</string>
     <string name="friends">Friends</string>
-    <string name="log_out">Log out</string>
+    <string name="log_out"><u>Log out</u></string>
     <string name="author">Author</string>
     <string name="serializableLocation">Location</string>
     <string name="time">Time</string>
