@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -16,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.LruCache;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -65,6 +63,28 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private Toolbar myToolbar;
 
     private List<Memory> memoryList;
+
+    public static ColorCode getColorCode(String colorValue) {
+
+        switch (colorValue) {
+            case "1":
+                return new ColorCode(User.ThemeColor.RED, R.color.red);
+            case "2":
+                return new ColorCode(User.ThemeColor.GREEN, R.color.green);
+            case "3":
+                return new ColorCode(User.ThemeColor.BLUELIGHT, R.color.blueLight);
+            case "4":
+                return new ColorCode(User.ThemeColor.BLUEDARK, R.color.blueDark);
+            case "5":
+                return new ColorCode(User.ThemeColor.BLACK, R.color.black);
+            default:
+                return new ColorCode(User.ThemeColor.RED, R.color.red);
+        }
+    }
+
+    public static void saveRecyclerViewPosition() {
+        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,28 +209,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
                 }
             }
         }
-    }
-
-    public static ColorCode getColorCode(String colorValue) {
-
-        switch (colorValue) {
-            case "1":
-                return new ColorCode(User.ThemeColor.RED, R.color.red);
-            case "2":
-                return new ColorCode(User.ThemeColor.GREEN, R.color.green);
-            case "3":
-                return new ColorCode(User.ThemeColor.BLUELIGHT, R.color.blueLight);
-            case "4":
-                return new ColorCode(User.ThemeColor.BLUEDARK, R.color.blueDark);
-            case "5":
-                return new ColorCode(User.ThemeColor.BLACK, R.color.black);
-            default:
-                return new ColorCode(User.ThemeColor.RED, R.color.red);
-        }
-    }
-
-    public static void saveRecyclerViewPosition() {
-        recyclerViewState = recyclerView.getLayoutManager().onSaveInstanceState();
     }
 
     /*************************************************
