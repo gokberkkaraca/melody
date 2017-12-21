@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -19,9 +21,11 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.melody.matcherUtil.ToastMatcher;
 import ch.epfl.sweng.melody.matcherUtil.ViewMatcher;
+import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -35,6 +39,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class CreateMemoryActivityTest {
@@ -65,6 +71,13 @@ public class CreateMemoryActivityTest {
 
         toastMatcher = new ToastMatcher();
         viewMatcher = new ViewMatcher();
+
+        final FirebaseUser firebaseUser = mock(FirebaseUser.class);
+        when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
+        when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
+        String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
+        when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
+        MainActivity.setUser(new User(firebaseUser));
     }
 
 
@@ -159,6 +172,11 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
         closeSoftKeyboard();
         onView(withId(R.id.memory_send)).perform(click());
+    }
+
+    @Test
+    public void onBackPressedTest() {
+        pressBack();
     }
 
     private Instrumentation.ActivityResult photoFromCameraSub() {

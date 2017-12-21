@@ -19,6 +19,7 @@ import ch.epfl.sweng.melody.matcherUtil.ViewMatcher;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -112,6 +113,11 @@ public class EditUserInfoActivityTest {
         Intent intent = new Intent();
         intent.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
+    }
+
+    @Test
+    public void onBackPressedTest() {
+        pressBack();
     }
 
 }

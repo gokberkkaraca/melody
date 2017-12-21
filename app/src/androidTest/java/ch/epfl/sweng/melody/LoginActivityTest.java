@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import ch.epfl.sweng.melody.matcherUtil.ToastMatcher;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -57,6 +58,11 @@ public class LoginActivityTest {
     public void invalidEmailTest() {
         onView(withId(R.id.login_button)).perform(click());
         onView(withText(R.string.email_is_empty)).inRoot(toastMatcher).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void onBackPressedTest() {
+        pressBack();
     }
 
 }
