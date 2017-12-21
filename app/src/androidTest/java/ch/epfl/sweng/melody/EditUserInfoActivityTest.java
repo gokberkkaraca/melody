@@ -86,19 +86,6 @@ public class EditUserInfoActivityTest extends ActivityTest{
         onView(withId(R.id.profile_image)).check(matches(viewMatcher.hasDrawable()));
     }
 
-    @Ignore
-    @Test
-    public void saveUserInfoTest() {
-        onView(withId(R.id.change_display_name)).perform(typeText("name"));
-        onView(withId(R.id.change_user_bio)).perform(typeText("biography"));
-        onView(withId(R.id.profile_image)).check(matches(viewMatcher.hasDrawable()));
-        onView(withId(R.id.profile_image)).perform(click());
-        onView(withText(ALBUM)).perform(click());
-        intended(allOf(hasAction(Intent.ACTION_PICK), hasData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)));
-        closeSoftKeyboard();
-        onView(withId(R.id.save_user_profile)).perform(click());
-    }
-
     private Instrumentation.ActivityResult photoFromCameraSub() {
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", BitmapFactory.decodeResource(
