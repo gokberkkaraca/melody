@@ -22,6 +22,7 @@ import ch.epfl.sweng.melody.matcherUtil.ViewMatcher;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -111,8 +112,7 @@ public class CreateMemoryActivityTest {
     public void displayVideoFromGalleryTest() throws Exception {
         onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
-        //onView(withText(ALBUM)).perform(click());
-        //intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI)));
+        onView(withText(ALBUM)).perform(click());
     }
 
     @Test
