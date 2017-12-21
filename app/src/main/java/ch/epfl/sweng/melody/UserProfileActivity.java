@@ -79,7 +79,7 @@ public class UserProfileActivity extends AppCompatActivity {
             recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
 
             long memoryStartTimeDetail = 0L;
-            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
+            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser); 
 
             recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
         }
@@ -92,7 +92,7 @@ public class UserProfileActivity extends AppCompatActivity {
         } else {
             isMyself = false;
             edit.setVisibility(View.GONE);
-            DatabaseHandler.getUser(userId, new ValueEventListener() {
+            DatabaseHandler.getUserWithSingleListener(userId, new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentUser = dataSnapshot.getValue(User.class);
@@ -170,8 +170,8 @@ public class UserProfileActivity extends AppCompatActivity {
         MainActivity.getUser().rejectFriendshipRequest(currentUser);
         DatabaseHandler.uploadUser(currentUser);
         DatabaseHandler.uploadUser(MainActivity.getUser());
+        findViewById(R.id.refuseFriendRequest).setVisibility(View.GONE);
         findViewById(R.id.confirmFriendRequest).setVisibility(View.GONE);
-        //findViewById(R.id.youAreFriends).setVisibility(View.VISIBLE);
         findViewById(R.id.removeFriend).setVisibility(View.VISIBLE);
     }
 

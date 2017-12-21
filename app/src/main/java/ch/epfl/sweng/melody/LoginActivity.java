@@ -203,7 +203,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         assert currentUser != null;
         assert currentUser.getEmail() != null;
         String currentUserId = currentUser.getEmail().replace('.', ',');
-        DatabaseHandler.getUser(currentUserId, new ValueEventListener() {
+        DatabaseHandler.getUserWithSingleListener(currentUserId, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);

@@ -39,8 +39,24 @@ public class FriendListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friend_list);
 
         Intent intent = getIntent();
-        String userList = intent.getStringExtra(EXTRA_GOING_TO_USER_LIST);
+        final String userList = intent.getStringExtra(EXTRA_GOING_TO_USER_LIST);
 
+        DatabaseHandler.getUserWithSingleListener(MainActivity.getUser().getId(), new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                MainActivity.setUser(dataSnapshot.getValue(User.class));
+                displayActivity(userList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
+    }
+
+    private void displayActivity(String userList) {
         switch (userList) {
             case "requests":
                 allFriends = null;
