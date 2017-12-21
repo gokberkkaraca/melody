@@ -79,7 +79,7 @@ public class UserProfileActivity extends AppCompatActivity {
             recyclerViewDetail.getLayoutManager().onRestoreInstanceState(recyclerViewStateDetail);
 
             long memoryStartTimeDetail = 0L;
-            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser);         //if we want the user to see the current modifications, if something is deleted or added but
+            createMemoriesListener(memoryListDetail, memoryAdapterDetail, memoryStartTimeDetail, currentUser); 
 
             recyclerViewStateDetail = recyclerViewDetail.getLayoutManager().onSaveInstanceState();
         }
