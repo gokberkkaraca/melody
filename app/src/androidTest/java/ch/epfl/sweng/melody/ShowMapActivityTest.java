@@ -15,10 +15,11 @@ import org.junit.Test;
 import java.util.Random;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 
-public class ShowMapActivityTest {
+public class ShowMapActivityTest extends ActivityTest{
     @Rule
     public final ActivityTestRule<ShowMapActivity> mainActivityActivityTestRule =
             new ActivityTestRule<>(ShowMapActivity.class);

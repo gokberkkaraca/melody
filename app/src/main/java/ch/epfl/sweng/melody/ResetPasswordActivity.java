@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import ch.epfl.sweng.melody.util.NavigationHandler;
+
 public class ResetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText inputEmail;
     private ProgressBar progressBar;
@@ -31,11 +33,18 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.go_back_button:
-                finish();
+                super.onBackPressed();
+                NavigationHandler.goToLogInActivity(this);
                 break;
             case R.id.reset_password_button:
                 sendResetPasswordEmail();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        NavigationHandler.goToPublicMemoryActivity(this);
     }
 
     private void sendResetPasswordEmail() {

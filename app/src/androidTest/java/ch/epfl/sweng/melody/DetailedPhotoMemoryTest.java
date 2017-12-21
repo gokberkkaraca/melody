@@ -19,7 +19,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
-public class DetailedPhotoMemoryTest extends ActivityTest {
+public class DetailedPhotoMemoryTest extends MenuActivityTest {
 
     @Rule
     public final IntentsTestRule<DetailedMemoryActivity> memoryDetailActivityIntentsTestRule =

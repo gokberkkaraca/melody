@@ -25,6 +25,6 @@ public class FriendListActivityFriendsTest {
 
     @Test
     public void testCanPass() {
-
     }
+
 }

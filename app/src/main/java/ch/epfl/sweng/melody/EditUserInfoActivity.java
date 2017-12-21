@@ -144,12 +144,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
             MainActivity.getUser().setDisplayName(name);
         }
         if (!TextUtils.isEmpty(bio)) {
-            if (bio.length() > 300) {
-                Toast.makeText(getApplicationContext(), R.string.bio_too_long, Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                MainActivity.getUser().setBiograhy(bio);
-            }
+            MainActivity.getUser().setBiograhy(bio);
         }
 
         if (profileUri != null) {

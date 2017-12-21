@@ -19,6 +19,7 @@ import ch.epfl.sweng.melody.matcherUtil.ViewMatcher;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -31,7 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 
-public class EditUserInfoActivityTest {
+public class EditUserInfoActivityTest extends ActivityTest{
 
     @Rule
     public final IntentsTestRule<EditUserInfoActivity> editUserInfoActivityIntentsTestRule =
@@ -113,5 +114,4 @@ public class EditUserInfoActivityTest {
         intent.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
     }
-
 }

@@ -158,7 +158,7 @@
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
             android:background="@null"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/display_chosen_photo"
             app:layout_constraintLeft_toLeftOf="@+id/display_chosen_photo"
             app:layout_constraintRight_toRightOf="@+id/display_chosen_photo"

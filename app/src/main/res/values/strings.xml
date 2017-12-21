@@ -2,8 +2,6 @@
     <string name="app_name">Melody</string>
     <string name="hitforMemoryDescription">Say something about your memory!</string>
     <string name="create_new_account">Create account</string>
-    <string name="submit">SUBMIT</string>
-    <string name="submitUnderlined"><u><i>SEND</i></u></string>
     <string name="country_city">Country, city</string>
     <string name="username">Username</string>
     <string name="friends">Friends</string>
@@ -64,7 +62,6 @@
     <string name="save">Save</string>
     <string name="change_profile_photo">Change profile photo</string>
     <string name="change_biography">Change biography</string>
-    <string name="bio_too_long">Your biography is too long</string>
     <string name="describe_yourself">Describe yourself</string>
     <string name="search_users">Search Users</string>
 </resources>

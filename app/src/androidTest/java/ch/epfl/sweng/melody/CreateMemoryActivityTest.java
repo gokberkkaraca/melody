@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -19,9 +21,11 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sweng.melody.matcherUtil.ToastMatcher;
 import ch.epfl.sweng.melody.matcherUtil.ViewMatcher;
+import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -35,9 +39,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
-public class CreateMemoryActivityTest {
+public class CreateMemoryActivityTest extends ActivityTest{
     @Rule
     public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
             new IntentsTestRule<>(CreateMemoryActivity.class);
@@ -111,8 +117,6 @@ public class CreateMemoryActivityTest {
     public void displayVideoFromGalleryTest() throws Exception {
         onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
-        //onView(withText(ALBUM)).perform(click());
-        //intended(allOf(hasAction(Intent.ACTION_PICK),hasData(MediaStore.Video.Media.EXTERNAL_CONTENT_URI)));
     }
 
     @Test
