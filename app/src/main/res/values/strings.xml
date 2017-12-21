@@ -3,6 +3,7 @@
     <string name="hitforMemoryDescription">Say something about your memory!</string>
     <string name="create_new_account">Create account</string>
     <string name="submit">SUBMIT</string>
+    <string name="submitUnderlined"><u><i>SEND</i></u></string>
     <string name="country_city">Country, city</string>
     <string name="username">Username</string>
     <string name="friends">Friends</string>
