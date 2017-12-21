@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -103,7 +104,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         memoryAdapter.notifyDataSetChanged();
 
         recyclerView = findViewById(R.id.memories_recyclerview);
-
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
