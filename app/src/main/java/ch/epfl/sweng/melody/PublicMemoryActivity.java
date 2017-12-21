@@ -59,7 +59,6 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     private static Calendar calendar;
     private static RecyclerView recyclerView;
     private static Parcelable recyclerViewState;
-    private static RecyclerView.LayoutManager mLayoutManager;
     private Toolbar myToolbar;
 
     private List<Memory> memoryList;
@@ -104,7 +103,8 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
         memoryAdapter.notifyDataSetChanged();
 
         recyclerView = findViewById(R.id.memories_recyclerview);
-        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(memoryAdapter);

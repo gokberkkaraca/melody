@@ -25,7 +25,7 @@ public class PermissionUtils {
     public static LocationManager locationManager;
 
 
-    public static void accessResourceWithPermission(AppCompatActivity activity, int requestCode) {
+    static void accessResourceWithPermission(AppCompatActivity activity, int requestCode) {
         switch (requestCode) {
             case REQUEST_PHOTO_CAMERA: {
                 if (permissionNotGranted(activity, Manifest.permission.CAMERA))
@@ -59,7 +59,7 @@ public class PermissionUtils {
 
     }
 
-    public static void requestLocationPermission(Activity activity) {
+    static void requestLocationPermission(Activity activity) {
         if (permissionNotGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION))
             requestPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION);
     }

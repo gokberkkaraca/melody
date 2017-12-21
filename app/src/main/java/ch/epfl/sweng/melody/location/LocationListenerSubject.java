@@ -46,11 +46,11 @@ public class LocationListenerSubject implements LocationListener {
         mObservers.add(locationObserver);
     }
 
-    public void removeAllObservers() {
+    void removeAllObservers() {
         mObservers.clear();
     }
 
-    public void notifyObservers(Location location) {
+    void notifyObservers(Location location) {
         for (LocationObserver observer : mObservers) {
             observer.update(location);
         }

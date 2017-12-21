@@ -63,11 +63,11 @@ public class FirebaseBackgroundService extends Service {
         isServiceStarted = false;
         DatabaseHandler.removeLatestMemoryListener(valueEventListenerMemory);
         DatabaseHandler.removeUserFriendRequestListener(MainActivity.getUser().getId(), childEventListenerFriendRequest);
-        DatabaseHandler.removeUserFriendListListener(MainActivity.getUser().getId(), childEventListenerFriendRequest);
+        DatabaseHandler.removeUserFriendListListener(MainActivity.getUser().getId(), childEventListenerFriendList);
     }
 
     private ChildEventListener getFriendRequestListener() {
-        ChildEventListener childEventListener = new ChildEventListener() {
+        return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (friendRequestCounter < initialLoadFriendRequestNum) {
@@ -99,11 +99,10 @@ public class FirebaseBackgroundService extends Service {
 
             }
         };
-        return childEventListener;
     }
 
     private ChildEventListener getFriendsListListener() {
-        ChildEventListener childEventListener = new ChildEventListener() {
+        return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (friendCounter < initialLoadFriendListNum) {
@@ -135,12 +134,11 @@ public class FirebaseBackgroundService extends Service {
 
             }
         };
-        return childEventListener;
 
     }
 
     private ValueEventListener getLastMemoryListener() {
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot memDataSnapshot : dataSnapshot.getChildren()) {
@@ -182,6 +180,5 @@ public class FirebaseBackgroundService extends Service {
 
             }
         };
-        return valueEventListener;
     }
 }
