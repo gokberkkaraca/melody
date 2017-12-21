@@ -191,7 +191,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/nested_scroll"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="6dp"
         android:background="@android:color/white">
 
         <include

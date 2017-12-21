@@ -61,7 +61,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_memory_detail);
         memoryId = getIntent().getStringExtra("memoryId");
 
