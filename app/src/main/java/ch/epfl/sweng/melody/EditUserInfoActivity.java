@@ -189,6 +189,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         NavigationHandler.goToUserProfileActivity(this);
     }
 
