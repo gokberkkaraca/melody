@@ -89,6 +89,7 @@ public class PublicMemoryActivity extends AppCompatActivity implements DialogInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        memoryStartTime = 0L;
         setContentView(R.layout.activity_public_memory);
 
         insidePublicActivity = true;
