@@ -20,7 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class SignUpActivityTest {
+public class SignUpActivityTest extends ActivityTest{
 
     @Rule
     public final ActivityTestRule<SignUpActivity> signUpActivityActivityTestRule =
@@ -67,10 +67,5 @@ public class SignUpActivityTest {
         onView(withId(R.id.create_new_password)).perform(typeText("hellojiacheng")).perform(closeSoftKeyboard());
         onView(withId(R.id.create_display_name)).perform(typeText("kebab")).perform(closeSoftKeyboard());
         onView(withId(R.id.register_button)).perform(click());
-    }
-
-    @Test
-    public void onBackPressedTest() {
-        pressBack();
     }
 }

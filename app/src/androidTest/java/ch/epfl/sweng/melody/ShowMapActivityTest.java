@@ -19,7 +19,7 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 
-public class ShowMapActivityTest {
+public class ShowMapActivityTest extends ActivityTest{
     @Rule
     public final ActivityTestRule<ShowMapActivity> mainActivityActivityTestRule =
             new ActivityTestRule<>(ShowMapActivity.class);
@@ -77,10 +77,5 @@ public class ShowMapActivityTest {
                 // implement later on
             }
         }
-    }
-
-    @Test
-    public void onBackPressedTest() {
-        pressBack();
     }
 }

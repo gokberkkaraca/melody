@@ -20,7 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class LoginActivityTest {
+public class LoginActivityTest extends ActivityTest{
 
     @Rule
     public final ActivityTestRule<LoginActivity> loginActivityActivityTestRule =
@@ -59,12 +59,6 @@ public class LoginActivityTest {
         onView(withId(R.id.login_button)).perform(click());
         onView(withText(R.string.email_is_empty)).inRoot(toastMatcher).check(matches(isDisplayed()));
     }
-
-    @Test
-    public void onBackPressedTest() {
-        pressBack();
-    }
-
 }
 
 

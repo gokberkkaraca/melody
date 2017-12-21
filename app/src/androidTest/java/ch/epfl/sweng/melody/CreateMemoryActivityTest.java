@@ -43,7 +43,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
-public class CreateMemoryActivityTest {
+public class CreateMemoryActivityTest extends ActivityTest{
     @Rule
     public final IntentsTestRule<CreateMemoryActivity> createMemoryActivityIntentsTestRule =
             new IntentsTestRule<>(CreateMemoryActivity.class);
@@ -71,13 +71,6 @@ public class CreateMemoryActivityTest {
 
         toastMatcher = new ToastMatcher();
         viewMatcher = new ViewMatcher();
-
-        final FirebaseUser firebaseUser = mock(FirebaseUser.class);
-        when(firebaseUser.getDisplayName()).thenReturn("Jiacheng Xu");
-        when(firebaseUser.getEmail()).thenReturn("xjcmaxwell@163.com");
-        String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
-        when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
-        MainActivity.setUser(new User(firebaseUser));
     }
 
 
@@ -170,11 +163,6 @@ public class CreateMemoryActivityTest {
         onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
         closeSoftKeyboard();
         onView(withId(R.id.memory_send)).perform(click());
-    }
-
-    @Test
-    public void onBackPressedTest() {
-        pressBack();
     }
 
     private Instrumentation.ActivityResult photoFromCameraSub() {

@@ -16,7 +16,7 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.hasCom
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertTrue;
 
-public class PublicMemoryActivityTest extends ActivityTest {
+public class PublicMemoryActivityTest extends MenuActivityTest {
 
     @Rule
     public final IntentsTestRule<PublicMemoryActivity> publicMemoryActivityIntentsTestRule =

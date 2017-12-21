@@ -32,7 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 
-public class EditUserInfoActivityTest {
+public class EditUserInfoActivityTest extends ActivityTest{
 
     @Rule
     public final IntentsTestRule<EditUserInfoActivity> editUserInfoActivityIntentsTestRule =
@@ -114,10 +114,4 @@ public class EditUserInfoActivityTest {
         intent.setData(uri);
         return new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
     }
-
-    @Test
-    public void onBackPressedTest() {
-        pressBack();
-    }
-
 }
