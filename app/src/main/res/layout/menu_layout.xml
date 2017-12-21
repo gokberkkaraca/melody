@@ -4,7 +4,8 @@
     android:id="@+id/menu"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/background">
 
     <ImageView
         android:id="@+id/home"
@@ -14,7 +15,7 @@
         android:gravity="center"
         android:onClick="goToPublicMemoryActivity"
         android:src="@mipmap/home_unfilled"
-        android:tint="@color/red"
+        android:tint="@color/blueDark"
         tools:ignore="ContentDescription" />
 
     <ImageView
@@ -25,7 +26,7 @@
         android:gravity="center"
         android:onClick="goToMapActivity"
         android:src="@mipmap/planet_unfilled"
-        android:tint="@color/red"
+        android:tint="@color/blueDark"
         tools:ignore="ContentDescription" />
 
     <ImageView
@@ -36,7 +37,7 @@
         android:gravity="center"
         android:onClick="goToCreateMemoryActivity"
         android:src="@mipmap/plus_unfilled"
-        android:tint="@color/red"
+        android:tint="@color/blueDark"
         tools:ignore="ContentDescription" />
 
     <ImageView
@@ -47,7 +48,7 @@
         android:gravity="center"
         android:onClick="goToNotification"
         android:src="@mipmap/bell_unfilled"
-        android:tint="@color/red"
+        android:tint="@color/blueDark"
         tools:ignore="ContentDescription" />
 
     <ImageView
@@ -58,7 +59,7 @@
         android:gravity="center"
         android:onClick="goToUser"
         android:src="@mipmap/person_unfilled"
-        android:tint="@color/red"
+        android:tint="@color/blueDark"
         tools:ignore="ContentDescription" />
 
 </LinearLayout>

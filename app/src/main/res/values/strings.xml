@@ -3,10 +3,11 @@
     <string name="hitforMemoryDescription">Say something about your memory!</string>
     <string name="create_new_account">Create account</string>
     <string name="submit">SUBMIT</string>
+    <string name="submitUnderlined"><u><i>SEND</i></u></string>
     <string name="country_city">Country, city</string>
     <string name="username">Username</string>
     <string name="friends">Friends</string>
-    <string name="log_out">Log out</string>
+    <string name="log_out"><u>Log out</u></string>
     <string name="author">Author</string>
     <string name="serializableLocation">Location</string>
     <string name="time">Time</string>
@@ -15,7 +16,7 @@
     <string name="showRadiusMessage">Show memories posted within %1$d km.</string>
     <string name="briefText">%1$s …</string>
     <string name="commentTitle">Add Comment</string>
-    <string name="addCommentHint">Say something about this memory...</string>
+    <string name="addCommentHint">Say something about this memory … </string>
     <string name="title_activity_show_map">Map</string>
     <string name="zero">0</string>
     <string name="time_changing">Time travel</string>

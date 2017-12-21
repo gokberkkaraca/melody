@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -61,7 +63,6 @@ public class DetailedMemoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_memory_detail);
         memoryId = getIntent().getStringExtra("memoryId");
 
@@ -145,13 +146,19 @@ public class DetailedMemoryActivity extends AppCompatActivity {
 
         commentsContainer.addView(editComment);
 
-        Button sendButton = new Button(this);
-        sendButton.setLayoutParams(params);
-        sendButton.setText(R.string.submit);
+        LinearLayout.LayoutParams sendParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        sendParams.setMargins(500, 5, 10, 5);
+        ImageView sendImage = new ImageView(this);
+        sendImage.setImageResource(R.mipmap.send_memory);
+        sendImage.setMaxHeight(40);
+        sendImage.setMaxWidth(40);
+        sendImage.setLayoutParams(sendParams);
 
-        commentsContainer.addView(sendButton);
+        commentsContainer.addView(sendImage);
 
-        sendButton.setOnClickListener(new Button.OnClickListener() {
+        sendImage.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 String commentText = editComment.getText().toString();
                 if (commentText.isEmpty()) {
