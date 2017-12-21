@@ -149,7 +149,7 @@ public class FirebaseBackgroundService extends Service {
                     final boolean isFirstLogin = latestMemoryId == Long.MAX_VALUE || memoryCounter == 0;
                     final boolean isUsersMemory = memory.getUser().getId().equals(MainActivity.getUser().getId());
                     final boolean isNotPrivate = memory.getPrivacy() != Memory.Privacy.PRIVATE;
-                    DatabaseHandler.getUser(memory.getUser().getId(), new ValueEventListener() {
+                    DatabaseHandler.getUserWithSingleListener(memory.getUser().getId(), new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);

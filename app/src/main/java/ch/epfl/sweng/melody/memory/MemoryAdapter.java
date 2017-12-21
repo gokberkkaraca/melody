@@ -121,7 +121,7 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoriesVi
             holder.privacyOfMemory.setImageResource(R.mipmap.public_memory);
         }
 
-        DatabaseHandler.getUser(memory.getUser().getId(), new ValueEventListener() {
+        DatabaseHandler.getUserWithSingleListener(memory.getUser().getId(), new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);

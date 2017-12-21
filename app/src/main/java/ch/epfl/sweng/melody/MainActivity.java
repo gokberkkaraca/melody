@@ -9,8 +9,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.epfl.sweng.melody.database.DatabaseHandler;
 import ch.epfl.sweng.melody.user.User;
+import ch.epfl.sweng.melody.user.UserContactInfo;
 import ch.epfl.sweng.melody.util.NavigationHandler;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     NavigationHandler.goToLogInActivity(MainActivity.this);
                 } else {
                     user = new User(getFirebaseAuthInstance().getCurrentUser());
-                    DatabaseHandler.getUser(MainActivity.getUser().getId(), new ValueEventListener() {
+                    DatabaseHandler.getUserWithSingleListener(MainActivity.getUser().getId(), new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             user = dataSnapshot.getValue(User.class);

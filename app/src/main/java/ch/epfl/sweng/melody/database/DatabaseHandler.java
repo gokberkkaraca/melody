@@ -42,7 +42,7 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getId()).setValue(user);
     }
 
-    public static void getUser(String userId, ValueEventListener vel) {
+    public static void getUserWithSingleListener(String userId, ValueEventListener vel) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(vel);
     }
 
