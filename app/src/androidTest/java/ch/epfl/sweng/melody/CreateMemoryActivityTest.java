@@ -151,14 +151,11 @@ public class CreateMemoryActivityTest {
     }
 
     @Test
-    @Ignore
     public void sendVideoMemoryTest() {
         onView(withId(R.id.display_chosen_video)).check(matches(not(viewMatcher.hasVideo())));
         onView(withId(R.id.take_videos)).perform(click());
         onView(withText(CAMERA)).perform(click());
         intended(hasAction(equalTo(MediaStore.ACTION_VIDEO_CAPTURE)));
-        onView(withId(R.id.memory_send)).perform(click());
-        onView(withText("Say something!")).inRoot(toastMatcher).check(matches(isDisplayed()));
         onView(withId(R.id.memory_description)).perform(typeText("Test got text memory"));
         closeSoftKeyboard();
         onView(withId(R.id.memory_send)).perform(click());
