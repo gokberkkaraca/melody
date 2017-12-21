@@ -37,7 +37,6 @@ public class LocationServiceTest {
     }
 
     @Test
-    @Ignore
     public void onDestory() throws Exception {
         context.stopService(intent);
         assertTrue(!LocationService.isServiceStarted());
