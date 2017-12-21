@@ -35,10 +35,4 @@ public class LocationServiceTest {
     public void onCreate() throws Exception {
         assertTrue(LocationService.isServiceStarted());
     }
-
-    @Test
-    public void onDestory() throws Exception {
-        context.stopService(intent);
-        assertTrue(!LocationService.isServiceStarted());
-    }
 }
