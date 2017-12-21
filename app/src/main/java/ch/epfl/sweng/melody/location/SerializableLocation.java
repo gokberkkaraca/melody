@@ -8,7 +8,7 @@ public class SerializableLocation implements Serializable {
     private double latitude;
     private String locationName;
 
-    public SerializableLocation(android.location.Location location) {
+    SerializableLocation(android.location.Location location) {
         this.longitude = location.getLongitude();
         this.latitude = location.getLatitude();
         this.locationName = location.getProvider();
@@ -21,7 +21,7 @@ public class SerializableLocation implements Serializable {
     }
 
 
-    public SerializableLocation(SerializableLocation serializableLocation) {
+    SerializableLocation(SerializableLocation serializableLocation) {
         this.longitude = serializableLocation.longitude;
         this.latitude = serializableLocation.latitude;
         this.locationName = serializableLocation.locationName;
