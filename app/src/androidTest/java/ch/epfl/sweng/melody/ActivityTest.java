@@ -10,6 +10,7 @@ import org.junit.Test;
 import ch.epfl.sweng.melody.user.User;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -31,6 +32,11 @@ abstract public class ActivityTest {
         String defaultProfilePhotoUrl = "https://firebasestorage.googleapis.com/v0/b/test-84cb3.appspot.com/o/user_profile%2Fdefault_profile.png?alt=media&token=c417d908-030f-421f-885f-ea8510267a91";
         when(firebaseUser.getPhotoUrl()).thenReturn(Uri.parse(defaultProfilePhotoUrl));
         MainActivity.setUser(new User(firebaseUser));
+    }
+
+    @Test
+    public void onBackPressedTest() {
+        pressBack();
     }
 
     /******************************************************
